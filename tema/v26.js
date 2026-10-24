@@ -155,8 +155,8 @@
     '.bg26-cart-g .im{width:54px;height:40px;border-radius:7px;background:#F4F3F0;flex:none;overflow:hidden}.bg26-cart-g .im img{width:100%;height:100%;object-fit:contain}',
     '.bg26-cart-g .n{font:600 11.5px/1.3 Manrope,sans-serif;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.bg26-cart-g .p{font:600 11px/1.2 Manrope,sans-serif;color:#A9A59D;margin-top:2px}',
     /* 404 */
-    '.bg26-404{min-height:60vh;display:flex;align-items:center;justify-content:center;padding:60px 24px;background:#0E0E0F;color:#F2F0EB;font-family:Manrope,sans-serif;text-align:center}',
-    '.bg26-404 h1{margin:0 0 10px;font:italic 800 40px/1.05 Archivo,sans-serif!important}.bg26-404 p{margin:0 auto 22px;max-width:520px;color:#A9A59D;font:400 15px/1.6 Manrope,sans-serif}',
+    '.bg26-404{width:100%;box-sizing:border-box;min-height:60vh;display:flex;align-items:center;justify-content:center;padding:60px 24px;background:#0E0E0F;color:#F2F0EB;font-family:Manrope,sans-serif;text-align:center}',
+    '.bg26-404>div{width:100%;max-width:720px;margin:0 auto}.bg26-404 h1{margin:0 0 10px;font:italic 800 40px/1.05 Archivo,sans-serif!important}.bg26-404 p{margin:0 auto 22px;max-width:520px;color:#A9A59D;font:400 15px/1.6 Manrope,sans-serif}',
     '.bg26-404 .r{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.bg26-404 .r a,.bg26-404 .r button{padding:12px 20px;border-radius:999px;border:1px solid #3A383F;background:#18181A;color:#F2F0EB;text-decoration:none;font:700 13.5px Manrope,sans-serif;cursor:pointer}.bg26-404 .r .g{background:#C9A45C;border-color:#C9A45C;color:#141210}',
     /* ana sayfa arama onerileri: onizlemeli rozet */
     '.bg26-pv{display:inline-block;margin-left:8px;padding:2px 7px;border-radius:999px;background:#1F3A28;color:#9AE6B4;font:700 10.5px/1.4 Manrope,sans-serif;vertical-align:middle}'
@@ -419,14 +419,14 @@
     if (!head) { var old = document.querySelector('.bg26-cart'); if (old) old.remove(); return; }
     var root = head; for (var i = 0; i < 8 && root; i++) { root = root.parentElement; var r = root.getBoundingClientRect(); if (r.width > 300 && r.height > 400) break; }
     if (!root) return;
-    var items = [].slice.call(root.querySelectorAll('a[href*="-kaplama"]')).map(function(a){ return a.getAttribute('href').split('?')[0].replace(/^\//, ''); });
+    var items = [].slice.call(root.querySelectorAll('a[href*="-kaplama"]')).filter(function(a){ return !a.closest('.bg26-cart'); }).map(function(a){ return a.getAttribute('href').split('?')[0].replace(/^\//, ''); });
     items = items.filter(function(v, i, arr){ return arr.indexOf(v) === i; });
     var devs = items.map(function(sl){ return BYSLUG[sl]; }).filter(Boolean);
     var tot = root.querySelector('.rich-text') ? [].slice.call(root.querySelectorAll('.rich-text')).find(function(e){ return e.children.length === 0 && e.textContent.trim() === 'Toplam'; }) : null;
     var foot = tot; for (var j = 0; j < 4 && foot; j++) { if (foot.parentElement === root) break; foot = foot.parentElement; }
     if (!foot || !devs.length) { var o2 = document.querySelector('.bg26-cart'); if (o2) o2.remove(); return; }
     var ds = 'line-black'; var dt = [].slice.call(root.querySelectorAll('.rich-text')).find(function(e){ return e.children.length === 0 && DSLUG[slug(e.textContent.trim())]; }); if (dt) ds = slug(dt.textContent.trim());
-    var n = root.querySelectorAll('a[href*="-kaplama"] img, a[href*="betaguard-kaplama"] img').length || devs.length;
+    var n = [].slice.call(root.querySelectorAll('a[href*="-kaplama"] img, a[href*="betaguard-kaplama"] img')).filter(function(im){ return !im.closest('.bg26-cart'); }).length || devs.length;
     var seen = {}; items.forEach(function(k){ seen[k] = 1; });
     var rec = []; devs.forEach(function(d){ companions(d).forEach(function(c){ if (!seen[c.s] && rec.indexOf(c) < 0) rec.push(c); }); });
     rec = rec.slice(0, 4);
