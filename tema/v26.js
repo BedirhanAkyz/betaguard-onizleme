@@ -54,12 +54,12 @@
     '.bg26-btn:hover{border-color:#C9A45C!important}',
     '.bg26-hide{display:none!important}',
     /* marka cipleri */
-    '.bg26-chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 22px}',
+    '.bg26-chips{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:8px;margin:4px 0 12px}',
     '.bg26-chips a{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border:1px solid #2F2E33;border-radius:999px;background:#151517;color:#E7E4DE;text-decoration:none;font:600 13.5px/1 Manrope,sans-serif;transition:border-color .15s}',
     '.bg26-chips a:hover{border-color:#C9A45C}',
     '.bg26-chips a.on{background:#C9A45C;border-color:#C9A45C;color:#141210}',
     '.bg26-chips a small{font-size:11.5px;opacity:.7}',
-    '.bg26-hint{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:0 0 18px;font:500 13px/1.5 Manrope,sans-serif;color:#A9A59D}',
+    '.bg26-hint{display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:10px 18px;margin:0 0 18px;font:500 13px/1.5 Manrope,sans-serif;color:#A9A59D}',
     '.bg26-hint b{color:#E2C285;font-weight:700}',
     '.bg26-hint a{color:#E2C285}',
     /* setini tamamla */
@@ -289,7 +289,7 @@
     var ci = catInfo(); if (!ci || !grid || document.querySelector('.bg26-chips')) return;
     var c = CATS[ci.k];
     var n = function(sl){ var t = sl ? ALL.filter(function(d){ return d.t === ci.k && c.subs.some(function(s){ return s[1] === sl && (d.b === s[0] || s[0] === 'DJI Osmo' && d.b === 'DJI'); }); }).length : ALL.filter(function(d){ return d.t === ci.k; }).length; return t; };
-    var bar = document.createElement('div');
+    var bar = document.createElement('div'); bar.className = 'bg26-bar'; bar.style.cssText = 'width:100%;flex-basis:100%;align-self:stretch;box-sizing:border-box';
     bar.innerHTML = '<div class="bg26-chips"><a href="/' + c.root + '"' + (ci.on ? '' : ' class="on"') + '>Tümü <small>' + n('') + '</small></a>' + c.subs.map(function(s){ return '<a href="/' + s[1] + '"' + (ci.on === s[1] ? ' class="on"' : '') + '>' + esc(s[0]) + ' <small>' + n(s[1]) + '</small></a>'; }).join('') + '</div>' +
       '<div class="bg26-hint"><span><b>39 desen</b> her cihazın kendi görselinde</span><span>Desenini ürün sayfasında seç</span><span>Modelin yok mu? <a href="#" data-bg26-open="' + ci.k + '">Cihazını ara</a> · <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp</a></span></div>';
     grid.parentElement.insertBefore(bar, grid);
