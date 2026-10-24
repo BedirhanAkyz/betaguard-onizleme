@@ -62,6 +62,9 @@
     '.bg26-hint{display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:10px 18px;margin:0 0 18px;font:500 13px/1.5 Manrope,sans-serif;color:#A9A59D}',
     '.bg26-hint b{color:#E2C285;font-weight:700}',
     '.bg26-hint a{color:#E2C285}',
+    '.bg26-catdesc{width:100%;flex-basis:100%;box-sizing:border-box;margin:36px 0 12px;padding:24px 0 0;border-top:1px solid #2F2E33;max-width:760px;font:400 14.5px/1.65 Manrope,sans-serif;color:#A9A59D}',
+    '.bg26-catdesc h2{font:700 17px/1.3 Manrope,sans-serif;color:#E7E4DE;margin:0 0 10px}',
+    '.bg26-catdesc p{margin:0 0 10px}.bg26-catdesc strong{color:#E7E4DE}.bg26-catdesc ul{margin:0 0 10px 18px;padding:0}.bg26-catdesc a{color:#E2C285}',
     /* setini tamamla */
     '.bg26-set{max-width:1192px;margin:40px auto 10px;padding:0 24px;box-sizing:border-box}',
     '.bg26-set-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 24px;margin-bottom:16px}',
@@ -358,6 +361,19 @@
       '<div class="bg26-hint"><span><b>39 desen</b> her cihazın kendi görselinde</span><span>Desenini ürün sayfasında seç</span><span>Modelin yok mu? <a href="#" data-bg26-open="' + ci.k + '">Cihazını ara</a> · <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp</a></span></div>';
     grid.parentElement.insertBefore(bar, grid);
     bar.querySelector('[data-bg26-open]').addEventListener('click', function(e){ e.preventDefault(); openPicker(null, ci.k); });
+    catDesc(grid);
+  }
+  /* kategori aciklamasi (tema gostermiyor): grid altina SEO metni */
+  function catDesc(grid){
+    try {
+      var p = window.__IKAS_DATA__ && window.__IKAS_DATA__.pageSpecificData; if (!p || !p.description || !p.name) return;
+      var sl = p.name.toLowerCase().replace(/ı/g, 'i').replace(/ş/g, 's').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ö/g, 'o').replace(/ç/g, 'c').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      if (location.pathname.replace(/^\/|\/$/g, '') !== sl) return;
+      var old = document.querySelector('.bg26-catdesc'); if (old) { if (old.getAttribute('data-id') === p.id) return; old.remove(); }
+      var box = document.createElement('div'); box.className = 'bg26-catdesc'; box.setAttribute('data-id', p.id);
+      box.innerHTML = '<h2>' + esc(p.name) + ' kaplama hakkında</h2><div class="bg26-cd-body">' + p.description + '</div>';
+      grid.insertAdjacentElement('afterend', box);
+    } catch (e) {}
   }
 
 
