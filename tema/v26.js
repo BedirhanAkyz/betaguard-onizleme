@@ -47,7 +47,7 @@
   var css = [
     /* urun karti: sade, tek tip gorsel karo */
     '.bg26-card-img{background:#F4F3F0!important;border-radius:16px!important;aspect-ratio:4/3;object-fit:contain!important;width:100%!important;height:auto!important;padding:10px;box-sizing:border-box}',
-    '.bg26-cnt{display:inline-flex;align-items:center;gap:6px;margin:4px 0 0;font:600 11.5px/1.2 Manrope,sans-serif;color:#A9A59D}',
+    '.bg26-cnt{display:flex;width:100%;align-items:center;gap:6px;margin:4px 0 2px;font:600 11.5px/1.2 Manrope,sans-serif;color:#A9A59D}',
     '.bg26-cnt i{width:12px;height:12px;border-radius:50%;background:conic-gradient(#C9A45C,#2B6CB0,#C53030,#2F855A,#E2E8F0,#C9A45C);display:inline-block}',
     '.bg26-btn{background:#1A1A1D!important;border:1px solid #3A383F!important;border-radius:999px!important;cursor:pointer}',
     '.bg26-btn *{color:#F2F0EB!important}',
@@ -258,12 +258,13 @@
     for (var i = 0; i < 8 && c; i++) { c = c.parentElement; if (c && c.querySelector('img') && c.querySelector('a[href*="-kaplama"]')) return c; }
     return null;
   }
+  function lca(a, b){ var s = []; for (var x = a; x; x = x.parentElement) s.push(x); for (var y = b; y; y = y.parentElement) if (s.indexOf(y) >= 0) return y; return null; }
   function cards(){
-    var grid = null;
+    var grid = null, roots = [];
     [].forEach.call(document.querySelectorAll('.rich-text'), function(x){
       if (x.children.length || !/^(Sepete Ekle|Desen seç)$/i.test(x.textContent.trim()) || document.querySelector('[data-bg-pinfo]') && x.closest('[data-bg-pinfo]')) return;
       var c = cardRoot(x); if (!c || c.closest('.bg26-ov')) return;
-      grid = grid || c.parentElement;
+      roots.push(c);
       var a = c.querySelector('a[href]'), href = a ? a.getAttribute('href') : '';
       if (/^\/betaguard-kaplama/.test(href) && catInfo()) { c.classList.add('bg26-hide'); return; }
       if (!/-kaplama/.test(href)) return;
@@ -277,8 +278,11 @@
       var im = c.querySelector('img'); if (im && !im.classList.contains('bg26-card-img')) im.classList.add('bg26-card-img');
       [].forEach.call(c.querySelectorAll('.rich-text'), function(r){ var m = /^₺\s?([\d,]+)\.00$/.exec(r.textContent.trim()); if (m && !r.children.length) r.textContent = fmt(Number(m[1].replace(/,/g, ''))); });
       var nm = [].slice.call(c.querySelectorAll('a .rich-text')).find(function(r){ return /Kaplama$/.test(r.textContent.trim()); });
-      if (nm && !c.querySelector('.bg26-cnt')) nm.insertAdjacentHTML('afterend', '<div class="bg26-cnt"><i></i>39 desen · önizlemeli</div>');
+      var na = nm && nm.closest('a');
+      if (na && !c.querySelector('.bg26-cnt')) na.insertAdjacentHTML('afterend', '<div class="bg26-cnt"><i></i>39 desen · önizlemeli</div>');
     });
+    var vis = roots.filter(function(r){ return !r.classList.contains('bg26-hide'); });
+    if (vis.length > 1) grid = lca(vis[0], vis[1]);
     return grid;
   }
   function catPage(grid){
