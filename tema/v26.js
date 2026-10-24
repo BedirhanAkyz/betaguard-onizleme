@@ -280,7 +280,9 @@
     var old = document.querySelector('.bg26-fit'); if (old) old.remove();
     [].forEach.call(document.querySelectorAll('[data-bg-pinfo] li'), function(li){ if (/Drone siparişlerinde/.test(li.textContent)) li.classList.toggle('bg26-nodrone', dev.t !== 'D'); });
     var rep = document.querySelector('.bg-rep');
-    if (rep && !rep.getAttribute('data-bg26')) { rep.setAttribute('data-bg26', '1'); var sp = rep.querySelector('span') || rep.lastElementChild; if (sp) sp.innerHTML = '<b>Görseller ' + esc(dev.b + ' ' + dev.m) + ' üzerinde hazırlandı.</b> Desen yerleşimi üretimde cihazın yüzeyine göre küçük farklılıklar gösterebilir; renkler ekran ayarına göre değişebilir.'; }
+    var sp = rep && (rep.querySelector('p') || rep.lastElementChild);
+    if (sp && sp.getAttribute('data-bg26') !== dev.s) { sp.setAttribute('data-bg26', dev.s); sp.innerHTML = '<b>Görseller ' + esc(dev.b + ' ' + dev.m) + ' üzerinde hazırlandı.</b> Desen yerleşimi üretimde cihazın yüzeyine göre küçük farklılıklar gösterebilir; renkler ekran ayarına göre değişebilir.'; }
+    else if (sp && !/üzerinde hazırlandı/.test(sp.textContent)) { sp.innerHTML = '<b>Görseller ' + esc(dev.b + ' ' + dev.m) + ' üzerinde hazırlandı.</b> Desen yerleşimi üretimde cihazın yüzeyine göre küçük farklılıklar gösterebilir; renkler ekran ayarına göre değişebilir.'; }
   }
   function devPage(){
     var dev = cur(); if (!dev) return;
