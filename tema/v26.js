@@ -152,10 +152,18 @@
   window.bgOpenPicker = openPicker;
   window.__bg26 = { find: function(q,t){ return find(q,t); }, comp: function(s){ return companions(BYSLUG[s]); } };
 
+  function parseQ(h){
+    if (!/^\/betaguard-kaplama\?/.test(h)) return null;
+    var p = {}; (h.split('?')[1] || '').split('&').forEach(function(kv){ var i = kv.indexOf('='); if (i > 0) { try { p[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1).replace(/\+/g, ' ')); } catch (x) {} } });
+    return p;
+  }
   /* ---------- tiklama yonlendirmeleri ---------- */
   document.addEventListener('click', function(e){
     var a = e.target.closest && e.target.closest('a[href]'); if (!a || a.closest('.bg26-ov')) return;
     var h = a.getAttribute('href') || '';
+    var pr = parseQ(h);
+    if (pr && pr.cihaz && BYKEY[pr.cihaz.toLowerCase()]) { e.preventDefault(); e.stopPropagation(); location.href = '/' + BYKEY[pr.cihaz.toLowerCase()].s + (pr.desen ? '?desen=' + pr.desen : ''); return; }
+    if (pr && pr.tur && TURCAT[pr.tur] && !pr.desen) { e.preventDefault(); e.stopPropagation(); location.href = TURCAT[pr.tur]; return; }
     var m = /^\/betaguard-kaplama\?desen=([a-z0-9-]+)$/.exec(h);
     if (m && !/^\/betaguard-kaplama/.test(location.pathname)) { e.preventDefault(); e.stopPropagation(); openPicker(m[1]); return; }
     if (h === '/betaguard-kaplama' && a.classList.contains('bg-go')) {
