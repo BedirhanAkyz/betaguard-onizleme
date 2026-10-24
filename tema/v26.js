@@ -183,7 +183,8 @@
       if (r.length > 1 && ov) { var i2 = ov.querySelector('.bg26-in'); i2.value = inp.value; i2.dispatchEvent(new Event('input')); }
       return;
     }
-    if (/^\/betaguard-kaplama\/?$/.test(h) && (a.classList.contains('bg24-sec') || /Cihazını seç/i.test(a.textContent))) { e.preventDefault(); e.stopPropagation(); openPicker(null); }
+    if (/^\/betaguard-kaplama\/?$/.test(h) && /^(Seriler|Tüm desenler)$/i.test(a.textContent.trim())) { e.preventDefault(); e.stopPropagation(); var sec = document.querySelector('[data-bg-desen]'); if (sec && location.pathname === '/') sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); else location.href = '/#desenler'; return; }
+    if (/^\/betaguard-kaplama\/?$/.test(h) && (a.classList.contains('bg24-sec') || /Cihazını seç|Desenleri gör|Tüm ürünler/i.test(a.textContent))) { e.preventDefault(); e.stopPropagation(); openPicker(null); }
   }, true);
 
   /* ---------- link yeniden yazma (arama onerileri, tur karolari) ---------- */
@@ -341,7 +342,7 @@
   var q = false;
   function run(){ try { rewrite(); var g = cards(); catPage(g); devPage(); wireMenu(); } catch (e) {} }
   function sch(){ if (q) return; q = true; setTimeout(function(){ q = false; run(); }, 120); }
-  function go(){ run(); new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true }); }
+  function go(){ run(); if (location.hash === '#desenler') { var tries = 0; (function t(){ var sec = document.querySelector('[data-bg-desen]'); if (sec) sec.scrollIntoView({ block: 'start' }); else if (tries++ < 30) setTimeout(t, 200); })(); } new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true }); }
   if (document.readyState !== 'loading') setTimeout(go, 300); else document.addEventListener('DOMContentLoaded', function(){ setTimeout(go, 300); });
   var lastUrl = location.href;
   setInterval(function(){ if (location.href !== lastUrl) { lastUrl = location.href; var b = document.querySelector('.bg26-set'); if (b) b.removeAttribute('data-sig'); sch(); } }, 500);
