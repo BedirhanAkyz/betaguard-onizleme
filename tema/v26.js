@@ -389,7 +389,7 @@
   var q = false;
   function run(){ try { rewrite(); var g = cards(); catPage(g); devPage(); wireMenu(); popHome(); } catch (e) {} }
   function sch(){ if (q) return; q = true; setTimeout(function(){ q = false; run(); }, 120); }
-  function go(){ run(); if (location.hash === '#desenler') { var tries = 0; (function t(){ var sec = document.querySelector('[data-bg-desen]'); if (sec) sec.scrollIntoView({ block: 'start' }); else if (tries++ < 30) setTimeout(t, 200); })(); } new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true }); }
+  function go(){ run(); if (location.hash === '#desenler') { var tries = 0; (function t(){ var sec = document.querySelector('[data-bg-desen]'); if (sec) sec.scrollIntoView({ block: 'start' }); else if (tries++ < 30) setTimeout(t, 200); })(); } new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-bg-ptitle', 'data-bg-pinfo'] }); }
   if (document.readyState !== 'loading') setTimeout(go, 300); else document.addEventListener('DOMContentLoaded', function(){ setTimeout(go, 300); });
   var lastUrl = location.href;
   setInterval(function(){ if (location.href !== lastUrl) { lastUrl = location.href; var b = document.querySelector('.bg26-set'); if (b) b.removeAttribute('data-sig'); sch(); } }, 500);
