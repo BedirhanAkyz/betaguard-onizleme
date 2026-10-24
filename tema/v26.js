@@ -109,6 +109,15 @@
     '.bg26-md-f{padding:12px 22px 16px;border-top:1px solid #222126;font:500 13px/1.6 Manrope,sans-serif;color:#A9A59D}',
     '.bg26-md-f a{color:#E2C285}',
     '@media (max-width:640px){.bg26-ov{padding:0}.bg26-md{max-height:100vh;height:100%;border-radius:0}}',
+    '.bg26-mm{position:fixed;z-index:2147482000;min-width:260px;padding:14px;background:#141416;border:1px solid #2A292E;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.5);display:none;font-family:Manrope,sans-serif}',
+    '.bg26-mm.on{display:block}',
+    '.bg26-mm b{display:block;margin:0 4px 8px;font:700 11px/1 Manrope,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8E8A83}',
+    '.bg26-mm a{display:flex;justify-content:space-between;gap:16px;padding:9px 10px;border-radius:10px;color:#F2F0EB;text-decoration:none;font:600 14px/1.2 Manrope,sans-serif}',
+    '.bg26-mm a:hover{background:#1F1F23;color:#E2C285}',
+    '.bg26-mm a small{color:#8E8A83;font-weight:500}',
+    '.bg26-mm .all{margin-top:6px;border-top:1px solid #232227;padding-top:12px;color:#E2C285}',
+    '.bg26-mm button{width:100%;margin-top:8px;padding:10px;border-radius:999px;border:1px solid #3A383F;background:#18181A;color:#F2F0EB;font:700 13px Manrope,sans-serif;cursor:pointer}',
+    '.bg26-mm button:hover{border-color:#C9A45C}',
     /* ana sayfa arama onerileri: onizlemeli rozet */
     '.bg26-pv{display:inline-block;margin-left:8px;padding:2px 7px;border-radius:999px;background:#1F3A28;color:#9AE6B4;font:700 10.5px/1.4 Manrope,sans-serif;vertical-align:middle}'
   ].join('');
@@ -304,9 +313,33 @@
     bar.querySelector('[data-bg26-open]').addEventListener('click', function(e){ e.preventDefault(); openPicker(null, ci.k); });
   }
 
+
+  /* ---------- ust menu acilir paneli (tema alt menu gostermezse) ---------- */
+  var MMK = { '/kamera': 'K', '/lens': 'L', '/drone': 'D', '/aksiyon-kamera': 'A' };
+  var mm = null, mmT = null;
+  function mmHide(){ mmT = setTimeout(function(){ if (mm) mm.classList.remove('on'); }, 180); }
+  function mmShow(a, k){
+    clearTimeout(mmT);
+    if (!mm) { mm = document.createElement('div'); mm.className = 'bg26-mm'; document.body.appendChild(mm); mm.addEventListener('mouseenter', function(){ clearTimeout(mmT); }); mm.addEventListener('mouseleave', mmHide); }
+    var c = CATS[k], n = function(b){ return ALL.filter(function(d){ return d.t === k && (d.b === b || b === 'DJI Osmo' && d.b === 'DJI'); }).length; };
+    mm.innerHTML = '<b>' + TYPE[k] + ' kaplama</b>' + c.subs.map(function(s){ return '<a href="/' + s[1] + '">' + esc(s[0]) + ' <small>' + n(s[0]) + ' model</small></a>'; }).join('') +
+      '<a class="all" href="/' + c.root + '">Tüm ' + TYPE[k].toLowerCase() + ' modelleri →</a><button type="button">Modelini ara</button>';
+    mm.querySelector('button').onclick = function(){ mm.classList.remove('on'); openPicker(null, k); };
+    var r = a.getBoundingClientRect(); mm.style.left = Math.max(12, r.left - 12) + 'px'; mm.style.top = (r.bottom + 10) + 'px'; mm.classList.add('on');
+  }
+  function wireMenu(){
+    if (window.innerWidth < 1024) return;
+    [].forEach.call(document.querySelectorAll('a[href]'), function(a){
+      var k = MMK[a.getAttribute('href')]; if (!k || a.getAttribute('data-bg26mm')) return;
+      var r = a.getBoundingClientRect(); if (r.top > 140 || r.height === 0) return;
+      a.setAttribute('data-bg26mm', '1');
+      a.addEventListener('mouseenter', function(){ var native = [].some.call(document.querySelectorAll('a[href$="-kamera-kaplama"],a[href$="-lens-kaplama"]'), function(x){ var b = x.getBoundingClientRect(); return b.height > 0 && b.top < 400 && !x.closest('.bg26-mm,.bg26-bar,.bg26-set'); }); if (!native) mmShow(a, k); });
+      a.addEventListener('mouseleave', mmHide);
+    });
+  }
   /* ---------- dongu ---------- */
   var q = false;
-  function run(){ try { rewrite(); var g = cards(); catPage(g); devPage(); } catch (e) {} }
+  function run(){ try { rewrite(); var g = cards(); catPage(g); devPage(); wireMenu(); } catch (e) {} }
   function sch(){ if (q) return; q = true; setTimeout(function(){ q = false; run(); }, 120); }
   function go(){ run(); new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true }); }
   if (document.readyState !== 'loading') setTimeout(go, 300); else document.addEventListener('DOMContentLoaded', function(){ setTimeout(go, 300); });
