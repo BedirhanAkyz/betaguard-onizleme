@@ -299,7 +299,7 @@
       var na = nm && nm.closest('a');
       if (na && !c.querySelector('.bg26-cnt')) na.insertAdjacentHTML('afterend', '<div class="bg26-cnt"><i></i>39 desen · önizlemeli</div>');
     });
-    if (catInfo()) [].forEach.call(document.querySelectorAll('a[href^="/betaguard-kaplama"] img'), function(im){ var r = cardRoot(im); if (r && !r.closest('header')) r.classList.add('bg26-hide'); });
+    if (catInfo()) [].forEach.call(document.querySelectorAll('a[href^="/betaguard-kaplama"] img'), function(im){ var r = im; for (var i = 0; i < 9 && r; i++) { r = r.parentElement; if (r && r.querySelectorAll('a[href^="/betaguard-kaplama"]').length >= 2) break; } if (r && r.querySelectorAll('img').length === 1 && !r.closest('header')) r.classList.add('bg26-hide'); });
     var vis = roots.filter(function(r){ return !r.classList.contains('bg26-hide'); });
     if (vis.length > 1) grid = lca(vis[0], vis[1]);
     return grid;
