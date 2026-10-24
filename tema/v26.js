@@ -280,7 +280,7 @@
   function cards(){
     var grid = null, roots = [];
     [].forEach.call(document.querySelectorAll('.rich-text'), function(x){
-      if (x.children.length || !/^(Sepete Ekle|Desen seç)$/i.test(x.textContent.trim()) || document.querySelector('[data-bg-pinfo]') && x.closest('[data-bg-pinfo]')) return;
+      if (x.children.length || !/^(Sepete Ekle|Desen seç)$/i.test(x.textContent.trim()) || x.closest('[data-bg-pinfo]') || cur()) return;
       var c = cardRoot(x); if (!c || c.closest('.bg26-ov')) return;
       roots.push(c);
       var a = c.querySelector('a[href]'), href = a ? a.getAttribute('href') : '';
