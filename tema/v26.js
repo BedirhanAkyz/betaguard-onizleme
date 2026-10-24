@@ -9,10 +9,10 @@
   function slug(s){ return String(s).normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/ı/g,'i').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
   var DSLUG = {}; DESEN.forEach(function(n){ DSLUG[slug(n)] = n; });
   var CATS = {
-    K: { root: 'kamera', subs: [['Sony','sony-kamera-kaplama'],['Canon','canon-kamera-kaplama'],['Nikon','nikon-kamera-kaplama'],['Fujifilm','fujifilm-kamera-kaplama'],['Panasonic','panasonic-kamera-kaplama']] },
-    L: { root: 'lens', subs: [['Sony','sony-lens-kaplama'],['Canon','canon-lens-kaplama'],['Nikon','nikon-lens-kaplama'],['Fujifilm','fujifilm-lens-kaplama']] },
-    D: { root: 'drone', subs: [['DJI','dji-drone-kaplama']] },
-    A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','dji-osmo-kaplama']] }
+    K: { root: 'kamera', subs: [['Sony','sony-kamera'],['Canon','canon-kamera'],['Nikon','nikon-kamera'],['Fujifilm','fujifilm-kamera'],['Panasonic','panasonic-kamera']] },
+    L: { root: 'lens', subs: [['Sony','sony-lens'],['Canon','canon-lens'],['Nikon','nikon-lens'],['Fujifilm','fujifilm-lens']] },
+    D: { root: 'drone', subs: [['DJI','dji-drone']] },
+    A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','dji-osmo']] }
   };
   var TURCAT = { 'Kamera': '/kamera', 'Lens': '/lens', 'Drone': '/drone', 'Aksiyon Kamera': '/aksiyon-kamera' };
   var BYSLUG = {}, BYKEY = {};
@@ -403,7 +403,7 @@
   }
 
   /* ---------- ana sayfa: populer cihazlar ---------- */
-  var POP = ['sony-alpha-a7-iv-kaplama','sony-alpha-a6700-kaplama','sony-zv-e10-ii-kaplama','sony-fx3-kaplama','canon-eos-r6-mark-ii-kaplama','canon-eos-r50-kaplama','nikon-z6-iii-kaplama','nikon-zf-kaplama','fujifilm-x-t5-kaplama','dji-mini-4-pro-kaplama','dji-air-3s-kaplama','dji-osmo-pocket-3-kaplama'];
+  var POP = ['sony-alpha-a7-iv-kaplama','sony-alpha-a6700-kaplama','sony-zv-e10-ii-kaplama','sony-fx3-kaplama','canon-eos-r6-mark-ii-kaplama','canon-eos-r50-kaplama','nikon-z6-iii-kaplama','nikon-zf-kaplama','fujifilm-x-t5-kaplama','dji-mini-4-pro-kaplama','dji-air-3s-kaplama','dji-osmo-pocket-3'];
   function popHome(){
     if (location.pathname !== '/' || document.querySelector('.bg26-pop')) return;
     var find = document.querySelector('.bg-find'); if (!find || !find.parentElement) return;
