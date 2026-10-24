@@ -138,6 +138,26 @@
     '.bg26-pop-more{display:flex;justify-content:center;margin-top:18px}',
     '.bg26-pop-more a{padding:12px 22px;border-radius:999px;border:1px solid #3A383F;color:#F2F0EB;text-decoration:none;font:700 13.5px Manrope,sans-serif}',
     '.bg26-pop-more a:hover{border-color:#C9A45C;color:#E2C285}',
+    /* gimbal (henuz ilan yok) ve fazla bolumler */
+    'a[href*="tur=Gimbal"],a[href="/gimbal"],a[href="/gimbal/"]{display:none!important}',
+    '[data-bg-wall]{display:none!important}',
+    /* urun sayfasi kargo satiri */
+    '.bg26-ship{display:flex;flex-wrap:wrap;gap:6px 14px;margin:8px 0 4px;font:500 12.5px/1.5 Manrope,sans-serif;color:#A9A59D}',
+    '.bg26-ship span{display:inline-flex;align-items:center;gap:6px}.bg26-ship b{color:#E7E4DE;font-weight:600}',
+    /* sepet cekmecesi: setini tamamla */
+    '.bg26-cart{margin:14px 0 6px;padding:14px;border:1px solid #2A292E;border-radius:14px;background:#141416;font-family:Manrope,sans-serif}',
+    '.bg26-cart-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}',
+    '.bg26-cart-h b{font:700 13.5px/1.3 Manrope,sans-serif;color:#F2F0EB}.bg26-cart-h small{font:600 11.5px/1.3 Manrope,sans-serif;color:#E2C285}',
+    '.bg26-cart-n{margin:0 0 10px;padding:8px 10px;border-radius:10px;background:#1B1912;border:1px solid #3A3426;color:#E2C285;font:600 12px/1.4 Manrope,sans-serif}',
+    '.bg26-cart-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}',
+    '.bg26-cart-g a{display:flex;gap:8px;align-items:center;padding:6px;border:1px solid #232227;border-radius:10px;background:#18181A;text-decoration:none;color:#F2F0EB}',
+    '.bg26-cart-g a:hover{border-color:#C9A45C}',
+    '.bg26-cart-g .im{width:54px;height:40px;border-radius:7px;background:#F4F3F0;flex:none;overflow:hidden}.bg26-cart-g .im img{width:100%;height:100%;object-fit:contain}',
+    '.bg26-cart-g .n{font:600 11.5px/1.3 Manrope,sans-serif;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.bg26-cart-g .p{font:600 11px/1.2 Manrope,sans-serif;color:#A9A59D;margin-top:2px}',
+    /* 404 */
+    '.bg26-404{min-height:60vh;display:flex;align-items:center;justify-content:center;padding:60px 24px;background:#0E0E0F;color:#F2F0EB;font-family:Manrope,sans-serif;text-align:center}',
+    '.bg26-404 h1{margin:0 0 10px;font:italic 800 40px/1.05 Archivo,sans-serif!important}.bg26-404 p{margin:0 auto 22px;max-width:520px;color:#A9A59D;font:400 15px/1.6 Manrope,sans-serif}',
+    '.bg26-404 .r{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.bg26-404 .r a,.bg26-404 .r button{padding:12px 20px;border-radius:999px;border:1px solid #3A383F;background:#18181A;color:#F2F0EB;text-decoration:none;font:700 13.5px Manrope,sans-serif;cursor:pointer}.bg26-404 .r .g{background:#C9A45C;border-color:#C9A45C;color:#141210}',
     /* ana sayfa arama onerileri: onizlemeli rozet */
     '.bg26-pv{display:inline-block;margin-left:8px;padding:2px 7px;border-radius:999px;background:#1F3A28;color:#9AE6B4;font:700 10.5px/1.4 Manrope,sans-serif;vertical-align:middle}'
   ].join('');
@@ -287,7 +307,7 @@
   function devPage(){
     var dev = cur(); if (!dev) return;
     document.documentElement.classList.add('bg-hasprice', 'bg26-dev');
-    fitLine(dev); renderSet(dev);
+    fitLine(dev); shipLine(dev); renderSet(dev);
   }
 
   /* ---------- kategori sayfalari ---------- */
@@ -385,9 +405,53 @@
     var p = parseQ('/betaguard-kaplama' + location.search) || {};
     if (p.cihaz && BYKEY[p.cihaz.toLowerCase()]) location.replace('/' + BYKEY[p.cihaz.toLowerCase()].s + (p.desen ? '?desen=' + p.desen : ''));
   })();
+
+  /* ---------- urun sayfasi: kargo / teslimat satiri ---------- */
+  function shipLine(dev){
+    var pr = document.querySelector('[data-bg-pprice]'); if (!pr || document.querySelector('.bg26-ship')) return;
+    var el = document.createElement('div'); el.className = 'bg26-ship';
+    el.innerHTML = '<span>🚚 <b>' + (dev.p >= 2000 ? 'Kargo ücretsiz' : '2.000 ₺ üzeri kargo ücretsiz') + '</b>' + (dev.p >= 2000 ? '' : ' · altında 200 ₺') + '</span><span>⏱ Bugün sipariş ver, <b>1-2 iş gününde</b> kargoda</span><span>🎁 Uygulama seti hediye</span>';
+    pr.parentNode.insertBefore(el, pr.nextSibling);
+  }
+  /* ---------- sepet cekmecesi: setini tamamla ---------- */
+  function cartUpsell(){
+    var head = [].slice.call(document.querySelectorAll('.rich-text')).find(function(e){ return e.children.length === 0 && /^Alışveriş Sepetim/.test(e.textContent.trim()); });
+    if (!head) { var old = document.querySelector('.bg26-cart'); if (old) old.remove(); return; }
+    var root = head; for (var i = 0; i < 8 && root; i++) { root = root.parentElement; var r = root.getBoundingClientRect(); if (r.width > 300 && r.height > 400) break; }
+    if (!root) return;
+    var items = [].slice.call(root.querySelectorAll('a[href*="-kaplama"]')).map(function(a){ return a.getAttribute('href').split('?')[0].replace(/^\//, ''); });
+    items = items.filter(function(v, i, arr){ return arr.indexOf(v) === i; });
+    var devs = items.map(function(sl){ return BYSLUG[sl]; }).filter(Boolean);
+    var tot = root.querySelector('.rich-text') ? [].slice.call(root.querySelectorAll('.rich-text')).find(function(e){ return e.children.length === 0 && e.textContent.trim() === 'Toplam'; }) : null;
+    var foot = tot; for (var j = 0; j < 4 && foot; j++) { if (foot.parentElement === root) break; foot = foot.parentElement; }
+    if (!foot || !devs.length) { var o2 = document.querySelector('.bg26-cart'); if (o2) o2.remove(); return; }
+    var ds = 'line-black'; var dt = [].slice.call(root.querySelectorAll('.rich-text')).find(function(e){ return e.children.length === 0 && DSLUG[slug(e.textContent.trim())]; }); if (dt) ds = slug(dt.textContent.trim());
+    var n = root.querySelectorAll('a[href*="-kaplama"] img, a[href*="betaguard-kaplama"] img').length || devs.length;
+    var seen = {}; items.forEach(function(k){ seen[k] = 1; });
+    var rec = []; devs.forEach(function(d){ companions(d).forEach(function(c){ if (!seen[c.s] && rec.indexOf(c) < 0) rec.push(c); }); });
+    rec = rec.slice(0, 4);
+    var sig = items.join(',') + '|' + ds + '|' + n; var box = document.querySelector('.bg26-cart');
+    if (box && box.getAttribute('data-sig') === sig) return;
+    if (!box) { box = document.createElement('div'); box.className = 'bg26-cart'; }
+    box.setAttribute('data-sig', sig);
+    var note = n >= 3 ? '✓ 3 kaplama: 500 ₺ indirim ödemede uygulanır' : n === 2 ? '✓ 250 ₺ indirim ödemede uygulanır · 3. kaplamada toplam 500 ₺' : 'Bir kaplama daha ekle, <b>250 ₺ indirim</b> kazan';
+    box.innerHTML = '<div class="bg26-cart-h"><b>Setini tamamla</b><small>' + esc(DSLUG[ds]) + ' deseniyle</small></div><div class="bg26-cart-n">' + note + '</div>' +
+      (rec.length ? '<div class="bg26-cart-g">' + rec.map(function(c){ return '<a href="/' + c.s + '?desen=' + ds + '"><span class="im"><img loading="lazy" src="' + img(c, ds) + '" alt=""></span><span><span class="n">' + esc(c.b + ' ' + c.m) + '</span><span class="p">' + fmt(c.p) + '</span></span></a>'; }).join('') + '</div>' : '');
+    if (box.parentElement !== root) root.insertBefore(box, foot);
+  }
+  /* ---------- 404 ---------- */
+  function notFound(){
+    if (document.querySelector('.bg26-404')) return;
+    var t = [].slice.call(document.querySelectorAll('.rich-text,h1,h2')).find(function(e){ return e.children.length === 0 && /Aradığınız sayfa bulunamadı/.test(e.textContent); });
+    if (!t) return;
+    var box = t.parentElement && t.parentElement.parentElement; if (!box) return;
+    box.className = 'bg26-404'; box.removeAttribute('style');
+    box.innerHTML = '<div><span class="bg-eyebrow">404</span><h1>Bu sayfa yok ama cihazın var</h1><p>Aradığın sayfa taşınmış ya da kaldırılmış olabilir. Cihazını aşağıdan bulabilir ya da kategorilere dönebilirsin.</p><div class="r"><button class="g" data-bg26-open="">Cihazını ara</button><a href="/kamera">Kamera</a><a href="/lens">Lens</a><a href="/drone">Drone</a><a href="/">Ana sayfa</a></div></div>';
+    box.querySelector('[data-bg26-open]').addEventListener('click', function(){ openPicker(null, ''); });
+  }
   /* ---------- dongu ---------- */
   var q = false;
-  function run(){ try { rewrite(); var g = cards(); catPage(g); devPage(); wireMenu(); popHome(); } catch (e) {} }
+  function run(){ try { rewrite(); var g = cards(); catPage(g); devPage(); wireMenu(); popHome(); cartUpsell(); notFound(); } catch (e) {} }
   function sch(){ if (q) return; q = true; setTimeout(function(){ q = false; run(); }, 120); }
   function go(){ run(); if (location.hash === '#desenler') { var tries = 0; (function t(){ var sec = document.querySelector('[data-bg-desen]'); if (sec) sec.scrollIntoView({ block: 'start' }); else if (tries++ < 30) setTimeout(t, 200); })(); } new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-bg-ptitle', 'data-bg-pinfo'] }); }
   if (document.readyState !== 'loading') setTimeout(go, 300); else document.addEventListener('DOMContentLoaded', function(){ setTimeout(go, 300); });
