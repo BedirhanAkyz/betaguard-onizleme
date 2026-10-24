@@ -335,7 +335,7 @@
       var k = MMK[a.getAttribute('href')]; if (!k || a.getAttribute('data-bg26mm')) return;
       var r = a.getBoundingClientRect(); if (r.top > 140 || r.height === 0) return;
       a.setAttribute('data-bg26mm', '1');
-      a.addEventListener('mouseenter', function(){ var native = [].some.call(document.querySelectorAll('a[href$="-kamera-kaplama"],a[href$="-lens-kaplama"]'), function(x){ var b = x.getBoundingClientRect(); return b.height > 0 && b.top < 400 && !x.closest('.bg26-mm,.bg26-bar,.bg26-set'); }); if (!native) mmShow(a, k); });
+      a.addEventListener('mouseenter', function(){ clearTimeout(mmT); setTimeout(function(){ var native = [].some.call(document.querySelectorAll('a[href$="-kamera-kaplama"],a[href$="-lens-kaplama"]'), function(x){ var b = x.getBoundingClientRect(); return b.height > 0 && b.top < 400 && !x.closest('.bg26-mm,.bg26-bar,.bg26-set'); }); if (!native && a.matches(':hover')) mmShow(a, k); }, 200); });
       a.addEventListener('mouseleave', mmHide);
     });
   }
