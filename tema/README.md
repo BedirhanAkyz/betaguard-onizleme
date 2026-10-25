@@ -35,3 +35,28 @@ Istemiyorum (0), DJI RC-N1/N2/N3 (1000), DJI RC (1000), DJI RC Pro (1000).
 tema/src/13_v27.js bu select'i gizleyip "3. Kumanda" gorsel adimina cevirir;
 kumanda onizlemesi img/drone-dji-rc*/<desen>.webp dosyalarindan gelir.
 Yeni drone urunu eklenince: urun > Urun Ozellestirmesi > "Drone kumanda kaplamasi" sec.
+
+## Lens gorsel tarama (2026-10)
+186 lens fotografi tek tek okunur boyutta tarandi (pipe/tara/ sayfalari).
+26 fotograf egik ya da ters bulundu; tam liste scratchpad/egik_liste.txt.
+8 fotograf (10 urun) mevcuttan iyi alternatifle degistirildi:
+Canon EF 24-70 II, Canon RF 70-200 F2.8, Nikon 50mm F1.8G (2 urun),
+Nikon AF-S 18-105, Nikon 70-200 FL (2 urun), Olympus 45mm,
+Panasonic Leica DG 12-60, Sony FE 24-105 (bu sonuncusu 180 derece donuktu).
+Kalan 16'da aranan alternatifler mevcuttan kotu cikti (on cam buyuk elips
+olarak giriyor), dokunulmadi.
+
+Kesim artik `pipe/prep2.py` (grabCut): beyaz zeminde beyaz govdeyi de dogru
+ayiriyor, eski `prep.py` esik yontemi bunu beceremiyordu.
+`autolens.py` ON CAMI HARIC TUTMUYOR; yeni spec urettikten sonra
+`haric` listesine sol tarafa bir dikdortgen elle eklemek gerekiyor.
+Dikey (on yukari) cekilmis lenslerde once goruntuyu 90 derece cevir
+(on sol, bayonet sag olacak sekilde), yoksa cyl golgesi ters cikar.
+
+## ikas gorsel icin CSV uretimi (indirme engelliyse)
+Chrome sekme basina tek indirmeye izin veriyor; disa aktarim dosyasi inmezse
+URL.createObjectURL kancasiyla blob metnini sayfadan okuyup, filtrelenmis
+CSV'yi File olarak dogrudan ice aktarim input'una atamak calisiyor.
+Disa aktarim sutunlari: Urun Grup ID / Varyant ID / Isim / Resim URL /
+Varyant Tip 1 / Varyant Deger 1 / Varyant Tip 2 / Varyant Deger 2.
+Varyant Deger 1 = desen adi ("Line Black"); webp adi = slug(desen adi).
