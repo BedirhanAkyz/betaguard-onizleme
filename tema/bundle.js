@@ -1594,7 +1594,9 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     '.pcz-price{display:none!important}',
     'html.bg-nomodel [data-bg-pprice]{font-size:0!important;line-height:0!important;color:transparent!important}',
     'html.bg-nomodel [data-bg-pprice]::before{content:"Fiyat, modelini seçince görünür";display:block;font:500 15px/1.6 Manrope,sans-serif;color:#8E8A83;padding:4px 0}',
-    '.bg-incl{display:inline-flex;align-items:center;gap:6px;margin:6px 0 2px;padding:5px 10px;border:1px solid #3A3426;border-radius:999px;background:#1B1912;color:#E2C285;font:600 12px/1.3 Manrope,sans-serif}'
+    '.bg-incl{display:inline-flex;align-items:center;gap:6px;margin:6px 0 2px;padding:5px 10px;border:1px solid #3A3426;border-radius:999px;background:#1B1912;color:#E2C285;font:600 12px/1.3 Manrope,sans-serif}',
+    '.bg-incl a{color:#F2D9A5;text-decoration:underline;text-underline-offset:2px}',
+    '.bg-incl a:hover{color:#fff}'
   ].join('');
   var st = document.createElement('style'); st.id = 'bg-theme-css18'; st.textContent = css; (document.head || document.documentElement).appendChild(st);
   function fieldVal(re){
@@ -1608,6 +1610,13 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     return null;
   }
   function fmt(n){ return n.toLocaleString('tr-TR') + ' ₺'; }
+  /* marka+model -> cihaz sayfasi slug'i (v26 BYSLUG tablosundan) */
+  var REV = null;
+  function devSlug(brand, model){
+    var a = window.__BG; if (!a || !a.BYSLUG) return '';
+    if (!REV) { REV = {}; for (var s in a.BYSLUG) { var d = a.BYSLUG[s]; if (d && d.b && d.m) REV[(d.b + '|' + d.m).toLowerCase()] = s; } }
+    return REV[(brand + '|' + model).toLowerCase()] || '';
+  }
   function run(){
     var pr = document.querySelector('[data-bg-pprice]'); if (!pr) return;
     var type = fieldVal(/Cihaz t/i), brand = fieldVal(/^\s*Marka/i), model = fieldVal(/^\s*Model/i);
@@ -1623,8 +1632,15 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     }
     var incl = document.querySelector('.bg-incl');
     var drone = /^Drone$/i.test(type) && model && !/\bRC\b|RC-|Controller|Goggles/i.test(model);
-    if (drone && !incl) { incl = document.createElement('div'); incl.className = 'bg-incl'; incl.textContent = 'Kumanda kaplaması +1.000 ₺ ile eklenebilir'; pr.parentNode.insertBefore(incl, pr.nextSibling); }
-    else if (!drone && incl) incl.remove();
+    if (drone) {
+      /* kumanda secimi sadece cihazin kendi sayfasinda var; oraya yonlendir */
+      var sl = devSlug(brand, model);
+      var html = sl
+        ? 'Kumanda kaplaması +1.000 ₺ · <a href="/' + sl + '">cihazın sayfasından ekle →</a>'
+        : 'Kumanda kaplaması +1.000 ₺ ile eklenebilir';
+      if (!incl) { incl = document.createElement('div'); incl.className = 'bg-incl'; pr.parentNode.insertBefore(incl, pr.nextSibling); }
+      if (incl.innerHTML !== html) incl.innerHTML = html;
+    } else if (incl) incl.remove();
   }
   var q = false;
   function sch(){ if (q) return; q = true; setTimeout(function(){ q = false; try { run(); } catch (e) {} }, 60); }
