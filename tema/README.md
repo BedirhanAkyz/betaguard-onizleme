@@ -1,6 +1,6 @@
 # Betaguard tema
 
-- `src/` : tema bloklari (00_main ... 12_v26). Duzenleme burada yapilir.
+- `src/` : tema bloklari (00_main ... 13_v27). Duzenleme burada yapilir.
 - `devices.json` : onizlemeli cihaz listesi (slug, tur, marka, model, fiyat, gorsel klasoru).
 - `build.py SHA` : src -> `bundle.js` (SHA = img/ klasorunun bulundugu commit).
 - `loader.tpl` : ikas > Eklentiler > Scriptler "Betaguard tema" icine yapistirilan kisa yukleyici (`__SHA__` = bundle.js'in commit'i).
@@ -36,6 +36,16 @@ Istemiyorum (0), DJI RC-N1/N2/N3 (1000), DJI RC (1000), DJI RC Pro (1000).
 tema/src/13_v27.js bu select'i gizleyip "3. Kumanda" gorsel adimina cevirir;
 kumanda onizlemesi img/drone-dji-rc*/<desen>.webp dosyalarindan gelir.
 Yeni drone urunu eklenince: urun > Urun Ozellestirmesi > "Drone kumanda kaplamasi" sec.
+
+## Drone akisi - bilinen tuzaklar (2026-10)
+- Kumanda secimi yalnizca 18 drone URUN SAYFASINDA var (ikas Urun Ozellestirmesi).
+  Genel /betaguard-kaplama sayfasinda yok; orada drone secilince v18
+  "cihazin sayfasindan ekle" linkini gosterir.
+- Buton fiyat etiketi (`data-bg-price`) iki yerden yaziliyor: 00_main ve 04_v18.
+  Ikisi FARKLI deger yazarsa MutationObserver'lar birbirini tetikler ve sayfa kilitlenir.
+  Kumanda eki `window.__bgKumEk` uzerinden ikisine de ayni sekilde uygulanmali.
+- 00_main'deki devMissing bloklamasi urun sayfasinda `.bg-dev` bulamadigi icin
+  sessizce donuyordu; uyari artik 13_v27 icindeki capture click dinleyicisinden geliyor.
 
 ## Lens gorsel tarama (2026-10)
 186 lens fotografi tek tek okunur boyutta tarandi (pipe/tara/ sayfalari).
