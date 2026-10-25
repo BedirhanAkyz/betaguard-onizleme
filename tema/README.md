@@ -47,6 +47,34 @@ Yeni drone urunu eklenince: urun > Urun Ozellestirmesi > "Drone kumanda kaplamas
 - 00_main'deki devMissing bloklamasi urun sayfasinda `.bg-dev` bulamadigi icin
   sessizce donuyordu; uyari artik 13_v27 icindeki capture click dinleyicisinden geliyor.
 
+## Govde doku bolgeleri (2026-10) - Canon + Nikon 99 govde
+
+Sorun: kaucuk tutamak bolgesi specs.json'da kaba dikdortgen/cokgendi. Kaplama
+duz bir levha gibi duruyor, bazi govdelerde siluetin disina tasiyordu. Ayrica
+`doku_duz: blur` isigi %45'e kisiyordu, tutamagin hacmi kayboluyordu.
+
+Cozum iki yontem (ikisi de `doku` alanini bitmap maskeye cevirir):
+1. `kontrol/tutamak.py` - fotograftan doku analizi. grain = (L - gauss(L,4))'un
+   yerel std'si / yerel parlaklik; haric alanlar disarida birakilip Otsu ile
+   esiklenir, mount'un disinda kalan taraf tutamak sayilir. Canon fotograflarinda
+   calisir. Oran 0.14-0.46 disinda cikarsa guvenilmez, kullanma.
+2. `kontrol/snap.py` - mevcut elle cizilmis bolgeyi baslangic alip cv2.grabCut ile
+   fotografin gercek malzeme kenarina oturtur (icerisi GC_FGD, disarisi GC_BGD,
+   arada %2.8 genislikte belirsiz band). NIKON icin bunu kullan: Nikon govdeleri
+   cok koyu oldugundan grain yontemi TERS calisiyor, boyali yuzeyi dokulu saniyor.
+
+Maskeler `pipe/doku_maske/<cihaz>.png`, spec'te `{"t":"mask","f":"doku_maske/..."}`.
+render2.py'ye `mask` sekil tipi ve `doku_isik` / `doku_blur` anahtarlari eklendi
+(govde tutamaklarinda doku_isik=1.0, doku_blur=6 kullan; Fuji gibi duz deri
+bandlarinda varsayilan 0.45/14 kalabilir).
+
+## Render hizi - OUT'u asla /mnt/user-data/outputs'a verme
+O dizin ag uzerinden bagli; 39 desen yazmak cihaz basina ~8 dakika suruyor.
+Yerel diske (`/home/claude/render_out`) yazinca ayni is ~18 saniye. 25 kat fark.
+Ayrica o diskte mtime gec guncellendiginden "dosya yazildi mi" kontrolu yaniltir.
+Not: konteyner arac cagrilari ARASINDA donuyor; arka plan isleri ilerlemiyor.
+Uzun render'lari 600sn'lik onplan parcalari halinde kostur.
+
 ## Lens gorsel tarama (2026-10)
 186 lens fotografi tek tek okunur boyutta tarandi (pipe/tara/ sayfalari).
 26 fotograf egik ya da ters bulundu; tam liste scratchpad/egik_liste.txt.
