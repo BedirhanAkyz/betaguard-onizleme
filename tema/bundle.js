@@ -1082,7 +1082,18 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     var info = b.closest('[data-bg-pinfo]') || document.getElementById('app');
     if (!devMissing(info)) return;
     e.preventDefault(); e.stopImmediatePropagation();
-    var dev = document.querySelector('.bg-dev'); if (!dev) return;
+    var dev = document.querySelector('.bg-dev');
+    if (!dev) {
+      /* urun sayfasinda cihaz secici yok: eksik olan kumanda secimidir (v27) */
+      var k = document.querySelector('.bg27k');
+      if (!k) return;
+      var w = k.querySelector('.bg27k-w');
+      if (!w) { w = document.createElement('p'); w.className = 'bg27k-w'; w.setAttribute('role', 'alert'); k.appendChild(w); }
+      w.textContent = 'Sepete eklemek için önce kumanda seçimini yap.';
+      k.classList.remove('bg-shake'); void k.offsetWidth; k.classList.add('bg-shake');
+      k.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
     var m = dev.querySelector('.bg-need');
     if (!m) { m = document.createElement('div'); m.className = 'bg-need'; m.setAttribute('role', 'alert'); dev.appendChild(m); }
     m.textContent = 'Sepete eklemeden önce cihazını seç: modelini yaz ya da aşağıdan tür, marka ve modeli seç.';
@@ -1282,6 +1293,12 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     [].forEach.call(document.querySelectorAll('a[href*="betaguard-kaplama"] .rich-text'), function(x){ if (/^₺/.test(x.textContent.trim()) && !x.closest('[data-bg-pprice]')) x.setAttribute('data-bg-cprice','1'); });
     var pr = document.querySelector('[data-bg-pprice]'), val = null;
     if (pr) { var f = fmt(pr.textContent); if (f) pr.textContent = f; val = /₺/.test(pr.textContent) ? pr.textContent.trim() : null; }
+    /* v27: kumanda secildiyse buton fiyati toplami gostersin */
+    var ek = +window.__bgKumEk || 0;
+    if (val && ek > 0 && val.indexOf(',') < 0) {
+      var d0 = val.replace(/[^\d.]/g, '').replace(/\./g, '');
+      if (d0) val = (parseInt(d0, 10) + ek).toLocaleString('tr-TR') + ' ₺';
+    }
     var btn = cartLeaf();
     if (btn) { if (val) { if (btn.getAttribute('data-bg-price') !== val) btn.setAttribute('data-bg-price', val); } else btn.removeAttribute('data-bg-price'); }
   }
@@ -3185,6 +3202,7 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     var isNone = cur.indexOf(NONE) === 0;
     var model = null; RC.forEach(function(r){ if (r.t === cur) model = r; });
     var withRc = !!model;
+    window.__bgKumEk = withRc ? EK : 0;   /* 00_main buton fiyatina ekler */
     var ds = desen();
     var h = '<div class="bg27k-h"><span>3. Kumanda</span><em class="' + (cur ? 'on' : '') + '">' +
       (isNone ? 'Sadece drone' : model ? esc(model.n) : 'Seçim zorunlu') + '</em></div>';
@@ -3220,7 +3238,7 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     var dev = a.cur();
     var sel = nativeSel();
     var box = document.querySelector('.bg27k');
-    if (!dev || dev.t !== 'D' || !sel) { if (box) box.remove(); return; }
+    if (!dev || dev.t !== 'D' || !sel) { if (box) box.remove(); window.__bgKumEk = 0; return; }
     css();
     /* yerli alani gizle, kendi kutumuzu yerine koy */
     var field = sel.closest('.pcz') || sel.parentElement;

@@ -85,6 +85,7 @@
     var isNone = cur.indexOf(NONE) === 0;
     var model = null; RC.forEach(function(r){ if (r.t === cur) model = r; });
     var withRc = !!model;
+    window.__bgKumEk = withRc ? EK : 0;   /* 00_main buton fiyatina ekler */
     var ds = desen();
     var h = '<div class="bg27k-h"><span>3. Kumanda</span><em class="' + (cur ? 'on' : '') + '">' +
       (isNone ? 'Sadece drone' : model ? esc(model.n) : 'Seçim zorunlu') + '</em></div>';
@@ -120,7 +121,7 @@
     var dev = a.cur();
     var sel = nativeSel();
     var box = document.querySelector('.bg27k');
-    if (!dev || dev.t !== 'D' || !sel) { if (box) box.remove(); return; }
+    if (!dev || dev.t !== 'D' || !sel) { if (box) box.remove(); window.__bgKumEk = 0; return; }
     css();
     /* yerli alani gizle, kendi kutumuzu yerine koy */
     var field = sel.closest('.pcz') || sel.parentElement;
