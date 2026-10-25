@@ -98,7 +98,9 @@
           '<span class="im"><img loading="lazy" src="' + imgUrl(r.f, ds) + '" alt="' + esc(r.n + ' ' + ds) + ' kaplama"></span>' +
           '<b>' + esc(r.n) + '</b><small>' + esc(r.s) + '</small></button>';
       }).join('') + '</div>';
-      h += '<p class="bg27k-n">Kumanda, drone ile <b>aynı desende</b> kesilir. Kumandanı seç, kutudan takım çıksın.</p>';
+      var dv = api().cur();
+      h += '<p class="bg27k-n">Kumanda, drone ile <b>aynı desende</b> kesilir. Kumandanı seç, kutudan takım çıksın.' +
+        (dv && dv.p ? '<br>Toplam <b>' + fmt(dv.p + EK) + '</b> · drone ' + fmt(dv.p) + ' + kumanda ' + fmt(EK) : '') + '</p>';
     } else if (!cur) {
       h += '<p class="bg27k-w">Devam etmek için bu seçimi yapman gerekiyor.</p>';
     }

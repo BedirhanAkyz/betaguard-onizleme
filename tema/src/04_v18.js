@@ -33,7 +33,7 @@
     }
     var incl = document.querySelector('.bg-incl');
     var drone = /^Drone$/i.test(type) && model && !/\bRC\b|RC-|Controller|Goggles/i.test(model);
-    if (drone && !incl) { incl = document.createElement('div'); incl.className = 'bg-incl'; incl.textContent = 'Kumanda kaplaması pakete dahil'; pr.parentNode.insertBefore(incl, pr.nextSibling); }
+    if (drone && !incl) { incl = document.createElement('div'); incl.className = 'bg-incl'; incl.textContent = 'Kumanda kaplaması +1.000 ₺ ile eklenebilir'; pr.parentNode.insertBefore(incl, pr.nextSibling); }
     else if (!drone && incl) incl.remove();
   }
   var q = false;
