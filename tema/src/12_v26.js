@@ -167,7 +167,7 @@
     '.bg27-sort{padding:11px 14px;border:1px solid #2F2E33;border-radius:999px;background:#151517;color:#D6D2CA;font:600 13px Manrope,sans-serif;cursor:pointer}',
     '.bg27-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}',
     '@media (max-width:1100px){.bg27-g{grid-template-columns:repeat(3,minmax(0,1fr))}}',
-    '@media (max-width:640px){.bg27-g{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.bg27-h h1{font-size:26px!important}.bg27-in{min-width:0;width:100%}.bg27-tools{width:100%}}',
+    '@media (max-width:640px){.bg27-g{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.bg27-h h1{font-size:26px!important}.bg27-in{min-width:0;flex:1}.bg27-tools{width:100%;flex-wrap:nowrap}html.bg27-on .bg26-hint span:nth-child(2){display:none}.bg27-c .nm{font-size:13.5px;min-height:0}.bg27-c .tx{padding:10px 11px 12px}.bg27-c .go{padding:8px 10px;font-size:12px}}',
     '.bg27-c{display:flex;flex-direction:column;border:1px solid #26252A;border-radius:16px;background:#141416;overflow:hidden;text-decoration:none;color:#F2F0EB;transition:border-color .2s,transform .2s}',
     '.bg27-c:hover{border-color:#C9A45C;transform:translateY(-2px)}',
     '.bg27-c .im{position:relative;aspect-ratio:1/1;background:#fff;overflow:hidden}',
@@ -561,7 +561,7 @@
         var r = e; for (var i = 0; i < 3 && r.parentElement; i++) { var pt = r.parentElement.textContent.trim().replace(/\s+/g, ' '); if (new RegExp('^' + pn.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*\\(\\s*\\d+ ürün\\s*\\)$').test(pt)) r = r.parentElement; else break; }
         r.classList.add('bg27-ikas');
       });
-      var tb = [].filter.call(document.querySelectorAll('div'), function(e){ return e.offsetHeight > 0 && e.offsetHeight < 80 && /Öne Çıkanlar/.test(e.textContent) && /Sütun/.test(e.textContent) && !e.contains(bar) && !e.closest('.bg27'); });
+      var tb = [].filter.call(document.querySelectorAll('div'), function(e){ return e.offsetHeight > 0 && e.offsetHeight < 80 && /Öne Çıkanlar/.test(e.textContent) && /Sütun|Filtre/.test(e.textContent) && !e.contains(bar) && !e.closest('.bg27'); });
       tb.sort(function(a, b){ return b.offsetWidth - a.offsetWidth; }); if (tb[0]) tb[0].classList.add('bg27-ikas');
     } catch (x) {}
     var g = host.querySelector('.bg27-g'), more = host.querySelector('.bg27-more'), sub = host.querySelector('h1 small'), inp = host.querySelector('.bg27-in'), sel = host.querySelector('.bg27-sort');
