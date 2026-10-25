@@ -7,6 +7,20 @@
 
 Yayin: 1) build.py, 2) commit+push, 3) loader.tpl'deki __SHA__'yi yeni commit ile degistirip ikas'a kaydet.
 
+## Kaplama kurali: deri -> doku, metal -> desen
+Govdede deri/deri gorunumlu (plastik) alanlar siyah petek dokuyla, metal ust kapak/prizma/taban
+desenli kaplamayla render edilir. specs.json'da bu alan `doku` listesine `"deri": 1` isaretli
+dikdortgen olarak eklenir; `doku_ustte: true` oldugu icin desen maskesinden otomatik dusulur.
+Gerekli anahtarlar: `doku_tex: hex_tile.jpg`, `doku_mm: 240`, `doku_duz: "blur"`, `doku_ustte: true`.
+
+Deri bandinin ust/alt sinirini olcmek icin `pipe/fuji_seam.py` (govde kenarindan 90px'lik serit
+uzerinde yerel standart sapma profili; duz metal ~2-5, deri ~9-25). Sonuclar `pipe/fuji_band.json`.
+Kontrol: `render(..., check=True)` -> `_alan.jpg` (turuncu = desen, mavi = doku).
+
+Uygulanmis govdeler: tum Fujifilm X ve GFX govdeleri, Nikon Zf/Df, Olympus PEN-F, Leica SL2.
+Orta kismi metal olan modellerde (X-A3, X-A5, X-T10, X-T20) band tek parca degil, sol+sag iki
+dikdortgendir.
+
 ## ikas gorsel kontrolu (bakim)
 ikas, ice aktarimda gorselleri jsDelivr'dan kopyalarken bir kismini (~%18) alamiyor; cdn.myikas.com'da 404 kaliyor.
 Kontrol: Urunler > Disa Aktar (Ad + Gorsel URL + Varyantlar) -> her satirin Resim URL'sini image_180 boyutunda yukleyerek test et.
