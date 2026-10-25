@@ -3195,7 +3195,29 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     sel.dispatchEvent(new Event('input', { bubbles: true }));
     sel.dispatchEvent(new Event('change', { bubbles: true }));
   }
-  function curText(sel){ var o = sel.options[sel.selectedIndex]; return o ? o.text.trim() : ''; }
+  function curText(sel){ if (!sel.value) return ''; var o = sel.options[sel.selectedIndex]; return o ? o.text.trim() : ''; }
+
+  /* kumanda secilmeden "Sepete Ekle"ye basilirsa: ikas sessizce yutuyor, biz uyaralim */
+  function uyar(){
+    var k = document.querySelector('.bg27k'); if (!k) return;
+    var w = k.querySelector('.bg27k-w');
+    if (!w) { w = document.createElement('p'); w.className = 'bg27k-w'; w.setAttribute('role', 'alert'); k.appendChild(w); }
+    w.textContent = 'Sepete eklemek için önce kumanda seçimini yap: sadece drone mu, drone + kumanda mı?';
+    k.classList.remove('bg-shake'); void k.offsetWidth; k.classList.add('bg-shake');
+    k.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  document.addEventListener('click', function(e){
+    var k = document.querySelector('.bg27k'); if (!k) return;
+    var sel = nativeSel(); if (!sel || sel.value) return;
+    if (k.contains(e.target)) return;
+    var n = e.target, hit = 0;
+    for (var i = 0; i < 5 && n; i++, n = n.parentElement) {
+      if (/^Sepete Ekle(\s|·|$)/.test((n.textContent || '').trim())) { hit = 1; break; }
+    }
+    if (!hit) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    uyar();
+  }, true);
 
   function render(box, sel){
     var cur = curText(sel);
