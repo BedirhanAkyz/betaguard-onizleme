@@ -557,7 +557,7 @@
       var pn = (window.__IKAS_DATA__ && window.__IKAS_DATA__.pageSpecificData && window.__IKAS_DATA__.pageSpecificData.name) || TYPE[ci.k];
       var bt = bar.getBoundingClientRect().top;
       [].forEach.call(document.querySelectorAll('div,span,h1,h2,h3'), function(e){
-        if (e.children.length || e.offsetHeight <= 0 || e.textContent.trim() !== pn || e.getBoundingClientRect().top >= bt || e.closest('header,nav,.bg27,.bg26-bar')) return;
+        if (e.children.length || e.offsetHeight <= 0 || e.textContent.trim() !== pn || e.getBoundingClientRect().top >= bt || e.closest('header,nav,a,button,.bg27,.bg26-bar,.bg26-ov,.bg-mob,[data-bg-top]') || e.getBoundingClientRect().top < 72) return;
         var r = e; for (var i = 0; i < 3 && r.parentElement; i++) { var pt = r.parentElement.textContent.trim().replace(/\s+/g, ' '); if (new RegExp('^' + pn.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*\\(\\s*\\d+ ürün\\s*\\)$').test(pt)) r = r.parentElement; else break; }
         r.classList.add('bg27-ikas');
       });
