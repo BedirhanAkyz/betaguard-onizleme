@@ -345,7 +345,7 @@
   }
   function fitLine(dev){
     var t = document.querySelector('[data-bg-ptitle]');
-    var sub = '✓ ' + dev.b + ' ' + dev.m + ' için birebir kesim · 39 desen' + (dev.t === 'D' ? ' · kumanda kaplaması dahil' : '') + ' · 1-2 iş gününde kargoda';
+    var sub = '✓ ' + dev.b + ' ' + dev.m + ' için birebir kesim · 39 desen' + (dev.t === 'D' ? ' · kumanda kaplaması +1.000 ₺' : '') + ' · 1-2 iş gününde kargoda';
     if (t && t.getAttribute('data-bg26-sub') !== sub) t.setAttribute('data-bg26-sub', sub);
     var old = document.querySelector('.bg26-fit'); if (old) old.remove();
     [].forEach.call(document.querySelectorAll('[data-bg-pinfo] li'), function(li){ if (/Drone siparişlerinde/.test(li.textContent)) li.classList.toggle('bg26-nodrone', dev.t !== 'D'); });
@@ -605,6 +605,10 @@
     draw();
   }
   /* ---------- dongu ---------- */
+  /* diger bloklar icin kucuk API (13_v27 kumanda secimi kullanir) */
+  var SLUGOF = {}; DESEN.forEach(function(n){ SLUGOF[n] = slug(n); });
+  window.__BG = { CDN: CDN, DSLUG: DSLUG, SLUGOF: SLUGOF, curDesen: curDesen, cur: cur, img: img, BYSLUG: BYSLUG };
+
   var q = false;
   function run(){ try { rewrite(); var g = cards(); catPage(g); smartGrid(g); devPage(); wireMenu(); popHome(); cartUpsell(); notFound(); } catch (e) {} }
   function sch(){ if (q) return; q = true; setTimeout(function(){ q = false; run(); }, 120); }

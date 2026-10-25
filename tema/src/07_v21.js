@@ -110,7 +110,7 @@
         '<div class="bg-px-c"><h4><i>◆</i>Kutuda ne var?</h4><ul class="bg-px-box">' +
           '<li>Cihazının modeline özel kesilmiş kaplama parçaları</li>' +
           '<li>Uygulama seti: spatula, ıslak ve kuru temizlik mendili</li>' +
-          '<li>Drone siparişlerinde kumanda kaplaması pakete dahil</li></ul></div>' +
+          '<li>Drone siparişlerinde kumanda kaplaması 1.000 ₺ ile eklenir</li></ul></div>' +
         '<div class="bg-px-c"><h4><i>◆</i>4 adımda kendin uygula</h4><div class="bg-px-st">' +
           '<div><b><em>01</em>Temizle</b><span>Mendille yüzeyi tozsuz ve kuru hale getir.</span></div>' +
           '<div><b><em>02</em>Hizala</b><span>Köşe ve kenar noktalarını önce hizala.</span></div>' +
