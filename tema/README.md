@@ -99,3 +99,26 @@ CSV'yi File olarak dogrudan ice aktarim input'una atamak calisiyor.
 Disa aktarim sutunlari: Urun Grup ID / Varyant ID / Isim / Resim URL /
 Varyant Tip 1 / Varyant Deger 1 / Varyant Tip 2 / Varyant Deger 2.
 Varyant Deger 1 = desen adi ("Line Black"); webp adi = slug(desen adi).
+
+## Drone govde formu (2026-10)
+
+Kaplamalar "cok duz" goruluyordu: koyu desenlerde (carbon, topografik siyah)
+carpimsal golge gorunmedigi icin govde kubbesi ve kol silindiri okunmuyordu.
+18 DJI cihazina su preset uygulandi (specs.json):
+
+    spec_esik=6  spec_kat=1.3
+    opak_clip=[0.25,1.85]  opak_gamma=1.9  opak_sigma=2.5
+    rim=[0.50,14]
+
+opak_sigma'nin 4 -> 2.5 dusmesi isik alanini keskinlestirir (panel derzi,
+kol kenari gorunur). opak_gamma+clip orta kontrasti acar, spec ek olarak
+tepe isigini koyar; esik 6 oldugu icin siyahlar kalkmaz.
+
+DIKKAT - parlak govdeli cihazlarda patlama yapar. Su 4 cihaz degistirilmedi:
+DJI Mavic Pro, DJI Mavic Air, DJI Goggles 3, DJI Mavic 4 Pro.
+Bu cihazlarda fotografin kendi parlamasi zaten guclu; clip hi=1.85 + gamma 1.9
+onu ~3x buyutup beyaz serit birakiyor. Onlar icin ya eski ayar ya da
+spec_esik=20 / spec_kat=0.5 / clip=[0.3,1.6] gibi yumusak bir varyant gerekir.
+
+Olcut: `(a>235 & govde)` oraninin A->F degismemesi gerekir. Mavic Pro 1.2->1.7
+ve Mavic Air 0.7->1.2 oldugu icin elendi.
