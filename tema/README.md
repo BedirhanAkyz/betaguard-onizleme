@@ -5,7 +5,8 @@
 - `build.py SHA` : src -> `bundle.js` (SHA = img/ klasorunun bulundugu commit).
 - `loader.tpl` : ikas > Eklentiler > Scriptler "Betaguard tema" icine yapistirilan kisa yukleyici (`__SHA__` = bundle.js'in commit'i).
 
-Yayin: 1) build.py, 2) commit+push, 3) loader.tpl'deki __SHA__'yi yeni commit ile degistirip ikas'a kaydet.
+Yayin: 1) build.py, 2) commit+push, 3) loader.tpl ve ikas Scriptler icindeki __SHA__ -> yeni commit.
+   Not: ikas magaza onbellegi script degisikligini ~2-5 dk sonra yayina aliyor; hemen gorunmezse bekle.
 
 ## Kaplama kurali: deri -> doku, metal -> desen
 Govdede deri/deri gorunumlu (plastik) alanlar siyah petek dokuyla, metal ust kapak/prizma/taban
