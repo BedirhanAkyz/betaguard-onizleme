@@ -29,7 +29,9 @@
       var t = fmt(total);
       if (pr.textContent.trim() !== t) pr.textContent = t;
       var btn = [].slice.call(document.querySelectorAll('.rich-text,button')).find(function(x){ return x.children.length === 0 && /^Sepete Ekle$/i.test(x.textContent.trim()) && !(window.bgInFx && window.bgInFx(x)); });
-      if (btn && btn.getAttribute('data-bg-price') !== t) btn.setAttribute('data-bg-price', t);
+      /* v27 kumanda eki: 00_main ile ayni degeri yaz, yoksa ikisi birbirini ezer (sonsuz dongu) */
+      var bt = fmt(total + (+window.__bgKumEk || 0));
+      if (btn && btn.getAttribute('data-bg-price') !== bt) btn.setAttribute('data-bg-price', bt);
     }
     var incl = document.querySelector('.bg-incl');
     var drone = /^Drone$/i.test(type) && model && !/\bRC\b|RC-|Controller|Goggles/i.test(model);
