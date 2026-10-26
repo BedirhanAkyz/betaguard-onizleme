@@ -309,7 +309,7 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     '.bg-facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}',
     '.bg-facts span{font-size:13px;font-weight:600;color:#D9D5CD;border:1px solid #2A292E;background:#141416;border-radius:999px;padding:8px 14px}',
     '.bg-hero-r{flex:1 1 480px;min-width:0}',
-    '.bg-hero-r img{width:100%;aspect-ratio:5/4;max-height:620px;object-fit:cover;object-position:70% 50%;border-radius:20px;display:block;background:#141416}',
+    '.bg-hero-r img{width:100%;aspect-ratio:1/1;max-height:620px;object-fit:cover;object-position:50% 45%;border-radius:20px;display:block;background:#141416}',
     '.bg-find{width:' + W3 + ';margin:40px auto 0;background:#18181A;border:1px solid #26252A;border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:20px;color:#F2F0EB;box-sizing:border-box}',
     '.bg-find *{box-sizing:border-box}',
     '.bg-find-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px}',
@@ -358,6 +358,7 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
   function norm(q) { return q.toLowerCase().replace(/[^a-z0-9ğüşıöç]+/g, ''); }
 
   function heroImg() {
+    return 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@65b2a754/img/site/hero.webp';
     var h = document.querySelector('img[data-bg-hero]:not([data-bg-top] img)');
     if (!h) {
       var imgs = document.querySelectorAll('#app img');
