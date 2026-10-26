@@ -441,6 +441,7 @@
     var r = a.getBoundingClientRect(); mm.style.left = Math.max(12, r.left - 12) + 'px'; mm.style.top = (r.bottom + 10) + 'px'; mm.classList.add('on');
   }
   function wireMenu(){
+    return;   /* menu tiklaninca direkt kategori sayfasi acilsin, acilir panel yok */
     if (window.innerWidth < 1024) return;
     [].forEach.call(document.querySelectorAll('a[href]'), function(a){
       var k = MMK[a.getAttribute('href')]; if (!k || a.getAttribute('data-bg26mm')) return;
@@ -541,11 +542,13 @@
     if (host) { if (grid && !grid.classList.contains('bg27-ikas')) grid.classList.add('bg27-ikas'); return; }
     var bar = document.querySelector('.bg26-bar'); if (!bar || !grid) return;
     var c = CATS[ci.k], bn = brandOf(ci.on, c);
-    var base = ALL.filter(function(d){ return d.t === ci.k && inBrand(d, bn); });
-    if (!base.length) return;
+    /* base = kategorinin TUM markalari; marka filtresi st.brand ile list() icinde (cip ile marka degisince bos kalmasin) */
+    var base = ALL.filter(function(d){ return d.t === ci.k; });
+    if (!base.filter(function(d){ return inBrand(d, bn); }).length) return;
     document.documentElement.classList.add('bg27-on'); grid.classList.add('bg27-ikas');
     var st = { q: '', sort: 'pop', n: LIMIT, brand: bn };
-    var TOPSET = {}; base.slice().sort(SORTS.pop[1]).slice(0, Math.min(12, Math.ceil(base.length / 6))).forEach(function(d){ TOPSET[d.s] = 1; });
+    var TOPS = {};
+    function topset(b){ if (!TOPS[b]) { var l = base.filter(function(d){ return inBrand(d, b); }), t = {}; l.slice().sort(SORTS.pop[1]).slice(0, Math.min(12, Math.ceil(l.length / 6))).forEach(function(d){ t[d.s] = 1; }); TOPS[b] = t; } return TOPS[b]; }
     host = document.createElement('section'); host.className = 'bg27'; host.setAttribute('aria-label', TYPE[ci.k] + ' kaplama modelleri');
     host.innerHTML = '<div class="bg27-h"><h1>' + esc((bn ? bn + ' ' : '') + TYPE[ci.k]) + ' kaplama<small></small></h1>' +
       '<div class="bg27-tools"><input class="bg27-in" type="search" placeholder="Model ara: ' + (ci.k === 'L' ? '24-70, 50mm, 70-200…' : ci.k === 'K' ? 'A7 IV, R6, Z6 III…' : ci.k === 'D' ? 'Mini 4 Pro, Air 3S…' : ci.k === 'G' ? 'RS 4, Weebill…' : 'Pocket 3, Hero…') + '" autocomplete="off" aria-label="Model ara">' +
@@ -572,7 +575,7 @@
       return l;
     }
     function card(d, i){
-      var cv = COVERS[(i + ALL.indexOf(d)) % COVERS.length], top = !!TOPSET[d.s], nw = !top && NEW.test(d.m) && rank(d) > 0;
+      var cv = COVERS[(i + ALL.indexOf(d)) % COVERS.length], top = !!topset(st.brand)[d.s], nw = !top && NEW.test(d.m) && rank(d) > 0;
       return '<a class="bg27-c" href="/' + d.s + '?desen=' + cv + '"><span class="im">' + (top ? '<span class="tag">POPÜLER</span>' : nw ? '<span class="tag nw">YENİ MODEL</span>' : '') + '<img loading="lazy" decoding="async" src="' + img(d, cv) + '" alt="' + esc(d.b + ' ' + d.m) + ' ' + esc(DSLUG[cv] || '') + ' kaplama"></span>' +
         '<span class="tx"><span class="ty">' + TYPE[d.t] + ' · ' + esc(d.b) + '</span><span class="nm">' + esc(d.m) + '</span><span class="pr">' + fmt(d.p) + '<small>39 desen · önizlemeli</small></span><span class="go">Desen seç →</span></span></a>';
     }
@@ -599,6 +602,7 @@
       st.brand = nb; st.n = LIMIT; draw();
       [].forEach.call(bar.querySelectorAll('.bg26-chips a'), function(x){ x.classList.toggle('on', x === a); });
       host.querySelector('h1').firstChild.textContent = (nb ? nb + ' ' : '') + TYPE[ci.k] + ' kaplama';
+      var cd = document.querySelector('.bg26-catdesc'); if (cd) cd.style.display = nb === bn ? '' : 'none';   /* ikas aciklamasi ilk acilan markaya ait */
       try { history.replaceState(null, '', '/' + sl); } catch (x) {}
       window.scrollTo({ top: host.getBoundingClientRect().top + window.pageYOffset - 90, behavior: 'smooth' });
     }, true);

@@ -339,11 +339,11 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
   (document.head || document.documentElement).appendChild(st3);
 
   var CATS = [
-    ['kamera', 'Kamera', 'Sony, Canon, Nikon, Fujifilm', '/betaguard-kaplama?tur=Kamera'],
-    ['lens', 'Lens', 'Sony, Canon, Sigma, Tamron', '/betaguard-kaplama?tur=Lens'],
-    ['drone', 'Drone', 'DJI Mini, Air, Mavic, Avata', '/betaguard-kaplama?tur=Drone'],
-    ['gimbal', 'Gimbal', 'DJI RS, Zhiyun', '/betaguard-kaplama?tur=Gimbal'],
-    ['aksiyon', 'Aksiyon Kamera', 'Osmo Pocket, GoPro, Insta360', '/betaguard-kaplama?tur=Aksiyon%20Kamera']
+    ['kamera', 'Kamera', 'Sony, Canon, Nikon, Fujifilm', '/kamera'],
+    ['lens', 'Lens', 'Sony, Canon, Sigma, Tamron', '/lens'],
+    ['drone', 'Drone', 'DJI Mini, Air, Mavic, Avata', '/drone'],
+    ['gimbal', 'Gimbal', 'DJI RS, Zhiyun', '/gimbal'],
+    ['aksiyon', 'Aksiyon Kamera', 'Osmo Pocket, GoPro, Insta360', '/aksiyon-kamera']
   ];
   var MLIST = null;
   function models() {
@@ -855,7 +855,7 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     var as = document.querySelectorAll('a[href]');
     for (var i = 0; i < as.length; i++) {
       var a = as[i]; if (a.hasAttribute('data-bg-href')) continue;
-      var m = (a.getAttribute('href') || '').match(/^(?:https?:\/\/[^\/]+)?\/(seriler|kamera|lens|drone|gimbal|aksiyon-kamera)\/?$/);
+      var m = (a.getAttribute('href') || '').match(/^(?:https?:\/\/[^\/]+)?\/(seriler)\/?$/);   /* kategoriler kendi ikas sayfasina gider */
       if (!m) continue;
       var to = KAPLAMA_URL + (NAVMAP[m[1]] ? '?tur=' + NAVMAP[m[1]] : '');
       a.setAttribute('href', to); a.setAttribute('data-bg-href', to);
