@@ -180,6 +180,9 @@
     '.bg27-c .nm{font:700 15px/1.3 Manrope,sans-serif;color:#F2F0EB;min-height:2.6em}',
     '.bg27-c .pr{display:flex;justify-content:space-between;align-items:center;margin-top:4px;font:800 15px Manrope,sans-serif;color:#F2F0EB}',
     '.bg27-c .pr small{font:500 11.5px Manrope,sans-serif;color:#9AE6B4}',
+    '.bg27-c .pr{white-space:nowrap}',
+    'html.bg-cart-open .bg-wa,html.bg-cart-open .bg-kt-pill{display:none!important}',
+    '@media(max-width:640px){.bg27-c .pr{flex-direction:column;align-items:flex-start;gap:2px}.bg27-c .pr small{font-size:11px}}',
     '.bg27-c .go{margin-top:10px;padding:10px 12px;border-radius:999px;border:1px solid #3A383F;text-align:center;font:700 13px Manrope,sans-serif;color:#F2F0EB;transition:background .2s,color .2s,border-color .2s}',
     '.bg27-c:hover .go{background:#C9A45C;border-color:#C9A45C;color:#141210}',
     '.bg27-more{display:flex;justify-content:center;gap:10px;margin:22px 0 0}',
@@ -230,12 +233,12 @@
       '<input class="bg26-in" type="search" placeholder="Model yaz: A7 IV, R6 Mark II, Mini 4 Pro, 24-70…" autocomplete="off">' +
       '<div class="bg26-tabs">' + [['', 'Tümü'], ['K', 'Kamera'], ['L', 'Lens'], ['D', 'Drone'], ['A', 'Aksiyon'], ['G', 'Gimbal']].map(function(t){ return '<button data-t="' + t[0] + '"' + (t[0] === tp ? ' class="on"' : '') + '>' + t[1] + '</button>'; }).join('') + '</div></div>' +
       '<div class="bg26-list"></div>' +
-      '<div class="bg26-md-f">Cihazın listede yok mu? <a href="/betaguard-kaplama' + (dn ? '?desen=' + dn : '') + '">800+ modelin hepsine buradan sipariş ver</a> ya da <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan yaz</a>.</div></div>';
+      '<div class="bg26-md-f">Cihazın listede yok mu? <a href="/betaguard-kaplama' + (dn ? '?desen=' + dn : '') + '">780+ modelin hepsine buradan sipariş ver</a> ya da <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan yaz</a>.</div></div>';
     document.body.appendChild(ov);
     var inp = ov.querySelector('.bg26-in'), list = ov.querySelector('.bg26-list');
     function render(){
       var r = find(inp.value, tp);
-      if (!r.length) { list.innerHTML = '<div class="bg26-empty">Bu aramayla eşleşen önizlemeli ilan yok. Aşağıdaki bağlantıdan 800+ model arasından seçebilir ya da bize yazabilirsin.</div>'; return; }
+      if (!r.length) { list.innerHTML = '<div class="bg26-empty">Bu aramayla eşleşen önizlemeli ilan yok. Aşağıdaki bağlantıdan 780+ model arasından seçebilir ya da bize yazabilirsin.</div>'; return; }
       var html = '', last = '';
       r.slice(0, 120).forEach(function(d){
         var g = TYPE[d.t] + ' · ' + d.b;
@@ -497,6 +500,8 @@
   /* ---------- sepet cekmecesi: setini tamamla ---------- */
   function cartUpsell(){
     var head = [].slice.call(document.querySelectorAll('.rich-text')).find(function(e){ return e.children.length === 0 && /^Alışveriş Sepetim/.test(e.textContent.trim()); });
+    var hv = !!(head && head.getBoundingClientRect().width > 0 && head.getBoundingClientRect().right > 0 && head.getBoundingClientRect().left < window.innerWidth);
+    document.documentElement.classList.toggle('bg-cart-open', hv);
     if (!head) { var old = document.querySelector('.bg26-cart'); if (old) old.remove(); return; }
     var root = head; for (var i = 0; i < 8 && root; i++) { root = root.parentElement; var r = root.getBoundingClientRect(); if (r.width > 300 && r.height > 400) break; }
     if (!root) return;
@@ -550,10 +555,18 @@
   var LIMIT = 24;
   function brandOf(sl, c){ var s = c.subs.filter(function(x){ return x[1] === sl; })[0]; return s ? s[0] : ''; }
   function inBrand(d, bn){ return !bn || d.b === bn || (bn === 'DJI Osmo' && d.b === 'DJI'); }
+  /* ikas'in kendi siralama/filtre cubugu bizim izgarada ise yaramiyor: her genislikte gizle */
+  function hideTb(){
+    [].forEach.call(document.querySelectorAll('div,span,button'), function(e){
+      if (e.children.length || !/^(Öne Çıkanlar|Filtreler)$/.test(e.textContent.trim()) || e.offsetHeight <= 0 || e.closest('.bg27,.bg26-bar,header')) return;
+      var r = e; for (var i = 0; i < 6 && r.parentElement; i++) { var p = r.parentElement; if (/Öne Çıkanlar/.test(p.textContent) && /Filtreler/.test(p.textContent) && p.textContent.trim().length < 60) r = p; else break; }
+      if (!r.classList.contains('bg27-ikas')) r.classList.add('bg27-ikas');
+    });
+  }
   function smartGrid(grid){
     var ci = catInfo(); if (!ci) return;
     var host = document.querySelector('.bg27');
-    if (host) { if (grid && !grid.classList.contains('bg27-ikas')) grid.classList.add('bg27-ikas'); return; }
+    if (host) { if (grid && !grid.classList.contains('bg27-ikas')) grid.classList.add('bg27-ikas'); hideTb(); return; }
     var bar = document.querySelector('.bg26-bar'); if (!bar || !grid) return;
     var c = CATS[ci.k], bn = brandOf(ci.on, c);
     /* base = kategorinin TUM markalari; marka filtresi st.brand ile list() icinde (cip ile marka degisince bos kalmasin) */

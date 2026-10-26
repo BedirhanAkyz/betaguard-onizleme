@@ -381,9 +381,9 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
         '<h1>Tek desen.<br>Tek karakter.</h1>' +
         '<p>Kamera, lens, drone ve gimbal için cihazına özel kesilmiş, çizilmeye karşı koruyan ve iz bırakmadan sökülen kaplamalar.</p>' +
         '<div class="bg-btns"><a class="bg-pill" href="/betaguard-kaplama">Serileri keşfet</a><a class="bg-pill o" href="#bg-find">Cihazını seç</a></div>' +
-        '<div class="bg-facts"><span>9 desen serisi</span><span>800+ model</span><span>1-2 iş gününde kargoda</span></div>' +
+        '<div class="bg-facts"><span>9 desen serisi</span><span>780+ model</span><span>1-2 iş gününde kargoda</span></div>' +
       '</div><div class="bg-hero-r"><img alt="Betaguard kaplamalı kamera, drone ve aksesuarlar" src="' + img + '"></div></section>' +
-      '<section class="bg-find" id="bg-find" data-bg="find"><div class="bg-find-h"><div><span class="bg-eyebrow">CİHAZINI SEÇ</span><h2>Cihazın için kaplama bul</h2></div><small>800+ kamera, lens, drone ve gimbal modeli</small></div>' +
+      '<section class="bg-find" id="bg-find" data-bg="find"><div class="bg-find-h"><div><span class="bg-eyebrow">CİHAZINI SEÇ</span><h2>Cihazın için kaplama bul</h2></div><small>780+ kamera, lens, drone ve gimbal modeli</small></div>' +
         '<div class="bg-cats">' + cats + '</div>' +
         '<div class="bg-srch"><label for="bg-q" style="position:absolute;width:1px;height:1px;overflow:hidden">Model ara</label><input id="bg-q" type="text" autocomplete="off" placeholder="Model ara: ZV-E10, Avata 2, X-S20…"><a class="bg-go" href="/betaguard-kaplama">Desenleri gör</a><div class="bg-sugg"></div></div>' +
         '<div class="bg-res"></div>' +
