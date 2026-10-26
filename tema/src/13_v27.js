@@ -6,8 +6,8 @@
 
   var RC = [
     { f: 'drone-dji-rc-n1-n2-n3', t: 'DJI RC-N1 / N2 / N3', n: 'RC-N1 / N2 / N3', s: 'Telefonlu kumanda' },
-    { f: 'drone-dji-rc',          t: 'DJI RC',              n: 'DJI RC',          s: 'Ekranli kumanda' },
-    { f: 'drone-dji-rc-pro',      t: 'DJI RC Pro',          n: 'DJI RC Pro',      s: 'Ekranli pro kumanda' }
+    { f: 'drone-dji-rc',          t: 'DJI RC',              n: 'DJI RC',          s: 'Ekranlı kumanda' },
+    { f: 'drone-dji-rc-pro',      t: ['DJI RC 2', 'DJI RC Pro'], n: 'DJI RC 2',     s: 'Ekranlı kumanda' }
   ];
   var NONE = 'İstemiyorum';   /* "Istemiyorum · sadece drone" degerinin basi */
   var EK = 1000;
@@ -64,9 +64,11 @@
     return null;
   }
   function optByText(sel, txt){
-    for (var i = 0; i < sel.options.length; i++) if (sel.options[i].text.trim() === txt) return sel.options[i];
+    var ts = [].concat(txt);
+    for (var j = 0; j < ts.length; j++) for (var i = 0; i < sel.options.length; i++) if (sel.options[i].text.trim() === ts[j]) return sel.options[i];
     return null;
   }
+  function isT(r, txt){ return [].concat(r.t).indexOf(txt) >= 0; }
   function optNone(sel){
     for (var i = 0; i < sel.options.length; i++) if (sel.options[i].text.indexOf(NONE) === 0) return sel.options[i];
     return null;
@@ -105,7 +107,7 @@
   function render(box, sel){
     var cur = curText(sel);
     var isNone = cur.indexOf(NONE) === 0;
-    var model = null; RC.forEach(function(r){ if (r.t === cur) model = r; });
+    var model = null; RC.forEach(function(r){ if (isT(r, cur)) model = r; });
     var withRc = !!model;
     window.__bgKumEk = withRc ? EK : 0;   /* 00_main buton fiyatina ekler */
     var ds = desen();
