@@ -3387,14 +3387,7 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
   if (window.__bgSlider) return; window.__bgSlider = 1;
   var B = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@ccda2a65/img/site/';
   var S = [
-    ['hero.webp', 'Kaplamalı Sony FX3 ve diğer cihazlar'],
-    ['hero2.webp', 'Kaplamalı aksiyon kameralar ve drone kumandası'],
-    ['hero3.webp', 'Kaplamalı DJI Avata'],
-    ['hero4.webp', 'Kaplamalı fotoğraf makinesi ve lens'],
-    ['hero5.webp', 'Devre desenli kamera ve lens kaplaması'],
-    ['hero6.webp', 'Mavi kamuflaj drone kaplaması'],
-    ['hero7.webp', 'Yeşil kamuflaj mini drone kaplaması'],
-    ['hero8.webp', 'Mavi hexagonal kamera kaplaması']
+    ['hero7.webp', 'Yeşil kamuflaj mini drone kaplaması']
   ];
   var css = [
     '.bg-sl{position:relative;width:100%;aspect-ratio:1/1;max-height:620px;border-radius:20px;overflow:hidden;background:#141416}',
@@ -3433,6 +3426,7 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     var x0 = null;
     box.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
     box.addEventListener('touchend', function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) { go(cur + (dx < 0 ? 1 : -1)); play(); } x0 = null; });
+    if (S.length < 2) { box.querySelector('.bg-sl-d').style.display = 'none'; box.querySelectorAll('.bg-sl-a').forEach(function (b) { b.style.display = 'none'; }); return; }
     imgs[1].loading = 'eager';
     play();
   }
