@@ -808,7 +808,7 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     for (var i = 0; i < all.length; i++) {
       var e = all[i]; if (e.children.length) continue; var tx = txt(e);
       if (p && tx === p.name && !e.closest('[data-bg-spacer]')) tag(e, 'data-bg-ptitle');
-      else if (/^₺\s?[\d.,]+$/.test(tx) && !info.querySelector('[data-bg-pprice]') && !e.closest('.pcz')) tag(e, 'data-bg-pprice');
+      else if (/^(₺\s?[\d.,]+|[\d.,]+\s?₺)$/.test(tx) && !info.querySelector('[data-bg-pprice]') && !e.closest('.pcz')) tag(e, 'data-bg-pprice');
     }
     var c = leafText('Sepete Ekle', info) || leafText('Tükendi', info); if (c && c.parentElement) tag(c.parentElement, 'data-bg-pcart');
     var lab = document.querySelector('.bg-dev label'); if (lab) { var n = (PP.series !== null && ppState.S.list[PP.series].colors.length > 1 ? 3 : 2) + '. Cihazın'; if (lab.textContent !== n) lab.textContent = n; }
@@ -1235,7 +1235,7 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     ].join('');
     document.head.appendChild(cs);
   }
-  function fmt(t){ var m = String(t).trim().match(/^₺\s*([\d,]+)\.(\d\d)$/); if (!m) return null; return m[1].replace(/,/g, '.') + (m[2] !== '00' ? ',' + m[2] : '') + ' ₺'; }
+  function fmt(t){ var s0 = String(t).trim(), n = s0.match(/^([\d.]+(?:,\d\d)?)\s?₺$/); if (n) return n[1] + ' ₺'; var m = s0.match(/^₺\s*([\d,]+)\.(\d\d)$/); if (!m) return null; return m[1].replace(/,/g, '.') + (m[2] !== '00' ? ',' + m[2] : '') + ' ₺'; }
   function setImg(b, id, sz){ var im = b.querySelector('img'); if (!im || !id) return; var s = u(id, sz); if (im.getAttribute('src') !== s) { im.removeAttribute('srcset'); im.setAttribute('src', s); } b.classList.add('bg-sw'); }
   function cartLeaf(){ return [].slice.call(document.querySelectorAll('.rich-text,button')).find(function(x){ return x.children.length === 0 && /^Sepete Ekle$/i.test(x.textContent.trim()) && !(window.bgInFx && window.bgInFx(x)); }); }
   function devSel(){ var f = [].slice.call(document.querySelectorAll('.pcz-field')).find(function(x){ var l = x.querySelector('.pcz-label'); return l && /Cihaz t/i.test(l.textContent); }); return f ? f.querySelector('select') : null; }
@@ -1289,8 +1289,8 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     });
     var sel = devSel();
     document.documentElement.classList.toggle('bg-hasprice', !!((sel && sel.value) || (window.__bgIsDev && window.__bgIsDev())));
-    [].forEach.call(document.querySelectorAll('.pcz-price'), function(p){ if (/₺\s*0[.,]00/.test(p.textContent)) p.setAttribute('data-bg-zero','1'); else p.removeAttribute('data-bg-zero'); });
-    [].forEach.call(document.querySelectorAll('a[href*="betaguard-kaplama"] .rich-text'), function(x){ if (/^₺/.test(x.textContent.trim()) && !x.closest('[data-bg-pprice]')) x.setAttribute('data-bg-cprice','1'); });
+    [].forEach.call(document.querySelectorAll('.pcz-price'), function(p){ var zt = p.textContent.trim(); if (/₺\s*0[.,]00/.test(zt) || /^\+?\s?0(,00)?\s?₺$/.test(zt)) p.setAttribute('data-bg-zero','1'); else p.removeAttribute('data-bg-zero'); });
+    [].forEach.call(document.querySelectorAll('a[href*="betaguard-kaplama"] .rich-text'), function(x){ if (/^₺|₺$/.test(x.textContent.trim()) && !x.closest('[data-bg-pprice]')) x.setAttribute('data-bg-cprice','1'); });
     var pr = document.querySelector('[data-bg-pprice]'), val = null;
     if (pr) { var f = fmt(pr.textContent); if (f) pr.textContent = f; val = /₺/.test(pr.textContent) ? pr.textContent.trim() : null; }
     /* v27: kumanda secildiyse buton fiyati toplami gostersin */
