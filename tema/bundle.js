@@ -380,7 +380,7 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
       return '<a class="bg-cat" href="' + c[3] + '">' + SIL[c[0]].replace('<svg ', '<svg aria-hidden="true" ') + '<b>' + c[1] + '</b><span>' + c[2] + '</span></a>';
     }).join('');
     return '<section class="bg-hero" data-bg="hero"><div class="bg-hero-l">' +
-        '<div class="bg-tag"><b>YENİ</b>TACTICAL SERİSİ</div>' +
+        '' +
         '<h1>Tek desen.<br>Tek karakter.</h1>' +
         '<p>Kamera, lens, drone ve gimbal için cihazına özel kesilmiş, çizilmeye karşı koruyan ve iz bırakmadan sökülen kaplamalar.</p>' +
         '<div class="bg-btns"><a class="bg-pill" href="/betaguard-kaplama">Serileri keşfet</a><a class="bg-pill o" href="#bg-find">Cihazını seç</a></div>' +
