@@ -113,12 +113,12 @@
       (isNone ? 'Sadece drone' : model ? esc(model.n) : 'Seçim zorunlu') + '</em></div>';
     h += '<div class="bg27k-g">' +
       '<button type="button" class="bg27k-b' + (isNone ? ' on' : '') + '" data-k="none"><b>Sadece drone</b><small>Kumanda kaplaması yok</small></button>' +
-      '<button type="button" class="bg27k-b' + (withRc ? ' on' : '') + '" data-k="rc"><b>Drone + kumanda</b><small>+' + fmt(EK) + ' · tek başına ' + fmt(1500) + '</small></button>' +
+      '<button type="button" class="bg27k-b' + (withRc ? ' on' : '') + '" data-k="rc"><b>Drone + kumanda</b><small>+' + fmt(EK) + '</small></button>' +
       '</div>';
     if (withRc) {
       h += '<div class="bg27k-m">' + RC.map(function(r){
         return '<button type="button" class="bg27k-c' + (model && model.f === r.f ? ' on' : '') + '" data-m="' + r.f + '">' +
-          '<span class="im"><img loading="lazy" src="' + imgUrl(r.f, ds) + '" alt="' + esc(r.n + ' ' + ds) + ' kaplama"></span>' +
+          '<span class="im"><img decoding="async" src="' + imgUrl(r.f, ds) + '" alt="' + esc(r.n + ' ' + ds) + ' kaplama"></span>' +
           '<b>' + esc(r.n) + '</b><small>' + esc(r.s) + '</small></button>';
       }).join('') + '</div>';
       var dv = api().cur();

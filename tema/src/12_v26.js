@@ -192,8 +192,13 @@
     /* gimbal (henuz ilan yok) ve fazla bolumler */
     '[data-bg-wall]{display:none!important}',
     /* urun sayfasi kargo satiri */
-    '.bg26-ship{display:flex;flex-wrap:wrap;gap:6px 14px;margin:8px 0 4px;font:500 12.5px/1.5 Manrope,sans-serif;color:#A9A59D}',
-    '.bg26-ship span{display:inline-flex;align-items:center;gap:6px}.bg26-ship b{color:#E7E4DE;font-weight:600}',
+    '.bg26-ship{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 6px;font-family:Manrope,sans-serif}',
+    '.bg26-ship>div{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid #26252A;border-radius:12px;background:#141316;min-width:0}',
+    '.bg26-ship svg{flex:none;width:18px;height:18px;color:#E2C285}',
+    '.bg26-ship span{display:flex;flex-direction:column;min-width:0}',
+    '.bg26-ship b{font:700 12.5px/1.25 Manrope,sans-serif;color:#F2EFEA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+    '.bg26-ship small{font:500 11px/1.3 Manrope,sans-serif;color:#9C988F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+    '@media(max-width:420px){.bg26-ship{gap:6px}.bg26-ship>div{flex-direction:column;align-items:flex-start;gap:5px;padding:8px 9px}.bg26-ship b{font-size:12px}}',
     /* sepet cekmecesi: setini tamamla */
     '.bg26-cart{margin:14px 0 6px;padding:14px;border:1px solid #2A292E;border-radius:14px;background:#141416;font-family:Manrope,sans-serif}',
     '.bg26-cart-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}',
@@ -351,8 +356,14 @@
     [].forEach.call(document.querySelectorAll('[data-bg-pinfo] li'), function(li){ if (/Drone siparişlerinde/.test(li.textContent)) li.classList.toggle('bg26-nodrone', dev.t !== 'D'); });
     var rep = document.querySelector('.bg-rep');
     var sp = rep && (rep.querySelector('p') || rep.lastElementChild);
-    if (sp && sp.getAttribute('data-bg26') !== dev.s) { sp.setAttribute('data-bg26', dev.s); sp.innerHTML = '<b>Görseller ' + esc(dev.b + ' ' + dev.m) + ' üzerinde hazırlandı.</b> Desen yerleşimi üretimde cihazın yüzeyine göre küçük farklılıklar gösterebilir; renkler ekran ayarına göre değişebilir.'; }
-    else if (sp && !/üzerinde hazırlandı/.test(sp.textContent)) { sp.innerHTML = '<b>Görseller ' + esc(dev.b + ' ' + dev.m) + ' üzerinde hazırlandı.</b> Desen yerleşimi üretimde cihazın yüzeyine göre küçük farklılıklar gösterebilir; renkler ekran ayarına göre değişebilir.'; }
+    if (sp && sp.getAttribute('data-bg26') !== dev.s + '2') { sp.setAttribute('data-bg26', dev.s + '2'); sp.innerHTML = repTxt(dev); }
+    else if (sp && !/üzerinde hazırlandı/.test(sp.textContent)) { sp.innerHTML = repTxt(dev); }
+  }
+  function repTxt(dev){
+    var yuz = (dev.t === 'K' || dev.t === 'L' || dev.t === 'A')
+      ? ' Cihazın <b>plastik ve kauçuk</b> kısımlarına <b>siyah dokulu</b> kaplama, <b>metal</b> kısımlarına seçtiğin desen uygulanır.'
+      : '';
+    return '<b>Görseller ' + esc(dev.b + ' ' + dev.m) + ' üzerinde hazırlandı.</b>' + yuz + ' Görseller temsilidir; desen yerleşimi üretimde küçük farklılıklar gösterebilir, renkler ekran ayarına göre değişebilir.';
   }
   function devPage(){
     var dev = cur(); if (!dev) return;
@@ -477,7 +488,10 @@
   function shipLine(dev){
     var pr = document.querySelector('[data-bg-pprice]'); if (!pr || document.querySelector('.bg26-ship')) return;
     var el = document.createElement('div'); el.className = 'bg26-ship';
-    el.innerHTML = '<span>🚚 <b>' + (dev.p >= 2000 ? 'Kargo ücretsiz' : '2.000 ₺ üzeri kargo ücretsiz') + '</b>' + (dev.p >= 2000 ? '' : ' · altında 200 ₺') + '</span><span>⏱ Bugün sipariş ver, <b>1-2 iş gününde</b> kargoda</span><span>🎁 Uygulama seti hediye</span>';
+    var IC = {kargo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v9H3z"/><path d="M14 9h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>', saat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>', hed: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M3.5 13h17M12 9v11"/><path d="M12 9c-2.5 0-4.5-1-4.5-2.7S9.6 4 12 9zM12 9c2.5 0 4.5-1 4.5-2.7S14.4 4 12 9z"/></svg>'};
+    el.innerHTML = '<div>' + IC.kargo + '<span><b>' + (dev.p >= 2000 ? 'Kargo ücretsiz' : 'Kargo 200 ₺') + '</b><small>' + (dev.p >= 2000 ? 'Aras Kargo ile' : '2.000 ₺ üzeri ücretsiz') + '</small></span></div>' +
+      '<div>' + IC.saat + '<span><b>1-2 iş günü</b><small>içinde kargoda</small></span></div>' +
+      '<div>' + IC.hed + '<span><b>Uygulama seti</b><small>hediye</small></span></div>';
     pr.parentNode.insertBefore(el, pr.nextSibling);
   }
   /* ---------- sepet cekmecesi: setini tamamla ---------- */

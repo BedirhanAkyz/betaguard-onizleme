@@ -564,6 +564,10 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
       if (!map[sName]) { map[sName] = { name: sName, colors: [] }; order.push(sName); }
       map[sName].colors.push({ id: val.id, name: val.name, imgs: byVal[val.id] || [] });
     });
+    /* seri sirasi (Bedirhan'in katalog sirasi); listede olmayan seri sona, kendi sirasiyla */
+    var RANK = ['royal', 'carbon', 'lego', 'line', 'tactical', 'mono', 'topografik', 'nexus', 'hexagonal'];
+    var rk = function (n) { var i = RANK.indexOf(n.toLowerCase()); return i < 0 ? 99 : i; };
+    order = order.map(function (k, i) { return [k, i]; }).sort(function (a, b) { return (rk(a[0]) - rk(b[0])) || (a[1] - b[1]); }).map(function (x) { return x[0]; });
     return { vt: vt, list: order.map(function (k) { return map[k]; }) };
   }
 
