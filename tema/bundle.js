@@ -864,7 +864,7 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
       var a = as[i]; if (a.hasAttribute('data-bg-href')) continue;
       var m = (a.getAttribute('href') || '').match(/^(?:https?:\/\/[^\/]+)?\/(seriler)\/?$/);   /* kategoriler kendi ikas sayfasina gider */
       if (!m) continue;
-      var to = KAPLAMA_URL + (NAVMAP[m[1]] ? '?tur=' + NAVMAP[m[1]] : '');
+      var to = '/#desenler';   /* Seriler: her zaman ana sayfadaki seri modulu */
       a.setAttribute('href', to); a.setAttribute('data-bg-href', to);
     }
     if (isHome()) {
@@ -880,7 +880,13 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
   }
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[data-bg-href]'); if (!a || e.ctrlKey || e.metaKey || e.shiftKey) return;
-    e.preventDefault(); e.stopPropagation(); location.href = a.getAttribute('data-bg-href');
+    e.preventDefault(); e.stopPropagation();
+    var to = a.getAttribute('data-bg-href');
+    if (to === '/#desenler') {
+      var sec = document.querySelector('[data-bg-desen]');
+      if (sec && location.pathname === '/') { sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); try { history.replaceState(null, '', '/#desenler'); } catch (x) {} return; }
+    }
+    location.href = to;
   }, true);
 
   /* ---------- v8: Instagram section (Behold JSON feed) in place of the old "Seriler" slider ---------- */
