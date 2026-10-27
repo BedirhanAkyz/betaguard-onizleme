@@ -19,8 +19,10 @@ function analyze(bm){
   // simetri: yatay eksen ve dikey eksen etrafinda
   let sh=0,sv=0,tot=0;for(let j=y0;j<=y1;j++)for(let i=x0;i<=x1;i++){if(!m[j*W+i])continue;tot++;const jj=y0+y1-j,ii=x0+x1-i;if(m[jj*W+i])sh++;if(m[j*W+ii])sv++}
   sh/=tot;sv/=tot;
+  const stepm=(axis)=>{let prev=-1,ok=0,cnt=0;const N=axis?bh:bw;for(let t=0;t<N;t++){let c=0;if(axis){const j=y0+t;for(let i=x0;i<=x1;i++)c+=m[j*W+i]}else{const i=x0+t;for(let j=y0;j<=y1;j++)c+=m[j*W+i]}if(prev>=0){cnt++;if(Math.abs(c-prev)<=1)ok++}prev=c}return cnt?ok/cnt:0};
+  const st=Math.max(stepm(0),stepm(1));
   const fill=tot/(bw*bh);const touch=(x0<=1||y0<=1||x1>=W-2||y1>=H-2);
-  return {bgL,bgdev,sat,sh,sv,fill,asp:bw/bh,touch,cov:bw*bh/(W*H)};
+  return {bgL,bgdev,sat,sh,sv,st,fill,asp:bw/bh,touch,cov:bw*bh/(W*H)};
 }
 async function search(q){
   const r=await fetch('/images/search?q='+encodeURIComponent(q)+'&form=HDRSC2&first=1');const t=await r.text();
@@ -31,7 +33,7 @@ async function pick(id,q,opts={}){
   const C=(await search(q)).filter(m=>!BADHOST.test(m.murl)&&!BADHOST.test(m.purl||'')).slice(0,opts.k||18);
   const sc=[];
   await Promise.all(C.map(async(m,i)=>{try{const b=await (await fetch(m.turl)).blob();const bm=await createImageBitmap(b);const a=analyze(bm);if(!a)return;
-     const sym=Math.max(a.sh,a.sv);let s=sym*1.0 - Math.max(0,a.sat-0.18)*2 - (a.bgL<200?0.3:0) - Math.min(a.bgdev/100,0.3) - (a.touch?0.15:0) - (a.fill<0.55?0.2:0);
+     const sym=Math.max(a.sh,a.sv);let s=sym*0.5+a.st*1.5 - Math.max(0,a.sat-0.18)*2 - (a.bgL<200?0.3:0) - Math.min(a.bgdev/100,0.3) - (a.touch?0.15:0) - (a.fill<0.55?0.2:0);
      sc.push({i,m,a,s,tw:bm.width,th:bm.height})}catch(e){}}));
   sc.sort((x,y)=>y.s-x.s);
   for(const c of sc.slice(0,6)){
@@ -44,6 +46,27 @@ async function pick(id,q,opts={}){
   window.__P[id]={cands:sc.slice(0,6).map(c=>({u:c.m.murl,s:c.s,t:c.m.turl}))};
   return {id,ok:0,best:sc[0]?+sc[0].s.toFixed(2):null};
 }
+async function cands(id,q,opts={}){
+  const C=(await search(q)).filter(m=>!BADHOST.test(m.murl)&&!BADHOST.test(m.purl||'')).slice(0,opts.k||24);
+  const sc=[];
+  await Promise.all(C.map(async(m,i)=>{try{const b=await (await fetch(m.turl)).blob();const bm=await createImageBitmap(b);const a=analyze(bm);if(!a)return;
+     const sym=Math.max(a.sh,a.sv);let s=sym*0.5+a.st*1.5 - Math.max(0,a.sat-0.18)*2 - (a.bgL<200?0.3:0) - Math.min(a.bgdev/100,0.3) - (a.touch?0.15:0);
+     sc.push({m,a,s,tb:b})}catch(e){}}));
+  sc.sort((x,y)=>y.s-x.s);const out=[];
+  for(const c of sc){if(out.length>=(opts.n||5))break;let blob=null,w=0,h=0;
+    try{const r=await fetch(c.m.murl,{mode:'cors'});if(r.ok){const b=await r.blob();const bm=await createImageBitmap(b);if(Math.max(bm.width,bm.height)>=650){blob=b;w=bm.width;h=bm.height}}}catch(e){}
+    if(blob)out.push({murl:c.m.murl,purl:c.m.purl||'',blob,w,h,s:c.s,st:c.a.st});}
+  window.__C=window.__C||{};window.__C[id]={q,c:out};return out.length;
+}
+async function csheet(ids){
+  const cw=230,chh=170,cols=5;const c=document.createElement('canvas');c.width=cw*cols+150;c.height=chh*ids.length;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.font='bold 15px sans-serif';
+  for(let r=0;r<ids.length;r++){const oy=r*chh;x.fillStyle='#000';const lab=ids[r];x.fillText(r+'',4,oy+20);x.font='11px sans-serif';const words=lab.split('-');let line='',ly=oy+40;for(const w of words){if((line+w).length>18){x.fillText(line,4,ly);ly+=13;line=''}line+=w+' '}x.fillText(line,4,ly);x.font='bold 15px sans-serif';
+    const L=(window.__C[lab]||{c:[]}).c;for(let k=0;k<L.length;k++){const ox=150+k*cw;x.strokeStyle='#bbb';x.strokeRect(ox,oy,cw,chh);const bm=await createImageBitmap(L[k].blob);const s=Math.min((cw-6)/bm.width,(chh-18)/bm.height);x.drawImage(bm,ox+3,oy+16,bm.width*s,bm.height*s);x.fillStyle='#c00';x.fillText(String.fromCharCode(97+k),ox+4,oy+14)}}
+  let d=document.getElementById('__sheet');if(!d){d=document.createElement('div');d.id='__sheet';d.style.cssText='position:fixed;inset:0;z-index:999999;background:#fff;overflow:auto';document.body.appendChild(d)}
+  d.innerHTML='';c.style.width='100%';d.appendChild(c);
+}
+async function choose(map){let n=0;for(const [id,k] of Object.entries(map)){const L=(window.__C[id]||{c:[]}).c;const i=k.charCodeAt(0)-97;if(!L[i])continue;const v=L[i];await dbPut(id,{blob:v.blob,murl:v.murl,purl:v.purl,w:v.w,h:v.h,score:v.s,q:window.__C[id].q});n++}return n}
+async function runC(list){window.__st='run';for(let i=0;i<list.length;i++){const [id,q]=list[i];try{await cands(id,q)}catch(e){}window.__st=(i+1)+'/'+list.length}window.__st='done'}
 async function sheet(ids){
   const all=await dbAll();const mp=Object.fromEntries(all);
   const cw=260,chh=200,cols=5;const rows=Math.ceil(ids.length/cols);const c=document.createElement('canvas');c.width=cw*cols;c.height=chh*rows;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.font='13px sans-serif';
@@ -69,6 +92,6 @@ async function zip(ids){
 }
 async function dlButton(name,ids){const b=await zip(ids);const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.textContent='INDIR '+name;a.id='__dl';a.style.cssText='position:fixed;left:20px;top:20px;z-index:9999999;background:red;color:#fff;font-size:40px;padding:20px';document.getElementById('__dl')?.remove();document.body.appendChild(a);return b.size}
 async function runBatch(list){window.__st='run';window.__res=[];for(const [id,q] of list){try{window.__res.push(await pick(id,q))}catch(e){window.__res.push({id,ok:0,err:String(e)})}window.__st=window.__res.length+'/'+list.length}window.__st='done'}
-Object.assign(window,{bgpick:pick,bgsheet:sheet,bgzip:zip,bgdl:dlButton,bgrun:runBatch,bgall:dbAll,bgdel:dbDel,bgput:dbPut,bgsearch:search,bganalyze:analyze});
+Object.assign(window,{bgcands:cands,bgcsheet:csheet,bgchoose:choose,bgrunc:runC,bgpick:pick,bgsheet:sheet,bgzip:zip,bgdl:dlButton,bgrun:runBatch,bgall:dbAll,bgdel:dbDel,bgput:dbPut,bgsearch:search,bganalyze:analyze});
 })();
 'ok'
