@@ -23,7 +23,7 @@
     if (!document.getElementById('bg-sl-css')) { var st = document.createElement('style'); st.id = 'bg-sl-css'; st.textContent = css; document.head.appendChild(st); }
     var box = document.createElement('div'); box.className = 'bg-sl';
     var h = '';
-    S.forEach(function (s, i) { var st0 = s[0].replace('.webp', ''); h += '<img alt="' + s[1] + '" width="1200" height="1200" decoding="async" src="' + B2 + st0 + '-900.webp" srcset="' + B2 + st0 + '-640.webp 640w, ' + B2 + st0 + '-900.webp 900w, ' + B + s[0] + ' 1200w" sizes="(max-width: 800px) 92vw, 620px"' + (i ? ' loading="lazy"' : ' fetchpriority="high"') + (i ? '' : ' class="on"') + '>'; });
+    S.forEach(function (s, i) { var st0 = s[0].replace('.webp', ''); h += '<img alt="' + s[1] + '" width="1200" height="1200" decoding="async" src="' + B2 + st0 + '-900.webp" srcset="' + B2 + st0 + '-640.webp 640w, ' + B2 + st0 + '-900.webp 900w" sizes="(max-width: 800px) 92vw, 620px"' + (i ? ' loading="lazy"' : ' fetchpriority="high"') + (i ? '' : ' class="on"') + '>'; });
     h += '<button class="bg-sl-a l" aria-label="Önceki">‹</button><button class="bg-sl-a r" aria-label="Sonraki">›</button><div class="bg-sl-d">';
     S.forEach(function (s, i) { h += '<button aria-label="' + (i + 1) + '. görsel"' + (i ? '' : ' class="on"') + '></button>'; });
     box.innerHTML = h + '</div>';

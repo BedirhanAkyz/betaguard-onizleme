@@ -359,7 +359,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function norm(q) { return q.toLowerCase().replace(/[^a-z0-9ğüşıöç]+/g, ''); }
 
   function heroImg() {
-    return 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@65b2a754/img/site/hero.webp';
+    return 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@__SHA__/img/site/hero7-900.webp';
     var h = document.querySelector('img[data-bg-hero]:not([data-bg-top] img)');
     if (!h) {
       var imgs = document.querySelectorAll('#app img');
