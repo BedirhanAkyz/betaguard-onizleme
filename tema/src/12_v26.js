@@ -12,7 +12,7 @@
     K: { root: 'kamera', subs: [['Sony','sony-kamera'],['Canon','canon-kamera'],['Nikon','nikon-kamera'],['Fujifilm','fujifilm-kamera'],['Panasonic','panasonic-kamera']] },
     L: { root: 'lens', subs: [['Sony','sony-lens'],['Canon','canon-lens'],['Nikon','nikon-lens'],['Fujifilm','fujifilm-lens'],['Sigma','sigma-lens']] },
     D: { root: 'drone', subs: [['DJI','dji-drone']] },
-    A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','dji-osmo']] },
+    A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','dji-osmo'],['GoPro','aksiyon-kamera#gopro'],['Insta360','aksiyon-kamera#insta360']] },
     G: { root: 'gimbal', subs: [] }
   };
   var TURCAT = { 'Kamera': '/kamera', 'Lens': '/lens', 'Drone': '/drone', 'Aksiyon Kamera': '/aksiyon-kamera', 'Gimbal': '/gimbal' };
@@ -377,7 +377,7 @@
   /* ---------- kategori sayfalari ---------- */
   function catInfo(){
     var p = location.pathname.replace(/^\/|\/$/g, '');
-    for (var k in CATS) { if (CATS[k].root === p) return { k: k, on: '' }; for (var i = 0; i < CATS[k].subs.length; i++) if (CATS[k].subs[i][1] === p) return { k: k, on: p }; }
+    for (var k in CATS) { if (CATS[k].root === p) { var hs = p + (location.hash || '').toLowerCase(); return { k: k, on: CATS[k].subs.some(function(x){ return x[1] === hs; }) ? hs : '' }; } for (var i = 0; i < CATS[k].subs.length; i++) if (CATS[k].subs[i][1] === p) return { k: k, on: p }; }
     return null;
   }
   function cardRoot(leaf){
