@@ -548,7 +548,30 @@
     if (/^(E |DX|XC|EF-S|EF |AF-S|AF-P|D\d{2,4}\b|NEX|Alpha A5|Coolpix|PowerShot|1[0-9]00D|Rebel)/.test(d.m)) r -= 4;
     return r;
   }
-  var SORTS = { pop: ['Popüler', function(a, b){ return rank(b) - rank(a) || a.b.localeCompare(b.b) || a.m.localeCompare(b.m, 'tr'); }],
+  /* drone + aksiyon: en guncel model ustte (cikis yili.ay); drone aksesuarlari (kumanda/gozluk) drone'lardan sonra */
+  var YEAR = {
+    'Lito X1': 2026.04, 'Lito 1': 2026.04, 'Avata 360': 2026.02, 'Mini 5 Pro': 2025.09, 'Neo 2': 2025.11, 'Mavic 4 Pro': 2025.05, 'Air 3S': 2024.10, 'Neo': 2024.09,
+    'Avata 2': 2024.04, 'Mini 4 Pro': 2023.09, 'Air 3': 2023.07, 'Mavic 3 Pro': 2023.04, 'Mini 3': 2022.12, 'Mavic 3 Classic': 2022.11, 'Avata': 2022.08,
+    'Mini 3 Pro': 2022.05, 'Mavic 3': 2021.11, 'Air 2S': 2021.04, 'Mavic Mini 2': 2020.11, 'Mavic Air 2': 2020.04, 'Mavic Mini': 2019.10, 'Tello': 2018.01,
+    'Mavic Air': 2018.01, 'Spark': 2017.05, 'Phantom 4 / 4 Pro': 2016.11, 'Mavic Pro': 2016.09, 'Phantom 3 Pro': 2015.04, 'Phantom 3': 2015.04, 'Inspire 1': 2014.11,
+    'Goggles N3': 2024.09, 'Goggles 3': 2024.04, 'RC Motion 3': 2024.04, 'Goggles Integra': 2023.04, 'RC 2': 2023.07, 'RC Motion 2': 2022.08, 'RC': 2022.05,
+    'FPV Goggles V2': 2021.03, 'RC-N1 / N2 / N3': 2020.04,
+    'Osmo Pocket 4P': 2026.03, 'X6': 2026.04, 'Luna Ultra': 2026.01, 'Osmo Pocket 4': 2025.11, 'Osmo Action 6': 2025.11, 'Osmo Nano': 2025.09, 'Osmo 360': 2025.07,
+    'X5': 2025.04, 'X4 Air': 2025.09, 'Osmo Action 5 Pro': 2024.09, 'X4': 2024.04, 'Osmo Pocket 3': 2023.10, 'GO 3': 2023.06, 'Ace Pro': 2023.11,
+    'Hero 9 / 10 / 11 / 12 Black': 2023.09, 'X3': 2022.09, 'Osmo Action 2': 2021.10, 'One X2': 2020.10, 'Osmo Pocket 2': 2020.10, 'Hero 8 Black': 2019.10,
+    'Max': 2019.10, 'Hero 7 Black': 2018.09, 'Hero 7 Silver / White': 2018.09, 'Osmo Pocket': 2018.11, 'Hero 5': 2016.09, 'SJ4000 Wifi': 2014.01 };
+  function yr(d){ var y = YEAR[d.m] || 2000; if (d.t === 'D' && /^(RC|Goggles|FPV Goggles)/.test(d.m)) y -= 100; return y; }
+  /* gimbal: populerlik sirasi */
+  var GPOP = ['RS 4 Mini', 'RS 4', 'Osmo Mobile 8', 'RS 4 Pro', 'RS 3 Mini', 'RS 5', 'RS 3', 'Osmo Mobile SE', 'Weebill S', 'RS 3 Pro', 'Smooth X', 'Weebill Lab', 'RSC 2',
+    'Osmo Mobile 3', 'Crane 2', 'Ronin SC', 'Ronin-S', 'RS 2', 'OM 4 SE', 'Smooth 4', 'AirCross 2', 'Weebill', 'Plus', 'A2000'];
+  function gi(d){ var i = GPOP.indexOf(d.m); return i < 0 ? 99 : i; }
+  function popCmp(a, b){ return rank(b) - rank(a) || a.b.localeCompare(b.b) || a.m.localeCompare(b.m, 'tr'); }
+  function catCmp(a, b){
+    if (a.t === 'D' || a.t === 'A') { var d = yr(b) - yr(a); if (d) return d; }
+    if (a.t === 'G') { var g = gi(a) - gi(b); if (g) return g; }
+    return popCmp(a, b);
+  }
+  var SORTS = { pop: ['Popüler', catCmp],
                 az: ['A → Z', function(a, b){ return a.b.localeCompare(b.b) || a.m.localeCompare(b.m, 'tr', { numeric: true }); }],
                 pl: ['Fiyat ↑', function(a, b){ return a.p - b.p || a.m.localeCompare(b.m, 'tr'); }],
                 ph: ['Fiyat ↓', function(a, b){ return b.p - a.p || a.m.localeCompare(b.m, 'tr'); }] };
@@ -575,11 +598,11 @@
     document.documentElement.classList.add('bg27-on'); grid.classList.add('bg27-ikas');
     var st = { q: '', sort: 'pop', n: LIMIT, brand: bn };
     var TOPS = {};
-    function topset(b){ if (!TOPS[b]) { var l = base.filter(function(d){ return inBrand(d, b); }), t = {}; l.slice().sort(SORTS.pop[1]).slice(0, Math.min(12, Math.ceil(l.length / 6))).forEach(function(d){ t[d.s] = 1; }); TOPS[b] = t; } return TOPS[b]; }
+    function topset(b){ if (!TOPS[b]) { var l = base.filter(function(d){ return inBrand(d, b); }), t = {}; l.slice().sort(popCmp).slice(0, Math.min(12, Math.ceil(l.length / 6))).forEach(function(d){ t[d.s] = 1; }); TOPS[b] = t; } return TOPS[b]; }
     host = document.createElement('section'); host.className = 'bg27'; host.setAttribute('aria-label', TYPE[ci.k] + ' kaplama modelleri');
     host.innerHTML = '<div class="bg27-h"><h1>' + esc((bn ? bn + ' ' : '') + TYPE[ci.k]) + ' kaplama<small></small></h1>' +
       '<div class="bg27-tools"><input class="bg27-in" type="search" placeholder="Model ara: ' + (ci.k === 'L' ? '24-70, 50mm, 70-200…' : ci.k === 'K' ? 'A7 IV, R6, Z6 III…' : ci.k === 'D' ? 'Mini 4 Pro, Air 3S…' : ci.k === 'G' ? 'RS 4, Weebill…' : 'Pocket 3, Hero…') + '" autocomplete="off" aria-label="Model ara">' +
-      '<select class="bg27-sort" aria-label="Sırala">' + Object.keys(SORTS).map(function(k){ return '<option value="' + k + '">' + SORTS[k][0] + '</option>'; }).join('') + '</select></div></div>' +
+      '<select class="bg27-sort" aria-label="Sırala">' + Object.keys(SORTS).map(function(k){ return '<option value="' + k + '">' + (k === 'pop' && (ci.k === 'D' || ci.k === 'A') ? 'En yeni' : SORTS[k][0]) + '</option>'; }).join('') + '</select></div></div>' +
       '<div class="bg27-g"></div><div class="bg27-more"></div>';
     bar.insertAdjacentElement('afterend', host);
     /* ikas'in kendi baslik satirini ve siralama arac cubugunu gizle (bizim izgara yerini aldi) */
