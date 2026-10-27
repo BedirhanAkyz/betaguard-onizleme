@@ -66,7 +66,7 @@ async function csheet(ids){
   d.innerHTML='';c.style.width='100%';d.appendChild(c);
 }
 async function choose(map){let n=0;for(const [id,k] of Object.entries(map)){const L=(window.__C[id]||{c:[]}).c;const i=k.charCodeAt(0)-97;if(!L[i])continue;const v=L[i];await dbPut(id,{blob:v.blob,murl:v.murl,purl:v.purl,w:v.w,h:v.h,score:v.s,q:window.__C[id].q});n++}return n}
-async function runC(list){window.__st='run';for(let i=0;i<list.length;i++){const [id,q]=list[i];try{await cands(id,q)}catch(e){}window.__st=(i+1)+'/'+list.length}window.__st='done'}
+async function runC(list,par=4){window.__st='run';let k=0,done=0;async function w(){while(k<list.length){const [id,q]=list[k++];if(window.__C&&window.__C[id])continue;try{await cands(id,q)}catch(e){}done++;window.__st=done+'/'+list.length}}await Promise.all(Array.from({length:par},w));window.__st='done'}
 async function sheet(ids){
   const all=await dbAll();const mp=Object.fromEntries(all);
   const cw=260,chh=200,cols=5;const rows=Math.ceil(ids.length/cols);const c=document.createElement('canvas');c.width=cw*cols;c.height=chh*rows;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.font='13px sans-serif';
