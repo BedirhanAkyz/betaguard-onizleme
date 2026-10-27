@@ -3584,7 +3584,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var h = (e.getAttribute('href') || '').toLowerCase(), n = '';
       if (/account|login|hesab/.test(h)) n = 'Hesabım'; else if (/cart|sepet/.test(h)) n = 'Sepet'; else if (/search|arama/.test(h)) n = 'Ara';
       else if (/favori|wishlist/.test(h)) n = 'Favoriler'; else if (/wa\.me|whatsapp/.test(h)) n = 'WhatsApp'; else if (/instagram/.test(h)) n = 'Instagram';
-      else if (h === '/' ) n = 'Ana sayfa'; else if (e.tagName === 'BUTTON') { var c = String(e.className); n = /close|kapat/i.test(c) ? 'Kapat' : /menu|burger/i.test(c) ? 'Menü' : ''; }
+      else if (h === '/' ) n = 'Ana sayfa'; else if (h === '#' || h === '') n = 'Menü'; else if (e.tagName === 'BUTTON') { var c = String(e.className); n = /close|kapat/i.test(c) ? 'Kapat' : /menu|burger/i.test(c) ? 'Menü' : ''; }
       if (n) e.setAttribute('aria-label', n);
     }
   }
