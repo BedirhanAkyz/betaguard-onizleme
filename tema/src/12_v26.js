@@ -10,7 +10,7 @@
   var DSLUG = {}; DESEN.forEach(function(n){ DSLUG[slug(n)] = n; });
   var CATS = {
     K: { root: 'kamera', subs: [['Sony','sony-kamera'],['Canon','canon-kamera'],['Nikon','nikon-kamera'],['Fujifilm','fujifilm-kamera'],['Panasonic','panasonic-kamera']] },
-    L: { root: 'lens', subs: [['Sony','sony-lens'],['Canon','canon-lens'],['Nikon','nikon-lens'],['Fujifilm','fujifilm-lens']] },
+    L: { root: 'lens', subs: [['Sony','sony-lens'],['Canon','canon-lens'],['Nikon','nikon-lens'],['Fujifilm','fujifilm-lens'],['Sigma','sigma-lens']] },
     D: { root: 'drone', subs: [['DJI','dji-drone']] },
     A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','dji-osmo']] },
     G: { root: 'gimbal', subs: [] }
