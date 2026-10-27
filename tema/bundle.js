@@ -2538,7 +2538,7 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
     L: { root: 'lens', subs: [['Sony','sony-lens'],['Canon','canon-lens'],['Nikon','nikon-lens'],['Fujifilm','fujifilm-lens'],['Sigma','sigma-lens']] },
     D: { root: 'drone', subs: [['DJI','dji-drone']] },
     A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','dji-osmo'],['GoPro','aksiyon-kamera#gopro'],['Insta360','aksiyon-kamera#insta360']] },
-    G: { root: 'gimbal', subs: [] }
+    G: { root: 'gimbal', subs: [['DJI','gimbal#dji'],['Zhiyun','gimbal#zhiyun']] }
   };
   var TURCAT = { 'Kamera': '/kamera', 'Lens': '/lens', 'Drone': '/drone', 'Aksiyon Kamera': '/aksiyon-kamera', 'Gimbal': '/gimbal' };
   var BYSLUG = {}, BYKEY = {};
