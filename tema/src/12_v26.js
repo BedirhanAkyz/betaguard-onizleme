@@ -522,7 +522,7 @@
     box.setAttribute('data-sig', sig);
     var note = n >= 3 ? '✓ 3 kaplama: 500 ₺ indirim ödemede uygulanır' : n === 2 ? '✓ 250 ₺ indirim ödemede uygulanır · 3. kaplamada toplam 500 ₺' : 'Bir kaplama daha ekle, <b>250 ₺ indirim</b> kazan';
     box.innerHTML = '<div class="bg26-cart-h"><b>Setini tamamla</b><small>' + esc(DSLUG[ds]) + ' deseniyle</small></div><div class="bg26-cart-n">' + note + '</div>' +
-      (rec.length ? '<div class="bg26-cart-g">' + rec.map(function(c){ return '<a href="/' + c.s + '?desen=' + ds + '"><span class="im"><img loading="lazy" src="' + img(c, ds) + '" alt=""></span><span><span class="n">' + esc(c.b + ' ' + c.m) + '</span><span class="p">' + fmt(c.p) + '</span></span></a>'; }).join('') + '</div>' : '');
+      (rec.length ? '<div class="bg26-cart-g">' + rec.map(function(c){ return '<a href="/' + c.s + '?desen=' + ds + '"><span class="im"><img loading="lazy" src="' + img(c, ds) + '" alt="' + esc(c.b + ' ' + c.m) + ' kaplama"></span><span><span class="n">' + esc(c.b + ' ' + c.m) + '</span><span class="p">' + fmt(c.p) + '</span></span></a>'; }).join('') + '</div>' : '');
     if (box.parentElement !== root) root.insertBefore(box, foot);
   }
   /* ---------- 404 ---------- */
