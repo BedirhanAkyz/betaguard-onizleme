@@ -140,12 +140,12 @@
       zi.style.backgroundImage = 'url(' + u(c.sw, 360) + ')'; zb.textContent = c.name;
       go.setAttribute('href', '/betaguard-kaplama?desen=' + c.slug);
       dev.alt = c.name + ' kaplama: kamera, lens, drone ve gimbal';
-      var src = u(c.dev, 1080), my = ++tok;
+      var src = u(c.dev, 540), my = ++tok;
       if (dev.getAttribute('src') === src) return;
       if (!dev.getAttribute('src')) { dev.src = src; return; }
       dev.classList.add('out');
       var pre = new Image(); pre.onload = pre.onerror = function(){ if (my !== tok) return; dev.src = src; dev.classList.remove('out'); }; pre.src = src;
-      s.cols.forEach(function(x){ (new Image()).src = u(x.dev, 1080); });
+      s.cols.forEach(function(x){ (new Image()).src = u(x.dev, 540); });
     }
     sec.addEventListener('click', function(e){
       var b = e.target.closest('.bg24-s'); if (b) { st.s = +b.getAttribute('data-i'); st.c = S[st.s].def; show(); return; }

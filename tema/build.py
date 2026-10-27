@@ -8,7 +8,8 @@ parts = []
 for f in sorted(glob.glob(os.path.join(H, 'src', '*.js'))):
     s = open(f, encoding='utf8').read().rstrip()
     if '__DEVICES__' in s:
-        s = s.replace('__DEVICES__', json.dumps(dev, ensure_ascii=False)).replace('__SHA__', sha)
+        s = s.replace('__DEVICES__', json.dumps(dev, ensure_ascii=False))
+    s = s.replace('__SHA__', sha)
     assert '</script' not in s, f
     parts.append('/* ===== ' + os.path.basename(f) + ' ===== */\n' + s)
 out = '/* Betaguard tema paketi - otomatik uretildi (tema/build.py). Kaynak: tema/src/ */\n' + '\n\n'.join(parts) + '\n'

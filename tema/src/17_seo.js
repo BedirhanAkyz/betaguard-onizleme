@@ -35,8 +35,19 @@
       g.setAttribute('alt', a);
     }
   }
+  function names() {
+    var L = document.querySelectorAll('a[href]:not([aria-label]),button:not([aria-label])');
+    for (var i = 0; i < L.length; i++) {
+      var e = L[i]; if (txt(e) || e.querySelector('img[alt]:not([alt=""])')) continue;
+      var h = (e.getAttribute('href') || '').toLowerCase(), n = '';
+      if (/account|login|hesab/.test(h)) n = 'Hesabım'; else if (/cart|sepet/.test(h)) n = 'Sepet'; else if (/search|arama/.test(h)) n = 'Ara';
+      else if (/favori|wishlist/.test(h)) n = 'Favoriler'; else if (/wa\.me|whatsapp/.test(h)) n = 'WhatsApp'; else if (/instagram/.test(h)) n = 'Instagram';
+      else if (h === '/' ) n = 'Ana sayfa'; else if (e.tagName === 'BUTTON') { var c = String(e.className); n = /close|kapat/i.test(c) ? 'Kapat' : /menu|burger/i.test(c) ? 'Menü' : ''; }
+      if (n) e.setAttribute('aria-label', n);
+    }
+  }
   var q = 0;
-  function run() { if (q) return; q = 1; setTimeout(function () { q = 0; try { h1(); alts(); } catch (e) {} }, 400); }
+  function run() { if (q) return; q = 1; setTimeout(function () { q = 0; try { h1(); alts(); names(); } catch (e) {} }, 400); }
   run();
   new MutationObserver(run).observe(document.documentElement, { childList: true, subtree: true });
 })();

@@ -23,6 +23,10 @@
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function fmt(n){ return Number(n).toLocaleString('tr-TR') + ' ₺'; }
   function img(d, desen){ return CDN + d.f + '/' + (desen || 'line-black') + '.webp'; }
+  /* kart kucuk gorseli: kapak desenleri icin 400px onizleme (img/<ds>/t/), yoksa tam boy */
+  var THUMB = {}; ['royal-gold','tactical-blue','line-cyan','hexagonal-red','topografik-navy','nexus-cyan','carbon','royal-navy','tactical-green','line-red','hexagonal-blue','nexus-red','topografik-red','tactical-red','royal-black','hexagonal-green','line-black'].forEach(function(k){ THUMB[k] = 1; });
+  function timg(d, desen){ desen = desen || 'line-black'; return THUMB[desen] ? CDN + d.f + '/t/' + desen + '.webp' : img(d, desen); }
+  function tattr(d, desen){ return 'src="' + timg(d, desen) + '" width="400" height="400" onerror="this.onerror=null;this.src=\'' + img(d, desen) + '\'"'; }
   var COVERS = ['royal-gold','tactical-blue','line-cyan','hexagonal-red','topografik-navy','nexus-cyan','carbon','royal-navy','tactical-green','line-red','hexagonal-blue','nexus-red','topografik-red','tactical-red','royal-black','hexagonal-green'];
   function cover(d){ return COVERS[ALL.indexOf(d) % COVERS.length]; }
   function setCover(c, href){
@@ -243,7 +247,7 @@
       r.slice(0, 120).forEach(function(d){
         var g = TYPE[d.t] + ' · ' + d.b;
         if (g !== last) { html += '<div class="bg26-grp">' + esc(g) + '</div>'; last = g; }
-        html += '<a class="bg26-li" href="/' + d.s + (dn ? '?desen=' + dn : '') + '"><span class="th"><img loading="lazy" src="' + img(d, dn) + '" alt=""></span><span class="n">' + esc(d.b + ' ' + d.m) + '<small>' + TYPE[d.t] + ' kaplama · 39 desen</small></span><span class="p">' + fmt(d.p) + '</span></a>';
+        html += '<a class="bg26-li" href="/' + d.s + (dn ? '?desen=' + dn : '') + '"><span class="th"><img loading="lazy" decoding="async" ' + tattr(d, dn) + ' alt="' + esc(d.b + ' ' + d.m) + ' kaplama"></span><span class="n">' + esc(d.b + ' ' + d.m) + '<small>' + TYPE[d.t] + ' kaplama · 39 desen</small></span><span class="p">' + fmt(d.p) + '</span></a>';
       });
       list.innerHTML = html;
     }
@@ -348,7 +352,7 @@
     box.setAttribute('data-sig', sig);
     box.innerHTML = '<div class="bg26-set-h"><div><span class="bg-eyebrow">SETİNİ TAMAMLA</span><h2>' + esc(setTitle(dev)) + '</h2><p>Seçtiğin <b style="color:#E2C285">' + esc(DSLUG[ds]) + '</b> deseniyle açılır; kombin tek seferde gelsin.</p></div><span class="bg26-off">2 kaplamaya 250 ₺ · 3 ve üzerine 500 ₺ indirim</span></div>' +
       '<div class="bg26-row">' + list.map(function(c){
-        return '<a class="bg26-it" href="/' + c.s + '?desen=' + ds + '"><span class="im"><img loading="lazy" src="' + img(c, ds) + '" alt="' + esc(c.b + ' ' + c.m) + ' ' + esc(DSLUG[ds]) + ' kaplama"></span><span class="tx"><span class="ty">' + TYPE[c.t] + '</span><span class="nm">' + esc(c.b + ' ' + c.m) + '</span><span class="pr">' + fmt(c.p) + '</span><span class="go">Bu desenle gör →</span></span></a>';
+        return '<a class="bg26-it" href="/' + c.s + '?desen=' + ds + '"><span class="im"><img loading="lazy" ' + tattr(c, ds) + ' alt="' + esc(c.b + ' ' + c.m) + ' ' + esc(DSLUG[ds]) + ' kaplama"></span><span class="tx"><span class="ty">' + TYPE[c.t] + '</span><span class="nm">' + esc(c.b + ' ' + c.m) + '</span><span class="pr">' + fmt(c.p) + '</span><span class="go">Bu desenle gör →</span></span></a>';
       }).join('') + '</div>';
   }
   function fitLine(dev){
@@ -475,7 +479,7 @@
     var sec = document.createElement('section'); sec.className = 'bg26-pop';
     sec.innerHTML = '<div class="bg26-pop-h"><div><span class="bg-eyebrow">POPÜLER CİHAZLAR</span><h2>En çok kaplanan cihazlar</h2><p>Her cihazın kendi sayfası var: 39 deseni kendi cihazının üzerinde gör, seç, sepete at.</p></div>' +
       '<div class="bg26-pop-tabs"><a href="/kamera">Tüm kameralar</a><a href="/lens">Tüm lensler</a><a href="/drone">Dronelar</a><a href="/aksiyon-kamera">Aksiyon</a><a href="/gimbal">Gimbal</a></div></div>' +
-      '<div class="bg26-pop-g">' + list.map(function(d, i){ var cv = COVERS[i % COVERS.length]; return '<a class="bg26-it" href="/' + d.s + '?desen=' + cv + '"><span class="im"><img loading="lazy" src="' + img(d, cv) + '" alt="' + esc(d.b + ' ' + d.m) + ' kaplama"></span><span class="tx"><span class="ty">' + TYPE[d.t] + '</span><span class="nm">' + esc(d.b + ' ' + d.m) + '</span><span class="pr">' + fmt(d.p) + ' · 39 desen</span></span></a>'; }).join('') + '</div>' +
+      '<div class="bg26-pop-g">' + list.map(function(d, i){ var cv = COVERS[i % COVERS.length]; return '<a class="bg26-it" href="/' + d.s + '?desen=' + cv + '"><span class="im"><img loading="lazy" ' + tattr(d, cv) + ' alt="' + esc(d.b + ' ' + d.m) + ' kaplama"></span><span class="tx"><span class="ty">' + TYPE[d.t] + '</span><span class="nm">' + esc(d.b + ' ' + d.m) + '</span><span class="pr">' + fmt(d.p) + ' · 39 desen</span></span></a>'; }).join('') + '</div>' +
       '<div class="bg26-pop-more"><a href="#" data-bg26-open="">Cihazını ara · ' + ALL.length + ' önizlemeli model</a></div>';
     find.parentElement.insertBefore(sec, find.nextSibling);
     sec.querySelector('[data-bg26-open]').addEventListener('click', function(e){ e.preventDefault(); openPicker(null, ''); });
@@ -522,7 +526,7 @@
     box.setAttribute('data-sig', sig);
     var note = n >= 3 ? '✓ 3 kaplama: 500 ₺ indirim ödemede uygulanır' : n === 2 ? '✓ 250 ₺ indirim ödemede uygulanır · 3. kaplamada toplam 500 ₺' : 'Bir kaplama daha ekle, <b>250 ₺ indirim</b> kazan';
     box.innerHTML = '<div class="bg26-cart-h"><b>Setini tamamla</b><small>' + esc(DSLUG[ds]) + ' deseniyle</small></div><div class="bg26-cart-n">' + note + '</div>' +
-      (rec.length ? '<div class="bg26-cart-g">' + rec.map(function(c){ return '<a href="/' + c.s + '?desen=' + ds + '"><span class="im"><img loading="lazy" src="' + img(c, ds) + '" alt="' + esc(c.b + ' ' + c.m) + ' kaplama"></span><span><span class="n">' + esc(c.b + ' ' + c.m) + '</span><span class="p">' + fmt(c.p) + '</span></span></a>'; }).join('') + '</div>' : '');
+      (rec.length ? '<div class="bg26-cart-g">' + rec.map(function(c){ return '<a href="/' + c.s + '?desen=' + ds + '"><span class="im"><img loading="lazy" ' + tattr(c, ds) + ' alt="' + esc(c.b + ' ' + c.m) + ' kaplama"></span><span><span class="n">' + esc(c.b + ' ' + c.m) + '</span><span class="p">' + fmt(c.p) + '</span></span></a>'; }).join('') + '</div>' : '');
     if (box.parentElement !== root) root.insertBefore(box, foot);
   }
   /* ---------- 404 ---------- */
@@ -626,7 +630,7 @@
     }
     function card(d, i){
       var cv = COVERS[(i + ALL.indexOf(d)) % COVERS.length], nt = d.t === 'D' || d.t === 'A', top = !nt && !!topset(st.brand)[d.s], nw = nt ? yr(d) >= 2025 : (!top && NEW.test(d.m) && rank(d) > 0);
-      return '<a class="bg27-c" href="/' + d.s + '?desen=' + cv + '"><span class="im">' + (top ? '<span class="tag">POPÜLER</span>' : nw ? '<span class="tag nw">YENİ MODEL</span>' : '') + '<img loading="lazy" decoding="async" src="' + img(d, cv) + '" alt="' + esc(d.b + ' ' + d.m) + ' ' + esc(DSLUG[cv] || '') + ' kaplama"></span>' +
+      return '<a class="bg27-c" href="/' + d.s + '?desen=' + cv + '"><span class="im">' + (top ? '<span class="tag">POPÜLER</span>' : nw ? '<span class="tag nw">YENİ MODEL</span>' : '') + '<img loading="lazy" decoding="async" ' + tattr(d, cv) + ' alt="' + esc(d.b + ' ' + d.m) + ' ' + esc(DSLUG[cv] || '') + ' kaplama"></span>' +
         '<span class="tx"><span class="ty">' + TYPE[d.t] + ' · ' + esc(d.b) + '</span><span class="nm">' + esc(d.m) + '</span><span class="pr">' + fmt(d.p) + '<small>39 desen · önizlemeli</small></span><span class="go">Desen seç →</span></span></a>';
     }
     function draw(){
