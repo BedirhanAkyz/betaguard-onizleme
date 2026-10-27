@@ -625,7 +625,7 @@
       return l;
     }
     function card(d, i){
-      var cv = COVERS[(i + ALL.indexOf(d)) % COVERS.length], top = !!topset(st.brand)[d.s], nw = !top && NEW.test(d.m) && rank(d) > 0;
+      var cv = COVERS[(i + ALL.indexOf(d)) % COVERS.length], nt = d.t === 'D' || d.t === 'A', top = !nt && !!topset(st.brand)[d.s], nw = nt ? yr(d) >= 2025 : (!top && NEW.test(d.m) && rank(d) > 0);
       return '<a class="bg27-c" href="/' + d.s + '?desen=' + cv + '"><span class="im">' + (top ? '<span class="tag">POPÜLER</span>' : nw ? '<span class="tag nw">YENİ MODEL</span>' : '') + '<img loading="lazy" decoding="async" src="' + img(d, cv) + '" alt="' + esc(d.b + ' ' + d.m) + ' ' + esc(DSLUG[cv] || '') + ' kaplama"></span>' +
         '<span class="tx"><span class="ty">' + TYPE[d.t] + ' · ' + esc(d.b) + '</span><span class="nm">' + esc(d.m) + '</span><span class="pr">' + fmt(d.p) + '<small>39 desen · önizlemeli</small></span><span class="go">Desen seç →</span></span></a>';
     }
