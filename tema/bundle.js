@@ -29,6 +29,7 @@
     '.bg-card h3{margin:0;font-size:20px;color:#F2F0EB}',
     '.bg-card p{margin:0;font-size:15px;line-height:1.6;color:#B9B5AD}',
     '.bg-num{font:italic 900 40px/1 Archivo,sans-serif;color:' + GOLD + '}',
+    '.bg-steps-more{margin:22px 0 0;text-align:center}.bg-steps-more a{color:#E2C285;font:700 14px Manrope,sans-serif;text-decoration:none;border-bottom:1px solid rgba(226,194,133,.4);padding-bottom:2px}.bg-steps-more a:hover{color:#F2F0EB}',
     '.bg-band{border-top:1px solid #26252A;border-bottom:1px solid #26252A;background:#131315}',
     '.bg-band .bg-sec{padding:56px 24px}',
     '.bg-feat{display:flex;flex-direction:column;gap:12px}',
@@ -72,7 +73,7 @@
       step('02', 'Hizala', 'Uygulamadan önce köşe ve kenar noktalarını dikkatlice hizala.') +
       step('03', 'Uygula', 'Kaplamayı yavaşça yerleştir, ortadan dışa doğru bastırarak havayı al.') +
       step('04', 'Sabitle', 'Gerekirse kenarları saç kurutma makinesiyle hafifçe ısıtarak yüzeye oturt.') +
-    '</div></div>' +
+    '</div><p class="bg-steps-more"><a href="/blog/uygulama-rehberi">Kamera, lens, drone ve gimbal için detaylı uygulama rehberi →</a></p></div>' +
     '<div class="bg-sec" data-bg="cta" style="padding-top:0"><div class="bg-cta"><div><h2>Cihazın listede yok mu?</h2><p>Modelini yaz, kesimi olup olmadığını hemen söyleyelim.</p></div>' +
       '<a class="bg-btn" href="' + WA + '" target="_blank" rel="noopener">' + I.wa + 'WhatsApp\'tan yaz</a></div></div>';
   var INFO_HTML =
@@ -1393,7 +1394,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       '<p>Kamera, lens, drone, gimbal ve aksiyon kameralar için cihazına özel kesim kaplamalar. Siparişe özel basılır, kesilir ve İzmir\'den gönderilir.</p>' +
       '<div class="bg-ft-social"><a href="' + WA + '" target="_blank" rel="noopener">' + IC.chat + 'WhatsApp\'tan yaz</a><a href="' + IG + '" target="_blank" rel="noopener">' + IC.cam + '@betaguard.tr</a></div></div>' +
       '<div><h2 class="bg-ft-h">Cihazlar</h2><ul>' + cats.map(function(c){ return '<li><a href="' + href(c, '/betaguard-kaplama') + '">' + c + '</a></li>'; }).join('') + '</ul></div>' +
-      '<div><h2 class="bg-ft-h">Keşfet</h2><ul><li><a href="/betaguard-kaplama">Tüm desenler</a></li><li><a href="/#desenler">Seriler</a></li><li><a href="/#nasil-uygulanir">Nasıl uygulanır</a></li><li><a href="/#sss">Sık sorulanlar</a></li></ul></div>' +
+      '<div><h2 class="bg-ft-h">Keşfet</h2><ul><li><a href="/betaguard-kaplama">Tüm desenler</a></li><li><a href="/#desenler">Seriler</a></li><li><a href="/blog/uygulama-rehberi">Uygulama rehberi</a></li><li><a href="/blog">Blog</a></li><li><a href="/#sss">Sık sorulanlar</a></li></ul></div>' +
       '<div><h2 class="bg-ft-h">Yardım</h2><ul><li><a href="' + WA + '" target="_blank" rel="noopener">İletişim · 0535 321 19 11</a></li>' + legal.map(function(c){ return '<li><a href="' + href(c, '#') + '">' + c + '</a></li>'; }).join('') + '</ul></div>';
     top.parentElement.insertBefore(box, top);
     top.setAttribute('data-bg-ftop-old', '1');
@@ -2031,7 +2032,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
           '<div><b><em>01</em>Temizle</b><span>Mendille yüzeyi tozsuz ve kuru hale getir.</span></div>' +
           '<div><b><em>02</em>Hizala</b><span>Köşe ve kenar noktalarını önce hizala.</span></div>' +
           '<div><b><em>03</em>Uygula</b><span>Ortadan dışa bastırarak havayı al.</span></div>' +
-          '<div><b><em>04</em>Sabitle</b><span>Kenarları hafif ısıyla yüzeye oturt.</span></div></div></div>' +
+          '<div><b><em>04</em>Sabitle</b><span>Kenarları hafif ısıyla yüzeye oturt.</span></div></div>' +
+          '<a class="bg-px-more" href="/blog/uygulama-rehberi">Cihaz türüne göre detaylı uygulama rehberi →</a></div>' +
         '<div class="bg-px-c"><h4><i>◆</i>Sık sorulanlar</h4>' +
           det(['Kaplama cihazıma zarar verir mi?', 'Hayır. Günlük çizik ve sürtünmelere karşı korur; söküldüğünde cihazda iz bırakmaz.']) +
           det(['Kesim cihazıma oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel kesilir. Düğmeler, portlar ve ekran alanları açık kalır.']) +

@@ -115,7 +115,8 @@
           '<div><b><em>01</em>Temizle</b><span>Mendille yüzeyi tozsuz ve kuru hale getir.</span></div>' +
           '<div><b><em>02</em>Hizala</b><span>Köşe ve kenar noktalarını önce hizala.</span></div>' +
           '<div><b><em>03</em>Uygula</b><span>Ortadan dışa bastırarak havayı al.</span></div>' +
-          '<div><b><em>04</em>Sabitle</b><span>Kenarları hafif ısıyla yüzeye oturt.</span></div></div></div>' +
+          '<div><b><em>04</em>Sabitle</b><span>Kenarları hafif ısıyla yüzeye oturt.</span></div></div>' +
+          '<a class="bg-px-more" href="/blog/uygulama-rehberi">Cihaz türüne göre detaylı uygulama rehberi →</a></div>' +
         '<div class="bg-px-c"><h4><i>◆</i>Sık sorulanlar</h4>' +
           det(['Kaplama cihazıma zarar verir mi?', 'Hayır. Günlük çizik ve sürtünmelere karşı korur; söküldüğünde cihazda iz bırakmaz.']) +
           det(['Kesim cihazıma oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel kesilir. Düğmeler, portlar ve ekran alanları açık kalır.']) +
