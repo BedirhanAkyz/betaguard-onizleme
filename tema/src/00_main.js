@@ -177,7 +177,8 @@
     for (var i = 0; i < els.length; i++) {
       var e = els[i], tn = e.tagName;
       if (tn === 'IMG' || tn === 'svg' || tn === 'SVG' || tn === 'path' || tn === 'SCRIPT' || tn === 'STYLE') continue;
-      if (e.closest && e.closest('.bg-cta,.bg-disc,[class^="bg-"],[class*=" bg-"],[class^="bg2"],[class*=" bg2"],[data-bg-rev],[data-bg-faq]')) continue;
+      var sk = e.closest && e.closest('.bg-cta,.bg-disc,[class^="bg-"],[class*=" bg-"],[class^="bg2"],[class*=" bg2"],[data-bg-rev],[data-bg-faq]');
+      if (sk && sk !== document.documentElement && sk !== document.body) continue;
       var cs = getComputedStyle(e);
       var b = MAP[cs.backgroundColor]; if (b) e.style.setProperty('background-color', b, 'important');
       var t = TXT[cs.color]; if (t) e.style.setProperty('color', t, 'important');
