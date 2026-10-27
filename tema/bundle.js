@@ -3449,8 +3449,8 @@ var LOGOS = [["sony", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANYAAAAoCAQ
   /* [gorsel dosyasi ('' = gorselsiz), isim, sehir, yorum, cihaz/desen (opsiyonel)] */
   var R = [];
   var css = [
-    '[data-bg-rev]{padding:56px 0 24px;color:#F2F0EB}',
-    '.bg-rev-in{max-width:1240px;margin:0 auto;padding:0 24px;box-sizing:border-box}',
+    '[data-bg-rev]{display:block;width:100%;padding:56px 0 24px;color:#F2F0EB}',
+    '.bg-rev-in{width:100%;max-width:1500px;margin:0 auto;padding:0 24px;box-sizing:border-box}',
     '.bg-rev-top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px}',
     '.bg-rev-top h2{margin:8px 0 0;font:italic 900 40px/1.05 Archivo,sans-serif;color:#F2F0EB}',
     '.bg-rev-top p{margin:10px 0 0;font:400 15px/1.6 Manrope,sans-serif;color:#A9A59D;max-width:560px}',
