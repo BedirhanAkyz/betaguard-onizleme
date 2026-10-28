@@ -31,10 +31,10 @@
   var st = document.createElement('style'); st.id = 'bg-theme-css19'; st.textContent = css; (document.head || document.documentElement).appendChild(st);
   function ic(p){ return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
   var CARDS = [
-    [ic('<path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>'), 'Çizik ve sürtünmeye karşı', 'Çanta, sehpa, kemer tokası… Darbeler cihaza değil kaplamaya gelir.'],
-    [ic('<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>'), 'İkinci el değerini korur', 'Satmaya karar verdiğinde kaplamayı sök; cihazın ilk günkü gibi çıksın.'],
+    [ic('<path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>'), 'Çizik ve sürtünmeye karşı', 'Çantada, tripodda, kemer tokasında oluşan çizikleri kaplama alır.'],
+    [ic('<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>'), 'İkinci el değerini korur', 'Satarken kaplamayı sökersin, gövde ilk günkü gibi çıkar.'],
     [ic('<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="7" r="1"/><circle cx="16" cy="10" r="1"/>'), 'Ekipmanına karakter kat', 'Onlarca desen ve renk. Kamerandan dronuna tüm setin aynı tarzda.'],
-    [ic('<path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/>'), 'İz bırakmadan sökülür', 'Cihazın yüzeyine zarar vermez. Canın sıkıldığında yeni desene geç.']
+    [ic('<path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/>'), 'İz bırakmadan sökülür', 'Yüzeyde yapışkan ya da iz kalmaz.']
   ];
   function build(){
     var s = document.createElement('section'); s.className = 'bg-why'; s.setAttribute('data-bg-why', '1');
@@ -48,9 +48,9 @@
         '<input type="range" min="0" max="100" value="50" aria-label="Karşılaştırma çubuğu"></div>' +
         '<p class="bg-ba-cap">Çubuğu kaydır, farkı gör' + (DEVICE ? ' · ' + DEVICE : '') + '</p>';
     }
-    s.innerHTML = '<div class="bg-why-h"><small>Neden Betaguard?</small><h2>Cihazın neden kaplanmalı?</h2><p>Ekipmanına hem koruma hem kimlik kazandır. Üstelik istediğin an iz bırakmadan çıkar.</p></div>' + ba +
+    s.innerHTML = '<div class="bg-why-h"><h2>Neden kaplama?</h2><p>Hem cihazı korur hem de görünüşünü değiştirir. Sıkıldığında söker, başka desene geçersin.</p></div>' + ba +
       '<div class="bg-why-g">' + CARDS.map(function(c){ return '<div class="bg-why-c"><i>' + c[0] + '</i><b>' + c[1] + '</b><span>' + c[2] + '</span></div>'; }).join('') + '</div>' +
-      '<div class="bg-why-cta"><a href="/betaguard-kaplama">Cihazını seç, desenleri gör →</a></div>';
+      '<div class="bg-why-cta"><a href="/betaguard-kaplama">Desenlere bak</a></div>';
     var box = s.querySelector('.bg-ba');
     if (box) {
       var inp = box.querySelector('input');

@@ -118,9 +118,9 @@
   function studio(sec, S){
     var st = { s: 0, c: S[0].def };
     sec.innerHTML =
-      '<div class="bg24-h"><div><span class="bg-eyebrow">DESENLER</span><h2>Desenini seç, cihazında gör</h2>' +
-      '<p>9 seri, 39 renk. Bir seri ve renk seç; kamera, lens, drone ve gimbalda nasıl durduğunu hemen gör.</p></div>' +
-      '<a class="bg24-sec" href="/betaguard-kaplama">Tüm ürünler →</a></div>' +
+      '<div class="bg24-h"><div><h2>Desenler</h2>' +
+      '<p>9 seri, 39 renk. Seçtiğin desen kamera, lens, drone ve gimbal üzerinde görünür.</p></div>' +
+      '<a class="bg24-sec" href="/betaguard-kaplama">Tüm ürünler</a></div>' +
       '<div class="bg24-studio"><div class="bg24-stage"><img class="bg24-dev" alt="" decoding="async">' +
       '<div class="bg24-zoom"><i></i><span><b></b><small>Desen yakın görünüm</small></span></div></div>' +
       '<div class="bg24-panel"><div><p class="bg24-lbl">Seri</p><div class="bg24-ser" role="group" aria-label="Seri">' +

@@ -1,6 +1,6 @@
 /* v15: En çok tercih edilenler (Royal, Tactical, Lego) */
 (function(){
-  var BS=[{s:'Royal',slug:'royal-gold',n:'3 renk',d:'Siyah, lacivert ve altın; premium ve klasik.'},{s:'Tactical',slug:'tactical-red',n:'5 renk',d:'Kamuflaj dokusu; sahada sert, iddialı görünüm.'},{s:'Lego',slug:'lego',n:'tek renk',d:'Renkli tuğla deseni; eğlenceli ve dikkat çekici.'}];
+  var BS=[{s:'Royal',slug:'royal-gold',n:'3 renk',d:'Barok motif. Siyah, lacivert ve altın.'},{s:'Tactical',slug:'tactical-red',n:'5 renk',d:'Kamuflaj. Kırmızı, mavi, yeşil, gri ve siyah.'},{s:'Lego',slug:'lego',n:'tek renk',d:'Rengarenk tuğla deseni.'}];
   var css=['[data-bg-best]{max-width:1240px;margin:0 auto;padding:56px 24px 8px;box-sizing:border-box;color:#F2F0EB}',
   '.bg-best-h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px}',
   '.bg-best-h h2{margin:8px 0 0;font:italic 900 40px/1.05 Archivo,sans-serif;color:#F2F0EB}',
@@ -26,7 +26,7 @@
     var ex=document.querySelector('[data-bg-best]');
     if(ex){ if(ex.getAttribute('data-ok')) return; [].forEach.call(ex.querySelectorAll('img[data-slug]'),function(im){ if(!im.getAttribute('src')){ var u=img(im.getAttribute('data-slug')); if(u) im.setAttribute('src',u);} }); if(![].some.call(ex.querySelectorAll('img[data-slug]'),function(im){return !im.getAttribute('src');})) ex.setAttribute('data-ok','1'); return; }
     var sec=document.createElement('section'); sec.setAttribute('data-bg-best','1'); sec.setAttribute('aria-label','En çok tercih edilen desenler');
-    sec.innerHTML='<div class="bg-best-h"><div><span class="bg-eyebrow">EN ÇOK TERCİH EDİLENLER</span><h2>Çok satan 3 seri</h2><p>Kararsız kaldıysan buradan başla. Müşterilerimizin en çok seçtiği desenler.</p></div></div><div class="bg-best-g">'+BS.map(function(b){ var u=img(b.slug); return '<a class="bg-best-c" href="/betaguard-kaplama?desen='+b.slug+'"><div class="bg-best-i"><img data-slug="'+b.slug+'" '+(u?'src="'+u+'"':'')+' alt="'+b.s+' serisi kaplama" loading="lazy"></div><span class="bg-best-b">ÇOK SATAN</span><div class="bg-best-t"><strong>'+b.s+'<span>'+b.n+'</span></strong><p>'+b.d+'</p><em>İncele →</em></div></a>'; }).join('')+'</div>';
+    sec.innerHTML='<div class="bg-best-h"><div><h2>En çok satanlar</h2><p>Siparişlerin çoğu bu üç seriden geliyor.</p></div></div><div class="bg-best-g">'+BS.map(function(b){ var u=img(b.slug); return '<a class="bg-best-c" href="/betaguard-kaplama?desen='+b.slug+'"><div class="bg-best-i"><img data-slug="'+b.slug+'" '+(u?'src="'+u+'"':'')+' alt="'+b.s+' serisi kaplama" loading="lazy"></div><div class="bg-best-t"><strong>'+b.s+'<span>'+b.n+'</span></strong><p>'+b.d+'</p><em>İncele</em></div></a>'; }).join('')+'</div>';
     ds.parentNode.insertBefore(sec, ds);
   }
   var ready=false,q=false;

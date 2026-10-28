@@ -130,7 +130,7 @@
     var el = document.querySelector('.bg-kt-pill');
     var off = Date.now() > END || /^\/(checkout|account)/.test(location.pathname) || (function(){ try { return sessionStorage.getItem('bg_kt_pill_x'); } catch (x) { return null; } })();
     if (off) { if (el) el.remove(); return; }
-    var prev = store(), txt = prev && prev.code ? 'Kodun: ' + atob(K[prev.tier]) + ' · ödemede kullan' : '🎯 Oyna, 250 ₺\'ye kadar indirim kazan';
+    var prev = store(), txt = prev && prev.code ? 'Kodun: ' + atob(K[prev.tier]) + ' · ödemede kullan' : 'Oyna, 250 ₺\'ye kadar indirim kazan';
     if (!el) {
       el = document.createElement('div'); el.className = 'bg-kt-pill'; el.setAttribute('role', 'button'); el.tabIndex = 0;
       el.innerHTML = '<span></span><button type="button" aria-label="Kapat">×</button>';
@@ -155,7 +155,7 @@
     if (!after || !after.parentNode) return;
     var sec = document.createElement('section'); sec.className = 'bg-kt'; sec.setAttribute('data-bg-kt', '1');
     var prev = store();
-    sec.innerHTML = '<div class="bg-kt-card"><div><small>Açılışa özel · 5 Kasım\'a kadar</small><h3>🎯 Kesimi tuttur, indirim kazan</h3><p>Kaplamayı cihaza tam oturt; isabetine göre 100–250 ₺ indirim kodu senin. 20 saniye sürer.</p></div><button class="bg-kt-btn" type="button">' + (prev && prev.code ? 'Kodumu göster' : 'Hemen oyna') + '</button></div>';
+    sec.innerHTML = '<div class="bg-kt-card"><div><small>5 Kasım\'a kadar</small><h3>Kesimi tuttur, indirim kazan</h3><p>Kaplamayı cihaza ne kadar düzgün oturtursan o kadar indirim: 100 ile 250 ₺ arası. Oyun 20 saniye sürüyor.</p></div><button class="bg-kt-btn" type="button">' + (prev && prev.code ? 'Kodumu göster' : 'Hemen oyna') + '</button></div>';
     sec.querySelector('button').onclick = openGame;
     after.parentNode.insertBefore(sec, after.nextSibling);
   }

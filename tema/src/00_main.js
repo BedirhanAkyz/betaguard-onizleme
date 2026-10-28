@@ -66,14 +66,13 @@
       feat('swap', 'İz bırakmadan sökülür', 'Tarzın değişince sök, yenisini uygula. Cihaz yüzeyine zarar vermez.') +
       feat('hand', 'Metal + plastik aksam', 'Metal aksam seçtiğin desenle, plastik aksam dokulu siyah kaplamayla kaplanır.') +
     '</div></div></div>' +
-    '<div class="bg-sec" data-bg="steps"><span class="bg-eyebrow">NASIL UYGULANIR</span><h2>4 adımda kendin uygula</h2><div class="bg-grid">' +
-      step('01', 'Temizle', 'Paketten çıkan ıslak ve kuru mendille yüzeyi tozsuz ve kuru hale getir.') +
-      step('02', 'Hizala', 'Uygulamadan önce köşe ve kenar noktalarını dikkatlice hizala.') +
-      step('03', 'Uygula', 'Kaplamayı yavaşça yerleştir, ortadan dışa doğru bastırarak havayı al.') +
-      step('04', 'Sabitle', 'Gerekirse kenarları saç kurutma makinesiyle hafifçe ısıtarak yüzeye oturt.') +
-    '</div><p class="bg-steps-more"><a href="/blog/uygulama-rehberi">Kamera, lens, drone ve gimbal için detaylı uygulama rehberi →</a></p></div>' +
-    '<div class="bg-sec" data-bg="cta" style="padding-top:0"><div class="bg-cta"><div><h2>Cihazın listede yok mu?</h2><p>Modelini yaz, kesimi olup olmadığını hemen söyleyelim.</p></div>' +
-      '<a class="bg-btn" href="' + WA + '" target="_blank" rel="noopener">' + I.wa + 'WhatsApp\'tan yaz</a></div></div>';
+    '<div class="bg-sec" data-bg="steps"><h2>Nasıl uygulanır?</h2><div class="bg-grid">' +
+      step('01', 'Temizle', 'Paketteki ıslak mendille sil, kuru mendille kurula.') +
+      step('02', 'Hizala', 'Arka kâğıdı soymadan parçayı cihaza tut, düğme boşluklarına göre yerini bul.') +
+      step('03', 'Yapıştır', 'Kâğıdı yavaş yavaş soy, ortadan kenarlara doğru bastır.') +
+      step('04', 'Kenarları oturt', 'Kalkan kenar olursa saç kurutma makinesiyle hafifçe ısıt, spatulayla bastır.') +
+    '</div><p class="bg-steps-more"><a href="/blog/uygulama-rehberi">Cihaz türüne göre ayrıntılı rehber</a></p></div>' +
+    '';
   var INFO_HTML =
     '<div class="bg-info" data-bg="info">' +
       '<div class="bg-disc">2 kaplamaya 250 ₺, 3 ve üzeri kaplamaya 500 ₺ indirim · 2.000 ₺ üzeri kargo ücretsiz</div>' +
@@ -191,6 +190,7 @@
     'img[data-bg-hero]{display:block!important;width:min(1452px,calc(100% - 48px))!important;max-height:540px!important;margin:24px auto 0!important;border-radius:20px!important;object-fit:cover!important}',
     '@media (max-width:640px){img[data-bg-hero]{width:calc(100% - 24px)!important;margin:12px auto 0!important;border-radius:14px!important}}',
     '.bg-white-ico img,.bg-white-ico svg{filter:brightness(0) invert(1)!important}',
+    '.bg-white-ico{display:none!important}',
     '.bg-white-ico{width:min(1452px,calc(100% - 48px))!important;margin:20px auto 0!important;border:1px solid #26252A;border-radius:16px;box-sizing:border-box}',
     '.bg-arr-l{left:calc((100% - min(1452px,calc(100% - 48px))) / 2 + 16px)!important;right:auto!important}',
     '.bg-arr-r{right:calc((100% - min(1452px,calc(100% - 48px))) / 2 + 16px)!important;left:auto!important}',
@@ -383,15 +383,14 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     return '<section class="bg-hero" data-bg="hero"><div class="bg-hero-l">' +
         '' +
         '<h1>Tek desen.<br>Tek karakter.</h1>' +
-        '<p>Kamera, lens, drone ve gimbal için cihazına özel kesilmiş, çizilmeye karşı koruyan ve iz bırakmadan sökülen kaplamalar.</p>' +
+        '<p>Kamera, lens, drone ve gimbal kaplamaları. Her siparişi İzmir\'de cihazının ölçüsüne göre basıp kesiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
         '<div class="bg-btns"><a class="bg-pill" href="/betaguard-kaplama">Serileri keşfet</a><a class="bg-pill o" href="#bg-find">Cihazını seç</a></div>' +
-        '<div class="bg-facts"><span>9 desen serisi</span><span>780+ model</span><span>1-2 iş gününde kargoda</span></div>' +
       '</div><div class="bg-hero-r"><img alt="Betaguard kaplamalı kamera, drone ve aksesuarlar" src="' + img + '"></div></section>' +
-      '<section class="bg-find" id="bg-find" data-bg="find"><div class="bg-find-h"><div><span class="bg-eyebrow">CİHAZINI SEÇ</span><h2>Cihazın için kaplama bul</h2></div><small>780+ kamera, lens, drone ve gimbal modeli</small></div>' +
+      '<section class="bg-find" id="bg-find" data-bg="find"><div class="bg-find-h"><div><h2>Cihazını bul</h2></div></div>' +
         '<div class="bg-cats">' + cats + '</div>' +
         '<div class="bg-srch"><label for="bg-q" style="position:absolute;width:1px;height:1px;overflow:hidden">Model ara</label><input id="bg-q" type="text" autocomplete="off" placeholder="Model ara: ZV-E10, Avata 2, X-S20…"><a class="bg-go" href="/betaguard-kaplama">Desenleri gör</a><div class="bg-sugg"></div></div>' +
         '<div class="bg-res"></div>' +
-        '<div class="bg-find-n">Cihazın listede yok mu? <a class="wl" href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan yaz</a>, kesimi var mı hemen söyleyelim.</div>' +
+        '<div class="bg-find-n">Listede yoksa <a class="wl" href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan model adını yaz</a>, kesimi var mı bakalım.</div>' +
       '</section>';
   }
 
@@ -919,7 +918,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var IG_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5 L19 12 L8 19 Z"/></svg>';
   var IG_STACK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3 H19 A2 2 0 0 1 21 5 V17 H19 V5 H7 Z"/><rect x="3" y="7" width="14" height="14" rx="2"/></svg>';
   function igHead() {
-    return '<div><span class="bg-eyebrow">INSTAGRAM</span><h2>@' + IG_USER + '</h2><p>Kaplanmış cihazlar, yeni seriler ve uygulama videoları. Sende nasıl duracağını görmek için takipte kal.</p></div>' +
+    return '<div><h2>@' + IG_USER + '</h2><p>Yeni seriler ve müşterilerimizin kaplanmış cihazları önce Instagram\'a düşüyor.</p></div>' +
       '<a class="bg-ig-follow" href="' + IG_URL + '" target="_blank" rel="noopener">' + IG_ICON + 'Takip et</a>';
   }
   function igRender(box, data) {
@@ -1179,7 +1178,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (!home || home.querySelector('[data-bg-faq]')) return;
     var after = home.querySelector('[data-bg-wall]') || home.querySelector('[data-bg="steps"]'); if (!after) return;
     var sec = document.createElement('section'); sec.setAttribute('data-bg-faq', '1'); sec.setAttribute('aria-label', 'Sık sorulan sorular');
-    sec.innerHTML = '<div class="bg-faq-in"><div class="bg-faq-h"><span class="bg-eyebrow">SIK SORULANLAR</span><h2>Aklına takılanlar</h2><p>Burada olmayan bir sorun varsa <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp’tan sor</a>, hemen yanıtlayalım.</p></div><div class="bg-faq-l">' +
+    sec.innerHTML = '<div class="bg-faq-in"><div class="bg-faq-h"><h2>Sık sorulanlar</h2><p>Cevabını bulamadığın bir şey olursa <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan yaz</a>.</p></div><div class="bg-faq-l">' +
       FAQ.map(function (f, i) { return '<details' + (i === 0 ? ' open' : '') + '><summary>' + esc(f[0]) + '</summary><p>' + esc(f[1]) + '</p></details>'; }).join('') + '</div></div>';
     after.parentNode.insertBefore(sec, after.nextSibling);
     if (!document.getElementById('bg-faq-ld')) {

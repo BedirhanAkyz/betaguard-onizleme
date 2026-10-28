@@ -68,14 +68,13 @@
       feat('swap', 'İz bırakmadan sökülür', 'Tarzın değişince sök, yenisini uygula. Cihaz yüzeyine zarar vermez.') +
       feat('hand', 'Metal + plastik aksam', 'Metal aksam seçtiğin desenle, plastik aksam dokulu siyah kaplamayla kaplanır.') +
     '</div></div></div>' +
-    '<div class="bg-sec" data-bg="steps"><span class="bg-eyebrow">NASIL UYGULANIR</span><h2>4 adımda kendin uygula</h2><div class="bg-grid">' +
-      step('01', 'Temizle', 'Paketten çıkan ıslak ve kuru mendille yüzeyi tozsuz ve kuru hale getir.') +
-      step('02', 'Hizala', 'Uygulamadan önce köşe ve kenar noktalarını dikkatlice hizala.') +
-      step('03', 'Uygula', 'Kaplamayı yavaşça yerleştir, ortadan dışa doğru bastırarak havayı al.') +
-      step('04', 'Sabitle', 'Gerekirse kenarları saç kurutma makinesiyle hafifçe ısıtarak yüzeye oturt.') +
-    '</div><p class="bg-steps-more"><a href="/blog/uygulama-rehberi">Kamera, lens, drone ve gimbal için detaylı uygulama rehberi →</a></p></div>' +
-    '<div class="bg-sec" data-bg="cta" style="padding-top:0"><div class="bg-cta"><div><h2>Cihazın listede yok mu?</h2><p>Modelini yaz, kesimi olup olmadığını hemen söyleyelim.</p></div>' +
-      '<a class="bg-btn" href="' + WA + '" target="_blank" rel="noopener">' + I.wa + 'WhatsApp\'tan yaz</a></div></div>';
+    '<div class="bg-sec" data-bg="steps"><h2>Nasıl uygulanır?</h2><div class="bg-grid">' +
+      step('01', 'Temizle', 'Paketteki ıslak mendille sil, kuru mendille kurula.') +
+      step('02', 'Hizala', 'Arka kâğıdı soymadan parçayı cihaza tut, düğme boşluklarına göre yerini bul.') +
+      step('03', 'Yapıştır', 'Kâğıdı yavaş yavaş soy, ortadan kenarlara doğru bastır.') +
+      step('04', 'Kenarları oturt', 'Kalkan kenar olursa saç kurutma makinesiyle hafifçe ısıt, spatulayla bastır.') +
+    '</div><p class="bg-steps-more"><a href="/blog/uygulama-rehberi">Cihaz türüne göre ayrıntılı rehber</a></p></div>' +
+    '';
   var INFO_HTML =
     '<div class="bg-info" data-bg="info">' +
       '<div class="bg-disc">2 kaplamaya 250 ₺, 3 ve üzeri kaplamaya 500 ₺ indirim · 2.000 ₺ üzeri kargo ücretsiz</div>' +
@@ -193,6 +192,7 @@
     'img[data-bg-hero]{display:block!important;width:min(1452px,calc(100% - 48px))!important;max-height:540px!important;margin:24px auto 0!important;border-radius:20px!important;object-fit:cover!important}',
     '@media (max-width:640px){img[data-bg-hero]{width:calc(100% - 24px)!important;margin:12px auto 0!important;border-radius:14px!important}}',
     '.bg-white-ico img,.bg-white-ico svg{filter:brightness(0) invert(1)!important}',
+    '.bg-white-ico{display:none!important}',
     '.bg-white-ico{width:min(1452px,calc(100% - 48px))!important;margin:20px auto 0!important;border:1px solid #26252A;border-radius:16px;box-sizing:border-box}',
     '.bg-arr-l{left:calc((100% - min(1452px,calc(100% - 48px))) / 2 + 16px)!important;right:auto!important}',
     '.bg-arr-r{right:calc((100% - min(1452px,calc(100% - 48px))) / 2 + 16px)!important;left:auto!important}',
@@ -385,15 +385,14 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     return '<section class="bg-hero" data-bg="hero"><div class="bg-hero-l">' +
         '' +
         '<h1>Tek desen.<br>Tek karakter.</h1>' +
-        '<p>Kamera, lens, drone ve gimbal için cihazına özel kesilmiş, çizilmeye karşı koruyan ve iz bırakmadan sökülen kaplamalar.</p>' +
+        '<p>Kamera, lens, drone ve gimbal kaplamaları. Her siparişi İzmir\'de cihazının ölçüsüne göre basıp kesiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
         '<div class="bg-btns"><a class="bg-pill" href="/betaguard-kaplama">Serileri keşfet</a><a class="bg-pill o" href="#bg-find">Cihazını seç</a></div>' +
-        '<div class="bg-facts"><span>9 desen serisi</span><span>780+ model</span><span>1-2 iş gününde kargoda</span></div>' +
       '</div><div class="bg-hero-r"><img alt="Betaguard kaplamalı kamera, drone ve aksesuarlar" src="' + img + '"></div></section>' +
-      '<section class="bg-find" id="bg-find" data-bg="find"><div class="bg-find-h"><div><span class="bg-eyebrow">CİHAZINI SEÇ</span><h2>Cihazın için kaplama bul</h2></div><small>780+ kamera, lens, drone ve gimbal modeli</small></div>' +
+      '<section class="bg-find" id="bg-find" data-bg="find"><div class="bg-find-h"><div><h2>Cihazını bul</h2></div></div>' +
         '<div class="bg-cats">' + cats + '</div>' +
         '<div class="bg-srch"><label for="bg-q" style="position:absolute;width:1px;height:1px;overflow:hidden">Model ara</label><input id="bg-q" type="text" autocomplete="off" placeholder="Model ara: ZV-E10, Avata 2, X-S20…"><a class="bg-go" href="/betaguard-kaplama">Desenleri gör</a><div class="bg-sugg"></div></div>' +
         '<div class="bg-res"></div>' +
-        '<div class="bg-find-n">Cihazın listede yok mu? <a class="wl" href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan yaz</a>, kesimi var mı hemen söyleyelim.</div>' +
+        '<div class="bg-find-n">Listede yoksa <a class="wl" href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan model adını yaz</a>, kesimi var mı bakalım.</div>' +
       '</section>';
   }
 
@@ -921,7 +920,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var IG_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5 L19 12 L8 19 Z"/></svg>';
   var IG_STACK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3 H19 A2 2 0 0 1 21 5 V17 H19 V5 H7 Z"/><rect x="3" y="7" width="14" height="14" rx="2"/></svg>';
   function igHead() {
-    return '<div><span class="bg-eyebrow">INSTAGRAM</span><h2>@' + IG_USER + '</h2><p>Kaplanmış cihazlar, yeni seriler ve uygulama videoları. Sende nasıl duracağını görmek için takipte kal.</p></div>' +
+    return '<div><h2>@' + IG_USER + '</h2><p>Yeni seriler ve müşterilerimizin kaplanmış cihazları önce Instagram\'a düşüyor.</p></div>' +
       '<a class="bg-ig-follow" href="' + IG_URL + '" target="_blank" rel="noopener">' + IG_ICON + 'Takip et</a>';
   }
   function igRender(box, data) {
@@ -1181,7 +1180,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (!home || home.querySelector('[data-bg-faq]')) return;
     var after = home.querySelector('[data-bg-wall]') || home.querySelector('[data-bg="steps"]'); if (!after) return;
     var sec = document.createElement('section'); sec.setAttribute('data-bg-faq', '1'); sec.setAttribute('aria-label', 'Sık sorulan sorular');
-    sec.innerHTML = '<div class="bg-faq-in"><div class="bg-faq-h"><span class="bg-eyebrow">SIK SORULANLAR</span><h2>Aklına takılanlar</h2><p>Burada olmayan bir sorun varsa <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp’tan sor</a>, hemen yanıtlayalım.</p></div><div class="bg-faq-l">' +
+    sec.innerHTML = '<div class="bg-faq-in"><div class="bg-faq-h"><h2>Sık sorulanlar</h2><p>Cevabını bulamadığın bir şey olursa <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan yaz</a>.</p></div><div class="bg-faq-l">' +
       FAQ.map(function (f, i) { return '<details' + (i === 0 ? ' open' : '') + '><summary>' + esc(f[0]) + '</summary><p>' + esc(f[1]) + '</p></details>'; }).join('') + '</div></div>';
     after.parentNode.insertBefore(sec, after.nextSibling);
     if (!document.getElementById('bg-faq-ld')) {
@@ -1411,7 +1410,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 /* ===== 01_v15.js ===== */
 /* v15: En çok tercih edilenler (Royal, Tactical, Lego) */
 (function(){
-  var BS=[{s:'Royal',slug:'royal-gold',n:'3 renk',d:'Siyah, lacivert ve altın; premium ve klasik.'},{s:'Tactical',slug:'tactical-red',n:'5 renk',d:'Kamuflaj dokusu; sahada sert, iddialı görünüm.'},{s:'Lego',slug:'lego',n:'tek renk',d:'Renkli tuğla deseni; eğlenceli ve dikkat çekici.'}];
+  var BS=[{s:'Royal',slug:'royal-gold',n:'3 renk',d:'Barok motif. Siyah, lacivert ve altın.'},{s:'Tactical',slug:'tactical-red',n:'5 renk',d:'Kamuflaj. Kırmızı, mavi, yeşil, gri ve siyah.'},{s:'Lego',slug:'lego',n:'tek renk',d:'Rengarenk tuğla deseni.'}];
   var css=['[data-bg-best]{max-width:1240px;margin:0 auto;padding:56px 24px 8px;box-sizing:border-box;color:#F2F0EB}',
   '.bg-best-h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px}',
   '.bg-best-h h2{margin:8px 0 0;font:italic 900 40px/1.05 Archivo,sans-serif;color:#F2F0EB}',
@@ -1437,7 +1436,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     var ex=document.querySelector('[data-bg-best]');
     if(ex){ if(ex.getAttribute('data-ok')) return; [].forEach.call(ex.querySelectorAll('img[data-slug]'),function(im){ if(!im.getAttribute('src')){ var u=img(im.getAttribute('data-slug')); if(u) im.setAttribute('src',u);} }); if(![].some.call(ex.querySelectorAll('img[data-slug]'),function(im){return !im.getAttribute('src');})) ex.setAttribute('data-ok','1'); return; }
     var sec=document.createElement('section'); sec.setAttribute('data-bg-best','1'); sec.setAttribute('aria-label','En çok tercih edilen desenler');
-    sec.innerHTML='<div class="bg-best-h"><div><span class="bg-eyebrow">EN ÇOK TERCİH EDİLENLER</span><h2>Çok satan 3 seri</h2><p>Kararsız kaldıysan buradan başla. Müşterilerimizin en çok seçtiği desenler.</p></div></div><div class="bg-best-g">'+BS.map(function(b){ var u=img(b.slug); return '<a class="bg-best-c" href="/betaguard-kaplama?desen='+b.slug+'"><div class="bg-best-i"><img data-slug="'+b.slug+'" '+(u?'src="'+u+'"':'')+' alt="'+b.s+' serisi kaplama" loading="lazy"></div><span class="bg-best-b">ÇOK SATAN</span><div class="bg-best-t"><strong>'+b.s+'<span>'+b.n+'</span></strong><p>'+b.d+'</p><em>İncele →</em></div></a>'; }).join('')+'</div>';
+    sec.innerHTML='<div class="bg-best-h"><div><h2>En çok satanlar</h2><p>Siparişlerin çoğu bu üç seriden geliyor.</p></div></div><div class="bg-best-g">'+BS.map(function(b){ var u=img(b.slug); return '<a class="bg-best-c" href="/betaguard-kaplama?desen='+b.slug+'"><div class="bg-best-i"><img data-slug="'+b.slug+'" '+(u?'src="'+u+'"':'')+' alt="'+b.s+' serisi kaplama" loading="lazy"></div><div class="bg-best-t"><strong>'+b.s+'<span>'+b.n+'</span></strong><p>'+b.d+'</p><em>İncele</em></div></a>'; }).join('')+'</div>';
     ds.parentNode.insertBefore(sec, ds);
   }
   var ready=false,q=false;
@@ -1696,10 +1695,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var st = document.createElement('style'); st.id = 'bg-theme-css19'; st.textContent = css; (document.head || document.documentElement).appendChild(st);
   function ic(p){ return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
   var CARDS = [
-    [ic('<path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>'), 'Çizik ve sürtünmeye karşı', 'Çanta, sehpa, kemer tokası… Darbeler cihaza değil kaplamaya gelir.'],
-    [ic('<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>'), 'İkinci el değerini korur', 'Satmaya karar verdiğinde kaplamayı sök; cihazın ilk günkü gibi çıksın.'],
+    [ic('<path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>'), 'Çizik ve sürtünmeye karşı', 'Çantada, tripodda, kemer tokasında oluşan çizikleri kaplama alır.'],
+    [ic('<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>'), 'İkinci el değerini korur', 'Satarken kaplamayı sökersin, gövde ilk günkü gibi çıkar.'],
     [ic('<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="7" r="1"/><circle cx="16" cy="10" r="1"/>'), 'Ekipmanına karakter kat', 'Onlarca desen ve renk. Kamerandan dronuna tüm setin aynı tarzda.'],
-    [ic('<path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/>'), 'İz bırakmadan sökülür', 'Cihazın yüzeyine zarar vermez. Canın sıkıldığında yeni desene geç.']
+    [ic('<path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/>'), 'İz bırakmadan sökülür', 'Yüzeyde yapışkan ya da iz kalmaz.']
   ];
   function build(){
     var s = document.createElement('section'); s.className = 'bg-why'; s.setAttribute('data-bg-why', '1');
@@ -1713,9 +1712,9 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         '<input type="range" min="0" max="100" value="50" aria-label="Karşılaştırma çubuğu"></div>' +
         '<p class="bg-ba-cap">Çubuğu kaydır, farkı gör' + (DEVICE ? ' · ' + DEVICE : '') + '</p>';
     }
-    s.innerHTML = '<div class="bg-why-h"><small>Neden Betaguard?</small><h2>Cihazın neden kaplanmalı?</h2><p>Ekipmanına hem koruma hem kimlik kazandır. Üstelik istediğin an iz bırakmadan çıkar.</p></div>' + ba +
+    s.innerHTML = '<div class="bg-why-h"><h2>Neden kaplama?</h2><p>Hem cihazı korur hem de görünüşünü değiştirir. Sıkıldığında söker, başka desene geçersin.</p></div>' + ba +
       '<div class="bg-why-g">' + CARDS.map(function(c){ return '<div class="bg-why-c"><i>' + c[0] + '</i><b>' + c[1] + '</b><span>' + c[2] + '</span></div>'; }).join('') + '</div>' +
-      '<div class="bg-why-cta"><a href="/betaguard-kaplama">Cihazını seç, desenleri gör →</a></div>';
+      '<div class="bg-why-cta"><a href="/betaguard-kaplama">Desenlere bak</a></div>';
     var box = s.querySelector('.bg-ba');
     if (box) {
       var inp = box.querySelector('input');
@@ -1880,7 +1879,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     var el = document.querySelector('.bg-kt-pill');
     var off = Date.now() > END || /^\/(checkout|account)/.test(location.pathname) || (function(){ try { return sessionStorage.getItem('bg_kt_pill_x'); } catch (x) { return null; } })();
     if (off) { if (el) el.remove(); return; }
-    var prev = store(), txt = prev && prev.code ? 'Kodun: ' + atob(K[prev.tier]) + ' · ödemede kullan' : '🎯 Oyna, 250 ₺\'ye kadar indirim kazan';
+    var prev = store(), txt = prev && prev.code ? 'Kodun: ' + atob(K[prev.tier]) + ' · ödemede kullan' : 'Oyna, 250 ₺\'ye kadar indirim kazan';
     if (!el) {
       el = document.createElement('div'); el.className = 'bg-kt-pill'; el.setAttribute('role', 'button'); el.tabIndex = 0;
       el.innerHTML = '<span></span><button type="button" aria-label="Kapat">×</button>';
@@ -1905,7 +1904,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (!after || !after.parentNode) return;
     var sec = document.createElement('section'); sec.className = 'bg-kt'; sec.setAttribute('data-bg-kt', '1');
     var prev = store();
-    sec.innerHTML = '<div class="bg-kt-card"><div><small>Açılışa özel · 5 Kasım\'a kadar</small><h3>🎯 Kesimi tuttur, indirim kazan</h3><p>Kaplamayı cihaza tam oturt; isabetine göre 100–250 ₺ indirim kodu senin. 20 saniye sürer.</p></div><button class="bg-kt-btn" type="button">' + (prev && prev.code ? 'Kodumu göster' : 'Hemen oyna') + '</button></div>';
+    sec.innerHTML = '<div class="bg-kt-card"><div><small>5 Kasım\'a kadar</small><h3>Kesimi tuttur, indirim kazan</h3><p>Kaplamayı cihaza ne kadar düzgün oturtursan o kadar indirim: 100 ile 250 ₺ arası. Oyun 20 saniye sürüyor.</p></div><button class="bg-kt-btn" type="button">' + (prev && prev.code ? 'Kodumu göster' : 'Hemen oyna') + '</button></div>';
     sec.querySelector('button').onclick = openGame;
     after.parentNode.insertBefore(sec, after.nextSibling);
   }
@@ -2060,7 +2059,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         var c = cards[2];
         c.querySelector('i').innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg>';
         c.querySelector('b').textContent = 'Cihazına özel kesim';
-        c.querySelector('span').textContent = 'Her parça modeline göre kesilir; düğmeler, portlar ve ekran açık kalır.';
+        c.querySelector('span').textContent = 'Her parça modeline göre kesilir. Düğmeler, portlar ve ekran açıkta kalır.';
         var g = why.querySelector('.bg-why-g');
         if (g && !why.querySelector('.bg-why-note')) { var n = document.createElement('p'); n.className = 'bg-why-note'; n.textContent = 'Metal aksam seçtiğin desenle, plastik aksam dokulu siyah kaplamayla kaplanır.'; g.parentNode.insertBefore(n, g.nextSibling); }
       }
@@ -2303,9 +2302,9 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function studio(sec, S){
     var st = { s: 0, c: S[0].def };
     sec.innerHTML =
-      '<div class="bg24-h"><div><span class="bg-eyebrow">DESENLER</span><h2>Desenini seç, cihazında gör</h2>' +
-      '<p>9 seri, 39 renk. Bir seri ve renk seç; kamera, lens, drone ve gimbalda nasıl durduğunu hemen gör.</p></div>' +
-      '<a class="bg24-sec" href="/betaguard-kaplama">Tüm ürünler →</a></div>' +
+      '<div class="bg24-h"><div><h2>Desenler</h2>' +
+      '<p>9 seri, 39 renk. Seçtiğin desen kamera, lens, drone ve gimbal üzerinde görünür.</p></div>' +
+      '<a class="bg24-sec" href="/betaguard-kaplama">Tüm ürünler</a></div>' +
       '<div class="bg24-studio"><div class="bg24-stage"><img class="bg24-dev" alt="" decoding="async">' +
       '<div class="bg24-zoom"><i></i><span><b></b><small>Desen yakın görünüm</small></span></div></div>' +
       '<div class="bg24-panel"><div><p class="bg24-lbl">Seri</p><div class="bg24-ser" role="group" aria-label="Seri">' +
@@ -2468,7 +2467,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function texts(){
     /* hero */
     var h1 = document.querySelector('.bg-hero h1');
-    if (h1 && !h1.getAttribute('data-v25')) { h1.setAttribute('data-v25', '1'); h1.innerHTML = 'Cihazına özel<br>kaplama.<span class="bg-h1s">Tek desen. Tek karakter.</span>'; }
+    if (h1 && !h1.getAttribute('data-v25')) { h1.setAttribute('data-v25', '1'); h1.innerHTML = 'Ekipmanını koru.<br>Tarzını yansıt.'; }
     /* neden kaplanmali: darbe iddiasi */
     var why = document.querySelector('.bg-why');
     if (why && !why.getAttribute('data-v25')) {
@@ -3006,10 +3005,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     var find = document.querySelector('.bg-find'); if (!find || !find.parentElement) return;
     var list = POP.map(function(k){ return BYSLUG[k]; }).filter(Boolean); if (!list.length) return;
     var sec = document.createElement('section'); sec.className = 'bg26-pop';
-    sec.innerHTML = '<div class="bg26-pop-h"><div><span class="bg-eyebrow">POPÜLER CİHAZLAR</span><h2>En çok kaplanan cihazlar</h2><p>Her cihazın kendi sayfası var: 39 deseni kendi cihazının üzerinde gör, seç, sepete at.</p></div>' +
+    sec.innerHTML = '<div class="bg26-pop-h"><div><h2>En çok kaplanan cihazlar</h2><p>Her cihazın sayfasında 39 deseni o cihazın üzerinde görebilirsin.</p></div>' +
       '<div class="bg26-pop-tabs"><a href="/kamera">Tüm kameralar</a><a href="/lens">Tüm lensler</a><a href="/drone">Dronelar</a><a href="/aksiyon-kamera">Aksiyon</a><a href="/gimbal">Gimbal</a></div></div>' +
       '<div class="bg26-pop-g">' + list.map(function(d, i){ var cv = COVERS[i % COVERS.length]; return '<a class="bg26-it" href="/' + d.s + '?desen=' + cv + '"><span class="im"><img loading="lazy" ' + tattr(d, cv) + ' alt="' + esc(d.b + ' ' + d.m) + ' kaplama"></span><span class="tx"><span class="ty">' + TYPE[d.t] + '</span><span class="nm">' + esc(d.b + ' ' + d.m) + '</span><span class="pr">' + fmt(d.p) + ' · 39 desen</span></span></a>'; }).join('') + '</div>' +
-      '<div class="bg26-pop-more"><a href="#" data-bg26-open="">Cihazını ara · ' + ALL.length + ' önizlemeli model</a></div>';
+      '<div class="bg26-pop-more"><a href="#" data-bg26-open="">Tüm modellerde ara (' + ALL.length + ')</a></div>';
     find.parentElement.insertBefore(sec, find.nextSibling);
     sec.querySelector('[data-bg26-open]').addEventListener('click', function(e){ e.preventDefault(); openPicker(null, ''); });
   }
@@ -3515,12 +3514,13 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
   function build() {
     if (location.pathname !== '/') { var o = document.querySelector('[data-bg-rev]'); if (o) o.remove(); return; }
+    if (!R.length) { var e0 = document.querySelector('[data-bg-rev]'); if (e0) e0.remove(); return; }
     if (document.querySelector('[data-bg-rev]')) return;
     var faq = document.querySelector('[data-bg-faq]');
     if (!faq || !faq.parentNode) return;
     if (!document.getElementById('bg-rev-css')) { var st = document.createElement('style'); st.id = 'bg-rev-css'; st.textContent = css; document.head.appendChild(st); }
     var s = document.createElement('section'); s.setAttribute('data-bg-rev', '1');
-    var h = '<div class="bg-rev-in"><div class="bg-rev-top"><div><span class="bg-eyebrow">Müşteri yorumları</span><h2>Kullananlar ne diyor?</h2>' +
+    var h = '<div class="bg-rev-in"><div class="bg-rev-top"><div><h2>Müşteri yorumları</h2>' +
       '<p>Yorumlar yalnızca gerçek alıcılardan gelir: siparişin kargoya verildikten 3 gün sonra e-postana gelen davetle, fotoğraflı yorumunu bırakabilirsin. Her yorum onaylandıktan sonra yayınlanır.</p></div>' +
       '</div>';
     if (R.length) {

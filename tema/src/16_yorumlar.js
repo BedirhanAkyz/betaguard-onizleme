@@ -41,12 +41,13 @@
   }
   function build() {
     if (location.pathname !== '/') { var o = document.querySelector('[data-bg-rev]'); if (o) o.remove(); return; }
+    if (!R.length) { var e0 = document.querySelector('[data-bg-rev]'); if (e0) e0.remove(); return; }
     if (document.querySelector('[data-bg-rev]')) return;
     var faq = document.querySelector('[data-bg-faq]');
     if (!faq || !faq.parentNode) return;
     if (!document.getElementById('bg-rev-css')) { var st = document.createElement('style'); st.id = 'bg-rev-css'; st.textContent = css; document.head.appendChild(st); }
     var s = document.createElement('section'); s.setAttribute('data-bg-rev', '1');
-    var h = '<div class="bg-rev-in"><div class="bg-rev-top"><div><span class="bg-eyebrow">Müşteri yorumları</span><h2>Kullananlar ne diyor?</h2>' +
+    var h = '<div class="bg-rev-in"><div class="bg-rev-top"><div><h2>Müşteri yorumları</h2>' +
       '<p>Yorumlar yalnızca gerçek alıcılardan gelir: siparişin kargoya verildikten 3 gün sonra e-postana gelen davetle, fotoğraflı yorumunu bırakabilirsin. Her yorum onaylandıktan sonra yayınlanır.</p></div>' +
       '</div>';
     if (R.length) {

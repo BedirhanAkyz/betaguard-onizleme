@@ -59,7 +59,7 @@
   function texts(){
     /* hero */
     var h1 = document.querySelector('.bg-hero h1');
-    if (h1 && !h1.getAttribute('data-v25')) { h1.setAttribute('data-v25', '1'); h1.innerHTML = 'Cihazına özel<br>kaplama.<span class="bg-h1s">Tek desen. Tek karakter.</span>'; }
+    if (h1 && !h1.getAttribute('data-v25')) { h1.setAttribute('data-v25', '1'); h1.innerHTML = 'Ekipmanını koru.<br>Tarzını yansıt.'; }
     /* neden kaplanmali: darbe iddiasi */
     var why = document.querySelector('.bg-why');
     if (why && !why.getAttribute('data-v25')) {

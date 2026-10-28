@@ -142,7 +142,7 @@
         var c = cards[2];
         c.querySelector('i').innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg>';
         c.querySelector('b').textContent = 'Cihazına özel kesim';
-        c.querySelector('span').textContent = 'Her parça modeline göre kesilir; düğmeler, portlar ve ekran açık kalır.';
+        c.querySelector('span').textContent = 'Her parça modeline göre kesilir. Düğmeler, portlar ve ekran açıkta kalır.';
         var g = why.querySelector('.bg-why-g');
         if (g && !why.querySelector('.bg-why-note')) { var n = document.createElement('p'); n.className = 'bg-why-note'; n.textContent = 'Metal aksam seçtiğin desenle, plastik aksam dokulu siyah kaplamayla kaplanır.'; g.parentNode.insertBefore(n, g.nextSibling); }
       }

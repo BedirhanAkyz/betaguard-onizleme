@@ -477,10 +477,10 @@
     var find = document.querySelector('.bg-find'); if (!find || !find.parentElement) return;
     var list = POP.map(function(k){ return BYSLUG[k]; }).filter(Boolean); if (!list.length) return;
     var sec = document.createElement('section'); sec.className = 'bg26-pop';
-    sec.innerHTML = '<div class="bg26-pop-h"><div><span class="bg-eyebrow">POPÜLER CİHAZLAR</span><h2>En çok kaplanan cihazlar</h2><p>Her cihazın kendi sayfası var: 39 deseni kendi cihazının üzerinde gör, seç, sepete at.</p></div>' +
+    sec.innerHTML = '<div class="bg26-pop-h"><div><h2>En çok kaplanan cihazlar</h2><p>Her cihazın sayfasında 39 deseni o cihazın üzerinde görebilirsin.</p></div>' +
       '<div class="bg26-pop-tabs"><a href="/kamera">Tüm kameralar</a><a href="/lens">Tüm lensler</a><a href="/drone">Dronelar</a><a href="/aksiyon-kamera">Aksiyon</a><a href="/gimbal">Gimbal</a></div></div>' +
       '<div class="bg26-pop-g">' + list.map(function(d, i){ var cv = COVERS[i % COVERS.length]; return '<a class="bg26-it" href="/' + d.s + '?desen=' + cv + '"><span class="im"><img loading="lazy" ' + tattr(d, cv) + ' alt="' + esc(d.b + ' ' + d.m) + ' kaplama"></span><span class="tx"><span class="ty">' + TYPE[d.t] + '</span><span class="nm">' + esc(d.b + ' ' + d.m) + '</span><span class="pr">' + fmt(d.p) + ' · 39 desen</span></span></a>'; }).join('') + '</div>' +
-      '<div class="bg26-pop-more"><a href="#" data-bg26-open="">Cihazını ara · ' + ALL.length + ' önizlemeli model</a></div>';
+      '<div class="bg26-pop-more"><a href="#" data-bg26-open="">Tüm modellerde ara (' + ALL.length + ')</a></div>';
     find.parentElement.insertBefore(sec, find.nextSibling);
     sec.querySelector('[data-bg26-open]').addEventListener('click', function(e){ e.preventDefault(); openPicker(null, ''); });
   }
