@@ -126,7 +126,7 @@
       '<div class="bg24-panel"><div><p class="bg24-lbl">Seri</p><div class="bg24-ser" role="group" aria-label="Seri">' +
       S.map(function(x, i){ return '<button type="button" class="bg24-s" data-i="' + i + '"><i style="background-image:url(' + u(x.card, 180) + ')"></i><span>' + esc(x.name) + '<small>' + (x.cols.length > 1 ? x.cols.length + ' renk' : 'tek renk') + '</small></span></button>'; }).join('') +
       '</div></div><div class="bg24-cw"><p class="bg24-lbl">Renk</p><div class="bg24-cols" role="group" aria-label="Renk"></div><p class="bg24-cn"></p></div>' +
-      '<p class="bg24-desc"></p><div class="bg24-cta"><a class="bg24-go" href="#">Bu desenle başla →</a></div></div></div>';
+      '<p class="bg24-desc"></p><div class="bg24-cta"><a class="bg24-go" href="#">Bu desenle başla</a></div></div></div>';
     var dev = sec.querySelector('.bg24-dev'), zi = sec.querySelector('.bg24-zoom i'), zb = sec.querySelector('.bg24-zoom b');
     var cols = sec.querySelector('.bg24-cols'), cn = sec.querySelector('.bg24-cn'), desc = sec.querySelector('.bg24-desc'), go = sec.querySelector('.bg24-go'), cw = sec.querySelector('.bg24-cw');
     var tok = 0;

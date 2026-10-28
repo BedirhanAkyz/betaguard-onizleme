@@ -1168,7 +1168,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
 
   var FAQ = [
-    ['Kaplama cihazıma zarar verir mi, iz bırakır mı?', 'Hayır. Kaplama yüzeyi günlük çizik ve sürtünmelere karşı korur; söküldüğünde cihazda iz bırakmaz.'],
+    ['Kaplama cihazıma zarar verir mi, iz bırakır mı?', 'Hayır. Kaplama günlük çizik ve sürtünmelere karşı korur. Söktüğünde cihazda iz kalmaz.'],
     ['Kendim uygulayabilir miyim?', 'Evet. Paketten çıkan uygulama setiyle (spatula ve temizlik mendilleri) yukarıdaki 4 adımı izleyerek kendin uygulayabilirsin.'],
     ['Kesim cihazıma tam oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel basılıp kesilir. Düğmeler, portlar ve ekran alanları açık bırakılır.'],
     ['Plastik kısımlar da kaplanıyor mu?', 'Evet. Cihazın metal aksamı seçtiğin desenle, plastik aksamı dokulu siyah kaplamayla kaplanır.'],
@@ -1960,7 +1960,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   ].join('');
   var st = document.createElement('style'); st.id = 'bg-theme-css21'; st.textContent = css; (document.head || document.documentElement).appendChild(st);
   var FAQ = [
-    ['Fiyat neye göre değişiyor?', 'Fiyat cihazının modeline göre belirlenir; kaplama sayfasında cihazını seçtiğinde net fiyatı görürsün. 2 kaplamaya 250 ₺, 3 ve üzeri kaplamaya 500 ₺ indirim sepette uygulanır.'],
+    ['Fiyat neye göre değişiyor?', 'Fiyat cihazın modeline göre değişir. Cihazını seçtiğinde net fiyatı görürsün. 2 kaplamaya 250 ₺, 3 ve üzeri kaplamaya 500 ₺ indirim sepette uygulanır.'],
     ['Hangi ödeme yöntemleri var?', 'Kredi kartı ve banka kartıyla, ikas güvenli ödeme altyapısı üzerinden ödeme yapabilirsin.'],
     ['İade veya değişim yapabilir miyim?', 'Kaplamalar seçtiğin cihaza özel üretildiği için cayma hakkı kapsamında değildir. Ürün hatalı ya da hasarlı ulaşırsa fotoğrafıyla WhatsApp’tan bildir, inceleyip çözelim.'],
     ['Yanlış cihazı seçtim, ne yapmalıyım?', 'Siparişin üretime girmeden WhatsApp’tan yaz, cihaz bilgisini birlikte düzeltelim.']
@@ -2035,7 +2035,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
           '<div><b><em>04</em>Sabitle</b><span>Kenarları hafif ısıyla yüzeye oturt.</span></div></div>' +
           '<a class="bg-px-more" href="/blog/uygulama-rehberi">Cihaz türüne göre detaylı uygulama rehberi →</a></div>' +
         '<div class="bg-px-c"><h4><i>◆</i>Sık sorulanlar</h4>' +
-          det(['Kaplama cihazıma zarar verir mi?', 'Hayır. Günlük çizik ve sürtünmelere karşı korur; söküldüğünde cihazda iz bırakmaz.']) +
+          det(['Kaplama cihazıma zarar verir mi?', 'Hayır. Günlük çizik ve sürtünmelere karşı korur. Söktüğünde cihazda iz kalmaz.']) +
           det(['Kesim cihazıma oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel kesilir. Düğmeler, portlar ve ekran alanları açık kalır.']) +
           det(['Ne zaman kargoya verilir?', 'Siparişe özel üretilir ve 1-2 iş gününde kargoya verilir. 2.000 ₺ üzeri kargo ücretsiz.']) +
           det(FAQ[2]) +
@@ -2310,7 +2310,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       '<div class="bg24-panel"><div><p class="bg24-lbl">Seri</p><div class="bg24-ser" role="group" aria-label="Seri">' +
       S.map(function(x, i){ return '<button type="button" class="bg24-s" data-i="' + i + '"><i style="background-image:url(' + u(x.card, 180) + ')"></i><span>' + esc(x.name) + '<small>' + (x.cols.length > 1 ? x.cols.length + ' renk' : 'tek renk') + '</small></span></button>'; }).join('') +
       '</div></div><div class="bg24-cw"><p class="bg24-lbl">Renk</p><div class="bg24-cols" role="group" aria-label="Renk"></div><p class="bg24-cn"></p></div>' +
-      '<p class="bg24-desc"></p><div class="bg24-cta"><a class="bg24-go" href="#">Bu desenle başla →</a></div></div></div>';
+      '<p class="bg24-desc"></p><div class="bg24-cta"><a class="bg24-go" href="#">Bu desenle başla</a></div></div></div>';
     var dev = sec.querySelector('.bg24-dev'), zi = sec.querySelector('.bg24-zoom i'), zb = sec.querySelector('.bg24-zoom b');
     var cols = sec.querySelector('.bg24-cols'), cn = sec.querySelector('.bg24-cn'), desc = sec.querySelector('.bg24-desc'), go = sec.querySelector('.bg24-go'), cw = sec.querySelector('.bg24-cw');
     var tok = 0;
@@ -2460,7 +2460,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
   var FAQ = [
     [/^Siparişim ne zaman kargoya verilir/, 'Kaplamalar siparişe özel üretilir ve 1-2 iş gününde Aras Kargo ile gönderilir. 2.000 ₺ ve üzeri siparişlerde kargo ücretsiz, altındaki siparişlerde 200 ₺\'dir.'],
-    [/^Hangi ödeme yöntemleri var/, 'Kredi kartı ve banka kartıyla, ikas güvenli ödeme altyapısı üzerinden ödeyebilirsin. Kredi kartına 12 aya varan taksit seçeneği var; taksit farkı ödeme sayfasında gösterilir.'],
+    [/^Hangi ödeme yöntemleri var/, 'Kredi kartı ve banka kartıyla, ikas güvenli ödeme altyapısı üzerinden ödeyebilirsin. Kredi kartına 12 aya varan taksit var, taksit farkı ödeme sayfasında görünür.'],
     [/^İade veya değişim yapabilir miyim/, 'Kaplamalar seçtiğin cihaza özel kesildiği için cayma hakkı kapsamında değildir. Kesim hatası, yanlış ürün ya da kargo hasarı gibi bizden kaynaklı bir sorunda aynı ürünü ücretsiz olarak yeniden gönderiyoruz; ürünün fotoğrafıyla WhatsApp\'tan bildirmen yeterli.']
   ];
 

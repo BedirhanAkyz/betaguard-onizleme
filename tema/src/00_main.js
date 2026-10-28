@@ -1166,7 +1166,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
 
   var FAQ = [
-    ['Kaplama cihazıma zarar verir mi, iz bırakır mı?', 'Hayır. Kaplama yüzeyi günlük çizik ve sürtünmelere karşı korur; söküldüğünde cihazda iz bırakmaz.'],
+    ['Kaplama cihazıma zarar verir mi, iz bırakır mı?', 'Hayır. Kaplama günlük çizik ve sürtünmelere karşı korur. Söktüğünde cihazda iz kalmaz.'],
     ['Kendim uygulayabilir miyim?', 'Evet. Paketten çıkan uygulama setiyle (spatula ve temizlik mendilleri) yukarıdaki 4 adımı izleyerek kendin uygulayabilirsin.'],
     ['Kesim cihazıma tam oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel basılıp kesilir. Düğmeler, portlar ve ekran alanları açık bırakılır.'],
     ['Plastik kısımlar da kaplanıyor mu?', 'Evet. Cihazın metal aksamı seçtiğin desenle, plastik aksamı dokulu siyah kaplamayla kaplanır.'],

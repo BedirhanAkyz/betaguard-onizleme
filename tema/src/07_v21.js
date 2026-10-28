@@ -43,7 +43,7 @@
   ].join('');
   var st = document.createElement('style'); st.id = 'bg-theme-css21'; st.textContent = css; (document.head || document.documentElement).appendChild(st);
   var FAQ = [
-    ['Fiyat neye göre değişiyor?', 'Fiyat cihazının modeline göre belirlenir; kaplama sayfasında cihazını seçtiğinde net fiyatı görürsün. 2 kaplamaya 250 ₺, 3 ve üzeri kaplamaya 500 ₺ indirim sepette uygulanır.'],
+    ['Fiyat neye göre değişiyor?', 'Fiyat cihazın modeline göre değişir. Cihazını seçtiğinde net fiyatı görürsün. 2 kaplamaya 250 ₺, 3 ve üzeri kaplamaya 500 ₺ indirim sepette uygulanır.'],
     ['Hangi ödeme yöntemleri var?', 'Kredi kartı ve banka kartıyla, ikas güvenli ödeme altyapısı üzerinden ödeme yapabilirsin.'],
     ['İade veya değişim yapabilir miyim?', 'Kaplamalar seçtiğin cihaza özel üretildiği için cayma hakkı kapsamında değildir. Ürün hatalı ya da hasarlı ulaşırsa fotoğrafıyla WhatsApp’tan bildir, inceleyip çözelim.'],
     ['Yanlış cihazı seçtim, ne yapmalıyım?', 'Siparişin üretime girmeden WhatsApp’tan yaz, cihaz bilgisini birlikte düzeltelim.']
@@ -118,7 +118,7 @@
           '<div><b><em>04</em>Sabitle</b><span>Kenarları hafif ısıyla yüzeye oturt.</span></div></div>' +
           '<a class="bg-px-more" href="/blog/uygulama-rehberi">Cihaz türüne göre detaylı uygulama rehberi →</a></div>' +
         '<div class="bg-px-c"><h4><i>◆</i>Sık sorulanlar</h4>' +
-          det(['Kaplama cihazıma zarar verir mi?', 'Hayır. Günlük çizik ve sürtünmelere karşı korur; söküldüğünde cihazda iz bırakmaz.']) +
+          det(['Kaplama cihazıma zarar verir mi?', 'Hayır. Günlük çizik ve sürtünmelere karşı korur. Söktüğünde cihazda iz kalmaz.']) +
           det(['Kesim cihazıma oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel kesilir. Düğmeler, portlar ve ekran alanları açık kalır.']) +
           det(['Ne zaman kargoya verilir?', 'Siparişe özel üretilir ve 1-2 iş gününde kargoya verilir. 2.000 ₺ üzeri kargo ücretsiz.']) +
           det(FAQ[2]) +

@@ -52,7 +52,7 @@
 
   var FAQ = [
     [/^Siparişim ne zaman kargoya verilir/, 'Kaplamalar siparişe özel üretilir ve 1-2 iş gününde Aras Kargo ile gönderilir. 2.000 ₺ ve üzeri siparişlerde kargo ücretsiz, altındaki siparişlerde 200 ₺\'dir.'],
-    [/^Hangi ödeme yöntemleri var/, 'Kredi kartı ve banka kartıyla, ikas güvenli ödeme altyapısı üzerinden ödeyebilirsin. Kredi kartına 12 aya varan taksit seçeneği var; taksit farkı ödeme sayfasında gösterilir.'],
+    [/^Hangi ödeme yöntemleri var/, 'Kredi kartı ve banka kartıyla, ikas güvenli ödeme altyapısı üzerinden ödeyebilirsin. Kredi kartına 12 aya varan taksit var, taksit farkı ödeme sayfasında görünür.'],
     [/^İade veya değişim yapabilir miyim/, 'Kaplamalar seçtiğin cihaza özel kesildiği için cayma hakkı kapsamında değildir. Kesim hatası, yanlış ürün ya da kargo hasarı gibi bizden kaynaklı bir sorunda aynı ürünü ücretsiz olarak yeniden gönderiyoruz; ürünün fotoğrafıyla WhatsApp\'tan bildirmen yeterli.']
   ];
 
