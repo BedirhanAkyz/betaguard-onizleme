@@ -2,7 +2,17 @@
 (function () {
   if (window.__bgSeo) return; window.__bgSeo = 1;
   function txt(e) { return (e && (e.innerText || e.textContent) || '').replace(/\s+/g, ' ').trim(); }
+  function unwrapH1(h) { var p = h.parentNode; while (h.firstChild) p.insertBefore(h.firstChild, h); p.removeChild(h); }
   function h1() {
+    /* urun sayfasi: urun adi H1 olmali; gizli ya da baska H1'leri kaldir */
+    var pt = document.querySelector('[data-bg-ptitle]');
+    if (pt && pt.offsetHeight) {
+      [].forEach.call(document.querySelectorAll('h1[data-bg-h1]'), function (x) { if (!pt.contains(x)) unwrapH1(x); });
+      if (!pt.querySelector('h1')) { var hp = document.createElement('h1'); hp.setAttribute('data-bg-h1', '1'); hp.style.cssText = 'font:inherit;margin:0;padding:0;color:inherit;letter-spacing:inherit;text-transform:inherit;line-height:inherit'; while (pt.firstChild) hp.appendChild(pt.firstChild); pt.appendChild(hp); }
+      return;
+    }
+    /* gorunmeyen H1 sayilmaz */
+    [].forEach.call(document.querySelectorAll('h1[data-bg-h1]'), function (x) { if (!x.offsetHeight) unwrapH1(x); });
     if (document.querySelector('h1')) return;
     var best = null, bs = 0, all = document.querySelectorAll('#app div,#app p,#app span,main div,main p,main span');
     for (var i = 0; i < all.length; i++) {
@@ -14,7 +24,7 @@
       if (fs > bs) { bs = fs; best = e; }
     }
     if (!best || bs < 24) return;
-    var h = document.createElement('h1');
+    var h = document.createElement('h1'); h.setAttribute('data-bg-h1', '1');
     h.style.cssText = 'font:inherit;margin:0;padding:0;color:inherit;letter-spacing:inherit;text-transform:inherit;line-height:inherit';
     while (best.firstChild) h.appendChild(best.firstChild);
     best.appendChild(h);

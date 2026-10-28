@@ -164,7 +164,7 @@
     '.bg27{width:100%;flex-basis:100%;box-sizing:border-box;margin:4px 0 28px}',
     '.bg27-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 20px;margin:0 0 14px}',
     '.bg27-h h1{margin:0;font:italic 800 32px/1.05 Archivo,sans-serif!important;color:#F2F0EB}',
-    '.bg27-h h1 small{display:block;margin-top:6px;font:500 13.5px/1.5 Manrope,sans-serif;color:#A9A59D;font-style:normal}',
+    '.bg27-h .bg27-sub{display:block;margin-top:6px;font:500 13.5px/1.5 Manrope,sans-serif;color:#A9A59D;font-style:normal}',
     '.bg27-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px}',
     '.bg27-in{min-width:260px;padding:11px 14px 11px 38px;border:1px solid #2F2E33;border-radius:999px;background:#151517 url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23A9A59D%27 stroke-width=%272%27%3E%3Ccircle cx=%2711%27 cy=%2711%27 r=%277%27/%3E%3Cpath d=%27m20 20-3.5-3.5%27/%3E%3C/svg%3E") 13px center/16px no-repeat;color:#F2F0EB;font:500 14px Manrope,sans-serif;outline:none}',
     '.bg27-in:focus{border-color:#C9A45C}',
@@ -604,7 +604,7 @@
     var TOPS = {};
     function topset(b){ if (!TOPS[b]) { var l = base.filter(function(d){ return inBrand(d, b); }), t = {}; l.slice().sort(popCmp).slice(0, Math.min(12, Math.ceil(l.length / 6))).forEach(function(d){ t[d.s] = 1; }); TOPS[b] = t; } return TOPS[b]; }
     host = document.createElement('section'); host.className = 'bg27'; host.setAttribute('aria-label', TYPE[ci.k] + ' kaplama modelleri');
-    host.innerHTML = '<div class="bg27-h"><h1>' + esc((bn ? bn + ' ' : '') + TYPE[ci.k]) + ' kaplama<small></small></h1>' +
+    host.innerHTML = '<div class="bg27-h"><h1>' + esc((bn ? bn + ' ' : '') + TYPE[ci.k]) + ' Kaplama</h1><small class="bg27-sub"></small>' +
       '<div class="bg27-tools"><input class="bg27-in" type="search" placeholder="Model ara: ' + (ci.k === 'L' ? '24-70, 50mm, 70-200…' : ci.k === 'K' ? 'A7 IV, R6, Z6 III…' : ci.k === 'D' ? 'Mini 4 Pro, Air 3S…' : ci.k === 'G' ? 'RS 4, Weebill…' : 'Pocket 3, Hero…') + '" autocomplete="off" aria-label="Model ara">' +
       '<select class="bg27-sort" aria-label="Sırala">' + Object.keys(SORTS).map(function(k){ return '<option value="' + k + '">' + (k === 'pop' && (ci.k === 'D' || ci.k === 'A') ? 'En yeni' : SORTS[k][0]) + '</option>'; }).join('') + '</select></div></div>' +
       '<div class="bg27-g"></div><div class="bg27-more"></div>';
@@ -621,7 +621,7 @@
       var tb = [].filter.call(document.querySelectorAll('div'), function(e){ return e.offsetHeight > 0 && e.offsetHeight < 80 && /Öne Çıkanlar/.test(e.textContent) && /Sütun|Filtre/.test(e.textContent) && !e.contains(bar) && !e.closest('.bg27'); });
       tb.sort(function(a, b){ return b.offsetWidth - a.offsetWidth; }); if (tb[0]) tb[0].classList.add('bg27-ikas');
     } catch (x) {}
-    var g = host.querySelector('.bg27-g'), more = host.querySelector('.bg27-more'), sub = host.querySelector('h1 small'), inp = host.querySelector('.bg27-in'), sel = host.querySelector('.bg27-sort');
+    var g = host.querySelector('.bg27-g'), more = host.querySelector('.bg27-more'), sub = host.querySelector('.bg27-sub'), inp = host.querySelector('.bg27-in'), sel = host.querySelector('.bg27-sort');
     function list(){
       var l = base.filter(function(d){ return inBrand(d, st.brand); });
       if (st.q.trim()) l = find(st.q, ci.k).filter(function(d){ return inBrand(d, st.brand); });
