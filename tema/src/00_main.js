@@ -383,7 +383,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     return '<section class="bg-hero" data-bg="hero"><div class="bg-hero-l">' +
         '' +
         '<h1>Tek desen.<br>Tek karakter.</h1>' +
-        '<p>Kamera, lens, drone ve gimbal kaplamaları. Her siparişi İzmir\'de cihazının ölçüsüne göre basıp kesiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
+        '<p>Kamera, lens, drone ve gimbal kaplamaları. Her siparişi cihazının ölçüsüne göre basıp kesiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
         '<div class="bg-btns"><a class="bg-pill" href="/betaguard-kaplama">Serileri keşfet</a><a class="bg-pill o" href="#bg-find">Cihazını seç</a></div>' +
       '</div><div class="bg-hero-r"><img alt="Betaguard kaplamalı kamera, drone ve aksesuarlar" src="' + img + '"></div></section>' +
       '<section class="bg-find" id="bg-find" data-bg="find"><div class="bg-find-h"><div><h2>Cihazını bul</h2></div></div>' +
