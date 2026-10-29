@@ -25,17 +25,17 @@
     '.bg-kt h3{font-family:Archivo,sans-serif!important;font-style:italic!important;font-weight:800!important}',
     '#nasil-uygulanir h2{margin-bottom:24px!important}',
     /* hero */
-    '.bg-hero h1 .bg-h1s{display:block;margin-top:14px;font:italic 800 26px/1.2 Archivo,sans-serif;color:#E7E5E0;letter-spacing:0}',
+    '.bg-hero h1 .bg-h1s{display:block;margin-top:14px;font:italic 800 26px/1.2 Archivo,sans-serif;color:#C9A45C;letter-spacing:0}',
     '@media (max-width:767px){.bg-hero h1 .bg-h1s{font-size:19px;margin-top:10px}}',
     /* odeme satiri */
     '.bg-pay{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;padding:18px 0;margin:0 0 4px;font:600 13px/1.4 Manrope,sans-serif;color:#A9A59D}',
-    '.bg-pay span{display:inline-flex;align-items:center;gap:8px}.bg-pay svg{width:18px;height:18px;flex:none;stroke:#E7E5E0;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}',
+    '.bg-pay span{display:inline-flex;align-items:center;gap:8px}.bg-pay svg{width:18px;height:18px;flex:none;stroke:#C9A45C;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}',
     /* cerez seridi */
     '.bg-cookie{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:99990;width:min(720px,calc(100% - 24px));display:flex;align-items:center;gap:16px;padding:14px 16px 14px 20px;border-radius:16px;background:#16151A;border:1px solid #2A292E;box-shadow:0 12px 40px rgba(0,0,0,.5);color:#D9D5CE;font:500 13px/1.55 Manrope,sans-serif;box-sizing:border-box}',
-    '.bg-cookie p{margin:0;flex:1}.bg-cookie a{color:#F4F2EE;text-decoration:underline;cursor:pointer}',
+    '.bg-cookie p{margin:0;flex:1}.bg-cookie a{color:#E2C285;text-decoration:underline;cursor:pointer}',
     '.bg-cookie .b{display:flex;gap:8px;flex:none}',
     '.bg-cookie button{appearance:none;cursor:pointer;border-radius:999px;padding:10px 16px;font:700 13px/1 Manrope,sans-serif;white-space:nowrap}',
-    '.bg-cookie .n{background:transparent;border:1px solid #4a463e;color:#D9D5CE}.bg-cookie .y{background:#E7E5E0;border:1px solid #E7E5E0;color:#141210}',
+    '.bg-cookie .n{background:transparent;border:1px solid #4a463e;color:#D9D5CE}.bg-cookie .y{background:#C9A45C;border:1px solid #C9A45C;color:#141210}',
     '@media (max-width:640px){.bg-cookie{flex-direction:column;align-items:stretch;gap:12px;bottom:10px;padding:14px}.bg-cookie .b button{flex:1}}'
   ].join('');
   var st = document.createElement('style'); st.id = 'bg-theme-css25'; st.textContent = css; (document.head || document.documentElement).appendChild(st);

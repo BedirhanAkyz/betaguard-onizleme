@@ -1,7 +1,7 @@
 (function () {
   if (window.__bgTheme) return; window.__bgTheme = 1;
   (function(){ var p = document.createElement('style'); p.id = 'bg-pre'; p.textContent = 'html{background:#0E0E0F!important}body{opacity:0!important}html.bg-ready body{opacity:1!important;transition:opacity .25s ease}'; (document.head || document.documentElement).appendChild(p); setTimeout(function(){ document.documentElement.classList.add('bg-ready'); }, 8000); })();
-  var GOLD = '#E7E5E0', WA = 'https://wa.me/905353211911';
+  var GOLD = '#C9A45C', WA = 'https://wa.me/905353211911';
   var f = document.createElement('link');
   f.rel = 'stylesheet';
   f.href = 'https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,700;0,800;1,800;1,900&family=Manrope:wght@400;500;600;700&display=swap';
@@ -27,7 +27,7 @@
     '.bg-card h3{margin:0;font-size:20px;color:#F2F0EB}',
     '.bg-card p{margin:0;font-size:15px;line-height:1.6;color:#B9B5AD}',
     '.bg-num{font:italic 900 40px/1 Archivo,sans-serif;color:' + GOLD + '}',
-    '.bg-steps-more{margin:22px 0 0;text-align:center}.bg-steps-more a{color:#F4F2EE;font:700 14px Manrope,sans-serif;text-decoration:none;border-bottom:1px solid rgba(244,242,238,.4);padding-bottom:2px}.bg-steps-more a:hover{color:#F2F0EB}',
+    '.bg-steps-more{margin:22px 0 0;text-align:center}.bg-steps-more a{color:#E2C285;font:700 14px Manrope,sans-serif;text-decoration:none;border-bottom:1px solid rgba(226,194,133,.4);padding-bottom:2px}.bg-steps-more a:hover{color:#F2F0EB}',
     '.bg-band{border-top:1px solid #26252A;border-bottom:1px solid #26252A;background:#131315}',
     '.bg-band .bg-sec{padding:56px 24px}',
     '.bg-feat{display:flex;flex-direction:column;gap:12px}',
@@ -42,7 +42,7 @@
     '.bg-info b{color:#F2F0EB;font-weight:700}',
     '.bg-info .r{display:flex;gap:10px;align-items:flex-start}',
     '.bg-info svg{flex:none;margin-top:2px}',
-    '.bg-disc{background:rgba(231,229,224,.12);border:1px solid rgba(231,229,224,.4);color:#F4F2EE;border-radius:10px;padding:10px 12px;font-weight:600}',
+    '.bg-disc{background:rgba(201,164,92,.12);border:1px solid rgba(201,164,92,.4);color:#E2C285;border-radius:10px;padding:10px 12px;font-weight:600}',
     '.bg-wa{position:fixed;right:18px;bottom:18px;z-index:9990;display:flex;align-items:center;gap:8px;background:#141210;color:#F2F0EB!important;border:1px solid #3A383F;border-radius:999px;padding:12px 18px;font:600 14px Manrope,sans-serif;text-decoration:none!important;box-shadow:0 8px 24px rgba(0,0,0,.45)}',
     '.bg-wa:hover{border-color:' + GOLD + '}',
     '@media (max-width:640px){.bg-sec{padding:48px 16px}.bg-sec h2,.bg-h{font-size:26px!important}.bg-cta{padding:28px}.bg-cta h2{font-size:26px!important}.bg-wa span{display:none}.bg-wa{padding:12px}}'
@@ -78,7 +78,7 @@
       '<div class="bg-disc">2 kaplamaya 250 ₺, 3 ve üzeri kaplamaya 500 ₺ indirim · 2.000 ₺ üzeri kargo ücretsiz</div>' +
       '<div class="r">' + I.dot + '<span><b>Metal aksam</b> seçtiğin desenle, <b>plastik aksam</b> dokulu siyah kaplamayla kaplanır.</span></div>' +
       '<div class="r">' + I.dot + '<span>Siparişe özel basılır ve kesilir, <b>1-2 iş gününde</b> kargoda.</span></div>' +
-      '<div class="r">' + I.dot + '<span><b>Uygulama seti hediye.</b> Cihazın listede yoksa <a href="' + WA + '" target="_blank" rel="noopener" style="color:#F4F2EE">WhatsApp\'tan yaz</a>.</span></div>' +
+      '<div class="r">' + I.dot + '<span><b>Uygulama seti hediye.</b> Cihazın listede yoksa <a href="' + WA + '" target="_blank" rel="noopener" style="color:#E2C285">WhatsApp\'tan yaz</a>.</span></div>' +
     '</div>';
   function txt(e) { return (e.textContent || '').replace(/\s+/g, ' ').trim(); }
   function leafWithText(re) {
@@ -335,7 +335,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-res{font-size:15px;color:#B9B5AD;min-height:22px}',
     '.bg-res .ok{color:#7CD3A0;font-weight:700}',
     '.bg-find-n{font-size:14px;color:#A3A09A}',
-    '.bg-find a.wl{color:#F4F2EE}',
+    '.bg-find a.wl{color:#E2C285}',
     '@media (max-width:640px){.bg-hero{width:calc(100% - 24px);margin-top:20px;gap:24px}.bg-hero h1{font-size:44px!important}.bg-hero p{font-size:16px}.bg-find{width:calc(100% - 24px);padding:20px;margin-top:24px}.bg-find h2{font-size:26px!important}.bg-cats{grid-template-columns:repeat(2,1fr)}.bg-cat svg{width:72px;height:46px}}'
   ].join('');
   var st3 = document.createElement('style'); st3.id = 'bg-theme-css3'; st3.textContent = css3;
@@ -419,7 +419,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var out = [], all = models();
       out = smartFind(all, q.value, function (m) { return m[0] + ' ' + m[1]; }, 8);
       show(out);
-      if (!out.length) res.innerHTML = 'Bu model listede görünmüyor. <a class="wl" href="' + WA + '" target="_blank" rel="noopener" style="color:#F4F2EE">WhatsApp\'tan yaz</a>, kesimi var mı hemen söyleyelim.';
+      if (!out.length) res.innerHTML = 'Bu model listede görünmüyor. <a class="wl" href="' + WA + '" target="_blank" rel="noopener" style="color:#E2C285">WhatsApp\'tan yaz</a>, kesimi var mı hemen söyleyelim.';
     });
     sg.addEventListener('mousedown', function (e) {
       var d = e.target.closest('div[data-i]'); if (!d) return; e.preventDefault(); pick(sg._list[+d.dataset.i]);
@@ -457,14 +457,14 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-pp{display:flex;flex-direction:column;gap:18px;padding:2px 0 6px}',
     '.bg-pp-h{display:flex;justify-content:space-between;align-items:center;gap:12px;font:700 15px/1.2 Manrope,sans-serif;color:#F2F0EB}',
     '.bg-pp-h em{font-style:normal;font-weight:500;color:#A3A09A}',
-    '.bg-pp-all{border:1px solid #3A383F;background:transparent;color:#F4F2EE;border-radius:999px;padding:7px 14px;font:600 13px Manrope,sans-serif;cursor:pointer;min-height:36px}',
+    '.bg-pp-all{border:1px solid #3A383F;background:transparent;color:#E2C285;border-radius:999px;padding:7px 14px;font:600 13px Manrope,sans-serif;cursor:pointer;min-height:36px}',
     '.bg-pp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px;margin-top:10px}',
     '.bg-pp-card{display:flex;flex-direction:column;gap:4px;padding:4px 4px 8px;border-radius:12px;border:2px solid #2A292E;background:transparent;cursor:pointer;text-align:left;min-width:0;color:#F2F0EB;font-family:Manrope,sans-serif;transition:border-color .15s,opacity .15s}',
     '.bg-pp-card:hover{border-color:#5A5560}',
-    '.bg-pp-card.on{border-color:#E7E5E0;background:#1C1C1E}',
+    '.bg-pp-card.on{border-color:#C9A45C;background:#211D15}',
     '.bg-pp-card.dim{opacity:.5}',
     '.bg-pp-card img,.bg-pp-ph{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;border-radius:9px;background:#18181A}',
-    '.bg-pp-ph{display:flex;align-items:center;justify-content:center;font:italic 900 22px Archivo,sans-serif;color:#E7E5E0;background:radial-gradient(120% 90% at 50% 30%,#232227,#141416);border:1px solid #26252A;box-sizing:border-box}',
+    '.bg-pp-ph{display:flex;align-items:center;justify-content:center;font:italic 900 22px Archivo,sans-serif;color:#C9A45C;background:radial-gradient(120% 90% at 50% 30%,#232227,#141416);border:1px solid #26252A;box-sizing:border-box}',
     '.bg-pp-card b{font-size:12px;font-weight:600;color:#D6D2CA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
     '.bg-pp-card small{font-size:11px;color:#A3A09A}',
     '.bg-pp-grid1{grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}',
@@ -472,19 +472,19 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-pp-one img,.bg-pp-one .bg-pp-ph{border-radius:8px}',
     '.bg-pp-one b,.bg-pp-one small{display:block;text-align:center;font-size:10.5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
     '.bg-pp-one b{color:#D6D2CA}.bg-pp-one small{color:#A3A09A}',
-    '.bg-pp-one.on b{color:#F2F0EB}.bg-pp-one.on small{color:#F4F2EE}',
-    '.bg-pp-h .bg-pp-sel{font-style:normal;color:#F4F2EE}',
+    '.bg-pp-one.on b{color:#F2F0EB}.bg-pp-one.on small{color:#E2C285}',
+    '.bg-pp-h .bg-pp-sel{font-style:normal;color:#E2C285}',
     '.bg-pp-h:has(.bg-pp-sel) em{display:none}',
     '@media (max-width:640px){.bg-pp-grid1{grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:7px}}',
-    '.bg-pp-need{font:600 14px Manrope,sans-serif;color:#F4F2EE;margin:4px 0 8px}',
+    '.bg-pp-need{font:600 14px Manrope,sans-serif;color:#E2C285;margin:4px 0 8px}',
     '.bg-pp-lock{opacity:.45;pointer-events:none;filter:grayscale(1)}',
     '.bg-dev{display:flex;flex-direction:column;gap:8px;margin:2px 0 12px;position:relative}',
     '.bg-dev label{font:700 15px Manrope,sans-serif;color:#F2F0EB}',
     '.bg-dev input{background:#18181A;border:1px solid #3A383F;border-radius:12px;padding:13px 16px;color:#F2F0EB;font:16px Manrope,sans-serif;outline:none}',
-    '.bg-dev input:focus{border-color:#E7E5E0}',
+    '.bg-dev input:focus{border-color:#C9A45C}',
     '.bg-dev .bg-sugg{top:76px}',
-    '.bg-chip{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#1C1C1E;border:1px solid #E7E5E0;border-radius:12px;padding:11px 14px;font:14px Manrope,sans-serif;color:#F2F0EB}',
-    '.bg-chip strong{color:#F4F2EE}',
+    '.bg-chip{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#211D15;border:1px solid #C9A45C;border-radius:12px;padding:11px 14px;font:14px Manrope,sans-serif;color:#F2F0EB}',
+    '.bg-chip strong{color:#E2C285}',
     '.bg-chip button{border:1px solid #3A383F;background:transparent;color:#F2F0EB;border-radius:999px;padding:6px 14px;font:600 13px Manrope,sans-serif;cursor:pointer;min-height:34px}',
     '.bg-gal{display:flex;flex-direction:column;gap:12px;width:100%}',
     '.bg-gal-main{position:relative;border-radius:20px;overflow:hidden;background:#18181A}',
@@ -493,19 +493,19 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-gal-nav svg{width:18px;height:18px;fill:none;stroke:#F2F0EB;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}',
     '.bg-gal-cap{position:absolute;left:14px;right:14px;bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;z-index:2}',
     '.bg-gal-cap span{background:rgba(14,14,15,.8);border:1px solid #3A383F;border-radius:999px;padding:8px 14px;font:700 14px Manrope,sans-serif;color:#F2F0EB}',
-    '.bg-gal-cap button{border:none;border-radius:999px;padding:10px 18px;background:#E7E5E0;color:#141210;font:700 14px Manrope,sans-serif;cursor:pointer;min-height:42px}',
+    '.bg-gal-cap button{border:none;border-radius:999px;padding:10px 18px;background:#C9A45C;color:#141210;font:700 14px Manrope,sans-serif;cursor:pointer;min-height:42px}',
     '.bg-gal-th{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:10px}',
     '.bg-gal-th button{padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;background:transparent;cursor:pointer}',
-    '.bg-gal-th button.on{border-color:#E7E5E0}',
+    '.bg-gal-th button.on{border-color:#C9A45C}',
     '.bg-gal-th img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;border-radius:8px!important}',
     '.bg-gal-note{margin:0;font:13px/1.5 Manrope,sans-serif;color:#A3A09A}',
     '.bg-float{position:absolute;z-index:5;box-sizing:border-box}',
     '.bg-pp,.bg-dev{width:100%;min-width:0;box-sizing:border-box;align-self:stretch}',
     '.bg-gal-ph{width:100%;aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(110% 80% at 50% 30%,#26252B 0%,#141416 70%);color:#F2F0EB;text-align:center;padding:24px;box-sizing:border-box}',
-    '.bg-gal-ph svg{width:28%;height:auto;fill:none;stroke:#E7E5E0;stroke-width:1.6}',
+    '.bg-gal-ph svg{width:28%;height:auto;fill:none;stroke:#C9A45C;stroke-width:1.6}',
     '.bg-gal-ph b{font:italic 900 clamp(26px,3.4vw,44px)/1.05 Archivo,sans-serif;letter-spacing:.01em}',
     '.bg-gal-ph small{font:600 13px Manrope,sans-serif;color:#A3A09A;letter-spacing:.12em;text-transform:uppercase}',
-    '.bg-gal-th .bg-th-ph{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:#1B1B1E;color:#E7E5E0;font:italic 900 15px Archivo,sans-serif;border-radius:8px}',
+    '.bg-gal-th .bg-th-ph{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:#1B1B1E;color:#C9A45C;font:italic 900 15px Archivo,sans-serif;border-radius:8px}',
     '[data-bg-pwrap]{max-width:none!important;width:min(1240px,calc(100% - 48px))!important;margin-left:auto!important;margin-right:auto!important}',
     '[data-bg-pgrid]>*:not([data-bg-pinfo]){visibility:hidden!important;height:0!important;min-height:0!important;overflow:hidden!important}',
     '@media (min-width:900px){[data-bg-pgrid]{grid-template-columns:minmax(0,1.08fr) minmax(0,1fr)!important;column-gap:48px!important;align-items:start!important}[data-bg-pgrid]>*{grid-column:1;grid-row:1}[data-bg-pgrid]>[data-bg-pinfo]{grid-column:2!important;grid-row:1!important}}',
@@ -520,7 +520,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-gal-main:has(.bg-gal-ph) .bg-gal-cap span{display:none}',
     '.bg-gal-main .bg-gal-cap{top:14px!important;bottom:auto!important;left:auto!important;right:14px!important}',
     '.bg-gal-bot{position:absolute;left:14px;right:14px;bottom:14px;display:flex;align-items:center;gap:10px;z-index:2}',
-    '.bg-gal-pick{border:none;border-radius:999px;padding:10px 18px;background:#E7E5E0;color:#141210;font:700 14px Manrope,sans-serif;cursor:pointer;min-height:42px}',
+    '.bg-gal-pick{border:none;border-radius:999px;padding:10px 18px;background:#C9A45C;color:#141210;font:700 14px Manrope,sans-serif;cursor:pointer;min-height:42px}',
     '.bg-gal-ctl{margin-left:auto;display:flex;align-items:center;gap:2px;background:rgba(14,14,15,.82);border:1px solid #3A383F;border-radius:999px;padding:3px}',
     '.bg-gal-ctl button{width:36px;height:36px;border:none;background:transparent;border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}',
     '.bg-gal-ctl button:hover{background:#2A292E}',
@@ -768,7 +768,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     q.addEventListener('input', function () {
       var v = norm(q.value); if (v.length < 2) { sg.style.display = 'none'; return; }
       var out = smartFind(idx, q.value, function (m) { return m.brand + ' ' + m.model; }, 8);
-      if (!out.length) { sg.innerHTML = '<div style="cursor:default">Bulamadık. <a href="' + WA + '" target="_blank" rel="noopener" style="color:#F4F2EE">WhatsApp\'tan yaz</a></div>'; sg.style.display = 'block'; sg._list = []; return; }
+      if (!out.length) { sg.innerHTML = '<div style="cursor:default">Bulamadık. <a href="' + WA + '" target="_blank" rel="noopener" style="color:#E2C285">WhatsApp\'tan yaz</a></div>'; sg.style.display = 'block'; sg._list = []; return; }
       sg.innerHTML = out.map(function (m, i) { return '<div data-i="' + i + '"><b>' + esc(m.brand) + '</b> ' + esc(m.model) + ' <span style="color:#A3A09A">· ' + esc(m.type) + '</span></div>'; }).join('');
       sg.style.display = 'block'; sg._list = out;
     });
@@ -877,7 +877,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   window.addEventListener('resize', function () { if (ppState) syncPP(); });
 
   /* ---------- v7: "Neden Betaguard" redesign ---------- */
-  var st7 = document.createElement('style'); st7.id = 'bg-theme-css7'; st7.textContent = "[data-bg=\"feat\"]{background:radial-gradient(70% 120% at 0% 0%,rgba(231,229,224,.10),transparent 60%),#0E0E0F!important;border-top:1px solid #1F1E23;border-bottom:1px solid #1F1E23}[data-bg=\"feat\"] .bg-sec{display:grid!important;grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr);column-gap:56px;row-gap:0;align-items:start;padding-top:72px!important;padding-bottom:72px!important}[data-bg=\"feat\"] .bg-eyebrow{grid-column:1;grid-row:1;align-self:end}[data-bg=\"feat\"] h2{grid-column:1;grid-row:2;font-size:44px!important;line-height:1.05!important;margin:10px 0 0!important;font-style:italic;font-weight:900!important}[data-bg=\"feat\"] h2::after{content:\"Kamera, lens, drone ve gimbalın için cihazına özel kesilmiş kaplamalar. Korur, tarzını yansıtır, istediğinde iz bırakmadan çıkar.\";display:block;margin-top:18px;font:400 16px/1.65 Manrope,sans-serif;font-style:normal;color:#B9B5AD;max-width:400px}[data-bg=\"feat\"] .bg-grid{grid-column:2;grid-row:1 / span 3;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin:0!important}[data-bg=\"feat\"] .bg-feat{background:linear-gradient(180deg,#19191C,#131315)!important;border:1px solid #26252A;border-radius:18px;padding:26px 24px 24px!important;display:flex;flex-direction:column;gap:10px;transition:transform .2s ease,border-color .2s ease}[data-bg=\"feat\"] .bg-feat:hover{transform:translateY(-3px);border-color:rgba(231,229,224,.55)}[data-bg=\"feat\"] .bg-feat svg{width:48px!important;height:48px!important;padding:11px;box-sizing:border-box;border-radius:14px;background:rgba(231,229,224,.12);border:1px solid rgba(231,229,224,.28);margin-bottom:6px}[data-bg=\"feat\"] .bg-feat h3{margin:0!important;font:800 19px/1.25 Archivo,sans-serif!important;color:#F2F0EB}[data-bg=\"feat\"] .bg-feat p{margin:0!important;font:400 14.5px/1.6 Manrope,sans-serif!important;color:#A9A59D}[data-bg=\"steps\"] h2{margin-bottom:24px!important}@media (max-width:900px){[data-bg=\"feat\"] .bg-sec{grid-template-columns:1fr;padding-top:48px!important;padding-bottom:48px!important}[data-bg=\"feat\"] .bg-grid{grid-column:1;grid-row:3;margin-top:28px!important}[data-bg=\"feat\"] h2{font-size:34px!important}}@media (max-width:520px){[data-bg=\"feat\"] .bg-grid{grid-template-columns:1fr!important;gap:12px!important}[data-bg=\"feat\"] .bg-feat{display:grid!important;grid-template-columns:48px minmax(0,1fr);column-gap:14px;row-gap:4px;padding:18px 18px!important;align-items:start}[data-bg=\"feat\"] .bg-feat svg{grid-row:1 / span 2;margin:0!important}[data-bg=\"feat\"] .bg-feat h3{font-size:17px!important;align-self:center}[data-bg=\"feat\"] .bg-feat p{font-size:14px!important}}";
+  var st7 = document.createElement('style'); st7.id = 'bg-theme-css7'; st7.textContent = "[data-bg=\"feat\"]{background:radial-gradient(70% 120% at 0% 0%,rgba(201,164,92,.10),transparent 60%),#0E0E0F!important;border-top:1px solid #1F1E23;border-bottom:1px solid #1F1E23}[data-bg=\"feat\"] .bg-sec{display:grid!important;grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr);column-gap:56px;row-gap:0;align-items:start;padding-top:72px!important;padding-bottom:72px!important}[data-bg=\"feat\"] .bg-eyebrow{grid-column:1;grid-row:1;align-self:end}[data-bg=\"feat\"] h2{grid-column:1;grid-row:2;font-size:44px!important;line-height:1.05!important;margin:10px 0 0!important;font-style:italic;font-weight:900!important}[data-bg=\"feat\"] h2::after{content:\"Kamera, lens, drone ve gimbalın için cihazına özel kesilmiş kaplamalar. Korur, tarzını yansıtır, istediğinde iz bırakmadan çıkar.\";display:block;margin-top:18px;font:400 16px/1.65 Manrope,sans-serif;font-style:normal;color:#B9B5AD;max-width:400px}[data-bg=\"feat\"] .bg-grid{grid-column:2;grid-row:1 / span 3;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin:0!important}[data-bg=\"feat\"] .bg-feat{background:linear-gradient(180deg,#19191C,#131315)!important;border:1px solid #26252A;border-radius:18px;padding:26px 24px 24px!important;display:flex;flex-direction:column;gap:10px;transition:transform .2s ease,border-color .2s ease}[data-bg=\"feat\"] .bg-feat:hover{transform:translateY(-3px);border-color:rgba(201,164,92,.55)}[data-bg=\"feat\"] .bg-feat svg{width:48px!important;height:48px!important;padding:11px;box-sizing:border-box;border-radius:14px;background:rgba(201,164,92,.12);border:1px solid rgba(201,164,92,.28);margin-bottom:6px}[data-bg=\"feat\"] .bg-feat h3{margin:0!important;font:800 19px/1.25 Archivo,sans-serif!important;color:#F2F0EB}[data-bg=\"feat\"] .bg-feat p{margin:0!important;font:400 14.5px/1.6 Manrope,sans-serif!important;color:#A9A59D}[data-bg=\"steps\"] h2{margin-bottom:24px!important}@media (max-width:900px){[data-bg=\"feat\"] .bg-sec{grid-template-columns:1fr;padding-top:48px!important;padding-bottom:48px!important}[data-bg=\"feat\"] .bg-grid{grid-column:1;grid-row:3;margin-top:28px!important}[data-bg=\"feat\"] h2{font-size:34px!important}}@media (max-width:520px){[data-bg=\"feat\"] .bg-grid{grid-template-columns:1fr!important;gap:12px!important}[data-bg=\"feat\"] .bg-feat{display:grid!important;grid-template-columns:48px minmax(0,1fr);column-gap:14px;row-gap:4px;padding:18px 18px!important;align-items:start}[data-bg=\"feat\"] .bg-feat svg{grid-row:1 / span 2;margin:0!important}[data-bg=\"feat\"] .bg-feat h3{font-size:17px!important;align-self:center}[data-bg=\"feat\"] .bg-feat p{font-size:14px!important}}";
   (document.head || document.documentElement).appendChild(st7);
 
   /* ---------- v6: hide home "Seriler" slider, point menu/category links to the product page ---------- */
@@ -921,7 +921,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-ig-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:22px}',
     '[data-bg-insta] h2{margin:8px 0 0;font:italic 900 40px/1.05 Archivo,sans-serif;color:#F2F0EB}',
     '[data-bg-insta] p{margin:10px 0 0;font:400 15px/1.6 Manrope,sans-serif;color:#A9A59D;max-width:520px}',
-    '.bg-ig-follow{display:inline-flex;align-items:center;gap:10px;background:#E7E5E0;color:#141210!important;text-decoration:none!important;font:700 15px Manrope,sans-serif;padding:14px 22px;border-radius:999px;white-space:nowrap}',
+    '.bg-ig-follow{display:inline-flex;align-items:center;gap:10px;background:#C9A45C;color:#141210!important;text-decoration:none!important;font:700 15px Manrope,sans-serif;padding:14px 22px;border-radius:999px;white-space:nowrap}',
     '.bg-ig-follow svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9}',
     '.bg-ig-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}',
     '.bg-ig-t{position:relative;display:block;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:#18181A;border:1px solid #26252A}',
@@ -932,7 +932,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-ig-ov span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}',
     '.bg-ig-badge{position:absolute;top:9px;right:9px;width:26px;height:26px;border-radius:8px;background:rgba(10,10,11,.6);display:flex;align-items:center;justify-content:center}',
     '.bg-ig-badge svg{width:15px;height:15px;fill:#F2F0EB}',
-    '.bg-ig-empty{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;background:radial-gradient(90% 140% at 100% 0%,rgba(231,229,224,.12),transparent 60%),#141416;border:1px solid #26252A;border-radius:20px;padding:28px 30px}',
+    '.bg-ig-empty{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;background:radial-gradient(90% 140% at 100% 0%,rgba(201,164,92,.12),transparent 60%),#141416;border:1px solid #26252A;border-radius:20px;padding:28px 30px}',
     '@media (max-width:900px){.bg-ig-grid{grid-template-columns:repeat(3,minmax(0,1fr))}[data-bg-insta] h2{font-size:32px}}',
     '@media (max-width:640px){[data-bg-insta]{width:calc(100% - 24px);margin-top:40px}.bg-ig-grid{gap:6px}.bg-ig-t{border-radius:10px}.bg-ig-ov{display:none!important}.bg-ig-follow{padding:12px 18px}}'
   ].join('');
@@ -1045,20 +1045,20 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     'a[href="x"]{display:none!important}',
     '.bg-trust{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}',
     '.bg-trust div{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #2A2A2E;border-radius:12px;background:#151517;font:600 13px/1.3 Manrope,sans-serif;color:#E9E6DF}',
-    '.bg-trust svg{width:22px;height:22px;flex:none;fill:none;stroke:#E7E5E0;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}',
+    '.bg-trust svg{width:22px;height:22px;flex:none;fill:none;stroke:#C9A45C;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}',
     '.bg-deal{margin-top:10px;padding:14px 16px;border-radius:12px;background:linear-gradient(135deg,rgba(201,164,92,.18),rgba(201,164,92,.05));border:1px solid rgba(201,164,92,.4);font:400 13px/1.45 Manrope,sans-serif;color:#C9C5BD}',
     '.bg-deal b{display:block;color:#E2C285;font:800 15px/1.3 Manrope,sans-serif;margin-bottom:2px}',
     '[data-bg-desen]{width:min(1240px,100%);margin:0 auto;padding:56px 24px 24px;box-sizing:border-box;color:#F2F0EB}',
     '.bg-ds-h{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px}',
     '.bg-ds-h h2{margin:8px 0 0;font:italic 900 40px/1.05 Archivo,sans-serif;color:#F2F0EB}',
     '.bg-ds-h p{margin:10px 0 0;font:400 15px/1.6 Manrope,sans-serif;color:#A9A59D;max-width:520px}',
-    '.bg-ds-all{flex:none;color:#F4F2EE!important;font:700 14px Manrope,sans-serif;text-decoration:none!important;border:1px solid rgba(231,229,224,.5);padding:11px 18px;border-radius:999px}',
-    '.bg-ds-all:hover{background:rgba(231,229,224,.12)}',
+    '.bg-ds-all{flex:none;color:#E2C285!important;font:700 14px Manrope,sans-serif;text-decoration:none!important;border:1px solid rgba(201,164,92,.5);padding:11px 18px;border-radius:999px}',
+    '.bg-ds-all:hover{background:rgba(201,164,92,.12)}',
     '.bg-ds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}',
     '.bg-ds-card{display:flex;flex-direction:column;gap:4px;padding:10px 10px 14px;border:1px solid #26262A;border-radius:16px;background:#141416;text-decoration:none!important;color:#F2F0EB!important;transition:transform .2s,border-color .2s}',
-    '.bg-ds-card:hover{transform:translateY(-3px);border-color:rgba(231,229,224,.6)}',
+    '.bg-ds-card:hover{transform:translateY(-3px);border-color:rgba(201,164,92,.6)}',
     '.bg-ds-card img,.bg-ds-ph{width:100%;aspect-ratio:1;border-radius:10px;object-fit:cover;background:#EDEDED;margin-bottom:6px}',
-    '.bg-ds-ph{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 20%,#2A2722,#121214)!important;font:italic 900 34px Archivo,sans-serif;color:#E7E5E0}',
+    '.bg-ds-ph{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 20%,#2A2722,#121214)!important;font:italic 900 34px Archivo,sans-serif;color:#C9A45C}',
     '.bg-ds-card b{font:800 15px/1.2 Manrope,sans-serif}',
     '.bg-ds-card small{font:500 12px Manrope,sans-serif;color:#8E8A83}',
     '@media (max-width:700px){[data-bg-desen]{padding:40px 16px 16px}.bg-ds-h{flex-direction:column;align-items:flex-start}.bg-ds-h h2{font-size:30px}.bg-ds-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin:0 -16px;padding:0 16px 6px;scrollbar-width:none}.bg-ds-grid::-webkit-scrollbar{display:none}.bg-ds-card{flex:0 0 42%;scroll-snap-align:start}}',
@@ -1066,12 +1066,12 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-faq-in{max-width:1240px;margin:0 auto;padding:0 24px;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:48px}',
     '.bg-faq-h h2{margin:8px 0 0;font:italic 900 40px/1.05 Archivo,sans-serif;color:#F2F0EB}',
     '.bg-faq-h p{margin:12px 0 0;font:400 15px/1.6 Manrope,sans-serif;color:#A9A59D}',
-    '.bg-faq-h a{color:#F4F2EE!important}',
+    '.bg-faq-h a{color:#E2C285!important}',
     '.bg-faq-l details{border-bottom:1px solid #26262A}',
     '.bg-faq-l summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font:700 16px/1.35 Manrope,sans-serif;color:#F2F0EB}',
     '.bg-faq-l summary::-webkit-details-marker{display:none}',
-    '.bg-faq-l summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:50%;border:1px solid #3A3A3F;display:flex;align-items:center;justify-content:center;color:#E7E5E0;font:400 20px/1 Manrope,sans-serif;transition:transform .2s}',
-    '.bg-faq-l details[open] summary::after{transform:rotate(45deg);border-color:#E7E5E0}',
+    '.bg-faq-l summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:50%;border:1px solid #3A3A3F;display:flex;align-items:center;justify-content:center;color:#C9A45C;font:400 20px/1 Manrope,sans-serif;transition:transform .2s}',
+    '.bg-faq-l details[open] summary::after{transform:rotate(45deg);border-color:#C9A45C}',
     '.bg-faq-l details p{margin:0 0 20px;font:400 15px/1.65 Manrope,sans-serif;color:#B5B1A9;max-width:640px}',
     '@media (max-width:800px){.bg-faq-in{grid-template-columns:1fr;gap:12px;padding:0 16px}.bg-faq-h h2{font-size:30px}.bg-faq-l summary{font-size:15px}}'
   ].join('');
@@ -1379,11 +1379,11 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       '.bg-ft-brand p{margin:16px 0 18px;max-width:340px;color:#A9A59D}',
       '.bg-ft-social{display:flex;flex-wrap:wrap;gap:10px}',
       '.bg-ft-social a{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid #2A292E;border-radius:999px;color:#F2F0EB;text-decoration:none;font:600 13px Manrope,sans-serif;transition:border-color .2s,color .2s}',
-      '.bg-ft-social a:hover{border-color:#E7E5E0;color:#F4F2EE}',
+      '.bg-ft-social a:hover{border-color:#C9A45C;color:#E2C285}',
       '.bg-ft h2.bg-ft-h{margin:4px 0 14px;color:#F2F0EB;font:700 13px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase}',
       '.bg-ft ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}',
       '.bg-ft ul a{color:#A9A59D;text-decoration:none;transition:color .2s}',
-      '.bg-ft ul a:hover{color:#F4F2EE}',
+      '.bg-ft ul a:hover{color:#E2C285}',
       '.bg-ft-note{margin-top:14px;font-size:12px;color:#6F6B65}',
       '@media (max-width:899px){.bg-ft{grid-template-columns:1fr 1fr;gap:28px 20px}.bg-ft-brand{grid-column:1/-1}}',
       '[data-bg-fbottom]{padding-bottom:76px!important}','@media (max-width:899px){.bg-white-ico>div>div{display:grid!important;grid-template-columns:1fr 1fr;gap:18px 8px;overflow:visible!important;width:100%!important}.bg-white-ico>div>div>*{min-width:0!important;width:auto!important;margin:0!important}}','@media (max-width:899px){[data-bg-fbottom]{padding-bottom:84px!important;flex-wrap:wrap;gap:10px}}'

@@ -11,7 +11,7 @@
     '.bg-sl img.on{opacity:1}',
     '.bg-sl-d{position:absolute;left:0;right:0;bottom:14px;display:flex;justify-content:center;gap:7px;z-index:2}',
     '.bg-sl-d button{width:8px;height:8px;padding:0;border:0;border-radius:99px;background:rgba(255,255,255,.45);cursor:pointer;transition:width .3s,background .3s}',
-    '.bg-sl-d button.on{width:22px;background:#E7E5E0}',
+    '.bg-sl-d button.on{width:22px;background:#C9A45C}',
     '.bg-sl-a{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:38px;height:38px;border-radius:99px;border:0;background:rgba(14,14,15,.55);color:#F2F0EB;font-size:20px;line-height:38px;cursor:pointer;opacity:0;transition:opacity .2s}',
     '.bg-sl:hover .bg-sl-a{opacity:1}',
     '.bg-sl-a.l{left:12px}.bg-sl-a.r{right:12px}',

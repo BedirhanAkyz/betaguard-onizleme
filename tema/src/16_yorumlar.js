@@ -23,7 +23,7 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
   /* Lehte widget (shadow DOM) koyu tema uyumu */
-  var UYCSS = ':host{color:#F2F0EB!important;--uy-primary:#E7E5E0;--uy-font:Manrope,sans-serif}' +
+  var UYCSS = ':host{color:#F2F0EB!important;--uy-primary:#C9A45C;--uy-font:Manrope,sans-serif}' +
     '.head h2{font-family:Archivo,sans-serif;font-style:italic;font-weight:900;color:#F2F0EB}' +
     '.cta:hover{color:#0E0E0F!important}' +
     '.note,.reply{background:#1E1E21!important;color:#C9C5BD!important}' +

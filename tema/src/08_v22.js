@@ -3,7 +3,7 @@
   if (window.__bgV22) return; window.__bgV22 = 1;
   var css = [
     '.bg-rep{display:flex;gap:10px;align-items:flex-start;margin:10px 0 0;padding:11px 13px;border:1px solid #2A292E;border-radius:12px;background:#141317;font:500 12.5px/1.55 Manrope,sans-serif;color:#A3A09A}',
-    '.bg-rep svg{flex:none;width:16px;height:16px;margin-top:1px;color:#F4F2EE}',
+    '.bg-rep svg{flex:none;width:16px;height:16px;margin-top:1px;color:#E2C285}',
     '.bg-rep b{color:#F2EFEA;font-weight:700}',
     '.bg-rep p{margin:0}',
     '.bg-rep .s{display:none}',
