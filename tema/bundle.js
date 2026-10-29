@@ -3,7 +3,7 @@
 (function () {
   if (window.__bgTheme) return; window.__bgTheme = 1;
   (function(){ var p = document.createElement('style'); p.id = 'bg-pre'; p.textContent = 'html{background:#0E0E0F!important}body{opacity:0!important}html.bg-ready body{opacity:1!important;transition:opacity .25s ease}'; (document.head || document.documentElement).appendChild(p); setTimeout(function(){ document.documentElement.classList.add('bg-ready'); }, 8000); })();
-  var GOLD = '#C9A45C', WA = 'https://wa.me/905353211911';
+  var GOLD = '#E7E5E0', WA = 'https://wa.me/905353211911';
   var f = document.createElement('link');
   f.rel = 'stylesheet';
   f.href = 'https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,700;0,800;1,800;1,900&family=Manrope:wght@400;500;600;700&display=swap';
@@ -29,7 +29,7 @@
     '.bg-card h3{margin:0;font-size:20px;color:#F2F0EB}',
     '.bg-card p{margin:0;font-size:15px;line-height:1.6;color:#B9B5AD}',
     '.bg-num{font:italic 900 40px/1 Archivo,sans-serif;color:' + GOLD + '}',
-    '.bg-steps-more{margin:22px 0 0;text-align:center}.bg-steps-more a{color:#E2C285;font:700 14px Manrope,sans-serif;text-decoration:none;border-bottom:1px solid rgba(226,194,133,.4);padding-bottom:2px}.bg-steps-more a:hover{color:#F2F0EB}',
+    '.bg-steps-more{margin:22px 0 0;text-align:center}.bg-steps-more a{color:#F4F2EE;font:700 14px Manrope,sans-serif;text-decoration:none;border-bottom:1px solid rgba(244,242,238,.4);padding-bottom:2px}.bg-steps-more a:hover{color:#F2F0EB}',
     '.bg-band{border-top:1px solid #26252A;border-bottom:1px solid #26252A;background:#131315}',
     '.bg-band .bg-sec{padding:56px 24px}',
     '.bg-feat{display:flex;flex-direction:column;gap:12px}',
@@ -44,7 +44,7 @@
     '.bg-info b{color:#F2F0EB;font-weight:700}',
     '.bg-info .r{display:flex;gap:10px;align-items:flex-start}',
     '.bg-info svg{flex:none;margin-top:2px}',
-    '.bg-disc{background:rgba(201,164,92,.12);border:1px solid rgba(201,164,92,.4);color:#E2C285;border-radius:10px;padding:10px 12px;font-weight:600}',
+    '.bg-disc{background:rgba(231,229,224,.12);border:1px solid rgba(231,229,224,.4);color:#F4F2EE;border-radius:10px;padding:10px 12px;font-weight:600}',
     '.bg-wa{position:fixed;right:18px;bottom:18px;z-index:9990;display:flex;align-items:center;gap:8px;background:#141210;color:#F2F0EB!important;border:1px solid #3A383F;border-radius:999px;padding:12px 18px;font:600 14px Manrope,sans-serif;text-decoration:none!important;box-shadow:0 8px 24px rgba(0,0,0,.45)}',
     '.bg-wa:hover{border-color:' + GOLD + '}',
     '@media (max-width:640px){.bg-sec{padding:48px 16px}.bg-sec h2,.bg-h{font-size:26px!important}.bg-cta{padding:28px}.bg-cta h2{font-size:26px!important}.bg-wa span{display:none}.bg-wa{padding:12px}}'
@@ -80,7 +80,7 @@
       '<div class="bg-disc">2 kaplamaya 250 ₺, 3 ve üzeri kaplamaya 500 ₺ indirim · 2.000 ₺ üzeri kargo ücretsiz</div>' +
       '<div class="r">' + I.dot + '<span><b>Metal aksam</b> seçtiğin desenle, <b>plastik aksam</b> dokulu siyah kaplamayla kaplanır.</span></div>' +
       '<div class="r">' + I.dot + '<span>Siparişe özel basılır ve kesilir, <b>1-2 iş gününde</b> kargoda.</span></div>' +
-      '<div class="r">' + I.dot + '<span><b>Uygulama seti hediye.</b> Cihazın listede yoksa <a href="' + WA + '" target="_blank" rel="noopener" style="color:#E2C285">WhatsApp\'tan yaz</a>.</span></div>' +
+      '<div class="r">' + I.dot + '<span><b>Uygulama seti hediye.</b> Cihazın listede yoksa <a href="' + WA + '" target="_blank" rel="noopener" style="color:#F4F2EE">WhatsApp\'tan yaz</a>.</span></div>' +
     '</div>';
   function txt(e) { return (e.textContent || '').replace(/\s+/g, ' ').trim(); }
   function leafWithText(re) {
@@ -337,7 +337,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-res{font-size:15px;color:#B9B5AD;min-height:22px}',
     '.bg-res .ok{color:#7CD3A0;font-weight:700}',
     '.bg-find-n{font-size:14px;color:#A3A09A}',
-    '.bg-find a.wl{color:#E2C285}',
+    '.bg-find a.wl{color:#F4F2EE}',
     '@media (max-width:640px){.bg-hero{width:calc(100% - 24px);margin-top:20px;gap:24px}.bg-hero h1{font-size:44px!important}.bg-hero p{font-size:16px}.bg-find{width:calc(100% - 24px);padding:20px;margin-top:24px}.bg-find h2{font-size:26px!important}.bg-cats{grid-template-columns:repeat(2,1fr)}.bg-cat svg{width:72px;height:46px}}'
   ].join('');
   var st3 = document.createElement('style'); st3.id = 'bg-theme-css3'; st3.textContent = css3;
@@ -421,7 +421,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var out = [], all = models();
       out = smartFind(all, q.value, function (m) { return m[0] + ' ' + m[1]; }, 8);
       show(out);
-      if (!out.length) res.innerHTML = 'Bu model listede görünmüyor. <a class="wl" href="' + WA + '" target="_blank" rel="noopener" style="color:#E2C285">WhatsApp\'tan yaz</a>, kesimi var mı hemen söyleyelim.';
+      if (!out.length) res.innerHTML = 'Bu model listede görünmüyor. <a class="wl" href="' + WA + '" target="_blank" rel="noopener" style="color:#F4F2EE">WhatsApp\'tan yaz</a>, kesimi var mı hemen söyleyelim.';
     });
     sg.addEventListener('mousedown', function (e) {
       var d = e.target.closest('div[data-i]'); if (!d) return; e.preventDefault(); pick(sg._list[+d.dataset.i]);
@@ -459,14 +459,14 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-pp{display:flex;flex-direction:column;gap:18px;padding:2px 0 6px}',
     '.bg-pp-h{display:flex;justify-content:space-between;align-items:center;gap:12px;font:700 15px/1.2 Manrope,sans-serif;color:#F2F0EB}',
     '.bg-pp-h em{font-style:normal;font-weight:500;color:#A3A09A}',
-    '.bg-pp-all{border:1px solid #3A383F;background:transparent;color:#E2C285;border-radius:999px;padding:7px 14px;font:600 13px Manrope,sans-serif;cursor:pointer;min-height:36px}',
+    '.bg-pp-all{border:1px solid #3A383F;background:transparent;color:#F4F2EE;border-radius:999px;padding:7px 14px;font:600 13px Manrope,sans-serif;cursor:pointer;min-height:36px}',
     '.bg-pp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px;margin-top:10px}',
     '.bg-pp-card{display:flex;flex-direction:column;gap:4px;padding:4px 4px 8px;border-radius:12px;border:2px solid #2A292E;background:transparent;cursor:pointer;text-align:left;min-width:0;color:#F2F0EB;font-family:Manrope,sans-serif;transition:border-color .15s,opacity .15s}',
     '.bg-pp-card:hover{border-color:#5A5560}',
-    '.bg-pp-card.on{border-color:#C9A45C;background:#211D15}',
+    '.bg-pp-card.on{border-color:#E7E5E0;background:#1C1C1E}',
     '.bg-pp-card.dim{opacity:.5}',
     '.bg-pp-card img,.bg-pp-ph{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;border-radius:9px;background:#18181A}',
-    '.bg-pp-ph{display:flex;align-items:center;justify-content:center;font:italic 900 22px Archivo,sans-serif;color:#C9A45C;background:radial-gradient(120% 90% at 50% 30%,#232227,#141416);border:1px solid #26252A;box-sizing:border-box}',
+    '.bg-pp-ph{display:flex;align-items:center;justify-content:center;font:italic 900 22px Archivo,sans-serif;color:#E7E5E0;background:radial-gradient(120% 90% at 50% 30%,#232227,#141416);border:1px solid #26252A;box-sizing:border-box}',
     '.bg-pp-card b{font-size:12px;font-weight:600;color:#D6D2CA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
     '.bg-pp-card small{font-size:11px;color:#A3A09A}',
     '.bg-pp-grid1{grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}',
@@ -474,19 +474,19 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-pp-one img,.bg-pp-one .bg-pp-ph{border-radius:8px}',
     '.bg-pp-one b,.bg-pp-one small{display:block;text-align:center;font-size:10.5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
     '.bg-pp-one b{color:#D6D2CA}.bg-pp-one small{color:#A3A09A}',
-    '.bg-pp-one.on b{color:#F2F0EB}.bg-pp-one.on small{color:#E2C285}',
-    '.bg-pp-h .bg-pp-sel{font-style:normal;color:#E2C285}',
+    '.bg-pp-one.on b{color:#F2F0EB}.bg-pp-one.on small{color:#F4F2EE}',
+    '.bg-pp-h .bg-pp-sel{font-style:normal;color:#F4F2EE}',
     '.bg-pp-h:has(.bg-pp-sel) em{display:none}',
     '@media (max-width:640px){.bg-pp-grid1{grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:7px}}',
-    '.bg-pp-need{font:600 14px Manrope,sans-serif;color:#E2C285;margin:4px 0 8px}',
+    '.bg-pp-need{font:600 14px Manrope,sans-serif;color:#F4F2EE;margin:4px 0 8px}',
     '.bg-pp-lock{opacity:.45;pointer-events:none;filter:grayscale(1)}',
     '.bg-dev{display:flex;flex-direction:column;gap:8px;margin:2px 0 12px;position:relative}',
     '.bg-dev label{font:700 15px Manrope,sans-serif;color:#F2F0EB}',
     '.bg-dev input{background:#18181A;border:1px solid #3A383F;border-radius:12px;padding:13px 16px;color:#F2F0EB;font:16px Manrope,sans-serif;outline:none}',
-    '.bg-dev input:focus{border-color:#C9A45C}',
+    '.bg-dev input:focus{border-color:#E7E5E0}',
     '.bg-dev .bg-sugg{top:76px}',
-    '.bg-chip{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#211D15;border:1px solid #C9A45C;border-radius:12px;padding:11px 14px;font:14px Manrope,sans-serif;color:#F2F0EB}',
-    '.bg-chip strong{color:#E2C285}',
+    '.bg-chip{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#1C1C1E;border:1px solid #E7E5E0;border-radius:12px;padding:11px 14px;font:14px Manrope,sans-serif;color:#F2F0EB}',
+    '.bg-chip strong{color:#F4F2EE}',
     '.bg-chip button{border:1px solid #3A383F;background:transparent;color:#F2F0EB;border-radius:999px;padding:6px 14px;font:600 13px Manrope,sans-serif;cursor:pointer;min-height:34px}',
     '.bg-gal{display:flex;flex-direction:column;gap:12px;width:100%}',
     '.bg-gal-main{position:relative;border-radius:20px;overflow:hidden;background:#18181A}',
@@ -495,19 +495,19 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-gal-nav svg{width:18px;height:18px;fill:none;stroke:#F2F0EB;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}',
     '.bg-gal-cap{position:absolute;left:14px;right:14px;bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;z-index:2}',
     '.bg-gal-cap span{background:rgba(14,14,15,.8);border:1px solid #3A383F;border-radius:999px;padding:8px 14px;font:700 14px Manrope,sans-serif;color:#F2F0EB}',
-    '.bg-gal-cap button{border:none;border-radius:999px;padding:10px 18px;background:#C9A45C;color:#141210;font:700 14px Manrope,sans-serif;cursor:pointer;min-height:42px}',
+    '.bg-gal-cap button{border:none;border-radius:999px;padding:10px 18px;background:#E7E5E0;color:#141210;font:700 14px Manrope,sans-serif;cursor:pointer;min-height:42px}',
     '.bg-gal-th{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:10px}',
     '.bg-gal-th button{padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;background:transparent;cursor:pointer}',
-    '.bg-gal-th button.on{border-color:#C9A45C}',
+    '.bg-gal-th button.on{border-color:#E7E5E0}',
     '.bg-gal-th img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;border-radius:8px!important}',
     '.bg-gal-note{margin:0;font:13px/1.5 Manrope,sans-serif;color:#A3A09A}',
     '.bg-float{position:absolute;z-index:5;box-sizing:border-box}',
     '.bg-pp,.bg-dev{width:100%;min-width:0;box-sizing:border-box;align-self:stretch}',
     '.bg-gal-ph{width:100%;aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(110% 80% at 50% 30%,#26252B 0%,#141416 70%);color:#F2F0EB;text-align:center;padding:24px;box-sizing:border-box}',
-    '.bg-gal-ph svg{width:28%;height:auto;fill:none;stroke:#C9A45C;stroke-width:1.6}',
+    '.bg-gal-ph svg{width:28%;height:auto;fill:none;stroke:#E7E5E0;stroke-width:1.6}',
     '.bg-gal-ph b{font:italic 900 clamp(26px,3.4vw,44px)/1.05 Archivo,sans-serif;letter-spacing:.01em}',
     '.bg-gal-ph small{font:600 13px Manrope,sans-serif;color:#A3A09A;letter-spacing:.12em;text-transform:uppercase}',
-    '.bg-gal-th .bg-th-ph{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:#1B1B1E;color:#C9A45C;font:italic 900 15px Archivo,sans-serif;border-radius:8px}',
+    '.bg-gal-th .bg-th-ph{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:#1B1B1E;color:#E7E5E0;font:italic 900 15px Archivo,sans-serif;border-radius:8px}',
     '[data-bg-pwrap]{max-width:none!important;width:min(1240px,calc(100% - 48px))!important;margin-left:auto!important;margin-right:auto!important}',
     '[data-bg-pgrid]>*:not([data-bg-pinfo]){visibility:hidden!important;height:0!important;min-height:0!important;overflow:hidden!important}',
     '@media (min-width:900px){[data-bg-pgrid]{grid-template-columns:minmax(0,1.08fr) minmax(0,1fr)!important;column-gap:48px!important;align-items:start!important}[data-bg-pgrid]>*{grid-column:1;grid-row:1}[data-bg-pgrid]>[data-bg-pinfo]{grid-column:2!important;grid-row:1!important}}',
@@ -522,7 +522,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-gal-main:has(.bg-gal-ph) .bg-gal-cap span{display:none}',
     '.bg-gal-main .bg-gal-cap{top:14px!important;bottom:auto!important;left:auto!important;right:14px!important}',
     '.bg-gal-bot{position:absolute;left:14px;right:14px;bottom:14px;display:flex;align-items:center;gap:10px;z-index:2}',
-    '.bg-gal-pick{border:none;border-radius:999px;padding:10px 18px;background:#C9A45C;color:#141210;font:700 14px Manrope,sans-serif;cursor:pointer;min-height:42px}',
+    '.bg-gal-pick{border:none;border-radius:999px;padding:10px 18px;background:#E7E5E0;color:#141210;font:700 14px Manrope,sans-serif;cursor:pointer;min-height:42px}',
     '.bg-gal-ctl{margin-left:auto;display:flex;align-items:center;gap:2px;background:rgba(14,14,15,.82);border:1px solid #3A383F;border-radius:999px;padding:3px}',
     '.bg-gal-ctl button{width:36px;height:36px;border:none;background:transparent;border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}',
     '.bg-gal-ctl button:hover{background:#2A292E}',
@@ -770,7 +770,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     q.addEventListener('input', function () {
       var v = norm(q.value); if (v.length < 2) { sg.style.display = 'none'; return; }
       var out = smartFind(idx, q.value, function (m) { return m.brand + ' ' + m.model; }, 8);
-      if (!out.length) { sg.innerHTML = '<div style="cursor:default">Bulamadık. <a href="' + WA + '" target="_blank" rel="noopener" style="color:#E2C285">WhatsApp\'tan yaz</a></div>'; sg.style.display = 'block'; sg._list = []; return; }
+      if (!out.length) { sg.innerHTML = '<div style="cursor:default">Bulamadık. <a href="' + WA + '" target="_blank" rel="noopener" style="color:#F4F2EE">WhatsApp\'tan yaz</a></div>'; sg.style.display = 'block'; sg._list = []; return; }
       sg.innerHTML = out.map(function (m, i) { return '<div data-i="' + i + '"><b>' + esc(m.brand) + '</b> ' + esc(m.model) + ' <span style="color:#A3A09A">· ' + esc(m.type) + '</span></div>'; }).join('');
       sg.style.display = 'block'; sg._list = out;
     });
@@ -879,7 +879,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   window.addEventListener('resize', function () { if (ppState) syncPP(); });
 
   /* ---------- v7: "Neden Betaguard" redesign ---------- */
-  var st7 = document.createElement('style'); st7.id = 'bg-theme-css7'; st7.textContent = "[data-bg=\"feat\"]{background:radial-gradient(70% 120% at 0% 0%,rgba(201,164,92,.10),transparent 60%),#0E0E0F!important;border-top:1px solid #1F1E23;border-bottom:1px solid #1F1E23}[data-bg=\"feat\"] .bg-sec{display:grid!important;grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr);column-gap:56px;row-gap:0;align-items:start;padding-top:72px!important;padding-bottom:72px!important}[data-bg=\"feat\"] .bg-eyebrow{grid-column:1;grid-row:1;align-self:end}[data-bg=\"feat\"] h2{grid-column:1;grid-row:2;font-size:44px!important;line-height:1.05!important;margin:10px 0 0!important;font-style:italic;font-weight:900!important}[data-bg=\"feat\"] h2::after{content:\"Kamera, lens, drone ve gimbalın için cihazına özel kesilmiş kaplamalar. Korur, tarzını yansıtır, istediğinde iz bırakmadan çıkar.\";display:block;margin-top:18px;font:400 16px/1.65 Manrope,sans-serif;font-style:normal;color:#B9B5AD;max-width:400px}[data-bg=\"feat\"] .bg-grid{grid-column:2;grid-row:1 / span 3;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin:0!important}[data-bg=\"feat\"] .bg-feat{background:linear-gradient(180deg,#19191C,#131315)!important;border:1px solid #26252A;border-radius:18px;padding:26px 24px 24px!important;display:flex;flex-direction:column;gap:10px;transition:transform .2s ease,border-color .2s ease}[data-bg=\"feat\"] .bg-feat:hover{transform:translateY(-3px);border-color:rgba(201,164,92,.55)}[data-bg=\"feat\"] .bg-feat svg{width:48px!important;height:48px!important;padding:11px;box-sizing:border-box;border-radius:14px;background:rgba(201,164,92,.12);border:1px solid rgba(201,164,92,.28);margin-bottom:6px}[data-bg=\"feat\"] .bg-feat h3{margin:0!important;font:800 19px/1.25 Archivo,sans-serif!important;color:#F2F0EB}[data-bg=\"feat\"] .bg-feat p{margin:0!important;font:400 14.5px/1.6 Manrope,sans-serif!important;color:#A9A59D}[data-bg=\"steps\"] h2{margin-bottom:24px!important}@media (max-width:900px){[data-bg=\"feat\"] .bg-sec{grid-template-columns:1fr;padding-top:48px!important;padding-bottom:48px!important}[data-bg=\"feat\"] .bg-grid{grid-column:1;grid-row:3;margin-top:28px!important}[data-bg=\"feat\"] h2{font-size:34px!important}}@media (max-width:520px){[data-bg=\"feat\"] .bg-grid{grid-template-columns:1fr!important;gap:12px!important}[data-bg=\"feat\"] .bg-feat{display:grid!important;grid-template-columns:48px minmax(0,1fr);column-gap:14px;row-gap:4px;padding:18px 18px!important;align-items:start}[data-bg=\"feat\"] .bg-feat svg{grid-row:1 / span 2;margin:0!important}[data-bg=\"feat\"] .bg-feat h3{font-size:17px!important;align-self:center}[data-bg=\"feat\"] .bg-feat p{font-size:14px!important}}";
+  var st7 = document.createElement('style'); st7.id = 'bg-theme-css7'; st7.textContent = "[data-bg=\"feat\"]{background:radial-gradient(70% 120% at 0% 0%,rgba(231,229,224,.10),transparent 60%),#0E0E0F!important;border-top:1px solid #1F1E23;border-bottom:1px solid #1F1E23}[data-bg=\"feat\"] .bg-sec{display:grid!important;grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr);column-gap:56px;row-gap:0;align-items:start;padding-top:72px!important;padding-bottom:72px!important}[data-bg=\"feat\"] .bg-eyebrow{grid-column:1;grid-row:1;align-self:end}[data-bg=\"feat\"] h2{grid-column:1;grid-row:2;font-size:44px!important;line-height:1.05!important;margin:10px 0 0!important;font-style:italic;font-weight:900!important}[data-bg=\"feat\"] h2::after{content:\"Kamera, lens, drone ve gimbalın için cihazına özel kesilmiş kaplamalar. Korur, tarzını yansıtır, istediğinde iz bırakmadan çıkar.\";display:block;margin-top:18px;font:400 16px/1.65 Manrope,sans-serif;font-style:normal;color:#B9B5AD;max-width:400px}[data-bg=\"feat\"] .bg-grid{grid-column:2;grid-row:1 / span 3;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin:0!important}[data-bg=\"feat\"] .bg-feat{background:linear-gradient(180deg,#19191C,#131315)!important;border:1px solid #26252A;border-radius:18px;padding:26px 24px 24px!important;display:flex;flex-direction:column;gap:10px;transition:transform .2s ease,border-color .2s ease}[data-bg=\"feat\"] .bg-feat:hover{transform:translateY(-3px);border-color:rgba(231,229,224,.55)}[data-bg=\"feat\"] .bg-feat svg{width:48px!important;height:48px!important;padding:11px;box-sizing:border-box;border-radius:14px;background:rgba(231,229,224,.12);border:1px solid rgba(231,229,224,.28);margin-bottom:6px}[data-bg=\"feat\"] .bg-feat h3{margin:0!important;font:800 19px/1.25 Archivo,sans-serif!important;color:#F2F0EB}[data-bg=\"feat\"] .bg-feat p{margin:0!important;font:400 14.5px/1.6 Manrope,sans-serif!important;color:#A9A59D}[data-bg=\"steps\"] h2{margin-bottom:24px!important}@media (max-width:900px){[data-bg=\"feat\"] .bg-sec{grid-template-columns:1fr;padding-top:48px!important;padding-bottom:48px!important}[data-bg=\"feat\"] .bg-grid{grid-column:1;grid-row:3;margin-top:28px!important}[data-bg=\"feat\"] h2{font-size:34px!important}}@media (max-width:520px){[data-bg=\"feat\"] .bg-grid{grid-template-columns:1fr!important;gap:12px!important}[data-bg=\"feat\"] .bg-feat{display:grid!important;grid-template-columns:48px minmax(0,1fr);column-gap:14px;row-gap:4px;padding:18px 18px!important;align-items:start}[data-bg=\"feat\"] .bg-feat svg{grid-row:1 / span 2;margin:0!important}[data-bg=\"feat\"] .bg-feat h3{font-size:17px!important;align-self:center}[data-bg=\"feat\"] .bg-feat p{font-size:14px!important}}";
   (document.head || document.documentElement).appendChild(st7);
 
   /* ---------- v6: hide home "Seriler" slider, point menu/category links to the product page ---------- */
@@ -923,7 +923,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-ig-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:22px}',
     '[data-bg-insta] h2{margin:8px 0 0;font:italic 900 40px/1.05 Archivo,sans-serif;color:#F2F0EB}',
     '[data-bg-insta] p{margin:10px 0 0;font:400 15px/1.6 Manrope,sans-serif;color:#A9A59D;max-width:520px}',
-    '.bg-ig-follow{display:inline-flex;align-items:center;gap:10px;background:#C9A45C;color:#141210!important;text-decoration:none!important;font:700 15px Manrope,sans-serif;padding:14px 22px;border-radius:999px;white-space:nowrap}',
+    '.bg-ig-follow{display:inline-flex;align-items:center;gap:10px;background:#E7E5E0;color:#141210!important;text-decoration:none!important;font:700 15px Manrope,sans-serif;padding:14px 22px;border-radius:999px;white-space:nowrap}',
     '.bg-ig-follow svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9}',
     '.bg-ig-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}',
     '.bg-ig-t{position:relative;display:block;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:#18181A;border:1px solid #26252A}',
@@ -934,7 +934,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-ig-ov span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}',
     '.bg-ig-badge{position:absolute;top:9px;right:9px;width:26px;height:26px;border-radius:8px;background:rgba(10,10,11,.6);display:flex;align-items:center;justify-content:center}',
     '.bg-ig-badge svg{width:15px;height:15px;fill:#F2F0EB}',
-    '.bg-ig-empty{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;background:radial-gradient(90% 140% at 100% 0%,rgba(201,164,92,.12),transparent 60%),#141416;border:1px solid #26252A;border-radius:20px;padding:28px 30px}',
+    '.bg-ig-empty{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;background:radial-gradient(90% 140% at 100% 0%,rgba(231,229,224,.12),transparent 60%),#141416;border:1px solid #26252A;border-radius:20px;padding:28px 30px}',
     '@media (max-width:900px){.bg-ig-grid{grid-template-columns:repeat(3,minmax(0,1fr))}[data-bg-insta] h2{font-size:32px}}',
     '@media (max-width:640px){[data-bg-insta]{width:calc(100% - 24px);margin-top:40px}.bg-ig-grid{gap:6px}.bg-ig-t{border-radius:10px}.bg-ig-ov{display:none!important}.bg-ig-follow{padding:12px 18px}}'
   ].join('');
@@ -1047,20 +1047,20 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     'a[href="x"]{display:none!important}',
     '.bg-trust{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}',
     '.bg-trust div{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #2A2A2E;border-radius:12px;background:#151517;font:600 13px/1.3 Manrope,sans-serif;color:#E9E6DF}',
-    '.bg-trust svg{width:22px;height:22px;flex:none;fill:none;stroke:#C9A45C;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}',
+    '.bg-trust svg{width:22px;height:22px;flex:none;fill:none;stroke:#E7E5E0;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}',
     '.bg-deal{margin-top:10px;padding:14px 16px;border-radius:12px;background:linear-gradient(135deg,rgba(201,164,92,.18),rgba(201,164,92,.05));border:1px solid rgba(201,164,92,.4);font:400 13px/1.45 Manrope,sans-serif;color:#C9C5BD}',
     '.bg-deal b{display:block;color:#E2C285;font:800 15px/1.3 Manrope,sans-serif;margin-bottom:2px}',
     '[data-bg-desen]{width:min(1240px,100%);margin:0 auto;padding:56px 24px 24px;box-sizing:border-box;color:#F2F0EB}',
     '.bg-ds-h{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px}',
     '.bg-ds-h h2{margin:8px 0 0;font:italic 900 40px/1.05 Archivo,sans-serif;color:#F2F0EB}',
     '.bg-ds-h p{margin:10px 0 0;font:400 15px/1.6 Manrope,sans-serif;color:#A9A59D;max-width:520px}',
-    '.bg-ds-all{flex:none;color:#E2C285!important;font:700 14px Manrope,sans-serif;text-decoration:none!important;border:1px solid rgba(201,164,92,.5);padding:11px 18px;border-radius:999px}',
-    '.bg-ds-all:hover{background:rgba(201,164,92,.12)}',
+    '.bg-ds-all{flex:none;color:#F4F2EE!important;font:700 14px Manrope,sans-serif;text-decoration:none!important;border:1px solid rgba(231,229,224,.5);padding:11px 18px;border-radius:999px}',
+    '.bg-ds-all:hover{background:rgba(231,229,224,.12)}',
     '.bg-ds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}',
     '.bg-ds-card{display:flex;flex-direction:column;gap:4px;padding:10px 10px 14px;border:1px solid #26262A;border-radius:16px;background:#141416;text-decoration:none!important;color:#F2F0EB!important;transition:transform .2s,border-color .2s}',
-    '.bg-ds-card:hover{transform:translateY(-3px);border-color:rgba(201,164,92,.6)}',
+    '.bg-ds-card:hover{transform:translateY(-3px);border-color:rgba(231,229,224,.6)}',
     '.bg-ds-card img,.bg-ds-ph{width:100%;aspect-ratio:1;border-radius:10px;object-fit:cover;background:#EDEDED;margin-bottom:6px}',
-    '.bg-ds-ph{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 20%,#2A2722,#121214)!important;font:italic 900 34px Archivo,sans-serif;color:#C9A45C}',
+    '.bg-ds-ph{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 20%,#2A2722,#121214)!important;font:italic 900 34px Archivo,sans-serif;color:#E7E5E0}',
     '.bg-ds-card b{font:800 15px/1.2 Manrope,sans-serif}',
     '.bg-ds-card small{font:500 12px Manrope,sans-serif;color:#8E8A83}',
     '@media (max-width:700px){[data-bg-desen]{padding:40px 16px 16px}.bg-ds-h{flex-direction:column;align-items:flex-start}.bg-ds-h h2{font-size:30px}.bg-ds-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin:0 -16px;padding:0 16px 6px;scrollbar-width:none}.bg-ds-grid::-webkit-scrollbar{display:none}.bg-ds-card{flex:0 0 42%;scroll-snap-align:start}}',
@@ -1068,12 +1068,12 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-faq-in{max-width:1240px;margin:0 auto;padding:0 24px;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:48px}',
     '.bg-faq-h h2{margin:8px 0 0;font:italic 900 40px/1.05 Archivo,sans-serif;color:#F2F0EB}',
     '.bg-faq-h p{margin:12px 0 0;font:400 15px/1.6 Manrope,sans-serif;color:#A9A59D}',
-    '.bg-faq-h a{color:#E2C285!important}',
+    '.bg-faq-h a{color:#F4F2EE!important}',
     '.bg-faq-l details{border-bottom:1px solid #26262A}',
     '.bg-faq-l summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font:700 16px/1.35 Manrope,sans-serif;color:#F2F0EB}',
     '.bg-faq-l summary::-webkit-details-marker{display:none}',
-    '.bg-faq-l summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:50%;border:1px solid #3A3A3F;display:flex;align-items:center;justify-content:center;color:#C9A45C;font:400 20px/1 Manrope,sans-serif;transition:transform .2s}',
-    '.bg-faq-l details[open] summary::after{transform:rotate(45deg);border-color:#C9A45C}',
+    '.bg-faq-l summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:50%;border:1px solid #3A3A3F;display:flex;align-items:center;justify-content:center;color:#E7E5E0;font:400 20px/1 Manrope,sans-serif;transition:transform .2s}',
+    '.bg-faq-l details[open] summary::after{transform:rotate(45deg);border-color:#E7E5E0}',
     '.bg-faq-l details p{margin:0 0 20px;font:400 15px/1.65 Manrope,sans-serif;color:#B5B1A9;max-width:640px}',
     '@media (max-width:800px){.bg-faq-in{grid-template-columns:1fr;gap:12px;padding:0 16px}.bg-faq-h h2{font-size:30px}.bg-faq-l summary{font-size:15px}}'
   ].join('');
@@ -1381,11 +1381,11 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       '.bg-ft-brand p{margin:16px 0 18px;max-width:340px;color:#A9A59D}',
       '.bg-ft-social{display:flex;flex-wrap:wrap;gap:10px}',
       '.bg-ft-social a{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid #2A292E;border-radius:999px;color:#F2F0EB;text-decoration:none;font:600 13px Manrope,sans-serif;transition:border-color .2s,color .2s}',
-      '.bg-ft-social a:hover{border-color:#C9A45C;color:#E2C285}',
+      '.bg-ft-social a:hover{border-color:#E7E5E0;color:#F4F2EE}',
       '.bg-ft h2.bg-ft-h{margin:4px 0 14px;color:#F2F0EB;font:700 13px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase}',
       '.bg-ft ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}',
       '.bg-ft ul a{color:#A9A59D;text-decoration:none;transition:color .2s}',
-      '.bg-ft ul a:hover{color:#E2C285}',
+      '.bg-ft ul a:hover{color:#F4F2EE}',
       '.bg-ft-note{margin-top:14px;font-size:12px;color:#6F6B65}',
       '@media (max-width:899px){.bg-ft{grid-template-columns:1fr 1fr;gap:28px 20px}.bg-ft-brand{grid-column:1/-1}}',
       '[data-bg-fbottom]{padding-bottom:76px!important}','@media (max-width:899px){.bg-white-ico>div>div{display:grid!important;grid-template-columns:1fr 1fr;gap:18px 8px;overflow:visible!important;width:100%!important}.bg-white-ico>div>div>*{min-width:0!important;width:auto!important;margin:0!important}}','@media (max-width:899px){[data-bg-fbottom]{padding-bottom:84px!important;flex-wrap:wrap;gap:10px}}'
@@ -1441,16 +1441,16 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   '.bg-best-h p{margin:10px 0 0;font:400 15px/1.6 Manrope,sans-serif;color:#A9A59D;max-width:520px}',
   '.bg-best-g{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}',
   '.bg-best-c{position:relative;display:block;border-radius:18px;overflow:hidden;background:#18181A;border:1px solid #26252A;text-decoration:none;color:#F2F0EB;transition:border-color .2s,transform .2s}',
-  '.bg-best-c:hover{border-color:#E2C285;transform:translateY(-2px)}',
+  '.bg-best-c:hover{border-color:#F4F2EE;transform:translateY(-2px)}',
   '.bg-best-i{aspect-ratio:1/1;background:#141416;overflow:hidden}',
   '.bg-best-i img{width:100%;height:100%;object-fit:cover;display:block;border-radius:0!important;transition:transform .4s ease}',
   '.bg-best-c:hover .bg-best-i img{transform:scale(1.04)}',
-  '.bg-best-b{position:absolute;top:12px;left:12px;background:#E2C285;color:#141416;font:800 11px/1 Manrope,sans-serif;letter-spacing:.08em;padding:7px 10px;border-radius:999px}',
+  '.bg-best-b{position:absolute;top:12px;left:12px;background:#F4F2EE;color:#141416;font:800 11px/1 Manrope,sans-serif;letter-spacing:.08em;padding:7px 10px;border-radius:999px}',
   '.bg-best-t{padding:16px 18px 18px}',
   '.bg-best-t strong{display:flex;justify-content:space-between;align-items:baseline;font:italic 900 24px/1.1 Archivo,sans-serif}',
   '.bg-best-t strong span{font:600 13px Manrope,sans-serif;font-style:normal;color:#A9A59D}',
   '.bg-best-t p{margin:6px 0 12px;font:400 14px/1.5 Manrope,sans-serif;color:#A9A59D}',
-  '.bg-best-t em{font:700 14px Manrope,sans-serif;font-style:normal;color:#E2C285}',
+  '.bg-best-t em{font:700 14px Manrope,sans-serif;font-style:normal;color:#F4F2EE}',
   '@media (max-width:640px){[data-bg-best]{padding:36px 16px 0}.bg-best-h h2{font-size:30px}.bg-best-g{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:78%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}.bg-best-c{scroll-snap-align:start}}'].join('');
   var st=document.createElement('style'); st.id='bg-theme-css15'; st.textContent=css; (document.head||document.documentElement).appendChild(st);
   function img(slug){ var a=document.querySelector('[data-bg-wall] a[href*="desen='+slug+'"] img')||document.querySelector('[data-bg-wall] a[href*="desen='+slug.split('-')[0]+'"] img'); return a ? (a.currentSrc||a.getAttribute('src')) : ''; }
@@ -1474,7 +1474,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 /* v16: cihaz secimi - yeniden cizim duzeltmesi + Hizli/Manuel basliklari */
 (function(){
   if (window.__bgV16) return; window.__bgV16 = 1;
-  var css = ['.bg-dev-sub{font:800 12px/1.3 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#E2C285;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}',
+  var css = ['.bg-dev-sub{font:800 12px/1.3 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#F4F2EE;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}',
     '.bg-dev-sub span{font:500 13px Manrope,sans-serif;letter-spacing:0;text-transform:none;color:#8E8A83}',
     '.bg-dev-or{order:10;display:flex;align-items:center;gap:10px;margin-top:8px;font:600 12px Manrope,sans-serif;color:#8E8A83}',
     '.bg-dev-or:before,.bg-dev-or:after{content:"";flex:1;height:1px;background:#2A292E}',
@@ -1520,10 +1520,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-sr p{margin:0 0 14px;font:500 13px/1.5 Manrope,sans-serif;color:#8E8A83}',
     '.bg-sr-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}',
     '.bg-sr-g a{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:11px 14px;border:1px solid #2A292E;border-radius:10px;color:#F2EFEA;text-decoration:none;font:600 13px/1.3 Manrope,sans-serif;background:#1B1A1F}',
-    '.bg-sr-g a:hover{border-color:#E2C285}',
+    '.bg-sr-g a:hover{border-color:#F4F2EE}',
     '.bg-sr-g a b{font-weight:500;color:#8E8A83;font-size:12px}',
-    '.bg-sr-g a span{color:#E2C285;flex:none}',
-    '.bg-sr-wa{display:inline-flex;margin-top:14px;padding:10px 16px;border-radius:999px;background:#E2C285;color:#111!important;font:700 13px Manrope,sans-serif;text-decoration:none}',
+    '.bg-sr-g a span{color:#F4F2EE;flex:none}',
+    '.bg-sr-wa{display:inline-flex;margin-top:14px;padding:10px 16px;border-radius:999px;background:#F4F2EE;color:#111!important;font:700 13px Manrope,sans-serif;text-decoration:none}',
     '@media (max-width:767px){',
       '.bg-ck>div{display:flex!important;align-items:center!important;gap:10px!important;padding:10px 12px!important;max-width:calc(100vw - 20px)!important;box-sizing:border-box}',
       '.bg-ck .rich-text p{font-size:11.5px!important;line-height:1.35!important;margin:0!important}',
@@ -1631,7 +1631,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.pcz-price{display:none!important}',
     'html.bg-nomodel [data-bg-pprice]{font-size:0!important;line-height:0!important;color:transparent!important}',
     'html.bg-nomodel [data-bg-pprice]::before{content:"Fiyat, modelini seçince görünür";display:block;font:500 15px/1.6 Manrope,sans-serif;color:#8E8A83;padding:4px 0}',
-    '.bg-incl{display:inline-flex;align-items:center;gap:6px;margin:6px 0 2px;padding:5px 10px;border:1px solid #3A3426;border-radius:999px;background:#1B1912;color:#E2C285;font:600 12px/1.3 Manrope,sans-serif}',
+    '.bg-incl{display:inline-flex;align-items:center;gap:6px;margin:6px 0 2px;padding:5px 10px;border:1px solid #3A3A3E;border-radius:999px;background:#1A1A1C;color:#F4F2EE;font:600 12px/1.3 Manrope,sans-serif}',
     '.bg-incl a{color:#F2D9A5;text-decoration:underline;text-underline-offset:2px}',
     '.bg-incl a:hover{color:#fff}'
   ].join('');
@@ -1694,25 +1694,25 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var css = [
     '.bg-why{max-width:1180px;margin:56px auto;padding:0 20px;font-family:Manrope,sans-serif;color:#F2EFEA}',
     '.bg-why-h{text-align:center;margin:0 0 26px}',
-    '.bg-why-h small{display:block;font:800 12px/1 Manrope,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#E2C285;margin-bottom:10px}',
+    '.bg-why-h small{display:block;font:800 12px/1 Manrope,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#F4F2EE;margin-bottom:10px}',
     '.bg-why-h h2{margin:0;font:800 clamp(26px,4vw,40px)/1.15 Manrope,sans-serif;letter-spacing:-.01em}',
     '.bg-why-h p{margin:10px auto 0;max-width:560px;color:#8E8A83;font:500 15px/1.6 Manrope,sans-serif}',
     '.bg-ba{position:relative;max-width:920px;margin:0 auto 18px;aspect-ratio:16/10;border-radius:18px;overflow:hidden;background:#141317;border:1px solid #2A292E;user-select:none;touch-action:pan-y;--p:50%}',
     '.bg-ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}',
     '.bg-ba .bg-ba-b{clip-path:inset(0 calc(100% - var(--p)) 0 0)}',
-    '.bg-ba-line{position:absolute;top:0;bottom:0;left:var(--p);width:2px;margin-left:-1px;background:#E2C285;pointer-events:none}',
-    '.bg-ba-knob{position:absolute;top:50%;left:var(--p);width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:#E2C285;color:#111;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(0,0,0,.45);pointer-events:none}',
+    '.bg-ba-line{position:absolute;top:0;bottom:0;left:var(--p);width:2px;margin-left:-1px;background:#F4F2EE;pointer-events:none}',
+    '.bg-ba-knob{position:absolute;top:50%;left:var(--p);width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:#F4F2EE;color:#111;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(0,0,0,.45);pointer-events:none}',
     '.bg-ba-tag{position:absolute;top:14px;padding:6px 11px;border-radius:999px;background:rgba(10,10,12,.72);backdrop-filter:blur(6px);font:700 12px/1 Manrope,sans-serif;letter-spacing:.04em;pointer-events:none}',
-    '.bg-ba-tag.l{left:14px;color:#C9C4BC}.bg-ba-tag.r{right:14px;color:#E2C285}',
+    '.bg-ba-tag.l{left:14px;color:#C9C4BC}.bg-ba-tag.r{right:14px;color:#F4F2EE}',
     '.bg-ba input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;-webkit-appearance:none;appearance:none}',
     '.bg-ba-cap{text-align:center;color:#8E8A83;font:500 13px/1.5 Manrope,sans-serif;margin:0 0 30px}',
     '.bg-why-g{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}',
     '.bg-why-c{padding:22px 20px;border:1px solid #2A292E;border-radius:16px;background:#141317}',
-    '.bg-why-c i{display:flex;width:42px;height:42px;border-radius:12px;align-items:center;justify-content:center;background:#1E1C17;color:#E2C285;margin-bottom:14px}',
+    '.bg-why-c i{display:flex;width:42px;height:42px;border-radius:12px;align-items:center;justify-content:center;background:#1E1C17;color:#F4F2EE;margin-bottom:14px}',
     '.bg-why-c b{display:block;font:800 16px/1.3 Manrope,sans-serif;margin-bottom:6px}',
     '.bg-why-c span{display:block;color:#8E8A83;font:500 14px/1.55 Manrope,sans-serif}',
     '.bg-why-cta{display:flex;justify-content:center;margin-top:26px}',
-    '.bg-why-cta a{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:999px;background:#E2C285;color:#111!important;font:800 14px/1 Manrope,sans-serif;text-decoration:none}',
+    '.bg-why-cta a{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:999px;background:#F4F2EE;color:#111!important;font:800 14px/1 Manrope,sans-serif;text-decoration:none}',
     '@media (max-width:900px){.bg-why-g{grid-template-columns:repeat(2,1fr)}}',
     '@media (max-width:520px){.bg-why{margin:40px auto}.bg-why-g{gap:10px}.bg-ba{aspect-ratio:4/5;border-radius:14px}.bg-why-c{padding:14px}.bg-why-c i{width:36px;height:36px;margin-bottom:10px}.bg-why-c b{font-size:14px}.bg-why-c span{font-size:12.5px;line-height:1.5}}'
   ].join('');
@@ -1957,25 +1957,25 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-cta-hint.on{display:flex}',
     '.bg-cta-hint svg{flex:none}',
     '.bg-flash{animation:bgFlash 1.4s ease 1}',
-    '@keyframes bgFlash{0%,100%{box-shadow:0 0 0 0 rgba(226,194,133,0)}30%{box-shadow:0 0 0 4px rgba(226,194,133,.55)}}',
+    '@keyframes bgFlash{0%,100%{box-shadow:0 0 0 0 rgba(244,242,238,0)}30%{box-shadow:0 0 0 4px rgba(244,242,238,.55)}}',
     '.bg-px{margin:18px 0 6px;display:flex;flex-direction:column;gap:12px;font-family:Manrope,sans-serif;color:#F2EFEA}',
     '.bg-px-c{border:1px solid #2A292E;border-radius:14px;background:#141317;padding:16px 16px 14px}',
     '.bg-px-c h4{margin:0 0 10px;font:800 15px/1.3 Manrope,sans-serif;color:#F2EFEA;display:flex;align-items:center;gap:8px}',
-    '.bg-px-c h4 i{font-style:normal;color:#E2C285}',
+    '.bg-px-c h4 i{font-style:normal;color:#F4F2EE}',
     '.bg-px-box{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}',
     '.bg-px-box li{display:flex;gap:10px;align-items:flex-start;color:#C9C4BC;font:500 13.5px/1.5 Manrope,sans-serif}',
-    '.bg-px-box li:before{content:"";flex:none;width:6px;height:6px;margin-top:8px;border-radius:50%;background:#E2C285}',
+    '.bg-px-box li:before{content:"";flex:none;width:6px;height:6px;margin-top:8px;border-radius:50%;background:#F4F2EE}',
     '.bg-px-st{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}',
     '.bg-px-st div{padding:11px 12px;border-radius:10px;background:#1B1A1F}',
-    '.bg-px-st b{display:block;font:800 13px/1.3 Manrope,sans-serif;color:#F2EFEA;margin-bottom:3px}.bg-px-st b em{font-style:normal;color:#E2C285;margin-right:6px}',
+    '.bg-px-st b{display:block;font:800 13px/1.3 Manrope,sans-serif;color:#F2EFEA;margin-bottom:3px}.bg-px-st b em{font-style:normal;color:#F4F2EE;margin-right:6px}',
     '.bg-px-st span{display:block;color:#8E8A83;font:500 12.5px/1.45 Manrope,sans-serif}',
     '.bg-px details{border-top:1px solid #2A292E}.bg-px details:first-of-type{border-top:0}',
     '.bg-px summary{list-style:none;cursor:pointer;padding:11px 26px 11px 0;position:relative;font:700 13.5px/1.4 Manrope,sans-serif;color:#F2EFEA}',
     '.bg-px summary::-webkit-details-marker{display:none}',
-    '.bg-px summary:after{content:"+";position:absolute;right:2px;top:9px;color:#E2C285;font:600 18px/1 Manrope,sans-serif}',
+    '.bg-px summary:after{content:"+";position:absolute;right:2px;top:9px;color:#F4F2EE;font:600 18px/1 Manrope,sans-serif}',
     '.bg-px details[open] summary:after{content:"–"}',
     '.bg-px details p{margin:0 0 12px;color:#8E8A83;font:500 13px/1.55 Manrope,sans-serif}',
-    '.bg-px a.bg-px-more{display:inline-block;margin-top:6px;color:#E2C285;font:700 13px Manrope,sans-serif;text-decoration:none}',
+    '.bg-px a.bg-px-more{display:inline-block;margin-top:6px;color:#F4F2EE;font:700 13px Manrope,sans-serif;text-decoration:none}',
     '@media (max-width:520px){.bg-trust>div{flex-direction:column!important;align-items:flex-start!important;gap:8px!important}}',
     '@media (max-width:767px){.bg-cats>.bg-cat:last-child:nth-child(odd){grid-column:1/-1}}',
     '@media (min-width:768px){.bg-ds-grid{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:14px!important}.bg-ds-grid>*{flex:0 0 calc((100% - 56px)/5)!important;max-width:calc((100% - 56px)/5)!important;box-sizing:border-box}}',
@@ -2108,7 +2108,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   if (window.__bgV22) return; window.__bgV22 = 1;
   var css = [
     '.bg-rep{display:flex;gap:10px;align-items:flex-start;margin:10px 0 0;padding:11px 13px;border:1px solid #2A292E;border-radius:12px;background:#141317;font:500 12.5px/1.55 Manrope,sans-serif;color:#A3A09A}',
-    '.bg-rep svg{flex:none;width:16px;height:16px;margin-top:1px;color:#E2C285}',
+    '.bg-rep svg{flex:none;width:16px;height:16px;margin-top:1px;color:#F4F2EE}',
     '.bg-rep b{color:#F2EFEA;font-weight:700}',
     '.bg-rep p{margin:0}',
     '.bg-rep .s{display:none}',
@@ -2146,10 +2146,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-pol-x{appearance:none;border:0;background:transparent;color:#8E8A83;font-size:26px;line-height:1;cursor:pointer;padding:4px 10px}',
     '.bg-pol-b{overflow:auto;padding:0 26px 26px;font:500 14px/1.65 Manrope,sans-serif}',
     '.bg-pol-b h2{display:block!important;width:100%;margin:0 0 14px;font:800 20px/1.3 Manrope,sans-serif;color:#F2EFEA}',
-    '.bg-pol-b h3{display:block!important;width:100%;margin:20px 0 6px;font:800 15px/1.4 Manrope,sans-serif;color:#E2C285}',
+    '.bg-pol-b h3{display:block!important;width:100%;margin:20px 0 6px;font:800 15px/1.4 Manrope,sans-serif;color:#F4F2EE}',
     '.bg-pol-b p{display:block!important;margin:0 0 10px}.bg-pol-b ul{display:block!important}.bg-pol-b li{display:list-item!important}.bg-pol-b br{display:inline!important}.bg-pol-b ul{margin:0 0 10px;padding-left:20px}.bg-pol-b li{margin:0 0 6px}',
     '.bg-pol-b strong{color:#F2EFEA}',
-    '.bg-mail{color:inherit;text-decoration:none}.bg-mail:hover{color:#E2C285}'
+    '.bg-mail{color:inherit;text-decoration:none}.bg-mail:hover{color:#F4F2EE}'
   ].join('');
   var st = document.createElement('style'); st.id = 'bg-theme-css23'; st.textContent = css; (document.head || document.documentElement).appendChild(st);
   function open(key){
@@ -2196,7 +2196,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     });
     if (/^\/pages\/iletisim/.test(location.pathname) && !document.querySelector('.bg-contact-mail')) {
       var p = [].slice.call(document.querySelectorAll('.rich-text,p')).find(function(x){ return /İletişim formunu kullanarak/.test(x.textContent) && x.textContent.length < 120; });
-      if (p) { var d = document.createElement('p'); d.className = 'bg-contact-mail'; d.style.cssText = 'margin:8px 0 0;font:500 14px/1.6 Manrope,sans-serif;color:#A3A09A'; d.innerHTML = 'E-posta: <a class="bg-mail" style="color:#E2C285" href="mailto:' + MAIL + '">' + MAIL + '</a> · WhatsApp: <a class="bg-mail" style="color:#E2C285" href="https://wa.me/905353211911">0535 321 19 11</a>'; p.parentNode.insertBefore(d, p.nextSibling); }
+      if (p) { var d = document.createElement('p'); d.className = 'bg-contact-mail'; d.style.cssText = 'margin:8px 0 0;font:500 14px/1.6 Manrope,sans-serif;color:#A3A09A'; d.innerHTML = 'E-posta: <a class="bg-mail" style="color:#F4F2EE" href="mailto:' + MAIL + '">' + MAIL + '</a> · WhatsApp: <a class="bg-mail" style="color:#F4F2EE" href="https://wa.me/905353211911">0535 321 19 11</a>'; p.parentNode.insertBefore(d, p.nextSibling); }
     }
   }
   var q = false;
@@ -2290,26 +2290,26 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg24-s{appearance:none;display:flex;align-items:center;gap:10px;padding:8px;border-radius:14px;border:1px solid #26262A;background:#141416;color:#D9D5CE;cursor:pointer;text-align:left;font:700 14px/1.2 Manrope,sans-serif;transition:border-color .2s,background .2s}',
     '.bg24-s i{width:40px;height:40px;border-radius:10px;background-size:cover;background-position:center;flex:none}',
     '.bg24-s small{display:block;font:600 11px/1.3 Manrope,sans-serif;color:#8E8A83;margin-top:2px}',
-    '.bg24-s:hover{border-color:#4a463e}.bg24-s[aria-pressed=true]{border-color:#C9A45C;background:#1c1a16;color:#F2F0EB}',
+    '.bg24-s:hover{border-color:#4a463e}.bg24-s[aria-pressed=true]{border-color:#E7E5E0;background:#1C1C1E;color:#F2F0EB}',
     '.bg24-cols{display:flex;flex-wrap:wrap;gap:10px}',
     '.bg24-c{appearance:none;width:44px;height:44px;border-radius:50%;padding:0;border:2px solid transparent;background:transparent;cursor:pointer;transition:transform .15s}',
     '.bg24-c i{display:block;width:100%;height:100%;border-radius:50%;background-size:cover;background-position:center;border:1px solid rgba(255,255,255,.18)}',
-    '.bg24-c:hover{transform:scale(1.08)}.bg24-c[aria-pressed=true]{border-color:#C9A45C;padding:3px}',
+    '.bg24-c:hover{transform:scale(1.08)}.bg24-c[aria-pressed=true]{border-color:#E7E5E0;padding:3px}',
     '.bg24-cn{margin:10px 0 0;font:600 14px/1.4 Manrope,sans-serif;color:#F2F0EB}',
     '.bg24-desc{margin:0;font:500 15px/1.6 Manrope,sans-serif;color:#A9A59D}',
     '.bg24-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}',
-    '.bg24-go{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;background:#C9A45C;color:#141210!important;font:800 15px/1 Manrope,sans-serif;text-decoration:none!important;transition:background .2s}',
-    '.bg24-go:hover{background:#E2C285}',
-    '.bg24-sec{display:inline-flex;padding:13px 22px;border-radius:999px;border:1px solid #4a463e;color:#E2C285!important;font:700 14px/1 Manrope,sans-serif;text-decoration:none!important}',
-    '.bg24-sec:hover{border-color:#C9A45C}',
+    '.bg24-go{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;background:#E7E5E0;color:#141210!important;font:800 15px/1 Manrope,sans-serif;text-decoration:none!important;transition:background .2s}',
+    '.bg24-go:hover{background:#F4F2EE}',
+    '.bg24-sec{display:inline-flex;padding:13px 22px;border-radius:999px;border:1px solid #4a463e;color:#F4F2EE!important;font:700 14px/1 Manrope,sans-serif;text-decoration:none!important}',
+    '.bg24-sec:hover{border-color:#E7E5E0}',
     '.bg24-f{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px}',
     '.bg24-fb{appearance:none;display:inline-flex;align-items:center;gap:8px;padding:9px 16px 9px 10px;border-radius:999px;border:1px solid #2c2b30;background:#141416;color:#D9D5CE;font:700 13px/1 Manrope,sans-serif;cursor:pointer;white-space:nowrap}',
     '.bg24-fb i{width:16px;height:16px;border-radius:50%;border:1px solid rgba(255,255,255,.2)}',
     '.bg24-fb em{font-style:normal;color:#8E8A83;font-weight:600}',
-    '.bg24-fb[aria-pressed=true]{border-color:#C9A45C;background:#1c1a16;color:#F2F0EB}',
+    '.bg24-fb[aria-pressed=true]{border-color:#E7E5E0;background:#1C1C1E;color:#F2F0EB}',
     '.bg24-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}',
     '.bg24-t{display:block;border-radius:18px;overflow:hidden;background:#141416;border:1px solid #26262A;text-decoration:none!important;color:#F2F0EB;transition:border-color .2s,transform .2s}',
-    '.bg24-t:hover{border-color:#C9A45C;transform:translateY(-2px)}',
+    '.bg24-t:hover{border-color:#E7E5E0;transform:translateY(-2px)}',
     '.bg24-t .im{position:relative;display:block;aspect-ratio:1/1;background:#EFEEEC;overflow:hidden}',
     '.bg24-t .im img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}',
     '.bg24-t:hover .im img{transform:scale(1.04)}',
@@ -2457,17 +2457,17 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-kt h3{font-family:Archivo,sans-serif!important;font-style:italic!important;font-weight:800!important}',
     '#nasil-uygulanir h2{margin-bottom:24px!important}',
     /* hero */
-    '.bg-hero h1 .bg-h1s{display:block;margin-top:14px;font:italic 800 26px/1.2 Archivo,sans-serif;color:#C9A45C;letter-spacing:0}',
+    '.bg-hero h1 .bg-h1s{display:block;margin-top:14px;font:italic 800 26px/1.2 Archivo,sans-serif;color:#E7E5E0;letter-spacing:0}',
     '@media (max-width:767px){.bg-hero h1 .bg-h1s{font-size:19px;margin-top:10px}}',
     /* odeme satiri */
     '.bg-pay{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;padding:18px 0;margin:0 0 4px;font:600 13px/1.4 Manrope,sans-serif;color:#A9A59D}',
-    '.bg-pay span{display:inline-flex;align-items:center;gap:8px}.bg-pay svg{width:18px;height:18px;flex:none;stroke:#C9A45C;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}',
+    '.bg-pay span{display:inline-flex;align-items:center;gap:8px}.bg-pay svg{width:18px;height:18px;flex:none;stroke:#E7E5E0;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}',
     /* cerez seridi */
     '.bg-cookie{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:99990;width:min(720px,calc(100% - 24px));display:flex;align-items:center;gap:16px;padding:14px 16px 14px 20px;border-radius:16px;background:#16151A;border:1px solid #2A292E;box-shadow:0 12px 40px rgba(0,0,0,.5);color:#D9D5CE;font:500 13px/1.55 Manrope,sans-serif;box-sizing:border-box}',
-    '.bg-cookie p{margin:0;flex:1}.bg-cookie a{color:#E2C285;text-decoration:underline;cursor:pointer}',
+    '.bg-cookie p{margin:0;flex:1}.bg-cookie a{color:#F4F2EE;text-decoration:underline;cursor:pointer}',
     '.bg-cookie .b{display:flex;gap:8px;flex:none}',
     '.bg-cookie button{appearance:none;cursor:pointer;border-radius:999px;padding:10px 16px;font:700 13px/1 Manrope,sans-serif;white-space:nowrap}',
-    '.bg-cookie .n{background:transparent;border:1px solid #4a463e;color:#D9D5CE}.bg-cookie .y{background:#C9A45C;border:1px solid #C9A45C;color:#141210}',
+    '.bg-cookie .n{background:transparent;border:1px solid #4a463e;color:#D9D5CE}.bg-cookie .y{background:#E7E5E0;border:1px solid #E7E5E0;color:#141210}',
     '@media (max-width:640px){.bg-cookie{flex-direction:column;align-items:stretch;gap:12px;bottom:10px;padding:14px}.bg-cookie .b button{flex:1}}'
   ].join('');
   var st = document.createElement('style'); st.id = 'bg-theme-css25'; st.textContent = css; (document.head || document.documentElement).appendChild(st);
@@ -2618,24 +2618,24 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     /* urun karti: sade, tek tip gorsel karo */
     '.bg26-card-img{background:#fff!important;border-radius:16px!important;aspect-ratio:1/1;object-fit:contain!important;width:100%!important;height:auto!important;padding:0;box-sizing:border-box}',
     '.bg26-cnt{display:flex;width:100%;align-items:center;gap:6px;margin:4px 0 2px;font:600 11.5px/1.2 Manrope,sans-serif;color:#A9A59D}',
-    '.bg26-cnt i{width:12px;height:12px;border-radius:50%;background:conic-gradient(#C9A45C,#2B6CB0,#C53030,#2F855A,#E2E8F0,#C9A45C);display:inline-block}',
+    '.bg26-cnt i{width:12px;height:12px;border-radius:50%;background:conic-gradient(#E7E5E0,#2B6CB0,#C53030,#2F855A,#E2E8F0,#E7E5E0);display:inline-block}',
     '.bg26-btn{background:#1A1A1D!important;border:1px solid #3A383F!important;border-radius:999px!important;cursor:pointer}',
     '.bg26-btn *{color:#F2F0EB!important}',
-    '.bg26-btn:hover{border-color:#C9A45C!important}',
+    '.bg26-btn:hover{border-color:#E7E5E0!important}',
     '.bg26-hide{display:none!important}',
     /* marka cipleri */
     '.bg26-chips{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:8px;margin:4px 0 12px}',
     '.bg26-chips a{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border:1px solid #2F2E33;border-radius:999px;background:#151517;color:#E7E4DE;text-decoration:none;font:600 13.5px/1 Manrope,sans-serif;transition:border-color .15s}',
-    '.bg26-chips a:hover{border-color:#C9A45C}',
-    '.bg26-chips a.on{background:#C9A45C;border-color:#C9A45C;color:#141210}',
+    '.bg26-chips a:hover{border-color:#E7E5E0}',
+    '.bg26-chips a.on{background:#E7E5E0;border-color:#E7E5E0;color:#141210}',
     '.bg26-chips a small{font-size:11.5px;opacity:.7}',
     '.bg26-hint{display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:10px 18px;margin:0 0 18px;font:500 13px/1.5 Manrope,sans-serif;color:#A9A59D}',
-    '.bg26-hint b{color:#E2C285;font-weight:700}',
-    '.bg26-hint a{color:#E2C285}',
+    '.bg26-hint b{color:#F4F2EE;font-weight:700}',
+    '.bg26-hint a{color:#F4F2EE}',
     '.bg26-catdesc{width:100%;flex-basis:100%;box-sizing:border-box;margin:36px 0 12px;padding:24px 0 0;border-top:1px solid #2F2E33;align-self:stretch;font:400 14.5px/1.65 Manrope,sans-serif;color:#A9A59D}',
     '.bg26-catdesc .bg26-cd-body{max-width:760px}',
     '.bg26-catdesc h2{font:700 17px/1.3 Manrope,sans-serif;color:#E7E4DE;margin:0 0 10px}',
-    '.bg26-catdesc p{margin:0 0 10px}.bg26-catdesc strong{color:#E7E4DE}.bg26-catdesc ul{margin:0 0 10px 18px;padding:0}.bg26-catdesc a{color:#E2C285}',
+    '.bg26-catdesc p{margin:0 0 10px}.bg26-catdesc strong{color:#E7E4DE}.bg26-catdesc ul{margin:0 0 10px 18px;padding:0}.bg26-catdesc a{color:#F4F2EE}',
     /* setini tamamla */
     '.bg26-set{max-width:1192px;margin:40px auto 10px;padding:0 24px;box-sizing:border-box}',
     '.bg26-set-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 24px;margin-bottom:16px}',
@@ -2645,14 +2645,14 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg26-row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(200px,1fr);gap:14px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}',
     '.bg26-row::-webkit-scrollbar{height:6px}.bg26-row::-webkit-scrollbar-thumb{background:#2F2E33;border-radius:9px}',
     '.bg26-it{scroll-snap-align:start;display:flex;flex-direction:column;border:1px solid #232227;border-radius:16px;background:#141416;overflow:hidden;text-decoration:none;color:#F2F0EB;transition:border-color .15s,transform .15s}',
-    '.bg26-it:hover{border-color:#C9A45C;transform:translateY(-2px)}',
+    '.bg26-it:hover{border-color:#E7E5E0;transform:translateY(-2px)}',
     '.bg26-it .im{position:relative;background:#fff;aspect-ratio:1/1;overflow:hidden}',
     '.bg26-it .im img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:0;box-sizing:border-box}',
     '.bg26-it .tx{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px}',
-    '.bg26-it .ty{font:700 10.5px/1 Manrope,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#C9A45C}',
+    '.bg26-it .ty{font:700 10.5px/1 Manrope,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#E7E5E0}',
     '.bg26-it .nm{font:700 14px/1.35 Manrope,sans-serif}',
     '.bg26-it .pr{font:600 13px/1.3 Manrope,sans-serif;color:#B9B5AD}',
-    '.bg26-it .go{margin-top:6px;font:700 12.5px/1 Manrope,sans-serif;color:#E2C285}',
+    '.bg26-it .go{margin-top:6px;font:700 12.5px/1 Manrope,sans-serif;color:#F4F2EE}',
     '@media (max-width:640px){.bg26-set{padding:0 16px}.bg26-set h2{font-size:24px!important}.bg26-row{grid-auto-columns:72%}}',
     /* uyumluluk satiri */
     '.bg26-fit{display:inline-flex;align-items:center;gap:8px;margin:10px 0 2px;padding:7px 12px;border-radius:10px;background:#122017;border:1px solid #1F3A28;color:#9AE6B4;font:600 12.5px/1.35 Manrope,sans-serif}',
@@ -2665,33 +2665,33 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg26-md-t h3{margin:0;font:italic 800 24px/1.1 Archivo,sans-serif!important}',
     '.bg26-x{width:36px;height:36px;border-radius:50%;border:1px solid #2F2E33;background:#18181A;color:#E7E4DE;font-size:20px;line-height:1;cursor:pointer}',
     '.bg26-ds{display:inline-flex;align-items:center;gap:8px;margin:8px 0 12px;font:600 13px/1.3 Manrope,sans-serif;color:#B9B5AD}',
-    '.bg26-ds b{color:#E2C285}',
+    '.bg26-ds b{color:#F4F2EE}',
     '.bg26-in{width:100%;box-sizing:border-box;padding:13px 16px;border-radius:12px;border:1px solid #3A383F;background:#18181A;color:#F2F0EB;font:500 15px Manrope,sans-serif;outline:none}',
-    '.bg26-in:focus{border-color:#C9A45C}',
+    '.bg26-in:focus{border-color:#E7E5E0}',
     '.bg26-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}',
     '.bg26-tabs button{padding:7px 13px;border-radius:999px;border:1px solid #2F2E33;background:#151517;color:#D6D2CA;font:600 12.5px Manrope,sans-serif;cursor:pointer}',
-    '.bg26-tabs button.on{background:#C9A45C;border-color:#C9A45C;color:#141210}',
+    '.bg26-tabs button.on{background:#E7E5E0;border-color:#E7E5E0;color:#141210}',
     '.bg26-list{overflow-y:auto;padding:10px 12px 6px}',
     '.bg26-li{display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:12px;padding:8px 10px;border-radius:12px;text-decoration:none;color:#F2F0EB}',
     '.bg26-li:hover,.bg26-li:focus{background:#1C1C1F;outline:none}',
     '.bg26-li .th{width:64px;height:48px;border-radius:8px;background:#F4F3F0;display:flex;align-items:center;justify-content:center;overflow:hidden}',
     '.bg26-li .th img{width:100%;height:100%;object-fit:contain}',
     '.bg26-li .n{font:700 14px/1.3 Manrope,sans-serif}.bg26-li .n small{display:block;font:500 12px/1.3 Manrope,sans-serif;color:#8E8A83}',
-    '.bg26-li .p{font:700 13px Manrope,sans-serif;color:#E2C285;white-space:nowrap}',
+    '.bg26-li .p{font:700 13px Manrope,sans-serif;color:#F4F2EE;white-space:nowrap}',
     '.bg26-grp{padding:12px 10px 4px;font:700 11px/1 Manrope,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8E8A83}',
     '.bg26-empty{padding:22px 12px;font:500 14px/1.6 Manrope,sans-serif;color:#B9B5AD}',
     '.bg26-md-f{padding:12px 22px 16px;border-top:1px solid #222126;font:500 13px/1.6 Manrope,sans-serif;color:#A9A59D}',
-    '.bg26-md-f a{color:#E2C285}',
+    '.bg26-md-f a{color:#F4F2EE}',
     '@media (max-width:640px){.bg26-ov{padding:0}.bg26-md{max-height:100vh;height:100%;border-radius:0}}',
     '.bg26-mm{position:fixed;z-index:2147482000;min-width:260px;padding:14px;background:#141416;border:1px solid #2A292E;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.5);display:none;font-family:Manrope,sans-serif}',
     '.bg26-mm.on{display:block}',
     '.bg26-mm b{display:block;margin:0 4px 8px;font:700 11px/1 Manrope,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8E8A83}',
     '.bg26-mm a{display:flex;justify-content:space-between;gap:16px;padding:9px 10px;border-radius:10px;color:#F2F0EB;text-decoration:none;font:600 14px/1.2 Manrope,sans-serif}',
-    '.bg26-mm a:hover{background:#1F1F23;color:#E2C285}',
+    '.bg26-mm a:hover{background:#1F1F23;color:#F4F2EE}',
     '.bg26-mm a small{color:#8E8A83;font-weight:500}',
-    '.bg26-mm .all{margin-top:6px;border-top:1px solid #232227;padding-top:12px;color:#E2C285}',
+    '.bg26-mm .all{margin-top:6px;border-top:1px solid #232227;padding-top:12px;color:#F4F2EE}',
     '.bg26-mm button{width:100%;margin-top:8px;padding:10px;border-radius:999px;border:1px solid #3A383F;background:#18181A;color:#F2F0EB;font:700 13px Manrope,sans-serif;cursor:pointer}',
-    '.bg26-mm button:hover{border-color:#C9A45C}',
+    '.bg26-mm button:hover{border-color:#E7E5E0}',
     /* cihaz sayfasi basligi */
     'html.bg26-dev [data-bg-ptitle]{font-size:38px!important;line-height:1.05!important}',
     'html.bg26-dev [data-bg-ptitle]::after{content:attr(data-bg26-sub)!important;color:#9AE6B4!important;font-weight:600!important;font-size:15px!important}',
@@ -2704,14 +2704,14 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg26-pop p{margin:6px 0 0;font:400 14.5px/1.55 Manrope,sans-serif;color:#A9A59D;max-width:560px}',
     '.bg26-pop-tabs{display:flex;flex-wrap:wrap;gap:6px}',
     '.bg26-pop-tabs a{padding:8px 14px;border-radius:999px;border:1px solid #2F2E33;background:#151517;color:#D6D2CA;text-decoration:none;font:600 12.5px Manrope,sans-serif}',
-    '.bg26-pop-tabs a:hover{border-color:#C9A45C;color:#E2C285}',
+    '.bg26-pop-tabs a:hover{border-color:#E7E5E0;color:#F4F2EE}',
     '.bg26-pop-g{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}',
     '@media (max-width:1100px){.bg26-pop-g{grid-template-columns:repeat(4,minmax(0,1fr))}}',
     '@media (max-width:640px){.bg26-pop{padding:0 16px;margin-top:28px}.bg26-pop h2{font-size:26px!important}.bg26-pop-g{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}',
     '.bg26-pop-g .bg26-it .im{aspect-ratio:1/1}',
     '.bg26-pop-more{display:flex;justify-content:center;margin-top:18px}',
     '.bg26-pop-more a{padding:12px 22px;border-radius:999px;border:1px solid #3A383F;color:#F2F0EB;text-decoration:none;font:700 13.5px Manrope,sans-serif}',
-    '.bg26-pop-more a:hover{border-color:#C9A45C;color:#E2C285}',
+    '.bg26-pop-more a:hover{border-color:#E7E5E0;color:#F4F2EE}',
     /* v27: akilli kategori izgarasi */
     '.bg27{width:100%;flex-basis:100%;box-sizing:border-box;margin:4px 0 28px}',
     '.bg27-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 20px;margin:0 0 14px}',
@@ -2719,20 +2719,20 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg27-h .bg27-sub{display:block;margin-top:6px;font:500 13.5px/1.5 Manrope,sans-serif;color:#A9A59D;font-style:normal}',
     '.bg27-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px}',
     '.bg27-in{min-width:260px;padding:11px 14px 11px 38px;border:1px solid #2F2E33;border-radius:999px;background:#151517 url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23A9A59D%27 stroke-width=%272%27%3E%3Ccircle cx=%2711%27 cy=%2711%27 r=%277%27/%3E%3Cpath d=%27m20 20-3.5-3.5%27/%3E%3C/svg%3E") 13px center/16px no-repeat;color:#F2F0EB;font:500 14px Manrope,sans-serif;outline:none}',
-    '.bg27-in:focus{border-color:#C9A45C}',
+    '.bg27-in:focus{border-color:#E7E5E0}',
     '.bg27-sort{padding:11px 14px;border:1px solid #2F2E33;border-radius:999px;background:#151517;color:#D6D2CA;font:600 13px Manrope,sans-serif;cursor:pointer}',
     '.bg27-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}',
     '@media (max-width:1100px){.bg27-g{grid-template-columns:repeat(3,minmax(0,1fr))}}',
     '@media (max-width:640px){.bg27-g{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.bg27-h h1{font-size:26px!important}.bg27-in{min-width:0;flex:1}.bg27-tools{width:100%;flex-wrap:nowrap}html.bg27-on .bg26-hint span:nth-child(2){display:none}.bg27-c .nm{font-size:13.5px;min-height:0}.bg27-c .tx{padding:10px 11px 12px}.bg27-c .go{padding:8px 10px;font-size:12px}}',
     '.bg27-c{display:flex;flex-direction:column;border:1px solid #26252A;border-radius:16px;background:#141416;overflow:hidden;text-decoration:none;color:#F2F0EB;transition:border-color .2s,transform .2s}',
-    '.bg27-c:hover{border-color:#C9A45C;transform:translateY(-2px)}',
+    '.bg27-c:hover{border-color:#E7E5E0;transform:translateY(-2px)}',
     '.bg27-c .im{position:relative;aspect-ratio:1/1;background:#fff;overflow:hidden}',
     '.bg27-c .im img{width:100%;height:100%;object-fit:contain;display:block;transition:transform .35s}',
     '.bg27-c:hover .im img{transform:scale(1.04)}',
-    '.bg27-c .im .tag{position:absolute;left:10px;top:10px;padding:5px 9px;border-radius:999px;background:#C9A45C;color:#141210;font:800 10.5px/1 Manrope,sans-serif;letter-spacing:.06em}',
+    '.bg27-c .im .tag{position:absolute;left:10px;top:10px;padding:5px 9px;border-radius:999px;background:#E7E5E0;color:#141210;font:800 10.5px/1 Manrope,sans-serif;letter-spacing:.06em}',
     '.bg27-c .im .nw{background:#9AE6B4}',
     '.bg27-c .tx{display:flex;flex-direction:column;gap:3px;padding:12px 14px 14px}',
-    '.bg27-c .ty{font:700 10.5px Manrope,sans-serif;letter-spacing:.1em;color:#C9A45C;text-transform:uppercase}',
+    '.bg27-c .ty{font:700 10.5px Manrope,sans-serif;letter-spacing:.1em;color:#E7E5E0;text-transform:uppercase}',
     '.bg27-c .nm{font:700 15px/1.3 Manrope,sans-serif;color:#F2F0EB;min-height:2.6em}',
     '.bg27-c .pr{display:flex;justify-content:space-between;align-items:center;margin-top:4px;font:800 15px Manrope,sans-serif;color:#F2F0EB}',
     '.bg27-c .pr small{font:500 11.5px Manrope,sans-serif;color:#9AE6B4}',
@@ -2740,12 +2740,12 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     'html.bg-cart-open .bg-wa,html.bg-cart-open .bg-kt-pill{display:none!important}',
     '@media(max-width:640px){.bg27-c .pr{flex-direction:column;align-items:flex-start;gap:2px}.bg27-c .pr small{font-size:11px}}',
     '.bg27-c .go{margin-top:10px;padding:10px 12px;border-radius:999px;border:1px solid #3A383F;text-align:center;font:700 13px Manrope,sans-serif;color:#F2F0EB;transition:background .2s,color .2s,border-color .2s}',
-    '.bg27-c:hover .go{background:#C9A45C;border-color:#C9A45C;color:#141210}',
+    '.bg27-c:hover .go{background:#E7E5E0;border-color:#E7E5E0;color:#141210}',
     '.bg27-more{display:flex;justify-content:center;gap:10px;margin:22px 0 0}',
     '.bg27-more button{padding:12px 24px;border-radius:999px;border:1px solid #3A383F;background:transparent;color:#F2F0EB;font:700 13.5px Manrope,sans-serif;cursor:pointer}',
-    '.bg27-more button:hover{border-color:#C9A45C;color:#E2C285}',
+    '.bg27-more button:hover{border-color:#E7E5E0;color:#F4F2EE}',
     '.bg27-empty{padding:40px 20px;text-align:center;color:#A9A59D;font:500 14.5px/1.6 Manrope,sans-serif;border:1px dashed #2F2E33;border-radius:16px}',
-    '.bg27-empty a{color:#E2C285}',
+    '.bg27-empty a{color:#F4F2EE}',
     'html.bg27-on .bg26-hide,html.bg27-on .bg27-ikas{display:none!important}',
     'html.bg27-on a[href*="?page="],html.bg27-on a[href*="&page="]{display:none!important}',
     /* gimbal (henuz ilan yok) ve fazla bolumler */
@@ -2753,7 +2753,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     /* urun sayfasi kargo satiri */
     '.bg26-ship{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 6px;font-family:Manrope,sans-serif}',
     '.bg26-ship>div{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid #26252A;border-radius:12px;background:#141316;min-width:0}',
-    '.bg26-ship svg{flex:none;width:18px;height:18px;color:#E2C285}',
+    '.bg26-ship svg{flex:none;width:18px;height:18px;color:#F4F2EE}',
     '.bg26-ship span{display:flex;flex-direction:column;min-width:0}',
     '.bg26-ship b{font:700 12.5px/1.25 Manrope,sans-serif;color:#F2EFEA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
     '.bg26-ship small{font:500 11px/1.3 Manrope,sans-serif;color:#9C988F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
@@ -2771,7 +2771,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     /* 404 */
     '.bg26-404{width:100%;box-sizing:border-box;min-height:60vh;display:flex;align-items:center;justify-content:center;padding:60px 24px;background:#0E0E0F;color:#F2F0EB;font-family:Manrope,sans-serif;text-align:center}',
     '.bg26-404>div{width:100%;max-width:720px;margin:0 auto}.bg26-404 h1{margin:0 0 10px;font:italic 800 40px/1.05 Archivo,sans-serif!important}.bg26-404 p{margin:0 auto 22px;max-width:520px;color:#A9A59D;font:400 15px/1.6 Manrope,sans-serif}',
-    '.bg26-404 .r{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.bg26-404 .r a,.bg26-404 .r button{padding:12px 20px;border-radius:999px;border:1px solid #3A383F;background:#18181A;color:#F2F0EB;text-decoration:none;font:700 13.5px Manrope,sans-serif;cursor:pointer}.bg26-404 .r .g{background:#C9A45C;border-color:#C9A45C;color:#141210}',
+    '.bg26-404 .r{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.bg26-404 .r a,.bg26-404 .r button{padding:12px 20px;border-radius:999px;border:1px solid #3A383F;background:#18181A;color:#F2F0EB;text-decoration:none;font:700 13.5px Manrope,sans-serif;cursor:pointer}.bg26-404 .r .g{background:#E7E5E0;border-color:#E7E5E0;color:#141210}',
     /* ana sayfa arama onerileri: onizlemeli rozet */
     '.bg26-pv{display:inline-block;margin-left:8px;padding:2px 7px;border-radius:999px;background:#1F3A28;color:#9AE6B4;font:700 10.5px/1.4 Manrope,sans-serif;vertical-align:middle}'
   ].join('');
@@ -2902,7 +2902,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (!list.length) { if (box) box.remove(); return; }
     if (!box) { box = document.createElement('section'); box.className = 'bg26-set'; anchor.parentElement.insertBefore(box, anchor.nextSibling); }
     box.setAttribute('data-sig', sig);
-    box.innerHTML = '<div class="bg26-set-h"><div><span class="bg-eyebrow">SETİNİ TAMAMLA</span><h2>' + esc(setTitle(dev)) + '</h2><p>Seçtiğin <b style="color:#E2C285">' + esc(DSLUG[ds]) + '</b> deseniyle açılır; kombin tek seferde gelsin.</p></div><span class="bg26-off">2 kaplamaya 250 ₺ · 3 ve üzerine 500 ₺ indirim</span></div>' +
+    box.innerHTML = '<div class="bg26-set-h"><div><span class="bg-eyebrow">SETİNİ TAMAMLA</span><h2>' + esc(setTitle(dev)) + '</h2><p>Seçtiğin <b style="color:#F4F2EE">' + esc(DSLUG[ds]) + '</b> deseniyle açılır; kombin tek seferde gelsin.</p></div><span class="bg26-off">2 kaplamaya 250 ₺ · 3 ve üzerine 500 ₺ indirim</span></div>' +
       '<div class="bg26-row">' + list.map(function(c){
         return '<a class="bg26-it" href="/' + c.s + '?desen=' + ds + '"><span class="im"><img loading="lazy" ' + tattr(c, ds) + ' alt="' + esc(c.b + ' ' + c.m) + ' ' + esc(DSLUG[ds]) + ' kaplama"></span><span class="tx"><span class="ty">' + TYPE[c.t] + '</span><span class="nm">' + esc(c.b + ' ' + c.m) + '</span><span class="pr">' + fmt(c.p) + '</span><span class="go">Bu desenle gör →</span></span></a>';
       }).join('') + '</div>';
@@ -3248,23 +3248,23 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg27k-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 0 8px}',
     '.bg27k-h span{font:700 13px/1.2 Manrope,sans-serif;color:#F2F0EB}',
     '.bg27k-h em{font-style:normal;font:600 11.5px/1.2 Manrope,sans-serif;color:#A9A59D}',
-    '.bg27k-h em.on{color:#E2C285}',
+    '.bg27k-h em.on{color:#F4F2EE}',
     '.bg27k-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}',
     '.bg27k-b{display:flex;flex-direction:column;gap:3px;padding:11px 12px;border:1px solid #2A292E;border-radius:12px;background:#141416;color:#F2F0EB;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}',
     '.bg27k-b:hover{border-color:#5A5560}',
-    '.bg27k-b.on{border-color:#C9A45C;background:#1B1912}',
+    '.bg27k-b.on{border-color:#E7E5E0;background:#1A1A1C}',
     '.bg27k-b b{font:700 12.5px/1.25 Manrope,sans-serif}',
     '.bg27k-b small{font:600 11px/1.25 Manrope,sans-serif;color:#A9A59D}',
-    '.bg27k-b.on small{color:#E2C285}',
+    '.bg27k-b.on small{color:#F4F2EE}',
     '.bg27k-m{margin-top:8px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}',
     '.bg27k-c{display:flex;flex-direction:column;gap:4px;padding:7px;border:1px solid #232227;border-radius:12px;background:#18181A;color:#F2F0EB;cursor:pointer;transition:border-color .15s,background .15s}',
     '.bg27k-c:hover{border-color:#5A5560}',
-    '.bg27k-c.on{border-color:#C9A45C;background:#1B1912}',
+    '.bg27k-c.on{border-color:#E7E5E0;background:#1A1A1C}',
     '.bg27k-c .im{aspect-ratio:4/3;border-radius:8px;background:#F4F3F0;overflow:hidden}',
     '.bg27k-c .im img{width:100%;height:100%;object-fit:contain;display:block}',
     '.bg27k-c b{font:700 11px/1.2 Manrope,sans-serif;text-align:center}',
     '.bg27k-c small{font:600 10px/1.2 Manrope,sans-serif;color:#8E8A84;text-align:center}',
-    '.bg27k-n{margin:8px 0 0;padding:7px 10px;border-radius:10px;background:#1B1912;border:1px solid #3A3426;color:#E2C285;font:600 11.5px/1.4 Manrope,sans-serif}',
+    '.bg27k-n{margin:8px 0 0;padding:7px 10px;border-radius:10px;background:#1A1A1C;border:1px solid #3A3A3E;color:#F4F2EE;font:600 11.5px/1.4 Manrope,sans-serif}',
     '.bg27k-w{margin:8px 0 0;padding:7px 10px;border-radius:10px;background:#1A1618;border:1px solid #42302F;color:#E4A9A2;font:600 11.5px/1.4 Manrope,sans-serif}',
     '.bg27k-hide{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}',
     '@media(max-width:560px){.bg27k-m{grid-template-columns:repeat(3,minmax(0,1fr))}.bg27k-c b{font-size:10px}.bg27k-c small{display:none}}'
@@ -3455,7 +3455,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-sl img.on{opacity:1}',
     '.bg-sl-d{position:absolute;left:0;right:0;bottom:14px;display:flex;justify-content:center;gap:7px;z-index:2}',
     '.bg-sl-d button{width:8px;height:8px;padding:0;border:0;border-radius:99px;background:rgba(255,255,255,.45);cursor:pointer;transition:width .3s,background .3s}',
-    '.bg-sl-d button.on{width:22px;background:#C9A45C}',
+    '.bg-sl-d button.on{width:22px;background:#E7E5E0}',
     '.bg-sl-a{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:38px;height:38px;border-radius:99px;border:0;background:rgba(14,14,15,.55);color:#F2F0EB;font-size:20px;line-height:38px;cursor:pointer;opacity:0;transition:opacity .2s}',
     '.bg-sl:hover .bg-sl-a{opacity:1}',
     '.bg-sl-a.l{left:12px}.bg-sl-a.r{right:12px}',
@@ -3520,7 +3520,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
   /* Lehte widget (shadow DOM) koyu tema uyumu */
-  var UYCSS = ':host{color:#F2F0EB!important;--uy-primary:#C9A45C;--uy-font:Manrope,sans-serif}' +
+  var UYCSS = ':host{color:#F2F0EB!important;--uy-primary:#E7E5E0;--uy-font:Manrope,sans-serif}' +
     '.head h2{font-family:Archivo,sans-serif;font-style:italic;font-weight:900;color:#F2F0EB}' +
     '.cta:hover{color:#0E0E0F!important}' +
     '.note,.reply{background:#1E1E21!important;color:#C9C5BD!important}' +
@@ -3629,4 +3629,30 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function run() { if (q) return; q = 1; setTimeout(function () { q = 0; try { h1(); alts(); names(); } catch (e) {} }, 400); }
   run();
   new MutationObserver(run).observe(document.documentElement, { childList: true, subtree: true });
+})();
+
+/* ===== 18_renk.js ===== */
+/* v31: renk duzeni. Ana vurgu titanyum (#E7E5E0); altin (#C9A45C / #E2C285) sadece satin alma ve firsat:
+   fiyat, Sepete Ekle, indirim rozeti, kampanya kutusu, duyuru cubugu, oyun. Fiyatin altina indirim rozeti ekler. */
+(function () {
+  if (window.__bgRenk) return; window.__bgRenk = 1;
+  var css = [
+    '[data-bg-pcart]{background:#C9A45C!important;border-color:#C9A45C!important}',
+    '.bg-sigb{display:inline-flex;align-items:center;margin:8px 0 2px;align-self:flex-start;width:max-content;max-width:100%;background:#211D15;color:#E2C285;border:1px solid rgba(201,164,92,.5);border-radius:999px;padding:7px 12px;font:800 12.5px/1 Manrope,sans-serif;white-space:nowrap;box-sizing:border-box}',
+    'html:not(.bg-hasprice) .bg-sigb{display:none}'
+  ].join('');
+  var st = document.createElement('style'); st.id = 'bg-theme-renk'; st.textContent = css; (document.head || document.documentElement).appendChild(st);
+  function run() {
+    var pr = document.querySelector('[data-bg-pprice]');
+    var ex = document.querySelector('.bg-sigb');
+    if (!pr) { if (ex) ex.remove(); return; }
+    if (ex && ex.previousElementSibling === pr) return;
+    if (ex) ex.remove();
+    var b = document.createElement('span'); b.className = 'bg-sigb'; b.textContent = '2. kaplamaya 250 ₺ indirim';
+    pr.insertAdjacentElement('afterend', b);
+  }
+  var q = 0;
+  function sch() { if (q) return; q = 1; setTimeout(function () { q = 0; try { run(); } catch (e) {} }, 120); }
+  run();
+  new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true });
 })();

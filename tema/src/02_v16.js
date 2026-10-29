@@ -1,7 +1,7 @@
 /* v16: cihaz secimi - yeniden cizim duzeltmesi + Hizli/Manuel basliklari */
 (function(){
   if (window.__bgV16) return; window.__bgV16 = 1;
-  var css = ['.bg-dev-sub{font:800 12px/1.3 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#E2C285;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}',
+  var css = ['.bg-dev-sub{font:800 12px/1.3 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#F4F2EE;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}',
     '.bg-dev-sub span{font:500 13px Manrope,sans-serif;letter-spacing:0;text-transform:none;color:#8E8A83}',
     '.bg-dev-or{order:10;display:flex;align-items:center;gap:10px;margin-top:8px;font:600 12px Manrope,sans-serif;color:#8E8A83}',
     '.bg-dev-or:before,.bg-dev-or:after{content:"";flex:1;height:1px;background:#2A292E}',

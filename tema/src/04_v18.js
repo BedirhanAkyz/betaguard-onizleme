@@ -6,7 +6,7 @@
     '.pcz-price{display:none!important}',
     'html.bg-nomodel [data-bg-pprice]{font-size:0!important;line-height:0!important;color:transparent!important}',
     'html.bg-nomodel [data-bg-pprice]::before{content:"Fiyat, modelini seçince görünür";display:block;font:500 15px/1.6 Manrope,sans-serif;color:#8E8A83;padding:4px 0}',
-    '.bg-incl{display:inline-flex;align-items:center;gap:6px;margin:6px 0 2px;padding:5px 10px;border:1px solid #3A3426;border-radius:999px;background:#1B1912;color:#E2C285;font:600 12px/1.3 Manrope,sans-serif}',
+    '.bg-incl{display:inline-flex;align-items:center;gap:6px;margin:6px 0 2px;padding:5px 10px;border:1px solid #3A3A3E;border-radius:999px;background:#1A1A1C;color:#F4F2EE;font:600 12px/1.3 Manrope,sans-serif}',
     '.bg-incl a{color:#F2D9A5;text-decoration:underline;text-underline-offset:2px}',
     '.bg-incl a:hover{color:#fff}'
   ].join('');

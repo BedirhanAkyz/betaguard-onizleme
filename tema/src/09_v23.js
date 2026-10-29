@@ -11,10 +11,10 @@
     '.bg-pol-x{appearance:none;border:0;background:transparent;color:#8E8A83;font-size:26px;line-height:1;cursor:pointer;padding:4px 10px}',
     '.bg-pol-b{overflow:auto;padding:0 26px 26px;font:500 14px/1.65 Manrope,sans-serif}',
     '.bg-pol-b h2{display:block!important;width:100%;margin:0 0 14px;font:800 20px/1.3 Manrope,sans-serif;color:#F2EFEA}',
-    '.bg-pol-b h3{display:block!important;width:100%;margin:20px 0 6px;font:800 15px/1.4 Manrope,sans-serif;color:#E2C285}',
+    '.bg-pol-b h3{display:block!important;width:100%;margin:20px 0 6px;font:800 15px/1.4 Manrope,sans-serif;color:#F4F2EE}',
     '.bg-pol-b p{display:block!important;margin:0 0 10px}.bg-pol-b ul{display:block!important}.bg-pol-b li{display:list-item!important}.bg-pol-b br{display:inline!important}.bg-pol-b ul{margin:0 0 10px;padding-left:20px}.bg-pol-b li{margin:0 0 6px}',
     '.bg-pol-b strong{color:#F2EFEA}',
-    '.bg-mail{color:inherit;text-decoration:none}.bg-mail:hover{color:#E2C285}'
+    '.bg-mail{color:inherit;text-decoration:none}.bg-mail:hover{color:#F4F2EE}'
   ].join('');
   var st = document.createElement('style'); st.id = 'bg-theme-css23'; st.textContent = css; (document.head || document.documentElement).appendChild(st);
   function open(key){
@@ -61,7 +61,7 @@
     });
     if (/^\/pages\/iletisim/.test(location.pathname) && !document.querySelector('.bg-contact-mail')) {
       var p = [].slice.call(document.querySelectorAll('.rich-text,p')).find(function(x){ return /İletişim formunu kullanarak/.test(x.textContent) && x.textContent.length < 120; });
-      if (p) { var d = document.createElement('p'); d.className = 'bg-contact-mail'; d.style.cssText = 'margin:8px 0 0;font:500 14px/1.6 Manrope,sans-serif;color:#A3A09A'; d.innerHTML = 'E-posta: <a class="bg-mail" style="color:#E2C285" href="mailto:' + MAIL + '">' + MAIL + '</a> · WhatsApp: <a class="bg-mail" style="color:#E2C285" href="https://wa.me/905353211911">0535 321 19 11</a>'; p.parentNode.insertBefore(d, p.nextSibling); }
+      if (p) { var d = document.createElement('p'); d.className = 'bg-contact-mail'; d.style.cssText = 'margin:8px 0 0;font:500 14px/1.6 Manrope,sans-serif;color:#A3A09A'; d.innerHTML = 'E-posta: <a class="bg-mail" style="color:#F4F2EE" href="mailto:' + MAIL + '">' + MAIL + '</a> · WhatsApp: <a class="bg-mail" style="color:#F4F2EE" href="https://wa.me/905353211911">0535 321 19 11</a>'; p.parentNode.insertBefore(d, p.nextSibling); }
     }
   }
   var q = false;
