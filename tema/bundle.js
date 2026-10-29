@@ -469,6 +469,15 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg-pp-ph{display:flex;align-items:center;justify-content:center;font:italic 900 22px Archivo,sans-serif;color:#C9A45C;background:radial-gradient(120% 90% at 50% 30%,#232227,#141416);border:1px solid #26252A;box-sizing:border-box}',
     '.bg-pp-card b{font-size:12px;font-weight:600;color:#D6D2CA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
     '.bg-pp-card small{font-size:11px;color:#A3A09A}',
+    '.bg-pp-grid1{grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}',
+    '.bg-pp-one{padding:3px 3px 5px;gap:2px;border-radius:11px}',
+    '.bg-pp-one img,.bg-pp-one .bg-pp-ph{border-radius:8px}',
+    '.bg-pp-one b,.bg-pp-one small{display:block;text-align:center;font-size:10.5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+    '.bg-pp-one b{color:#D6D2CA}.bg-pp-one small{color:#A3A09A}',
+    '.bg-pp-one.on b{color:#F2F0EB}.bg-pp-one.on small{color:#E2C285}',
+    '.bg-pp-h .bg-pp-sel{font-style:normal;color:#E2C285}',
+    '.bg-pp-h:has(.bg-pp-sel) em{display:none}',
+    '@media (max-width:640px){.bg-pp-grid1{grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:7px}}',
     '.bg-pp-need{font:600 14px Manrope,sans-serif;color:#E2C285;margin:4px 0 8px}',
     '.bg-pp-lock{opacity:.45;pointer-events:none;filter:grayscale(1)}',
     '.bg-dev{display:flex;flex-direction:column;gap:8px;margin:2px 0 12px;position:relative}',
@@ -605,69 +614,84 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function cardImg(c) { return c.imgs[0] ? '<img src="' + imgUrl(c.imgs[0], 360) + '" alt="" loading="lazy">' : '<div class="bg-pp-ph">' + esc(initials(c.name)) + '</div>'; }
 
   function galleryItems(S) {
-    if (PP.series === null) return S.list.map(function (s, i) { var c = s.colors[0]; return { id: c.imgs[0], name: s.name, sub: s.colors.length > 1 ? s.colors.length + ' renk' : 'tek renk', cap: s.name + ' serisi · ' + (s.colors.length > 1 ? s.colors.length + ' renk' : 'tek renk'), si: i }; });
-    var s = S.list[PP.series], out = [];
-    s.colors.forEach(function (c, ci) { out.push({ id: c.imgs[0], name: c.name, sub: s.name + ' serisi', cap: c.name, ci: ci }); });
-    var sel = s.colors[PP.color];
-    if (sel) sel.imgs.slice(1).forEach(function (id) { out.push({ id: id, cap: sel.name + ' · gerçek çekim', ci: -1 }); });
+    /* tek adim: tum desenler tek listede; secili desenin gercek cekimleri hemen arkasina eklenir */
+    var out = [];
+    S.list.forEach(function (s, si) {
+      s.colors.forEach(function (c, ci) {
+        out.push({ id: c.imgs[0], name: c.name, sub: s.name + ' serisi', cap: c.name, si: si, ci: ci });
+        if (PP.series === si && PP.color === ci) c.imgs.slice(1).forEach(function (id) { out.push({ id: id, cap: c.name + ' · gerçek çekim', si: si, ci: ci, ex: 1 }); });
+      });
+    });
     return out;
+  }
+  function colorParts(s, c) {
+    var n = c.name.trim(), rest = n.toLowerCase().indexOf(s.name.toLowerCase()) === 0 ? n.slice(s.name.length).trim() : '';
+    return [s.name, rest];
   }
 
   function renderPP(box, S, block) {
-    var sHTML = S.list.map(function (s, i) {
-      var cls = 'bg-pp-card' + (PP.series === i ? ' on' : (PP.series !== null ? ' dim' : ''));
-      return '<button type="button" class="' + cls + '" data-s="' + i + '" aria-label="' + esc(s.name) + ' serisi">' + cardImg(s.colors[0]) + '<b>' + esc(s.name) + '</b><small>' + (s.colors.length > 1 ? s.colors.length + ' renk' : 'tek renk') + '</small></button>';
-    }).join('');
-    var h = '<div><div class="bg-pp-h"><span>1. Seri</span>' + (PP.series !== null ? '<button type="button" class="bg-pp-all">Tüm seriler</button>' : '<em>' + S.list.length + ' seri</em>') + '</div><div class="bg-pp-grid">' + sHTML + '</div></div>';
-    var s = PP.series !== null ? S.list[PP.series] : null;
-    if (s && s.colors.length > 1) {
-      h += '<div><div class="bg-pp-h"><span>2. Renk</span><em>' + esc(s.colors[PP.color].name) + '</em></div><div class="bg-pp-grid">' + s.colors.map(function (c, ci) {
-        return '<button type="button" class="bg-pp-card' + (ci === PP.color ? ' on' : '') + '" data-c="' + ci + '" aria-label="' + esc(c.name) + '">' + cardImg(c) + '<b>' + esc(c.name) + '</b></button>';
-      }).join('') + '</div></div>';
-    }
-    if (PP.series === null) h += '<div class="bg-pp-need">Önce serini seç, sonra cihazını.</div>';
+    var tot = 0; S.list.forEach(function (s) { tot += s.colors.length; });
+    var cur = PP.series !== null ? S.list[PP.series].colors[PP.color] : null;
+    var cards = '';
+    S.list.forEach(function (s, si) {
+      s.colors.forEach(function (c, ci) {
+        var on = PP.series === si && PP.color === ci, pt = colorParts(s, c);
+        cards += '<button type="button" class="bg-pp-card bg-pp-one' + (on ? ' on' : '') + '" data-c="' + si + '-' + ci + '" aria-label="' + esc(c.name) + '" aria-pressed="' + on + '" title="' + esc(c.name) + '">' + cardImg(c) + '<b>' + esc(pt[0]) + '</b><small>' + (pt[1] ? esc(pt[1]) : '&nbsp;') + '</small></button>';
+      });
+    });
+    var h = '<div><div class="bg-pp-h"><span>1. Desen' + (cur ? ': <i class="bg-pp-sel">' + esc(cur.name) + '</i>' : '') + '</span><em>' + (cur ? esc(cur.name) : tot + ' desen') + '</em></div><div class="bg-pp-grid bg-pp-grid1">' + cards + '</div></div>';
+    if (PP.series === null) h += '<div class="bg-pp-need">Desenini seç, sonra cihazını.</div>';
     box.innerHTML = h;
     box.onclick = function (e) {
-      var b = e.target.closest('button'); if (!b) return;
-      if (b.classList.contains('bg-pp-all')) { PP.series = null; PP.color = 0; PP.img = 0; return refreshPP(); }
-      if (b.dataset.s !== undefined) { selectSeries(+b.dataset.s, S, block); return; }
-      if (b.dataset.c !== undefined) { selectColor(+b.dataset.c, S, block); }
+      var b = e.target.closest('button[data-c]'); if (!b) return;
+      var k = b.dataset.c.split('-'); selectFlat(+k[0], +k[1], S, block);
+    };
+    /* masaustunde uzerine gelince buyuk gorselde onizle */
+    box.onmouseover = function (e) {
+      if (!window.matchMedia || !matchMedia('(hover:hover)').matches) return;
+      var b = e.target.closest('button[data-c]'), im = document.querySelector('.bg-gal-main > img'); if (!b || !im) return;
+      var k = b.dataset.c.split('-'), c = S.list[+k[0]].colors[+k[1]]; if (!c || !c.imgs[0]) return;
+      if (!im.hasAttribute('data-bg-orig')) im.setAttribute('data-bg-orig', im.getAttribute('src'));
+      im.setAttribute('src', imgUrl(c.imgs[0], 1080));
+    };
+    box.onmouseout = function (e) {
+      var b = e.target.closest('button[data-c]'); if (!b || (e.relatedTarget && b.contains(e.relatedTarget))) return;
+      var im = document.querySelector('.bg-gal-main > img'); if (im && im.hasAttribute('data-bg-orig')) { im.setAttribute('src', im.getAttribute('data-bg-orig')); im.removeAttribute('data-bg-orig'); }
     };
   }
-  function selectSeries(i, S, block) {
-    PP.series = i; PP.color = 0; PP.img = 0; PP.picked = true;
-    clickNative(S.list[i].colors[0].name, block); refreshPP();
-  }
-  function selectColor(ci, S, block) {
-    PP.color = ci; PP.picked = true;
+  function selectFlat(si, ci, S, block) {
+    PP.series = si; PP.color = ci; PP.picked = true;
     var items = galleryItems(S);
-    for (var k = 0; k < items.length; k++) if (items[k].ci === ci) { PP.img = k; break; }
-    clickNative(S.list[PP.series].colors[ci].name, block); refreshPP();
+    for (var k = 0; k < items.length; k++) if (items[k].si === si && items[k].ci === ci && !items[k].ex) { PP.img = k; break; }
+    clickNative(S.list[si].colors[ci].name, block); refreshPP();
   }
+  function selectSeries(i, S, block) { selectFlat(i, 0, S, block); }
+  function selectColor(ci, S, block) { if (PP.series !== null) selectFlat(PP.series, ci, S, block); }
 
   var CHEV_L = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19"/></svg>', CHEV_R = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19"/></svg>';
   var SHIELD = '<svg viewBox="0 0 30 34" aria-hidden="true"><path d="M15 2 L27 6 V17 C27 24 21.5 29.5 15 32 C8.5 29.5 3 24 3 17 V6 Z"/><path d="M11 10 H17 C19.5 10 20.5 11.5 20.5 13 C20.5 14.6 19.4 15.8 17.6 16 C19.8 16.2 21 17.6 21 19.4 C21 21.4 19.6 23 17 23 H11 Z"/></svg>';
   function renderGal(g, S, block) {
     var items = galleryItems(S);
     if (!items.length) { g.innerHTML = ''; return false; }
-    if (PP.syncImg) { PP.syncImg = false; for (var k0 = 0; k0 < items.length; k0++) if (items[k0].ci === PP.color) { PP.img = k0; break; } }
+    if (PP.syncImg) { PP.syncImg = false; for (var k0 = 0; k0 < items.length; k0++) if (items[k0].si === PP.series && items[k0].ci === PP.color && !items[k0].ex) { PP.img = k0; break; } }
     if (PP.img >= items.length) PP.img = 0;
     var cur = items[PP.img];
     var h = '<div class="bg-gal-main">' + (cur.id ? '<img src="' + imgUrl(cur.id, 1080) + '" alt="' + esc(cur.cap) + '">' : '<div class="bg-gal-ph" role="img" aria-label="' + esc(cur.cap) + '">' + SHIELD + '<b>' + esc(cur.name) + '</b><small>' + esc(cur.sub) + '</small></div>');
     h += '<div class="bg-gal-cap"><span>' + esc(cur.cap) + '</span></div>';
-    h += '<div class="bg-gal-bot">' + (PP.series === null ? '<button type="button" class="bg-gal-pick" data-pick="' + cur.si + '">Bu seriyi seç</button>' : '') +
+    h += '<div class="bg-gal-bot">' + (PP.series === null || cur.si !== PP.series || cur.ci !== PP.color ? '<button type="button" class="bg-gal-pick" data-pick="' + PP.img + '">Bu deseni seç</button>' : '') +
       (items.length > 1 ? '<div class="bg-gal-ctl"><button type="button" data-n="-1" aria-label="Önceki görsel">' + CHEV_L + '</button><span>' + (PP.img + 1) + ' / ' + items.length + '</span><button type="button" data-n="1" aria-label="Sonraki görsel">' + CHEV_R + '</button></div>' : '') + '</div></div>';
-    if (items.length > 1) h += '<div class="bg-gal-th">' + items.map(function (it, k) { return '<button type="button" class="' + (k === PP.img ? 'on' : '') + '" data-k="' + k + '" aria-label="' + esc(it.cap) + '">' + (it.id ? '<img src="' + imgUrl(it.id, 180) + '" alt="" loading="lazy">' : '<span class="bg-th-ph">' + esc(initials(it.name)) + '</span>') + '</button>'; }).join('') + '</div>';
-    h += '<p class="bg-gal-note">' + (PP.series === null ? 'Tüm seriler. Bir seri seçince sadece o serinin renkleri kalır.' : 'Görseller arasında gezinince seçili renk de değişir.') + (items.some(function (x) { return !x.id; }) ? ' Görseli olmayan desenler için temsili kart gösteriliyor.' : '') + '</p>' + TRUST_HTML;
+    var thk = []; items.forEach(function (it, k) { if (PP.series !== null && it.si === PP.series && it.ci === PP.color) thk.push(k); });
+    if (thk.length > 1) h += '<div class="bg-gal-th">' + thk.map(function (k) { var it = items[k]; return '<button type="button" class="' + (k === PP.img ? 'on' : '') + '" data-k="' + k + '" aria-label="' + esc(it.cap) + '">' + (it.id ? '<img src="' + imgUrl(it.id, 180) + '" alt="" loading="lazy">' : '<span class="bg-th-ph">' + esc(initials(it.name)) + '</span>') + '</button>'; }).join('') + '</div>';
+    h += '<p class="bg-gal-note">' + (PP.series === null ? 'Oklarla tüm desenlerde gezebilirsin; beğendiğinde "Bu deseni seç".' : 'Görseller arasında gezinince seçili desen de değişir.') + (items.some(function (x) { return !x.id; }) ? ' Görseli olmayan desenler için temsili kart gösteriliyor.' : '') + '</p>' + TRUST_HTML;
     g.innerHTML = h;
     g.onclick = function (e) {
       var b = e.target.closest('button'); if (!b) return;
-      if (b.dataset.pick !== undefined) return selectSeries(+b.dataset.pick, S, block);
+      if (b.dataset.pick !== undefined) { var pk = items[+b.dataset.pick]; if (pk) selectFlat(pk.si, pk.ci, S, block); return; }
       var n = b.dataset.n !== undefined ? PP.img + (+b.dataset.n) : (b.dataset.k !== undefined ? +b.dataset.k : null);
       if (n === null) return;
       n = (n + items.length) % items.length; PP.img = n;
       var it = items[n];
-      if (PP.series !== null && it.ci >= 0 && it.ci !== PP.color) { PP.color = it.ci; PP.picked = true; clickNative(S.list[PP.series].colors[it.ci].name, block); }
+      if (PP.series !== null && it.si !== undefined && (it.si !== PP.series || it.ci !== PP.color)) { PP.series = it.si; PP.color = it.ci; PP.picked = true; clickNative(S.list[it.si].colors[it.ci].name, block); var it2 = galleryItems(S); for (var q = 0; q < it2.length; q++) if (it2[q].si === it.si && it2[q].ci === it.ci && !it2[q].ex) { PP.img = q; break; } }
       refreshPP();
     };
     // swipe on touch screens
@@ -818,7 +842,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       else if (/^(₺\s?[\d.,]+|[\d.,]+\s?₺)$/.test(tx) && !info.querySelector('[data-bg-pprice]') && !e.closest('.pcz')) tag(e, 'data-bg-pprice');
     }
     var c = leafText('Sepete Ekle', info) || leafText('Tükendi', info); if (c && c.parentElement) tag(c.parentElement, 'data-bg-pcart');
-    var lab = document.querySelector('.bg-dev label'); if (lab) { var n = (PP.series !== null && ppState.S.list[PP.series].colors.length > 1 ? 3 : 2) + '. Cihazın'; if (lab.textContent !== n) lab.textContent = n; }
+    var lab = document.querySelector('.bg-dev label'); if (lab) { var n = '2. Cihazın'; if (lab.textContent !== n) lab.textContent = n; }
     var wide = window.innerWidth >= 900, gr = grid.getBoundingClientRect();
     var gw = wide ? Math.round((gr.width - 48) * 1.08 / 2.08) : Math.round(gr.width);
     var g = ppState.gal; if (g.style.width !== gw + 'px') g.style.width = gw + 'px';
@@ -2013,7 +2037,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         hint.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><span></span>';
         x.btn.parentNode.insertBefore(hint, x.btn);
       } else if (hint.nextElementSibling !== x.btn) { x.btn.parentNode.insertBefore(hint, x.btn); }
-      var why = disabled(x), msg = why === 'seri' ? 'Sepete eklemek için önce yukarıdan serini seç.' : 'Şimdi cihazını seç; fiyatın ve sepete ekle açılsın.';
+      var why = disabled(x), msg = why === 'seri' ? 'Sepete eklemek için önce yukarıdan desenini seç.' : 'Şimdi cihazını seç; fiyatın ve sepete ekle açılsın.';
       hint.classList.toggle('on', !!why);
       if (why && hint.lastChild.textContent !== msg) hint.lastChild.textContent = msg;
       if (!hint.__bgc) { hint.__bgc = 1; hint.style.cursor = 'pointer'; hint.addEventListener('click', toModel); }

@@ -96,7 +96,7 @@
         hint.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><span></span>';
         x.btn.parentNode.insertBefore(hint, x.btn);
       } else if (hint.nextElementSibling !== x.btn) { x.btn.parentNode.insertBefore(hint, x.btn); }
-      var why = disabled(x), msg = why === 'seri' ? 'Sepete eklemek için önce yukarıdan serini seç.' : 'Şimdi cihazını seç; fiyatın ve sepete ekle açılsın.';
+      var why = disabled(x), msg = why === 'seri' ? 'Sepete eklemek için önce yukarıdan desenini seç.' : 'Şimdi cihazını seç; fiyatın ve sepete ekle açılsın.';
       hint.classList.toggle('on', !!why);
       if (why && hint.lastChild.textContent !== msg) hint.lastChild.textContent = msg;
       if (!hint.__bgc) { hint.__bgc = 1; hint.style.cursor = 'pointer'; hint.addEventListener('click', toModel); }
