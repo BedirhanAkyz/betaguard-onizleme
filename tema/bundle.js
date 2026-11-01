@@ -3891,7 +3891,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     function init3D() {
       if (R3 || init3D.t || !window.WebGLRenderingContext || st.dev.f !== D3) return; init3D.t = 1;
       var imp; try { imp = new Function('u', 'return import(u)'); } catch (e) { return; }
-      Promise.all([imp(THREE_URL), fetch(A3 + 'a7rv.json').then(function (r) { return r.json(); }), limg(A3 + 'atlas_base.webp'), limg(A3 + 'atlas_mask.webp')]).then(function (R) {
+      var M3 = [A3, A3.replace('//cdn.', '//fastly.'), A3.replace('https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@', 'https://raw.githubusercontent.com/BedirhanAkyz/betaguard-onizleme/')];
+      function gimg(f, i) { i = i || 0; return limg(M3[i] + f).then(function (im) { return im || (i < 2 ? gimg(f, i + 1) : null); }); }
+      function gjs(f, i) { i = i || 0; return fetch(M3[i] + f).then(function (r) { if (!r.ok) throw 0; return r.json(); }).catch(function () { if (i < 2) return gjs(f, i + 1); throw new Error('3d json'); }); }
+      Promise.all([imp(THREE_URL), gjs('a7rv.json'), gimg('atlas_base.webp'), gimg('atlas_mask.webp')]).then(function (R) {
         var T = R[0], J = R[1], BA = R[2], MA = R[3]; if (!BA || !MA) return;
         function dec(b, Ty) { var s = atob(b), u = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return new Ty(u.buffer); }
         var p = dec(J.pos, Int16Array), uv = dec(J.uv, Uint16Array), nr = dec(J.nor, Int8Array), ix = dec(J.idx, J.i32 ? Uint32Array : Uint16Array);
