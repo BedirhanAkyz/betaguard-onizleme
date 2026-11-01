@@ -18,6 +18,7 @@
     '@media (max-width:640px){.bg-sl{border-radius:14px}.bg-sl-a{display:none}}'
   ].join('');
   function build() {
+    if ((location.pathname === '/' || location.pathname === '') && window.__BG_SAHNE !== false) return;
     var r = document.querySelector('.bg-hero-r');
     if (!r || r.querySelector('.bg-sl')) return;
     if (!document.getElementById('bg-sl-css')) { var st = document.createElement('style'); st.id = 'bg-sl-css'; st.textContent = css; document.head.appendChild(st); }
