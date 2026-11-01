@@ -7,11 +7,12 @@
   var EZ = 'cubic-bezier(.23,1,.32,1)';
   de.style.setProperty('--bgv-gift', 'url("data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C9 3 12 5 12 8c0-3 3-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>') + '")');
   var css = [
+    '.bgv-rep{display:none!important}@media (max-width:760px){html.bgv-1 .bg-rep:not(.bgv-rep){display:none!important}html.bgv-1 .bgv-rep{display:flex!important}}',
     /* 3 - yuzen butonlar: telefonda kucuk yuvarlak ikonlar, icerik altta kalmasin */
     '@media (max-width:760px){',
     'html.bgv-3 .bg-kt-pill{width:46px;height:46px;padding:0!important;justify-content:center;max-width:none}',
-    'html.bgv-3 .bg-kt-pill:not(.code) span::before{content:""!important;display:block;width:22px;height:22px;background:currentColor;-webkit-mask:var(--bgv-gift) center/contain no-repeat;mask:var(--bgv-gift) center/contain no-repeat}',
-    'html.bgv-3 .bg-kt-pill > *:not(span){display:none!important}',
+    'html.bgv-3 .bg-kt-pill > *{display:none!important}',
+    'html.bgv-3 .bg-kt-pill::after{content:"";display:block;width:22px;height:22px;background:#141210;-webkit-mask:var(--bgv-gift) center/contain no-repeat;mask:var(--bgv-gift) center/contain no-repeat}',
     'html.bgv-3 .bg-wa{width:46px;height:46px;padding:0!important;justify-content:center;font-size:0!important}',
     'html.bgv-3 .bg-wa svg{width:22px;height:22px;margin:0}',
     'html.bgv-3 body{padding-bottom:72px}',
@@ -52,18 +53,13 @@
   };
   function cls() { for (var i = 1; i <= 8; i++) de.classList.toggle('bgv-' + i, !!ON[i]); }
 
-  /* 1 - mobil urun sirasi */
-  var rep = null, repHome = null, repNext = null;
+  /* 1 - mobil urun sirasi: galeri altindaki not gizlenir, kopyasi desen seciminin altina konur (orijinal yerinde kalir, tema tekrar uretmesin) */
   function mob() {
-    var r = document.querySelector('.bg-rep'); if (!r) return;
-    var pp = document.querySelector('.bg-pp');
-    var small = matchMedia('(max-width:760px)').matches;
-    if (ON[1] && small && pp) {
-      if (!rep) { rep = r; repHome = r.parentNode; repNext = r.nextSibling; }
-      if (r.previousElementSibling !== pp) { pp.parentNode.insertBefore(r, pp.nextSibling); r.style.marginTop = '14px'; }
-    } else if (rep && repHome && rep.parentNode !== repHome) { repHome.insertBefore(rep, repNext); rep.style.marginTop = ''; }
+    var r = document.querySelector('.bg-gal .bg-rep') || document.querySelector('.bg-rep:not(.bgv-rep)'), pp = document.querySelector('.bg-pp'), c = document.querySelector('.bgv-rep');
+    if (!ON[1] || !r || !pp) { if (c) c.remove(); return; }
+    if (!c) { c = r.cloneNode(true); c.classList.add('bgv-rep'); c.style.marginTop = '14px'; }
+    if (c.previousElementSibling !== pp) pp.parentNode.insertBefore(c, pp.nextSibling);
   }
-
   /* 4 - kucuk yazilar */
   var bumped = [];
   function fonts() {
