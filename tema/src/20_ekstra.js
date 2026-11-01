@@ -85,7 +85,7 @@
   }
 
   var css = [
-    '.bge{position:relative;max-width:1240px;margin:44px auto;padding:28px 24px 30px;box-sizing:border-box;color:#F2F0EB;font-family:Manrope,sans-serif;border:1px solid #1E1E21;border-radius:24px;background:radial-gradient(60% 80% at 80% 40%,rgba(201,164,92,.05),transparent 70%)}',
+    '.bge{position:relative;max-width:1452px;width:calc(100% - 48px);margin:44px auto;padding:28px 24px 30px;box-sizing:border-box;color:#F2F0EB;font-family:Manrope,sans-serif;border:1px solid #1E1E21;border-radius:24px;background:radial-gradient(60% 80% at 80% 40%,rgba(201,164,92,.05),transparent 70%)}',
     '.bge *{box-sizing:border-box}',
     '.bge-bd{position:absolute;top:-13px;left:22px;display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:999px;background:' + G + ';color:#0E0E0F;font:800 11px/1.2 Manrope,sans-serif;letter-spacing:.1em;z-index:5}',
     '.bge h2{margin:0;font:italic 900 clamp(28px,3.4vw,42px)/1.05 Archivo,sans-serif!important;color:#F2F0EB}',
@@ -116,7 +116,7 @@
     '.bge-led{height:3px;margin:0 2%;border-radius:3px;background:' + G + ';box-shadow:0 0 14px 3px rgba(201,164,92,.55),0 14px 40px 10px rgba(201,164,92,.16)}',
     '.bge-wall{border-radius:20px;border:1px solid #26252A;padding:10px clamp(8px,2vw,28px) 4px;background:repeating-linear-gradient(90deg,#121214 0,#121214 118px,#141416 118px,#141416 120px)}',
     '.bge-tag{font-size:13px;color:#A3A09A}.bge-tag b{color:#E2C285}',
-    '@media (max-width:760px){.bge{margin:30px 12px;padding:24px 14px}.bge-row-i{grid-template-columns:repeat(2,minmax(0,1fr))}.bge-lb{opacity:1;transform:none}.bge-it{padding-top:40px}}',
+    '@media (max-width:760px){.bge{width:auto;margin:30px 12px;padding:24px 14px}.bge-row-i{grid-template-columns:repeat(2,minmax(0,1fr))}.bge-lb{opacity:1;transform:none}.bge-it{padding-top:40px}}',
     /* 5 test */
     '.bge-q{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}',
     '.bge-q h3{margin:0;font:800 17px Manrope,sans-serif;color:#F2F0EB}.bge-q h3 i{font-style:normal;color:#E2C285;margin-right:8px}',
