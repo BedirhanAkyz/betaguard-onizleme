@@ -229,7 +229,7 @@
     '.bgk-sg{position:absolute;left:12px;right:12px;top:calc(100% - 6px);z-index:20;background:#141416;border:1px solid #3A383F;border-radius:12px;overflow:hidden;display:none;box-shadow:0 16px 30px rgba(0,0,0,.5)}',
     '.bgk-sg button{display:block;width:100%;text-align:left;padding:10px 12px;border:0;background:transparent;color:#D9D5CD;font:500 14px Manrope,sans-serif;cursor:pointer}.bgk-sg button:hover{background:#1E1E21;color:#fff}',
     '.bgk-x{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;border:1px solid #3A383F;background:transparent;color:#A3A09A;cursor:pointer;font:700 13px/1 Manrope,sans-serif}',
-    '.bgk-sc{position:relative;border-radius:20px;border:1px solid #26252A;background:radial-gradient(60% 70% at 50% 60%,rgba(var(--g,201,164,92),.14),transparent 70%),#121214;padding:10px}',
+    '.bgk-sc{position:relative;border-radius:20px;border:1px solid #26252A;background:linear-gradient(180deg,#141416 0%,#0F0F10 78%,#121110 100%);padding:10px;overflow:hidden}',
     '.bgk-sc canvas{width:100%;aspect-ratio:15/7;display:block}',
     '.bgk-bot{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;justify-content:space-between;margin-top:16px}',
     '.bgk-sum{flex:1 1 320px;max-width:520px;border:1px solid #2A292E;border-radius:16px;background:#141416;padding:16px 18px;font-size:14px}',
@@ -248,6 +248,9 @@
     '.bgc-nm{position:absolute;top:2%;font:italic 900 20px Archivo,sans-serif;color:#E2C285;pointer-events:none}.bgc-nm.l{left:2%}.bgc-nm.r{right:2%;text-align:right}',
     '.bgc-l{flex:1 1 280px;max-width:400px;display:flex;flex-direction:column;gap:14px}',
     '.bgc-l h3{margin:6px 0 0;font:800 13px Manrope,sans-serif;letter-spacing:.14em;color:#8E8A83}',
+    '.bgx-chips .bgc-bare{width:auto!important;height:40px!important;padding:0 14px!important;border-radius:999px!important;border:2px solid #3A383F;background:#0E0E0F;color:#F2F0EB;font:700 12px Manrope,sans-serif;cursor:pointer}.bgx-chips .bgc-bare.on{border-color:#E2C285;color:#E2C285}',
+    '.bgc-q{padding:0;border:0;background:transparent}.bgc-q .bgk-sg{left:0;right:0;top:calc(100% + 4px)}',
+    '.bgc-dn{margin:4px 0 0;font:700 14px Manrope,sans-serif;color:#A9A59D;text-align:center}',
     /* 5 kesim haritasi */
     '.bgm{display:flex;flex-wrap:wrap;gap:28px;align-items:center}',
     '.bgm-c{flex:2 1 460px;min-width:0;display:flex;flex-direction:column;align-items:center}',
@@ -323,13 +326,11 @@
     if (main.querySelector('.bgp')) return true;
     var o = document.createElement('div'); o.className = 'bgp'; o.setAttribute('data-bgx1', '1');
     o.innerHTML = '' +
-      '<div class="bgp-pd" aria-hidden="true"></div><div class="bgp-st"><canvas width="1000" height="1000" role="img"></canvas><img class="bgp-bare" alt="" aria-hidden="true"></div>' +
-      '<span class="bgp-lb l">ORİJİNAL</span><span class="bgp-lb r">KAPLAMALI</span><div class="bgp-hd" aria-hidden="true"><i>‹›</i></div>' +
-      '<div class="bgp-bt">' + (NOBARE[d.f] ? '' : '<button type="button" data-a="cmp">Önce / Sonra</button>') + '<button type="button" data-a="sh">' + SHARE_IC + 'Paylaş</button></div>';
+      '<div class="bgp-pd" aria-hidden="true"></div><div class="bgp-st"><canvas width="1000" height="1000" role="img"></canvas></div>' +
+      '<div class="bgp-bt"><button type="button" data-a="sh">' + SHARE_IC + 'Paylaş</button></div>';
     main.appendChild(o);
     var back = document.createElement('button'); back.type = 'button'; back.className = 'bgp-back'; back.textContent = 'Sahneye dön'; main.appendChild(back);
-    var cv = o.querySelector('canvas'), bare = o.querySelector('.bgp-bare'), hd = o.querySelector('.bgp-hd'), st = { p: null, c: null, cmp: false, x: 50 };
-    bare.crossOrigin = 'anonymous'; bare.src = IMG + d.f + '/bare.webp';
+    var cv = o.querySelector('canvas'), st = { p: null, c: null };
     function cur() { var pp = document.querySelector('.bg-pp'); var m = pp && /Desen:\s*([^\n]+)/.exec(pp.innerText || ''); var nm = m && m[1].trim(); for (var k in NAME) if (NAME[k] === nm) return k; var q = /[?&]desen=([a-z0-9-]+)/.exec(location.search); return q && NAME[q[1]] ? q[1] : 'line-black'; }
     function setP(s) {
       if (s === st.p) return; st.p = s;
@@ -337,16 +338,9 @@
       comp(d, s, 1000).then(function (c) { if (st.p !== s) return; if (st.c) wipe(cv, st.c, c, 1100, 1); else show(cv, c); st.c = c; });
       o.classList.remove('off'); back.style.display = 'none';
     }
-    function setX(v) { st.x = clamp(v, 4, 96); bare.style.clipPath = 'inset(0 ' + (100 - st.x) + '% 0 0)'; hd.style.left = st.x + '%'; }
-    var drag = false, stg = o.querySelector('.bgp-st');
-    function px(e) { var r = stg.getBoundingClientRect(); return (e.clientX - r.left) / r.width * 100; }
-    o.addEventListener('pointerdown', function (e) { if (!st.cmp || e.target.closest('button')) return; drag = true; setX(px(e)); try { o.setPointerCapture(e.pointerId); } catch (z) {} });
-    o.addEventListener('pointermove', function (e) { if (drag) setX(px(e)); });
-    o.addEventListener('pointerup', function () { drag = false; });
     o.addEventListener('click', function (e) {
       var b = e.target.closest('button[data-a]'); if (!b) return;
-      if (b.getAttribute('data-a') === 'cmp') { st.cmp = !st.cmp; o.classList.toggle('cmp', st.cmp); if (st.cmp) setX(50); }
-      else shareCard([d], st.p || cur());
+      shareCard([d], st.p || cur());
     });
     var ctl = main.querySelector('.bg-gal-ctl');
     if (ctl) ctl.addEventListener('click', function () { o.classList.add('off'); back.style.display = 'inline-flex'; }, true);
@@ -376,11 +370,41 @@
     anchor.parentNode.insertBefore(box, anchor.nextSibling);
     var st = { p: 'royal-gold', it: KDEF.map(function (k) { return byDir(k[1]); }), cs: [] };
     var cv = box.querySelector('canvas'), x = cv.getContext('2d'), W = 1500, H = 700, prev = null, tok = 0;
+    function bb(c) {
+      if (c.__bb) return c.__bb;
+      var t = document.createElement('canvas'); t.width = t.height = 120; var y = t.getContext('2d'); y.drawImage(c, 0, 0, 120, 120);
+      var x0 = 120, x1 = 0, y0 = 120, y1 = 0;
+      try { var a = y.getImageData(0, 0, 120, 120).data; for (var j = 0; j < 120; j++) for (var i = 0; i < 120; i++) if (a[(j * 120 + i) * 4 + 3] > 40) { if (i < x0) x0 = i; if (i > x1) x1 = i; if (j < y0) y0 = j; if (j > y1) y1 = j; } } catch (e) { x0 = 10; y0 = 10; x1 = 110; y1 = 110; }
+      if (x1 < x0) { x0 = 10; y0 = 10; x1 = 110; y1 = 110; }
+      return (c.__bb = [x0 / 120, y0 / 120, (x1 + 1) / 120, (y1 + 1) / 120]);
+    }
     function scene(cs) {
       var c = document.createElement('canvas'); c.width = W; c.height = H; var y = c.getContext('2d');
-      var on = st.it.map(function (d, i) { return d ? i : -1; }).filter(function (i) { return i >= 0; }), n = on.length; if (!n) return c;
-      var slot = W / n, sz = Math.min(slot * .95, 600);
-      on.forEach(function (i, k) { var cx = slot * k + slot / 2; ped(y, cx, H * .82, sz * .78, 70); if (cs[i]) { y.save(); y.shadowColor = 'rgba(0,0,0,.6)'; y.shadowBlur = 34; y.shadowOffsetY = 22; y.drawImage(cs[i], cx - sz / 2, H * .82 - sz * .86, sz, sz); y.restore(); } });
+      var on = st.it.map(function (d, i) { return d ? i : -1; }).filter(function (i) { return i >= 0; }), n = on.length;
+      var fy = H * .8;
+      /* raf: cam plaka + altin LED + yansima zemini */
+      var fl = y.createLinearGradient(0, fy, 0, H); fl.addColorStop(0, 'rgba(201,164,92,.10)'); fl.addColorStop(1, 'rgba(14,14,15,0)'); y.fillStyle = fl; y.fillRect(0, fy, W, H - fy);
+      var pl = y.createLinearGradient(0, fy - 2, 0, fy + 16); pl.addColorStop(0, 'rgba(255,255,255,.22)'); pl.addColorStop(1, 'rgba(255,255,255,.04)'); y.fillStyle = pl; y.fillRect(W * .04, fy - 2, W * .92, 18);
+      y.fillStyle = 'rgba(255,255,255,.45)'; y.fillRect(W * .04, fy - 2, W * .92, 1.5);
+      y.save(); y.shadowColor = 'rgba(226,194,133,.9)'; y.shadowBlur = 22; y.fillStyle = '#E2C285'; y.fillRect(W * .06, fy + 16, W * .88, 3); y.restore();
+      if (!n) return c;
+      var slot = (W * .9) / n;
+      on.forEach(function (i, k) {
+        var cc = cs[i]; if (!cc) return;
+        var b = bb(cc), S = cc.width, bw = (b[2] - b[0]) * S, bh = (b[3] - b[1]) * S;
+        var sc = Math.min(slot * .86 / bw, H * .66 / bh), dw = bw * sc, dh = bh * sc, cx = W * .05 + slot * k + slot / 2, dx = cx - dw / 2, dy = fy - dh;
+        /* ust spot isigi */
+        var sp = y.createRadialGradient(cx, fy - dh * .55, 10, cx, fy - dh * .55, Math.max(dw, dh) * .8); sp.addColorStop(0, 'rgba(226,194,133,.13)'); sp.addColorStop(1, 'rgba(226,194,133,0)'); y.fillStyle = sp; y.fillRect(cx - dw, fy - dh * 1.4, dw * 2, dh * 1.4);
+        /* temas golgesi */
+        y.save(); var cg = y.createRadialGradient(cx, fy, 4, cx, fy, dw * .55); cg.addColorStop(0, 'rgba(0,0,0,.75)'); cg.addColorStop(1, 'rgba(0,0,0,0)'); y.fillStyle = cg; y.beginPath(); y.ellipse(cx, fy + 2, dw * .55, 14, 0, 0, 6.283); y.fill(); y.restore();
+        /* yansima */
+        var rf = document.createElement('canvas'); rf.width = Math.max(1, Math.round(dw)); rf.height = Math.max(1, Math.round(dh * .45)); var r = rf.getContext('2d');
+        r.save(); r.translate(0, dh); r.scale(1, -1); r.drawImage(cc, b[0] * S, b[1] * S, bw, bh, 0, 0, dw, dh); r.restore();
+        r.globalCompositeOperation = 'destination-in'; var rg = r.createLinearGradient(0, 0, 0, rf.height); rg.addColorStop(0, 'rgba(0,0,0,.28)'); rg.addColorStop(1, 'rgba(0,0,0,0)'); r.fillStyle = rg; r.fillRect(0, 0, rf.width, rf.height);
+        y.drawImage(rf, dx, fy + 18);
+        /* cihaz */
+        y.save(); y.shadowColor = 'rgba(0,0,0,.55)'; y.shadowBlur = 26; y.shadowOffsetY = 10; y.drawImage(cc, b[0] * S, b[1] * S, bw, bh, dx, dy, dw, dh); y.restore();
+      });
       return c;
     }
     function render() {
@@ -426,97 +450,48 @@
   }
 
   /* ===== 4: iki deseni karsilastir ===== */
+  var CT = [['K', 'Kamera', 'kamera-sony-alpha-a7-mark-iv'], ['L', 'Lens', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'Drone', 'drone-dji-mini-4-pro'], ['A', 'Aksiyon', 'aksiyon-kamera-dji-osmo-pocket-3']];
   function S4() {
     var anchor = document.querySelector('[data-bgx2k]'); if (!anchor) return false; if (document.querySelector('[data-bgx4]')) return true;
     var box = document.createElement('div'); box.className = 'bgx'; box.setAttribute('data-bgx4', '1'); box.id = 'bgx-4';
-    box.innerHTML = badge(4, 'İki deseni karşılaştır') +
-      '<div class="bgc"><div class="bgc-l"><h2>Hangisi?</h2><p class="bgx-sub">İki desen seç, ortadaki tutamacı sürükle. <b class="bgx-dn"></b> üzerinde.</p>' +
-      '<h3>SOL</h3>' + chips(FEAT, 'L') + '<h3>SAĞ</h3>' + chips(FEAT, 'R') + '</div>' +
-      '<div class="bgc-c"><div class="bgc-st"><canvas width="1000" height="1000" role="img" aria-label="İki desen karşılaştırması"></canvas><span class="bgc-nm l"></span><span class="bgc-nm r"></span><div class="bgc-hd" aria-hidden="true"><i>‹›</i></div></div><div class="bgx-ped" aria-hidden="true"></div></div></div>';
+    var bareChip = '<button type="button" class="bgc-bare" data-p="__bare" aria-pressed="false">Kaplamasız</button>';
+    box.innerHTML = '<div class="bgc"><div class="bgc-l"><h2>Karşılaştır.</h2><p class="bgx-sub">Cihazını seç; solda kaplamasız halini ya da bir deseni, sağda başka bir deseni gör. Ortadaki tutamacı sürükle.</p>' +
+      '<h3>CİHAZ</h3><div class="bgm-tb" role="group" aria-label="Cihaz">' + CT.filter(function (t) { return byDir(t[2]); }).map(function (t) { return '<button type="button" data-f="' + t[2] + '">' + t[1] + '</button>'; }).join('') + '</div>' +
+      '<div class="bgk-s bgc-q"><input type="text" autocomplete="off" placeholder="Başka model yaz…" aria-label="Cihaz ara"><div class="bgk-sg"></div></div>' +
+      '<h3>SOL</h3><div class="bgx-chips L">' + bareChip + chips(FEAT).replace(/^<div class="bgx-chips ">/, '').replace(/<\/div>$/, '') + '</div><h3>SAĞ</h3>' + chips(FEAT, 'R') + '</div>' +
+      '<div class="bgc-c"><div class="bgc-st"><canvas width="1000" height="1000" role="img" aria-label="Karşılaştırma"></canvas><span class="bgc-nm l"></span><span class="bgc-nm r"></span><div class="bgc-hd" aria-hidden="true"><i>‹›</i></div></div><div class="bgx-ped" aria-hidden="true"></div><p class="bgc-dn"></p></div></div>';
     anchor.parentNode.insertBefore(box, anchor.nextSibling);
     var cv = box.querySelector('canvas'), x = cv.getContext('2d'), stg = box.querySelector('.bgc-st'), hd = box.querySelector('.bgc-hd');
-    var st = { d: stage().d, l: 'royal-gold', r: 'carbon', cl: null, cr: null, pos: 50 };
+    var st = { d: stage().d, l: '__bare', r: 'royal-gold', cl: null, cr: null, pos: 50 };
+    function nm(p) { return p === '__bare' ? 'Kaplamasız' : NAME[p]; }
+    function img(p) { return p === '__bare' ? bare(st.d, 1000) : comp(st.d, p, 1000); }
     function draw() {
       x.clearRect(0, 0, 1000, 1000); var X = st.pos * 10;
-      if (st.cr) x.drawImage(st.cr, 0, 0);
-      if (st.cl) { x.save(); x.beginPath(); x.rect(0, 0, X, 1000); x.clip(); x.clearRect(0, 0, X, 1000); x.drawImage(st.cl, 0, 0); x.restore(); }
+      if (st.cr) { x.save(); x.beginPath(); x.rect(X, 0, 1000 - X, 1000); x.clip(); x.drawImage(st.cr, 0, 0); x.restore(); }
+      if (st.cl) { x.save(); x.beginPath(); x.rect(0, 0, X, 1000); x.clip(); x.drawImage(st.cl, 0, 0); x.restore(); }
       hd.style.left = st.pos + '%';
     }
     function load() {
-      box.querySelector('.bgx-dn').textContent = st.d.b + ' ' + st.d.m;
-      box.querySelector('.bgc-nm.l').textContent = NAME[st.l]; box.querySelector('.bgc-nm.r').textContent = NAME[st.r];
-      [].forEach.call(box.querySelectorAll('.bgx-chips.L button'), function (b) { b.classList.toggle('on', b.getAttribute('data-p') === st.l); });
-      [].forEach.call(box.querySelectorAll('.bgx-chips.R button'), function (b) { b.classList.toggle('on', b.getAttribute('data-p') === st.r); });
-      Promise.all([comp(st.d, st.l, 1000), comp(st.d, st.r, 1000)]).then(function (r) { st.cl = r[0]; st.cr = r[1]; draw(); });
+      box.querySelector('.bgc-dn').textContent = st.d.b + ' ' + st.d.m;
+      box.querySelector('.bgc-nm.l').textContent = nm(st.l); box.querySelector('.bgc-nm.r').textContent = nm(st.r);
+      [].forEach.call(box.querySelectorAll('.bgx-chips.L button'), function (b) { var on = b.getAttribute('data-p') === st.l; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+      [].forEach.call(box.querySelectorAll('.bgx-chips.R button'), function (b) { var on = b.getAttribute('data-p') === st.r; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+      [].forEach.call(box.querySelectorAll('.bgm-tb button'), function (b) { b.classList.toggle('on', b.getAttribute('data-f') === st.d.f); });
+      var d = st.d; Promise.all([img(st.l), img(st.r)]).then(function (r) { if (d !== st.d) return; st.cl = r[0]; st.cr = r[1]; draw(); });
     }
     var drag = false;
     function pos(e) { var r = stg.getBoundingClientRect(); st.pos = clamp((e.clientX - r.left) / r.width * 100, 3, 97); draw(); }
     stg.addEventListener('pointerdown', function (e) { drag = true; pos(e); try { stg.setPointerCapture(e.pointerId); } catch (z) {} });
     stg.addEventListener('pointermove', function (e) { if (drag || e.pointerType === 'mouse' && e.buttons) pos(e); });
     stg.addEventListener('pointerup', function () { drag = false; });
-    box.addEventListener('click', function (e) { var b = e.target.closest('.bgx-chips button'); if (!b) return; if (b.closest('.L')) st.l = b.getAttribute('data-p'); else st.r = b.getAttribute('data-p'); load(); });
-    onStage(function (s) { if (s.d.f !== st.d.f) { st.d = s.d; load(); } });
-    load();
-    return true;
-  }
-
-  /* ===== 5: kesim haritasi ===== */
-  var MT = [['K', 'Kamera', 'kamera-sony-alpha-a7-mark-iv'], ['L', 'Lens', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'Drone', 'drone-dji-mini-4-pro'], ['A', 'Aksiyon', 'aksiyon-kamera-dji-osmo-pocket-3']];
-  function S5m() {
-    var anchor = document.querySelector('[data-bge7]'); if (!anchor) return false; if (document.querySelector('[data-bgx5m]')) return true;
-    var box = document.createElement('div'); box.className = 'bgx'; box.setAttribute('data-bgx5m', '1'); box.id = 'bgx-5';
-    box.innerHTML = badge(5, 'Kesim haritası') +
-      '<div class="bgm"><div class="bgm-l"><h2>Nereler kaplanıyor?</h2><p class="bgx-sub">Kaplama, <b class="bgx-dn"></b> için ayrı ayrı kesilmiş parçalardan oluşur. Üzerine gel, hangi bölge nasıl kaplanıyor gör.</p>' +
-      '<div class="bgm-tb" role="group" aria-label="Cihaz">' + MT.filter(function (t) { return byDir(t[2]); }).map(function (t) { return '<button type="button" data-f="' + t[2] + '">' + t[1] + '</button>'; }).join('') + '</div>' +
-      '<button type="button" class="bgm-k" data-k="d"><i style="background:#E2C285"></i><div><b>Desenli parçalar</b><span>Metal yüzeyler seçtiğin desenle kaplanır.</span></div></button>' +
-      '<button type="button" class="bgm-k" data-k="t"><i style="background:#7FA8D9"></i><div><b>Dokulu siyah parçalar</b><span>Plastik ve kauçuk kısımlar dokulu siyah kaplamayla kaplanır.</span></div></button>' +
-      '<button type="button" class="bgm-k" data-k="o"><i style="background:#3A383F;border:1px solid #6B6870"></i><div><b>Açık kalan yerler</b><span>Lens, ekran, düğmeler ve portlar kapanmaz.</span></div></button>' +
-      '</div><div class="bgm-c"><canvas width="900" height="900" role="img" aria-label="Kesim haritası"></canvas><div class="bgx-ped" aria-hidden="true"></div></div></div>';
-    anchor.parentNode.insertBefore(box, anchor.nextSibling);
-    var cv = box.querySelector('canvas'), x = cv.getContext('2d'), N = 900, st = { d: stage().d, base: null, m: null, hl: null, t0: 0 };
-    function maps(d) {
-      var S = 450;
-      return Promise.all([limg(IMG + d.f + '/mono-white.webp'), limg(IMG + d.f + '/mono-black.webp'), limg(IMG + d.f + '/bare.webp')]).then(function (r) {
-        var g = function (im) { var c = document.createElement('canvas'); c.width = c.height = S; c.getContext('2d').drawImage(im, 0, 0, S, S); return c.getContext('2d').getImageData(0, 0, S, S).data; };
-        var w = g(r[0]), k = g(r[1]), b = g(r[2]);
-        var mk = function (col) { var c = document.createElement('canvas'); c.width = c.height = S; return [c, c.getContext('2d').createImageData(S, S)]; };
-        var D = mk(), T = mk(), O = mk();
-        for (var i = 0; i < S * S; i++) {
-          var j = i * 4; if (b[j + 3] < 90) continue;
-          var lw = (w[j] + w[j + 1] + w[j + 2]) / 3, lk = (k[j] + k[j + 1] + k[j + 2]) / 3, lb = (b[j] + b[j + 1] + b[j + 2]) / 3;
-          var tgt;
-          if (lw - lk > 70) tgt = D; else if (Math.abs(lk - lb) > 16 || Math.abs((k[j] - b[j]) + (k[j + 2] - b[j + 2])) > 30) tgt = T; else tgt = O;
-          tgt[1].data[j] = 255; tgt[1].data[j + 1] = 255; tgt[1].data[j + 2] = 255; tgt[1].data[j + 3] = 255;
-        }
-        [D, T, O].forEach(function (m) { m[0].getContext('2d').putImageData(m[1], 0, 0); });
-        var tint = function (m, col) { var c = document.createElement('canvas'); c.width = c.height = N; var y = c.getContext('2d'); y.filter = 'blur(1.2px)'; y.drawImage(m[0], 0, 0, N, N); y.filter = 'none'; y.globalCompositeOperation = 'source-in'; y.fillStyle = col; y.fillRect(0, 0, N, N); return c; };
-        return { d: tint(D, '#E2C285'), t: tint(T, '#7FA8D9'), o: tint(O, '#6B6870') };
-      });
-    }
-    function load() {
-      box.querySelector('.bgx-dn').textContent = st.d.b + ' ' + st.d.m;
-      [].forEach.call(box.querySelectorAll('.bgm-tb button'), function (b) { b.classList.toggle('on', b.getAttribute('data-f') === st.d.f); });
-      Promise.all([comp(st.d, 'royal-gold', N), maps(st.d)]).then(function (r) { st.base = r[0]; st.m = r[1]; st.t0 = performance.now(); loop(); });
-    }
-    var raf = 0;
-    function loop() { cancelAnimationFrame(raf); raf = requestAnimationFrame(function fr(now) { draw(now); if (document.documentElement.contains(box)) raf = requestAnimationFrame(fr); }); }
-    function draw(now) {
-      if (!st.base) return; x.clearRect(0, 0, N, N); x.drawImage(st.base, 0, 0);
-      var ph = (now - st.t0) / 1000, auto = ['d', 't', 'o'][Math.floor(ph / 1.6) % 3];
-      ['d', 't', 'o'].forEach(function (k) {
-        var on = st.hl ? st.hl === k : true, pulse = st.hl ? (.55 + .25 * Math.sin(ph * 4)) : (auto === k ? .62 : .32);
-        x.save(); x.globalAlpha = on ? pulse : .08; x.drawImage(st.m[k], 0, 0); x.restore();
-      });
-      if (!st.hl) [].forEach.call(box.querySelectorAll('.bgm-k'), function (b) { b.classList.toggle('on', b.getAttribute('data-k') === auto); });
-    }
-    [].forEach.call(box.querySelectorAll('.bgm-k'), function (b) {
-      var k = b.getAttribute('data-k');
-      b.addEventListener('mouseenter', function () { st.hl = k; [].forEach.call(box.querySelectorAll('.bgm-k'), function (z) { z.classList.toggle('on', z === b); }); });
-      b.addEventListener('mouseleave', function () { st.hl = null; });
-      b.addEventListener('click', function () { st.hl = st.hl === k ? null : k; });
+    box.addEventListener('click', function (e) {
+      var t = e.target.closest('.bgm-tb button'); if (t) { st.d = byDir(t.getAttribute('data-f')) || st.d; load(); return; }
+      var b = e.target.closest('.bgx-chips button'); if (!b) return; if (b.closest('.L')) st.l = b.getAttribute('data-p'); else st.r = b.getAttribute('data-p'); load();
     });
-    box.querySelector('.bgm-tb').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { st.d = byDir(b.getAttribute('data-f')) || st.d; load(); } });
-    onStage(function (s) { if (s.d.f !== st.d.f) { st.d = s.d; load(); } });
+    var inp = box.querySelector('.bgc-q input'), sg = box.querySelector('.bgc-q .bgk-sg'), list = [];
+    inp.addEventListener('input', function () { list = inp.value.trim().length < 2 ? [] : find(inp.value); sg.innerHTML = list.map(function (d, k) { return '<button type="button" data-k="' + k + '"><b>' + esc(d.b) + '</b> ' + esc(d.m) + '</button>'; }).join(''); sg.style.display = list.length ? 'block' : 'none'; });
+    sg.addEventListener('mousedown', function (e) { var b = e.target.closest('button'); if (!b) return; e.preventDefault(); st.d = list[+b.getAttribute('data-k')]; sg.style.display = 'none'; inp.value = ''; inp.blur(); load(); });
+    inp.addEventListener('blur', function () { setTimeout(function () { sg.style.display = 'none'; }, 150); });
     load();
     return true;
   }
@@ -542,7 +517,7 @@
     if (!document.getElementById('bgx-css')) { var s = document.createElement('style'); s.id = 'bgx-css'; s.textContent = css + css2; document.head.appendChild(s); }
     if (!devs().length) return;
     var home = location.pathname === '/' || location.pathname === '';
-    var L = home ? [['3', S3share], ['2k', S2k], ['4', S4], ['5m', S5m]] : [['1', S1]];
+    var L = home ? [['3', S3share], ['2k', S2k], ['4', S4]] : [['1', S1]];
     if (home) watchStage();
     L.forEach(function (f) { try { f[1](); } catch (e) { if (window.console) console.warn('bgx', f[0], e); } });
     if (home && location.hash && /^#bgx-\d$/.test(location.hash) && !build.j) { var el = document.querySelector(location.hash); if (el) { build.j = 1; setTimeout(function () { el.scrollIntoView({ block: 'start' }); }, 600); } }

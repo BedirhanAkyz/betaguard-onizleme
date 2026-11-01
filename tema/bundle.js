@@ -3633,7 +3633,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 })();
 
 /* ===== 18_sahne.js ===== */
-/* v29: ana sayfa sahnesi - kaide uzerinde cihaz, kaplama gecisi, once/sonra, cihaz arama, egim/isik */
+/* v33: ana sayfa sahnesi - tek cihaz (Sony A7 IV) 3D gorunum (siluetten derinlikli govde, three.js), kaplama gecisi, desen secimi */
 (function () {
   if (window.__bgSahne) return; window.__bgSahne = 1;
   if (window.__BG_SAHNE === false) return;
@@ -3658,6 +3658,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var FALLBACK = { 'kamera-sony-alpha-a7-mark-iv': { s: 'sony-alpha-a7-iv-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7 IV', f: 'kamera-sony-alpha-a7-mark-iv' }, 'lens-sony-fe-24-70mm-f2-8-gm-ii': { s: 'sony-fe-24-70mm-f2-8-gm-ii-lens-kaplama', t: 'L', b: 'Sony', m: 'FE 24-70mm f2.8 GM II', f: 'lens-sony-fe-24-70mm-f2-8-gm-ii' }, 'drone-dji-mini-4-pro': { s: 'dji-mini-4-pro-kaplama', t: 'D', b: 'DJI', m: 'Mini 4 Pro', f: 'drone-dji-mini-4-pro' } };
   var GHOST = { K: 'KAMERAN', L: 'LENSİN', D: 'DRONUN', G: 'GİMBALİN', A: 'KAMERAN' };
   var TYPEN = { K: 'Kamera', L: 'Lens', D: 'Drone', G: 'Gimbal', A: 'Aksiyon kamera' };
+  var THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js';
+  var C3 = [[0.194,0.7864],[0.187,0.7864],[0.1857,0.786],[0.185,0.7846],[0.183,0.784],[0.139,0.7836],[0.128,0.7819],[0.127,0.7823],[0.121,0.7804],[0.1136,0.773],[0.1134,0.771],[0.1116,0.768],[0.1114,0.763],[0.1106,0.762],[0.1105,0.722],[0.1113,0.72],[0.1105,0.718],[0.1105,0.696],[0.1113,0.694],[0.1106,0.693],[0.1105,0.686],[0.1113,0.684],[0.1106,0.683],[0.1105,0.677],[0.1113,0.675],[0.1105,0.673],[0.1114,0.671],[0.1115,0.665],[0.1105,0.659],[0.1115,0.655],[0.1106,0.653],[0.1104,0.649],[0.1096,0.648],[0.1096,0.647],[0.1114,0.645],[0.1106,0.642],[0.1115,0.637],[0.1114,0.632],[0.1107,0.631],[0.1114,0.63],[0.1115,0.626],[0.1105,0.623],[0.1115,0.619],[0.1115,0.585],[0.1105,0.581],[0.1115,0.576],[0.1115,0.518],[0.1107,0.516],[0.1115,0.514],[0.1115,0.405],[0.1107,0.402],[0.1124,0.4],[0.1125,0.395],[0.1124,0.394],[0.11,0.3916],[0.094,0.3824],[0.0845,0.376],[0.0816,0.372],[0.0796,0.364],[0.0826,0.355],[0.089,0.3496],[0.093,0.3494],[0.095,0.3485],[0.099,0.3493],[0.102,0.3485],[0.105,0.3494],[0.106,0.3486],[0.115,0.3484],[0.1195,0.343],[0.1225,0.342],[0.1234,0.341],[0.1235,0.329],[0.1246,0.324],[0.129,0.3206],[0.162,0.3204],[0.1634,0.319],[0.1636,0.315],[0.167,0.3127],[0.169,0.3135],[0.183,0.3136],[0.184,0.3144],[0.186,0.3137],[0.1873,0.315],[0.1866,0.319],[0.189,0.3211],[0.191,0.3205],[0.195,0.3211],[0.201,0.3205],[0.204,0.3214],[0.206,0.3205],[0.208,0.3213],[0.212,0.3204],[0.221,0.3166],[0.228,0.3154],[0.229,0.3146],[0.245,0.3134],[0.247,0.3125],[0.257,0.3125],[0.279,0.3156],[0.285,0.3186],[0.287,0.3204],[0.292,0.3213],[0.293,0.3206],[0.297,0.3213],[0.301,0.3205],[0.304,0.3213],[0.306,0.3206],[0.308,0.3215],[0.311,0.3206],[0.312,0.3214],[0.314,0.3214],[0.317,0.3176],[0.32,0.3174],[0.3213,0.316],[0.32,0.3146],[0.316,0.3144],[0.3146,0.313],[0.3154,0.311],[0.3147,0.309],[0.3154,0.306],[0.3147,0.305],[0.3155,0.303],[0.3147,0.301],[0.3155,0.299],[0.3146,0.296],[0.3154,0.295],[0.3147,0.293],[0.3155,0.291],[0.3146,0.289],[0.3154,0.287],[0.3146,0.284],[0.319,0.2786],[0.328,0.2785],[0.331,0.2775],[0.362,0.2775],[0.364,0.2767],[0.366,0.2774],[0.369,0.2766],[0.371,0.2774],[0.374,0.2766],[0.376,0.2775],[0.386,0.2775],[0.388,0.2767],[0.39,0.2775],[0.415,0.2775],[0.418,0.2785],[0.421,0.2775],[0.423,0.2784],[0.425,0.2777],[0.426,0.2784],[0.433,0.2786],[0.4364,0.283],[0.4364,0.286],[0.4357,0.287],[0.4364,0.289],[0.4356,0.291],[0.438,0.2943],[0.443,0.2885],[0.4484,0.284],[0.4536,0.272],[0.459,0.2645],[0.465,0.2585],[0.477,0.2496],[0.4795,0.249],[0.4824,0.246],[0.4836,0.242],[0.488,0.2376],[0.49,0.2366],[0.497,0.2364],[0.499,0.2345],[0.5006,0.222],[0.5026,0.216],[0.504,0.2146],[0.514,0.2145],[0.516,0.2137],[0.518,0.2144],[0.522,0.213],[0.528,0.2127],[0.615,0.2129],[0.625,0.2135],[0.628,0.2145],[0.644,0.2146],[0.6454,0.218],[0.6456,0.221],[0.6474,0.224],[0.6476,0.233],[0.649,0.2355],[0.65,0.2364],[0.657,0.2366],[0.659,0.2376],[0.6644,0.243],[0.6646,0.245],[0.667,0.2485],[0.677,0.2546],[0.683,0.2596],[0.6894,0.267],[0.6983,0.283],[0.6977,0.284],[0.7004,0.292],[0.7006,0.296],[0.7024,0.3],[0.7026,0.307],[0.7034,0.308],[0.7036,0.316],[0.7045,0.318],[0.7045,0.334],[0.7053,0.336],[0.7047,0.337],[0.707,0.3394],[0.834,0.3395],[0.838,0.3405],[0.883,0.3405],[0.8844,0.341],[0.8846,0.348],[0.886,0.3494],[0.907,0.3496],[0.91,0.3506],[0.914,0.3536],[0.9174,0.358],[0.9192,0.363],[0.9194,0.368],[0.9164,0.376],[0.9,0.3864],[0.89,0.3916],[0.8856,0.395],[0.8855,0.411],[0.8863,0.413],[0.8856,0.415],[0.887,0.4164],[0.8904,0.417],[0.8905,0.423],[0.8904,0.425],[0.889,0.4264],[0.887,0.4266],[0.8855,0.429],[0.8855,0.462],[0.8863,0.464],[0.8855,0.467],[0.8855,0.739],[0.8846,0.741],[0.8844,0.749],[0.8804,0.759],[0.876,0.7655],[0.867,0.7734],[0.859,0.7774],[0.847,0.7804],[0.791,0.7807],[0.788,0.7825],[0.779,0.7815],[0.777,0.7823],[0.775,0.7815],[0.752,0.7812],[0.32,0.7815],[0.278,0.7835],[0.197,0.784],[0.195,0.7848],[0.194,0.7864]];
   var RM = false; try { RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
   function devs() { return window.__bgDevices || []; }
@@ -3738,6 +3740,11 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bgs-more{width:auto!important;padding:0 14px!important;border-radius:999px!important;font:700 12px Manrope,sans-serif;color:#E2C285;white-space:nowrap}',
     '@media (max-width:1100px){.bgs-gr{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);grid-template-areas:"l1 c" "l2 c" "r r" "ch ch"}.bgs-r{flex-direction:row;flex-wrap:wrap;align-items:flex-end;margin-top:18px}}',
     '@media (max-width:760px){.bgs{width:calc(100% - 24px);margin-top:14px;border-radius:20px}.bgs-gr{display:flex;flex-direction:column;padding:26px 16px 22px}.bgs-l1{order:1}.bgs-c{order:2;margin-top:6px}.bgs-ch{order:3;margin-top:10px}.bgs-r{order:4;flex-direction:column;align-items:stretch;gap:12px;margin-top:16px;min-width:0;width:100%}.bgs-ch,.bgs-c,.bgs-l1,.bgs-l2{min-width:0;width:100%}.bgs-tb{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.bgs-tb::-webkit-scrollbar{display:none}.bgs-tb button{flex:0 0 auto}.bgs-l2{order:5;margin-top:22px}.bgs h1{font-size:40px!important}.bgs-gh{font-size:76px}.bgs-ar{display:none}.bgs-cl{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:4px 2px 8px;max-width:100%;scrollbar-width:none}.bgs-cl::-webkit-scrollbar{display:none}.bgs-cl button{flex:0 0 auto}.bgs.all .bgs-cl{flex-wrap:wrap;justify-content:center}.bgs-k em{font-size:26px}}',
+    '.bgs-3d{position:absolute;inset:0;width:100%!important;height:100%!important;display:block;cursor:grab;touch-action:pan-y}',
+    '.bgs.drg .bgs-3d{cursor:grabbing}',
+    '.bgs.is3d .bgs-cv{visibility:hidden}',
+    '.bgs.is3d .bgs-dv{transform:none!important;filter:drop-shadow(0 30px 30px rgba(0,0,0,.6))}',
+    '.bgs-3dh{display:none;font:700 11px/1 Manrope,sans-serif;letter-spacing:.14em;color:#8E8A83}.bgs.is3d .bgs-3dh{display:block}',
     '@media (prefers-reduced-motion:reduce){.bgs-fl{animation:none}}'
   ].join('');
 
@@ -3755,20 +3762,14 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       '<div class="bgs-l1"><span class="bgs-tag">CİHAZA ÖZEL KESİM KAPLAMA</span>' +
         '<h1><span class="bgs-sr">Kamera, lens ve drone kaplama: </span>Ekipmanını koru.<br>Tarzını yansıt.</h1></div>' +
       '<div class="bgs-l2"><p class="bgs-p">Kamera, lens, drone ve gimbal kaplamaları. Her siparişi cihazının ölçüsüne göre basıp kesiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
-        '<div class="bgs-f"><label for="bgs-q">Cihazını yaz, kaidede gör</label><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>' +
-          '<input id="bgs-q" type="text" autocomplete="off" spellcheck="false" placeholder="Örn. A7 IV, Mini 4 Pro, X-T5" role="combobox" aria-expanded="false" aria-controls="bgs-sg" aria-autocomplete="list"><div class="bgs-sg" id="bgs-sg" role="listbox"></div></div>' +
-        '<div class="bgs-msg" aria-live="polite"></div>' +
         '<div class="bgs-btns"><a class="bgs-pill g" href="/betaguard-kaplama">Serileri keşfet</a><a class="bgs-pill o" href="#bg-find">Kategoriler</a></div></div>' +
       '<div class="bgs-c"><div class="bgs-gh" aria-hidden="true">KAMERAN</div>' +
         '<div class="bgs-st"><div class="bgs-fl"><div class="bgs-dv">' +
           '<canvas class="bgs-cv" width="1000" height="1000" role="img" aria-label="Kaplamalı cihaz"></canvas>' +
-          '<img class="bgs-bare" alt="" aria-hidden="true" decoding="async">' +
-          '<span class="bgs-lb l" aria-hidden="true">ORİJİNAL</span><span class="bgs-lb r" aria-hidden="true">KAPLAMALI</span>' +
-          '<div class="bgs-hd" aria-hidden="true"><i>‹›</i></div>' +
         '</div></div></div>' +
         '<div class="bgs-pd" aria-hidden="true"></div>' +
-        '<button type="button" class="bgs-cmpb" aria-pressed="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18"></path><path d="M8 8l-4 4 4 4"></path><path d="M16 8l4 4-4 4"></path></svg>Önce / Sonra</button></div>' +
-      '<div class="bgs-r"><div class="bgs-tb" role="group" aria-label="Kategori"></div>' +
+        '</div>' +
+      '<div class="bgs-r"><span class="bgs-3dh" aria-hidden="true">↔ Çevirmek için sürükle</span>' +
         '<div class="bgs-k"><span>CİHAZ</span><strong class="bgs-dn"></strong></div>' +
         '<div class="bgs-k"><span>DESEN</span><em class="bgs-pn"></em><small class="bgs-ps"></small></div>' +
         '<a class="bgs-go" href="/betaguard-kaplama">Bu kombinasyonu incele →</a></div>' +
@@ -3778,10 +3779,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
   function init(root) {
     var q = function (s) { return root.querySelector(s); };
-    var CV = q('.bgs-cv'), CX = CV.getContext('2d'), N = CV.width, BARE = q('.bgs-bare'), HD = q('.bgs-hd'), DV = q('.bgs-dv'), ST = q('.bgs-st');
+    var CV = q('.bgs-cv'), CX = CV.getContext('2d'), N = CV.width, DV = q('.bgs-dv'), ST = q('.bgs-st');
     var st = { dev: null, p: 'royal-gold', busy: false, pend: null, hold: false, cmp: false, cx: 50, vis: true, cur: null };
-    var tabs = q('.bgs-tb');
-    tabs.innerHTML = TABS.filter(function (t) { return byDir(t[2]); }).map(function (t) { return '<button type="button" data-t="' + t[0] + '" data-f="' + t[2] + '" aria-pressed="false">' + t[1] + '</button>'; }).join('');
 
     function url(d, s) { return CDN + d.f + '/' + s + '.webp'; }
     var IMC = {};
@@ -3797,7 +3796,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         return r[0] ? c : null;
       });
     }
-    function paint(c) { CX.clearRect(0, 0, N, N); if (c) CX.drawImage(c, 0, 0); }
+    function paint(c) { CX.clearRect(0, 0, N, N); if (c) CX.drawImage(c, 0, 0); st.dirty = true; }
     function ease(k) { return k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
     function info() {
       var d = st.dev, p = P[BYS[st.p]];
@@ -3807,11 +3806,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       q('.bgs-go').setAttribute('href', '/' + d.s + '?desen=' + st.p);
       root.style.setProperty('--g', p[2]);
       [].forEach.call(root.querySelectorAll('.bgs-cl button[data-p]'), function (b) { var on = b.getAttribute('data-p') === st.p; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
-      [].forEach.call(tabs.querySelectorAll('button'), function (b) { var on = b.getAttribute('data-f') === d.f; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
       q('.bgs-gh').textContent = GHOST[d.t] || 'KAMERAN';
       CV.setAttribute('aria-label', d.b + ' ' + d.m + ' ' + p[1] + ' kaplama');
-      q('.bgs-cmpb').style.display = NOBARE[d.f] ? 'none' : '';
-      if (NOBARE[d.f] && st.cmp) setCmp(false);
     }
     function preNext() { var i = FEAT.indexOf(st.p), n = FEAT[(i + 1) % FEAT.length]; if (st.dev) limg(url(st.dev, n)); }
     function done() { preNext(); if (st.pend) { var n = st.pend; st.pend = null; setPat(n); } }
@@ -3836,7 +3832,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
             CX.save(); CX.globalCompositeOperation = 'source-atop';
             var g = CX.createLinearGradient(x - W, 0, x + W, 0);
             g.addColorStop(0, 'rgba(255,233,180,0)'); g.addColorStop(.5, 'rgba(255,238,196,.9)'); g.addColorStop(1, 'rgba(255,233,180,0)');
-            CX.fillStyle = g; CX.fillRect(x - W, 0, 2 * W, N); CX.restore();
+            CX.fillStyle = g; CX.fillRect(x - W, 0, 2 * W, N); CX.restore(); st.dirty = true;
             requestAnimationFrame(fr);
           } else { paint(nc); st.busy = false; done(); }
         }
@@ -3854,7 +3850,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         if (d !== st.dev) return;
         st.cur = c; st.busy = false;
         setTimeout(function () {
-          paint(c); BARE.src = NOBARE[d.f] ? '' : mk; info(); bottom(mk);
+          paint(c); info(); bottom(mk); init3D();
           DV.style.opacity = '1'; preNext();
         }, 180);
       });
@@ -3877,35 +3873,73 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     function step(n) { var i = BYS[st.p]; setPat(P[(i + n + P.length) % P.length][0]); }
     function stepFeat(n) { var i = FEAT.indexOf(st.p); if (i < 0) return step(n); setPat(FEAT[(i + n + FEAT.length) % FEAT.length]); }
 
-    /* once / sonra */
-    function setX(x) { st.cx = Math.max(4, Math.min(96, x)); BARE.style.clipPath = 'inset(0 ' + (100 - st.cx) + '% 0 0)'; HD.style.left = st.cx + '%'; }
-    function setCmp(on) { st.cmp = on; root.classList.toggle('cmp', on); q('.bgs-cmpb').setAttribute('aria-pressed', on ? 'true' : 'false'); if (on) { setX(50); DV.style.transform = ''; } }
-    q('.bgs-cmpb').addEventListener('click', function () { stop(); setCmp(!st.cmp); });
-    var drag = false;
-    function px(e) { var r = ST.getBoundingClientRect(); var cx = (e.touches ? e.touches[0].clientX : e.clientX); return (cx - r.left) / r.width * 100; }
-    ST.addEventListener('pointerdown', function (e) { if (!st.cmp) return; drag = true; stop(); setX(px(e)); try { ST.setPointerCapture(e.pointerId); } catch (x) {} });
-    ST.addEventListener('pointermove', function (e) { if (drag) setX(px(e)); });
-    ST.addEventListener('pointerup', function () { drag = false; });
-    ST.addEventListener('pointercancel', function () { drag = false; });
-    HD.querySelector('i').setAttribute('tabindex', '-1');
-    root.addEventListener('keydown', function (e) { if (!st.cmp || e.target.closest('input')) return; if (e.key === 'ArrowLeft') { setX(st.cx - 5); e.preventDefault(); } if (e.key === 'ArrowRight') { setX(st.cx + 5); e.preventDefault(); } });
-
-    /* egim + isik */
+    /* isik fareyi izler; egim: 3D yoksa CSS, 3D varsa model doner */
+    var R3 = null;
     if (!RM) {
       root.addEventListener('pointermove', function (e) {
         if (e.pointerType === 'touch') return;
         var r = root.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
         root.style.setProperty('--mx', (x * 100).toFixed(1) + '%'); root.style.setProperty('--my', (y * 100).toFixed(1) + '%');
-        if (st.cmp) return;
         var s = ST.getBoundingClientRect(), sx = (e.clientX - s.left) / s.width - .5, sy = (e.clientY - s.top) / s.height - .5;
         sx = Math.max(-1, Math.min(1, sx)); sy = Math.max(-1, Math.min(1, sy));
+        if (R3) { R3.hover(sx, sy); return; }
         DV.style.transform = 'perspective(1100px) rotateY(' + (sx * 14).toFixed(2) + 'deg) rotateX(' + (-sy * 10).toFixed(2) + 'deg)';
       });
-      root.addEventListener('pointerleave', function () { DV.style.transform = ''; root.style.setProperty('--mx', '50%'); root.style.setProperty('--my', '55%'); });
+      root.addEventListener('pointerleave', function () { if (R3) R3.hover(null); DV.style.transform = ''; root.style.setProperty('--mx', '50%'); root.style.setProperty('--my', '55%'); });
+    }
+    /* 3D: siluetten derinlikli govde; doku = CV tuvali (gecis animasyonu dahil) */
+    function init3D() {
+      if (R3 || init3D.t || !window.WebGLRenderingContext || st.dev.f !== 'kamera-sony-alpha-a7-mark-iv') return; init3D.t = 1;
+      var imp; try { imp = new Function('u', 'return import(u)'); } catch (e) { return; }
+      imp(THREE_URL).then(function (T) {
+        var S = 2, D = .4, k;
+        var shape = new T.Shape(); C3.forEach(function (p, i) { var X = (p[0] - .5) * S, Y = (.5 - p[1]) * S; if (i) shape.lineTo(X, Y); else shape.moveTo(X, Y); });
+        var uvg = {
+          generateTopUV: function (g, v, a, b, c) { return [a, b, c].map(function (i) { return new T.Vector2(v[i * 3] / S + .5, v[i * 3 + 1] / S + .5); }); },
+          generateSideWallUV: function (g, v, a, b, c, d) { return [a, b, c, d].map(function (i) { return new T.Vector2(v[i * 3] / S * .975 + .5, v[i * 3 + 1] / S * .975 + .5); }); }
+        };
+        var geo = new T.ExtrudeGeometry(shape, { depth: D, bevelEnabled: true, bevelThickness: .03, bevelSize: .014, bevelSegments: 4, curveSegments: 2, UVGenerator: uvg });
+        geo.translate(0, 0, -D / 2);
+        var tex = new T.CanvasTexture(CV); tex.colorSpace = T.SRGBColorSpace; tex.anisotropy = 4;
+        var cap = new T.MeshStandardMaterial({ map: tex, roughness: .5, metalness: .12 });
+        var side = new T.MeshStandardMaterial({ map: tex, roughness: .55, metalness: .1, color: 0x8a8a8a });
+        var mesh = new T.Mesh(geo, [cap, side]);
+        var scene = new T.Scene(), cam = new T.PerspectiveCamera(30, 1, .1, 50); cam.position.set(0, 0, 1 / Math.tan(15 * Math.PI / 180) + D / 2);
+        scene.add(new T.HemisphereLight(0xffffff, 0x2a2622, 1.6));
+        var key = new T.DirectionalLight(0xffffff, 1.9); key.position.set(-1.2, 1.4, 3); scene.add(key);
+        var rim = new T.DirectionalLight(0xE2C285, 1.6); rim.position.set(2.5, .8, -2); scene.add(rim);
+        var rim2 = new T.DirectionalLight(0xffffff, .5); rim2.position.set(-2.5, -.5, -1.5); scene.add(rim2);
+        scene.add(mesh);
+        var ren = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+        ren.outputColorSpace = T.SRGBColorSpace; ren.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        var gl = ren.domElement; gl.className = 'bgs-3d'; gl.setAttribute('role', 'img'); gl.setAttribute('aria-label', CV.getAttribute('aria-label') || 'Kaplamalı cihaz 3D');
+        DV.appendChild(gl); root.classList.add('is3d');
+        function size() { var w = ST.clientWidth || 500; ren.setSize(w, w, false); }
+        size(); window.addEventListener('resize', size);
+        var ry = 0, rx = .06, tY = null, tX = null, drag = null, last = performance.now(), t = 0;
+        R3 = { hover: function (sx, sy) { if (drag) return; if (sx === null) { tY = tX = null; return; } tY = sx * .75; tX = sy * .28 + .04; } };
+        gl.addEventListener('pointerdown', function (e) { stop(); drag = { x: e.clientX, y: e.clientY, ry: ry, rx: rx }; try { gl.setPointerCapture(e.pointerId); } catch (z) {} root.classList.add('drg'); });
+        gl.addEventListener('pointermove', function (e) { if (!drag) return; ry = Math.max(-1.15, Math.min(1.15, drag.ry + (e.clientX - drag.x) * .008)); rx = Math.max(-.35, Math.min(.45, drag.rx + (e.clientY - drag.y) * .004)); tY = ry; tX = rx; });
+        function up() { if (!drag) return; drag = null; root.classList.remove('drg'); setTimeout(function () { if (!drag) { tY = tX = null; } }, 2600); }
+        gl.addEventListener('pointerup', up); gl.addEventListener('pointercancel', up);
+        function loop(now) {
+          if (!document.documentElement.contains(root)) return;
+          requestAnimationFrame(loop);
+          var dt = Math.min(.05, (now - last) / 1000); last = now;
+          if (document.hidden || !st.vis) return;
+          t += dt;
+          var gy = tY !== null ? tY : (RM ? 0 : Math.sin(t * .45) * .38), gx = tX !== null ? tX : .07 + Math.sin(t * .31) * .05;
+          if (!drag) { ry += (gy - ry) * Math.min(1, dt * 3.2); rx += (gx - rx) * Math.min(1, dt * 3.2); }
+          mesh.rotation.set(rx, ry, 0);
+          if (st.dirty) { tex.needsUpdate = true; st.dirty = false; gl.setAttribute('aria-label', CV.getAttribute('aria-label') || ''); }
+          ren.render(scene, cam);
+        }
+        requestAnimationFrame(loop);
+      }).catch(function (e) { if (window.console) console.warn('bgs 3d', e); });
     }
     /* mobilde kaydir */
     var tx = null, ty = null;
-    ST.addEventListener('touchstart', function (e) { if (st.cmp) return; tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+    ST.addEventListener('touchstart', function (e) { if (R3) { tx = null; return; } tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
     ST.addEventListener('touchend', function (e) { if (tx === null) return; var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { stop(); stepFeat(dx < 0 ? 1 : -1); } tx = null; });
 
     /* desen cipleri, oklar, kategoriler */
@@ -3915,42 +3949,12 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       setPat(b.getAttribute('data-p'));
     });
     [].forEach.call(root.querySelectorAll('.bgs-ar'), function (b) { b.addEventListener('click', function () { stop(); step(+b.getAttribute('data-d')); }); });
-    tabs.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; stop(); setDev(byDir(b.getAttribute('data-f'))); msg(''); });
-
-    /* cihaz arama */
-    var inp = q('#bgs-q'), sg = q('.bgs-sg'), list = [], hi = 0;
-    function msg(h) { q('.bgs-msg').innerHTML = h; }
-    function close() { sg.style.display = 'none'; inp.setAttribute('aria-expanded', 'false'); }
-    function render() {
-      if (!list.length) { close(); return; }
-      sg.innerHTML = list.map(function (d, i) { return '<button type="button" role="option" data-i="' + i + '" class="' + (i === hi ? 'on' : '') + '"><b>' + esc(d.b) + '</b> ' + esc(d.m) + '<small>' + (TYPEN[d.t] || '') + '</small></button>'; }).join('');
-      sg.style.display = 'block'; inp.setAttribute('aria-expanded', 'true');
-    }
-    function choose(d) {
-      stop(); close(); inp.value = d.b + ' ' + d.m; setDev(d);
-      msg('<b>✓ ' + esc(d.b + ' ' + d.m) + '</b> kaidede. Desenlere dokun, üzerinde gör.');
-    }
-    inp.addEventListener('input', function () {
-      stop(); hi = 0; var v = inp.value.trim();
-      if (v.length < 2) { list = []; render(); msg(''); return; }
-      list = find(v); render();
-      msg(list.length ? '' : 'Bu model listede görünmüyor. <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan yaz</a>, kesimi var mı hemen bakalım.');
-    });
-    inp.addEventListener('keydown', function (e) {
-      if (sg.style.display !== 'block') return;
-      if (e.key === 'ArrowDown') { hi = (hi + 1) % list.length; render(); e.preventDefault(); }
-      else if (e.key === 'ArrowUp') { hi = (hi - 1 + list.length) % list.length; render(); e.preventDefault(); }
-      else if (e.key === 'Enter') { choose(list[hi]); e.preventDefault(); }
-      else if (e.key === 'Escape') close();
-    });
-    sg.addEventListener('mousedown', function (e) { var b = e.target.closest('button[data-i]'); if (!b) return; e.preventDefault(); choose(list[+b.getAttribute('data-i')]); });
-    inp.addEventListener('blur', function () { setTimeout(close, 150); });
 
     /* otomatik gecis */
     try { new IntersectionObserver(function (es) { st.vis = es[0].isIntersecting; }).observe(root); } catch (e) {}
     var timer = setInterval(function () {
       if (!document.documentElement.contains(root)) { clearInterval(timer); return; }
-      if (st.hold || RM || st.cmp || document.hidden || !st.vis || st.busy) return;
+      if (st.hold || RM || document.hidden || !st.vis || st.busy) return;
       stepFeat(1);
     }, 4200);
 
@@ -4506,7 +4510,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bgk-sg{position:absolute;left:12px;right:12px;top:calc(100% - 6px);z-index:20;background:#141416;border:1px solid #3A383F;border-radius:12px;overflow:hidden;display:none;box-shadow:0 16px 30px rgba(0,0,0,.5)}',
     '.bgk-sg button{display:block;width:100%;text-align:left;padding:10px 12px;border:0;background:transparent;color:#D9D5CD;font:500 14px Manrope,sans-serif;cursor:pointer}.bgk-sg button:hover{background:#1E1E21;color:#fff}',
     '.bgk-x{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;border:1px solid #3A383F;background:transparent;color:#A3A09A;cursor:pointer;font:700 13px/1 Manrope,sans-serif}',
-    '.bgk-sc{position:relative;border-radius:20px;border:1px solid #26252A;background:radial-gradient(60% 70% at 50% 60%,rgba(var(--g,201,164,92),.14),transparent 70%),#121214;padding:10px}',
+    '.bgk-sc{position:relative;border-radius:20px;border:1px solid #26252A;background:linear-gradient(180deg,#141416 0%,#0F0F10 78%,#121110 100%);padding:10px;overflow:hidden}',
     '.bgk-sc canvas{width:100%;aspect-ratio:15/7;display:block}',
     '.bgk-bot{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;justify-content:space-between;margin-top:16px}',
     '.bgk-sum{flex:1 1 320px;max-width:520px;border:1px solid #2A292E;border-radius:16px;background:#141416;padding:16px 18px;font-size:14px}',
@@ -4525,6 +4529,9 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bgc-nm{position:absolute;top:2%;font:italic 900 20px Archivo,sans-serif;color:#E2C285;pointer-events:none}.bgc-nm.l{left:2%}.bgc-nm.r{right:2%;text-align:right}',
     '.bgc-l{flex:1 1 280px;max-width:400px;display:flex;flex-direction:column;gap:14px}',
     '.bgc-l h3{margin:6px 0 0;font:800 13px Manrope,sans-serif;letter-spacing:.14em;color:#8E8A83}',
+    '.bgx-chips .bgc-bare{width:auto!important;height:40px!important;padding:0 14px!important;border-radius:999px!important;border:2px solid #3A383F;background:#0E0E0F;color:#F2F0EB;font:700 12px Manrope,sans-serif;cursor:pointer}.bgx-chips .bgc-bare.on{border-color:#E2C285;color:#E2C285}',
+    '.bgc-q{padding:0;border:0;background:transparent}.bgc-q .bgk-sg{left:0;right:0;top:calc(100% + 4px)}',
+    '.bgc-dn{margin:4px 0 0;font:700 14px Manrope,sans-serif;color:#A9A59D;text-align:center}',
     /* 5 kesim haritasi */
     '.bgm{display:flex;flex-wrap:wrap;gap:28px;align-items:center}',
     '.bgm-c{flex:2 1 460px;min-width:0;display:flex;flex-direction:column;align-items:center}',
@@ -4600,13 +4607,11 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (main.querySelector('.bgp')) return true;
     var o = document.createElement('div'); o.className = 'bgp'; o.setAttribute('data-bgx1', '1');
     o.innerHTML = '' +
-      '<div class="bgp-pd" aria-hidden="true"></div><div class="bgp-st"><canvas width="1000" height="1000" role="img"></canvas><img class="bgp-bare" alt="" aria-hidden="true"></div>' +
-      '<span class="bgp-lb l">ORİJİNAL</span><span class="bgp-lb r">KAPLAMALI</span><div class="bgp-hd" aria-hidden="true"><i>‹›</i></div>' +
-      '<div class="bgp-bt">' + (NOBARE[d.f] ? '' : '<button type="button" data-a="cmp">Önce / Sonra</button>') + '<button type="button" data-a="sh">' + SHARE_IC + 'Paylaş</button></div>';
+      '<div class="bgp-pd" aria-hidden="true"></div><div class="bgp-st"><canvas width="1000" height="1000" role="img"></canvas></div>' +
+      '<div class="bgp-bt"><button type="button" data-a="sh">' + SHARE_IC + 'Paylaş</button></div>';
     main.appendChild(o);
     var back = document.createElement('button'); back.type = 'button'; back.className = 'bgp-back'; back.textContent = 'Sahneye dön'; main.appendChild(back);
-    var cv = o.querySelector('canvas'), bare = o.querySelector('.bgp-bare'), hd = o.querySelector('.bgp-hd'), st = { p: null, c: null, cmp: false, x: 50 };
-    bare.crossOrigin = 'anonymous'; bare.src = IMG + d.f + '/bare.webp';
+    var cv = o.querySelector('canvas'), st = { p: null, c: null };
     function cur() { var pp = document.querySelector('.bg-pp'); var m = pp && /Desen:\s*([^\n]+)/.exec(pp.innerText || ''); var nm = m && m[1].trim(); for (var k in NAME) if (NAME[k] === nm) return k; var q = /[?&]desen=([a-z0-9-]+)/.exec(location.search); return q && NAME[q[1]] ? q[1] : 'line-black'; }
     function setP(s) {
       if (s === st.p) return; st.p = s;
@@ -4614,16 +4619,9 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       comp(d, s, 1000).then(function (c) { if (st.p !== s) return; if (st.c) wipe(cv, st.c, c, 1100, 1); else show(cv, c); st.c = c; });
       o.classList.remove('off'); back.style.display = 'none';
     }
-    function setX(v) { st.x = clamp(v, 4, 96); bare.style.clipPath = 'inset(0 ' + (100 - st.x) + '% 0 0)'; hd.style.left = st.x + '%'; }
-    var drag = false, stg = o.querySelector('.bgp-st');
-    function px(e) { var r = stg.getBoundingClientRect(); return (e.clientX - r.left) / r.width * 100; }
-    o.addEventListener('pointerdown', function (e) { if (!st.cmp || e.target.closest('button')) return; drag = true; setX(px(e)); try { o.setPointerCapture(e.pointerId); } catch (z) {} });
-    o.addEventListener('pointermove', function (e) { if (drag) setX(px(e)); });
-    o.addEventListener('pointerup', function () { drag = false; });
     o.addEventListener('click', function (e) {
       var b = e.target.closest('button[data-a]'); if (!b) return;
-      if (b.getAttribute('data-a') === 'cmp') { st.cmp = !st.cmp; o.classList.toggle('cmp', st.cmp); if (st.cmp) setX(50); }
-      else shareCard([d], st.p || cur());
+      shareCard([d], st.p || cur());
     });
     var ctl = main.querySelector('.bg-gal-ctl');
     if (ctl) ctl.addEventListener('click', function () { o.classList.add('off'); back.style.display = 'inline-flex'; }, true);
@@ -4653,11 +4651,41 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     anchor.parentNode.insertBefore(box, anchor.nextSibling);
     var st = { p: 'royal-gold', it: KDEF.map(function (k) { return byDir(k[1]); }), cs: [] };
     var cv = box.querySelector('canvas'), x = cv.getContext('2d'), W = 1500, H = 700, prev = null, tok = 0;
+    function bb(c) {
+      if (c.__bb) return c.__bb;
+      var t = document.createElement('canvas'); t.width = t.height = 120; var y = t.getContext('2d'); y.drawImage(c, 0, 0, 120, 120);
+      var x0 = 120, x1 = 0, y0 = 120, y1 = 0;
+      try { var a = y.getImageData(0, 0, 120, 120).data; for (var j = 0; j < 120; j++) for (var i = 0; i < 120; i++) if (a[(j * 120 + i) * 4 + 3] > 40) { if (i < x0) x0 = i; if (i > x1) x1 = i; if (j < y0) y0 = j; if (j > y1) y1 = j; } } catch (e) { x0 = 10; y0 = 10; x1 = 110; y1 = 110; }
+      if (x1 < x0) { x0 = 10; y0 = 10; x1 = 110; y1 = 110; }
+      return (c.__bb = [x0 / 120, y0 / 120, (x1 + 1) / 120, (y1 + 1) / 120]);
+    }
     function scene(cs) {
       var c = document.createElement('canvas'); c.width = W; c.height = H; var y = c.getContext('2d');
-      var on = st.it.map(function (d, i) { return d ? i : -1; }).filter(function (i) { return i >= 0; }), n = on.length; if (!n) return c;
-      var slot = W / n, sz = Math.min(slot * .95, 600);
-      on.forEach(function (i, k) { var cx = slot * k + slot / 2; ped(y, cx, H * .82, sz * .78, 70); if (cs[i]) { y.save(); y.shadowColor = 'rgba(0,0,0,.6)'; y.shadowBlur = 34; y.shadowOffsetY = 22; y.drawImage(cs[i], cx - sz / 2, H * .82 - sz * .86, sz, sz); y.restore(); } });
+      var on = st.it.map(function (d, i) { return d ? i : -1; }).filter(function (i) { return i >= 0; }), n = on.length;
+      var fy = H * .8;
+      /* raf: cam plaka + altin LED + yansima zemini */
+      var fl = y.createLinearGradient(0, fy, 0, H); fl.addColorStop(0, 'rgba(201,164,92,.10)'); fl.addColorStop(1, 'rgba(14,14,15,0)'); y.fillStyle = fl; y.fillRect(0, fy, W, H - fy);
+      var pl = y.createLinearGradient(0, fy - 2, 0, fy + 16); pl.addColorStop(0, 'rgba(255,255,255,.22)'); pl.addColorStop(1, 'rgba(255,255,255,.04)'); y.fillStyle = pl; y.fillRect(W * .04, fy - 2, W * .92, 18);
+      y.fillStyle = 'rgba(255,255,255,.45)'; y.fillRect(W * .04, fy - 2, W * .92, 1.5);
+      y.save(); y.shadowColor = 'rgba(226,194,133,.9)'; y.shadowBlur = 22; y.fillStyle = '#E2C285'; y.fillRect(W * .06, fy + 16, W * .88, 3); y.restore();
+      if (!n) return c;
+      var slot = (W * .9) / n;
+      on.forEach(function (i, k) {
+        var cc = cs[i]; if (!cc) return;
+        var b = bb(cc), S = cc.width, bw = (b[2] - b[0]) * S, bh = (b[3] - b[1]) * S;
+        var sc = Math.min(slot * .86 / bw, H * .66 / bh), dw = bw * sc, dh = bh * sc, cx = W * .05 + slot * k + slot / 2, dx = cx - dw / 2, dy = fy - dh;
+        /* ust spot isigi */
+        var sp = y.createRadialGradient(cx, fy - dh * .55, 10, cx, fy - dh * .55, Math.max(dw, dh) * .8); sp.addColorStop(0, 'rgba(226,194,133,.13)'); sp.addColorStop(1, 'rgba(226,194,133,0)'); y.fillStyle = sp; y.fillRect(cx - dw, fy - dh * 1.4, dw * 2, dh * 1.4);
+        /* temas golgesi */
+        y.save(); var cg = y.createRadialGradient(cx, fy, 4, cx, fy, dw * .55); cg.addColorStop(0, 'rgba(0,0,0,.75)'); cg.addColorStop(1, 'rgba(0,0,0,0)'); y.fillStyle = cg; y.beginPath(); y.ellipse(cx, fy + 2, dw * .55, 14, 0, 0, 6.283); y.fill(); y.restore();
+        /* yansima */
+        var rf = document.createElement('canvas'); rf.width = Math.max(1, Math.round(dw)); rf.height = Math.max(1, Math.round(dh * .45)); var r = rf.getContext('2d');
+        r.save(); r.translate(0, dh); r.scale(1, -1); r.drawImage(cc, b[0] * S, b[1] * S, bw, bh, 0, 0, dw, dh); r.restore();
+        r.globalCompositeOperation = 'destination-in'; var rg = r.createLinearGradient(0, 0, 0, rf.height); rg.addColorStop(0, 'rgba(0,0,0,.28)'); rg.addColorStop(1, 'rgba(0,0,0,0)'); r.fillStyle = rg; r.fillRect(0, 0, rf.width, rf.height);
+        y.drawImage(rf, dx, fy + 18);
+        /* cihaz */
+        y.save(); y.shadowColor = 'rgba(0,0,0,.55)'; y.shadowBlur = 26; y.shadowOffsetY = 10; y.drawImage(cc, b[0] * S, b[1] * S, bw, bh, dx, dy, dw, dh); y.restore();
+      });
       return c;
     }
     function render() {
@@ -4703,97 +4731,48 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
 
   /* ===== 4: iki deseni karsilastir ===== */
+  var CT = [['K', 'Kamera', 'kamera-sony-alpha-a7-mark-iv'], ['L', 'Lens', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'Drone', 'drone-dji-mini-4-pro'], ['A', 'Aksiyon', 'aksiyon-kamera-dji-osmo-pocket-3']];
   function S4() {
     var anchor = document.querySelector('[data-bgx2k]'); if (!anchor) return false; if (document.querySelector('[data-bgx4]')) return true;
     var box = document.createElement('div'); box.className = 'bgx'; box.setAttribute('data-bgx4', '1'); box.id = 'bgx-4';
-    box.innerHTML = badge(4, 'İki deseni karşılaştır') +
-      '<div class="bgc"><div class="bgc-l"><h2>Hangisi?</h2><p class="bgx-sub">İki desen seç, ortadaki tutamacı sürükle. <b class="bgx-dn"></b> üzerinde.</p>' +
-      '<h3>SOL</h3>' + chips(FEAT, 'L') + '<h3>SAĞ</h3>' + chips(FEAT, 'R') + '</div>' +
-      '<div class="bgc-c"><div class="bgc-st"><canvas width="1000" height="1000" role="img" aria-label="İki desen karşılaştırması"></canvas><span class="bgc-nm l"></span><span class="bgc-nm r"></span><div class="bgc-hd" aria-hidden="true"><i>‹›</i></div></div><div class="bgx-ped" aria-hidden="true"></div></div></div>';
+    var bareChip = '<button type="button" class="bgc-bare" data-p="__bare" aria-pressed="false">Kaplamasız</button>';
+    box.innerHTML = '<div class="bgc"><div class="bgc-l"><h2>Karşılaştır.</h2><p class="bgx-sub">Cihazını seç; solda kaplamasız halini ya da bir deseni, sağda başka bir deseni gör. Ortadaki tutamacı sürükle.</p>' +
+      '<h3>CİHAZ</h3><div class="bgm-tb" role="group" aria-label="Cihaz">' + CT.filter(function (t) { return byDir(t[2]); }).map(function (t) { return '<button type="button" data-f="' + t[2] + '">' + t[1] + '</button>'; }).join('') + '</div>' +
+      '<div class="bgk-s bgc-q"><input type="text" autocomplete="off" placeholder="Başka model yaz…" aria-label="Cihaz ara"><div class="bgk-sg"></div></div>' +
+      '<h3>SOL</h3><div class="bgx-chips L">' + bareChip + chips(FEAT).replace(/^<div class="bgx-chips ">/, '').replace(/<\/div>$/, '') + '</div><h3>SAĞ</h3>' + chips(FEAT, 'R') + '</div>' +
+      '<div class="bgc-c"><div class="bgc-st"><canvas width="1000" height="1000" role="img" aria-label="Karşılaştırma"></canvas><span class="bgc-nm l"></span><span class="bgc-nm r"></span><div class="bgc-hd" aria-hidden="true"><i>‹›</i></div></div><div class="bgx-ped" aria-hidden="true"></div><p class="bgc-dn"></p></div></div>';
     anchor.parentNode.insertBefore(box, anchor.nextSibling);
     var cv = box.querySelector('canvas'), x = cv.getContext('2d'), stg = box.querySelector('.bgc-st'), hd = box.querySelector('.bgc-hd');
-    var st = { d: stage().d, l: 'royal-gold', r: 'carbon', cl: null, cr: null, pos: 50 };
+    var st = { d: stage().d, l: '__bare', r: 'royal-gold', cl: null, cr: null, pos: 50 };
+    function nm(p) { return p === '__bare' ? 'Kaplamasız' : NAME[p]; }
+    function img(p) { return p === '__bare' ? bare(st.d, 1000) : comp(st.d, p, 1000); }
     function draw() {
       x.clearRect(0, 0, 1000, 1000); var X = st.pos * 10;
-      if (st.cr) x.drawImage(st.cr, 0, 0);
-      if (st.cl) { x.save(); x.beginPath(); x.rect(0, 0, X, 1000); x.clip(); x.clearRect(0, 0, X, 1000); x.drawImage(st.cl, 0, 0); x.restore(); }
+      if (st.cr) { x.save(); x.beginPath(); x.rect(X, 0, 1000 - X, 1000); x.clip(); x.drawImage(st.cr, 0, 0); x.restore(); }
+      if (st.cl) { x.save(); x.beginPath(); x.rect(0, 0, X, 1000); x.clip(); x.drawImage(st.cl, 0, 0); x.restore(); }
       hd.style.left = st.pos + '%';
     }
     function load() {
-      box.querySelector('.bgx-dn').textContent = st.d.b + ' ' + st.d.m;
-      box.querySelector('.bgc-nm.l').textContent = NAME[st.l]; box.querySelector('.bgc-nm.r').textContent = NAME[st.r];
-      [].forEach.call(box.querySelectorAll('.bgx-chips.L button'), function (b) { b.classList.toggle('on', b.getAttribute('data-p') === st.l); });
-      [].forEach.call(box.querySelectorAll('.bgx-chips.R button'), function (b) { b.classList.toggle('on', b.getAttribute('data-p') === st.r); });
-      Promise.all([comp(st.d, st.l, 1000), comp(st.d, st.r, 1000)]).then(function (r) { st.cl = r[0]; st.cr = r[1]; draw(); });
+      box.querySelector('.bgc-dn').textContent = st.d.b + ' ' + st.d.m;
+      box.querySelector('.bgc-nm.l').textContent = nm(st.l); box.querySelector('.bgc-nm.r').textContent = nm(st.r);
+      [].forEach.call(box.querySelectorAll('.bgx-chips.L button'), function (b) { var on = b.getAttribute('data-p') === st.l; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+      [].forEach.call(box.querySelectorAll('.bgx-chips.R button'), function (b) { var on = b.getAttribute('data-p') === st.r; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+      [].forEach.call(box.querySelectorAll('.bgm-tb button'), function (b) { b.classList.toggle('on', b.getAttribute('data-f') === st.d.f); });
+      var d = st.d; Promise.all([img(st.l), img(st.r)]).then(function (r) { if (d !== st.d) return; st.cl = r[0]; st.cr = r[1]; draw(); });
     }
     var drag = false;
     function pos(e) { var r = stg.getBoundingClientRect(); st.pos = clamp((e.clientX - r.left) / r.width * 100, 3, 97); draw(); }
     stg.addEventListener('pointerdown', function (e) { drag = true; pos(e); try { stg.setPointerCapture(e.pointerId); } catch (z) {} });
     stg.addEventListener('pointermove', function (e) { if (drag || e.pointerType === 'mouse' && e.buttons) pos(e); });
     stg.addEventListener('pointerup', function () { drag = false; });
-    box.addEventListener('click', function (e) { var b = e.target.closest('.bgx-chips button'); if (!b) return; if (b.closest('.L')) st.l = b.getAttribute('data-p'); else st.r = b.getAttribute('data-p'); load(); });
-    onStage(function (s) { if (s.d.f !== st.d.f) { st.d = s.d; load(); } });
-    load();
-    return true;
-  }
-
-  /* ===== 5: kesim haritasi ===== */
-  var MT = [['K', 'Kamera', 'kamera-sony-alpha-a7-mark-iv'], ['L', 'Lens', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'Drone', 'drone-dji-mini-4-pro'], ['A', 'Aksiyon', 'aksiyon-kamera-dji-osmo-pocket-3']];
-  function S5m() {
-    var anchor = document.querySelector('[data-bge7]'); if (!anchor) return false; if (document.querySelector('[data-bgx5m]')) return true;
-    var box = document.createElement('div'); box.className = 'bgx'; box.setAttribute('data-bgx5m', '1'); box.id = 'bgx-5';
-    box.innerHTML = badge(5, 'Kesim haritası') +
-      '<div class="bgm"><div class="bgm-l"><h2>Nereler kaplanıyor?</h2><p class="bgx-sub">Kaplama, <b class="bgx-dn"></b> için ayrı ayrı kesilmiş parçalardan oluşur. Üzerine gel, hangi bölge nasıl kaplanıyor gör.</p>' +
-      '<div class="bgm-tb" role="group" aria-label="Cihaz">' + MT.filter(function (t) { return byDir(t[2]); }).map(function (t) { return '<button type="button" data-f="' + t[2] + '">' + t[1] + '</button>'; }).join('') + '</div>' +
-      '<button type="button" class="bgm-k" data-k="d"><i style="background:#E2C285"></i><div><b>Desenli parçalar</b><span>Metal yüzeyler seçtiğin desenle kaplanır.</span></div></button>' +
-      '<button type="button" class="bgm-k" data-k="t"><i style="background:#7FA8D9"></i><div><b>Dokulu siyah parçalar</b><span>Plastik ve kauçuk kısımlar dokulu siyah kaplamayla kaplanır.</span></div></button>' +
-      '<button type="button" class="bgm-k" data-k="o"><i style="background:#3A383F;border:1px solid #6B6870"></i><div><b>Açık kalan yerler</b><span>Lens, ekran, düğmeler ve portlar kapanmaz.</span></div></button>' +
-      '</div><div class="bgm-c"><canvas width="900" height="900" role="img" aria-label="Kesim haritası"></canvas><div class="bgx-ped" aria-hidden="true"></div></div></div>';
-    anchor.parentNode.insertBefore(box, anchor.nextSibling);
-    var cv = box.querySelector('canvas'), x = cv.getContext('2d'), N = 900, st = { d: stage().d, base: null, m: null, hl: null, t0: 0 };
-    function maps(d) {
-      var S = 450;
-      return Promise.all([limg(IMG + d.f + '/mono-white.webp'), limg(IMG + d.f + '/mono-black.webp'), limg(IMG + d.f + '/bare.webp')]).then(function (r) {
-        var g = function (im) { var c = document.createElement('canvas'); c.width = c.height = S; c.getContext('2d').drawImage(im, 0, 0, S, S); return c.getContext('2d').getImageData(0, 0, S, S).data; };
-        var w = g(r[0]), k = g(r[1]), b = g(r[2]);
-        var mk = function (col) { var c = document.createElement('canvas'); c.width = c.height = S; return [c, c.getContext('2d').createImageData(S, S)]; };
-        var D = mk(), T = mk(), O = mk();
-        for (var i = 0; i < S * S; i++) {
-          var j = i * 4; if (b[j + 3] < 90) continue;
-          var lw = (w[j] + w[j + 1] + w[j + 2]) / 3, lk = (k[j] + k[j + 1] + k[j + 2]) / 3, lb = (b[j] + b[j + 1] + b[j + 2]) / 3;
-          var tgt;
-          if (lw - lk > 70) tgt = D; else if (Math.abs(lk - lb) > 16 || Math.abs((k[j] - b[j]) + (k[j + 2] - b[j + 2])) > 30) tgt = T; else tgt = O;
-          tgt[1].data[j] = 255; tgt[1].data[j + 1] = 255; tgt[1].data[j + 2] = 255; tgt[1].data[j + 3] = 255;
-        }
-        [D, T, O].forEach(function (m) { m[0].getContext('2d').putImageData(m[1], 0, 0); });
-        var tint = function (m, col) { var c = document.createElement('canvas'); c.width = c.height = N; var y = c.getContext('2d'); y.filter = 'blur(1.2px)'; y.drawImage(m[0], 0, 0, N, N); y.filter = 'none'; y.globalCompositeOperation = 'source-in'; y.fillStyle = col; y.fillRect(0, 0, N, N); return c; };
-        return { d: tint(D, '#E2C285'), t: tint(T, '#7FA8D9'), o: tint(O, '#6B6870') };
-      });
-    }
-    function load() {
-      box.querySelector('.bgx-dn').textContent = st.d.b + ' ' + st.d.m;
-      [].forEach.call(box.querySelectorAll('.bgm-tb button'), function (b) { b.classList.toggle('on', b.getAttribute('data-f') === st.d.f); });
-      Promise.all([comp(st.d, 'royal-gold', N), maps(st.d)]).then(function (r) { st.base = r[0]; st.m = r[1]; st.t0 = performance.now(); loop(); });
-    }
-    var raf = 0;
-    function loop() { cancelAnimationFrame(raf); raf = requestAnimationFrame(function fr(now) { draw(now); if (document.documentElement.contains(box)) raf = requestAnimationFrame(fr); }); }
-    function draw(now) {
-      if (!st.base) return; x.clearRect(0, 0, N, N); x.drawImage(st.base, 0, 0);
-      var ph = (now - st.t0) / 1000, auto = ['d', 't', 'o'][Math.floor(ph / 1.6) % 3];
-      ['d', 't', 'o'].forEach(function (k) {
-        var on = st.hl ? st.hl === k : true, pulse = st.hl ? (.55 + .25 * Math.sin(ph * 4)) : (auto === k ? .62 : .32);
-        x.save(); x.globalAlpha = on ? pulse : .08; x.drawImage(st.m[k], 0, 0); x.restore();
-      });
-      if (!st.hl) [].forEach.call(box.querySelectorAll('.bgm-k'), function (b) { b.classList.toggle('on', b.getAttribute('data-k') === auto); });
-    }
-    [].forEach.call(box.querySelectorAll('.bgm-k'), function (b) {
-      var k = b.getAttribute('data-k');
-      b.addEventListener('mouseenter', function () { st.hl = k; [].forEach.call(box.querySelectorAll('.bgm-k'), function (z) { z.classList.toggle('on', z === b); }); });
-      b.addEventListener('mouseleave', function () { st.hl = null; });
-      b.addEventListener('click', function () { st.hl = st.hl === k ? null : k; });
+    box.addEventListener('click', function (e) {
+      var t = e.target.closest('.bgm-tb button'); if (t) { st.d = byDir(t.getAttribute('data-f')) || st.d; load(); return; }
+      var b = e.target.closest('.bgx-chips button'); if (!b) return; if (b.closest('.L')) st.l = b.getAttribute('data-p'); else st.r = b.getAttribute('data-p'); load();
     });
-    box.querySelector('.bgm-tb').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { st.d = byDir(b.getAttribute('data-f')) || st.d; load(); } });
-    onStage(function (s) { if (s.d.f !== st.d.f) { st.d = s.d; load(); } });
+    var inp = box.querySelector('.bgc-q input'), sg = box.querySelector('.bgc-q .bgk-sg'), list = [];
+    inp.addEventListener('input', function () { list = inp.value.trim().length < 2 ? [] : find(inp.value); sg.innerHTML = list.map(function (d, k) { return '<button type="button" data-k="' + k + '"><b>' + esc(d.b) + '</b> ' + esc(d.m) + '</button>'; }).join(''); sg.style.display = list.length ? 'block' : 'none'; });
+    sg.addEventListener('mousedown', function (e) { var b = e.target.closest('button'); if (!b) return; e.preventDefault(); st.d = list[+b.getAttribute('data-k')]; sg.style.display = 'none'; inp.value = ''; inp.blur(); load(); });
+    inp.addEventListener('blur', function () { setTimeout(function () { sg.style.display = 'none'; }, 150); });
     load();
     return true;
   }
@@ -4819,7 +4798,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (!document.getElementById('bgx-css')) { var s = document.createElement('style'); s.id = 'bgx-css'; s.textContent = css + css2; document.head.appendChild(s); }
     if (!devs().length) return;
     var home = location.pathname === '/' || location.pathname === '';
-    var L = home ? [['3', S3share], ['2k', S2k], ['4', S4], ['5m', S5m]] : [['1', S1]];
+    var L = home ? [['3', S3share], ['2k', S2k], ['4', S4]] : [['1', S1]];
     if (home) watchStage();
     L.forEach(function (f) { try { f[1](); } catch (e) { if (window.console) console.warn('bgx', f[0], e); } });
     if (home && location.hash && /^#bgx-\d$/.test(location.hash) && !build.j) { var el = document.querySelector(location.hash); if (el) { build.j = 1; setTimeout(function () { el.scrollIntoView({ block: 'start' }); }, 600); } }
