@@ -4947,6 +4947,9 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   if (window.__bgUrunAnim) return; window.__bgUrunAnim = 1;
   var RM = false; try { RM = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
   var css = [
+    '[data-bg-pcart][data-bg-pcart][data-bg-pcart][data-bg-pcart]{background:#C9A45C!important;border-color:#C9A45C!important;transition:background .2s ease,box-shadow .2s ease,transform .15s ease}',
+    '[data-bg-pcart][data-bg-pcart][data-bg-pcart][data-bg-pcart]:hover,*:hover>[data-bg-pcart][data-bg-pcart][data-bg-pcart][data-bg-pcart]:hover{background:#D9B873!important;border-color:#D9B873!important;box-shadow:0 8px 24px rgba(201,164,92,.28)}',
+    '[data-bg-pcart][data-bg-pcart][data-bg-pcart][data-bg-pcart]:active{transform:scale(.985)}',
     '.bga-bar{box-sizing:border-box;width:100%;margin-top:10px;border:1px solid #2A292E;border-radius:14px;background:#141416;padding:0 14px;font:600 13px/1.4 Manrope,sans-serif;color:#D9D5CE;overflow:hidden;max-height:0;opacity:0;transition:max-height .45s ease,opacity .35s ease,padding .45s ease}',
     '.bga-bar.on{max-height:130px;opacity:1;padding-top:12px;padding-bottom:12px}',
     '.bga-bar b{color:#E2C285}.bga-tr{position:relative;height:6px;border-radius:6px;background:#26252A;margin-top:9px;overflow:hidden}',
