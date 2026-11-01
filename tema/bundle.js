@@ -4720,8 +4720,6 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var K = Math.min((W * (W < 1200 ? .9 : .82) - gap * (it.length - 1)) / tw, H * .68 / mh), tot = tw * K + gap * (it.length - 1), x0 = (W - tot) / 2;
       it.forEach(function (o) {
         var cc = o.img, b = [0, 0, 1, 1], S = 1, bw = o.w, bh = o.h, dw = o.mw * K, dh = o.mh * K, dx = x0, cx = dx + dw / 2, dy = fy - dh; x0 += dw + gap;
-        /* ust spot isigi */
-        var sp = y.createRadialGradient(cx, fy - dh * .55, 10, cx, fy - dh * .55, Math.max(dw, dh) * .8); sp.addColorStop(0, 'rgba(226,194,133,.13)'); sp.addColorStop(1, 'rgba(226,194,133,0)'); y.fillStyle = sp; y.fillRect(cx - dw, fy - dh * 1.4, dw * 2, dh * 1.4);
         /* temas golgesi */
         y.save(); var cg = y.createRadialGradient(cx, fy, 4, cx, fy, dw * .55); cg.addColorStop(0, 'rgba(0,0,0,.75)'); cg.addColorStop(1, 'rgba(0,0,0,0)'); y.fillStyle = cg; y.beginPath(); y.ellipse(cx, fy + 2, dw * .55, 14, 0, 0, 6.283); y.fill(); y.restore();
         /* yansima */
