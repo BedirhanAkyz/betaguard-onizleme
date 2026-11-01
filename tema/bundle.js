@@ -977,7 +977,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     var anchor = null, kids = w.children;
     for (var i = 0; i < kids.length; i++) if (kids[i].classList.contains('bg-hide') && kids[i].textContent.indexOf('DESENİNİ SEÇ') >= 0) { anchor = kids[i]; break; }
     if (!anchor) return;
-    if (ex) { if (ex.previousElementSibling !== anchor) w.insertBefore(ex, anchor.nextSibling); return; }
+    if (ex) { if (!window.__bgSira && ex.previousElementSibling !== anchor) w.insertBefore(ex, anchor.nextSibling); return; }
     var box = document.createElement('section'); box.setAttribute('data-bg-insta', '1'); box.setAttribute('aria-label', 'Instagram');
     w.insertBefore(box, anchor.nextSibling);
     igRender(box, igData);
@@ -2519,6 +2519,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
 
   function reorder(){
+    if (window.__bgSira) return;
     var home = document.querySelector('[data-bg-home]'); if (!home || !home.parentElement) return;
     var P = home.parentElement;
     var seq = ['[data-bg-best]', '[data-bg-desen]', '[data-bg-wall]', '[data-bg-why]', '#nasil-uygulanir', '[data-bg-kt]', '[data-bg-insta]'].map(function(s){ return document.querySelector(s); });
@@ -4858,5 +4859,37 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (home && location.hash && /^#bgx-\d$/.test(location.hash) && !build.j) { var el = document.querySelector(location.hash); if (el) { build.j = 1; setTimeout(function () { el.scrollIntoView({ block: 'start' }); }, 600); } }
   }
   var q = false; function sch() { if (q) return; q = true; setTimeout(function () { q = false; build(); }, 400); }
+  sch(); new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true });
+})();
+
+/* ===== 22_sira.js ===== */
+/* v35: ana sayfa bolum sirasi - tek akis (kesfet -> karar -> guven -> sepet -> sss). Bolumler [data-bg-top] icinde sirayla dizilir */
+(function () {
+  if (window.__bgSira) return; window.__bgSira = 1;
+  var ORDER = [
+    'section.bgs', 'section.bg-hero', '#bg-find', 'section.bg26-pop', '.bg-marq',
+    '[data-bg-desen]', '#bge-5', '#bgx-4',
+    '[data-bg-why]', '#bge-7', '#nasil-uygulanir',
+    '#bgx-2', '[data-bg-kt]',
+    '[data-bg-best]', '[data-bg-insta]', '[data-bg-faq]'
+  ];
+  var NEED = ['section.bgs', '#bg-find', '[data-bg-desen]', '[data-bg-why]', '[data-bg-faq]'];
+  var moves = 0;
+  function home() { return location.pathname === '/' || location.pathname === ''; }
+  function run() {
+    if (!home() || moves > 40) return;
+    var top = document.querySelector('[data-bg-top]'); if (!top) return;
+    for (var i = 0; i < NEED.length; i++) if (!document.querySelector(NEED[i])) return;
+    var els = ORDER.map(function (s) { return document.querySelector(s); }).filter(function (e) { return e && !e.contains(top) && !top.parentElement.isSameNode(e); });
+    var ok = true;
+    for (var k = 0; k < els.length; k++) {
+      if (els[k].parentElement !== top) { ok = false; break; }
+      if (k && !(els[k - 1].compareDocumentPosition(els[k]) & 4)) { ok = false; break; }
+    }
+    if (ok) return;
+    moves++;
+    els.forEach(function (e) { top.appendChild(e); });
+  }
+  var q = false; function sch() { if (q) return; q = true; setTimeout(function () { q = false; run(); }, 350); }
   sch(); new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true });
 })();

@@ -975,7 +975,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     var anchor = null, kids = w.children;
     for (var i = 0; i < kids.length; i++) if (kids[i].classList.contains('bg-hide') && kids[i].textContent.indexOf('DESENİNİ SEÇ') >= 0) { anchor = kids[i]; break; }
     if (!anchor) return;
-    if (ex) { if (ex.previousElementSibling !== anchor) w.insertBefore(ex, anchor.nextSibling); return; }
+    if (ex) { if (!window.__bgSira && ex.previousElementSibling !== anchor) w.insertBefore(ex, anchor.nextSibling); return; }
     var box = document.createElement('section'); box.setAttribute('data-bg-insta', '1'); box.setAttribute('aria-label', 'Instagram');
     w.insertBefore(box, anchor.nextSibling);
     igRender(box, igData);

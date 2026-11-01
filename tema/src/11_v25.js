@@ -87,6 +87,7 @@
   }
 
   function reorder(){
+    if (window.__bgSira) return;
     var home = document.querySelector('[data-bg-home]'); if (!home || !home.parentElement) return;
     var P = home.parentElement;
     var seq = ['[data-bg-best]', '[data-bg-desen]', '[data-bg-wall]', '[data-bg-why]', '#nasil-uygulanir', '[data-bg-kt]', '[data-bg-insta]'].map(function(s){ return document.querySelector(s); });
