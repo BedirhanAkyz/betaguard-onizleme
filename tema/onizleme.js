@@ -9,14 +9,14 @@
     '.bga-ring{animation:bgaRing .55s cubic-bezier(.2,.8,.2,1) both;border-radius:10px}',
     '.bga-light{position:absolute;inset:0;z-index:6;pointer-events:none;opacity:0;transition:opacity .35s ease;border-radius:inherit;mix-blend-mode:soft-light;background:radial-gradient(260px circle at var(--lx,50%) var(--ly,40%),rgba(255,240,205,.55),rgba(255,240,205,0) 70%)}',
     '.bg-gal-main:hover .bga-light.on{opacity:1}',
-    '.bga-bar{margin-top:10px;border:1px solid #2A292E;border-radius:14px;background:#141416;padding:12px 14px;font:600 13px/1.4 Manrope,sans-serif;color:#D9D5CE;overflow:hidden;max-height:0;opacity:0;padding-top:0;padding-bottom:0;transition:max-height .45s ease,opacity .35s ease,padding .45s ease}',
+    '.bga-bar{box-sizing:border-box;width:100%;flex:1 0 100%;margin-top:10px;border:1px solid #2A292E;border-radius:14px;background:#141416;padding:12px 14px;font:600 13px/1.4 Manrope,sans-serif;color:#D9D5CE;overflow:hidden;max-height:0;opacity:0;padding-top:0;padding-bottom:0;transition:max-height .45s ease,opacity .35s ease,padding .45s ease}',
     '.bga-bar.on{max-height:120px;opacity:1;padding-top:12px;padding-bottom:12px}',
     '.bga-bar b{color:#E2C285}.bga-tr{position:relative;height:6px;border-radius:6px;background:#26252A;margin-top:9px;overflow:hidden}',
     '.bga-tr i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:6px;background:linear-gradient(90deg,#C9A45C,#E2C285);transition:width .9s cubic-bezier(.2,.8,.2,1) .15s}',
     '.bga-tr i:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:translateX(-100%);animation:bgaSh 1.4s ease .9s 1}',
     '@keyframes bgaSh{to{transform:translateX(100%)}}',
     '.bga-st{display:flex;justify-content:space-between;margin-top:6px;font:600 11px/1 Manrope,sans-serif;color:#8E8A83}.bga-st span.on{color:#E2C285}',
-    '.bga-ok{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:inherit;background:#E2C285;color:#141210;font:800 15px/1 Manrope,sans-serif;opacity:0;transform:scale(.96);transition:opacity .2s ease,transform .25s ease;pointer-events:none;z-index:5}',
+    '.bga-ok{position:absolute;inset:0;z-index:20!important;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:inherit;background:#E2C285;color:#141210;font:800 15px/1 Manrope,sans-serif;opacity:0;transform:scale(.96);transition:opacity .2s ease,transform .25s ease;pointer-events:none;z-index:5}',
     '.bga-ok.on{opacity:1;transform:none}',
     '.bga-ok svg{width:20px;height:20px}.bga-ok path{stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .45s ease .1s}.bga-ok.on path{stroke-dashoffset:0}',
     '@keyframes bgaPulse{0%{transform:scale(1)}30%{transform:scale(1.28)}60%{transform:scale(.94)}100%{transform:scale(1)}}',
@@ -77,7 +77,9 @@
     var bar = document.querySelector('.bga-bar'); if (bar) return bar;
     bar = document.createElement('div'); bar.className = 'bga-bar';
     bar.innerHTML = '<div class="bga-msg"></div><div class="bga-tr"><i></i></div><div class="bga-st"><span>1 kaplama</span><span>2 · 250 ₺ indirim</span><span>3+ · 500 ₺ indirim</span></div>';
-    btn.parentNode.insertBefore(bar, btn.nextSibling); return bar;
+    var host = btn, par = btn.parentElement, cs = par && getComputedStyle(par);
+    if (par && /flex/.test(cs.display) && !/column/.test(cs.flexDirection)) host = par;
+    host.parentNode.insertBefore(bar, host.nextSibling); return bar;
   }
   var adds = 0;
   document.addEventListener('click', function (e) {
