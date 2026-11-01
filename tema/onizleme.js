@@ -10,9 +10,9 @@
     '.bgv-rep{display:none!important}@media (max-width:760px){html.bgv-1 .bg-rep:not(.bgv-rep){display:none!important}html.bgv-1 .bgv-rep{display:flex!important}}',
     /* 3 - yuzen butonlar: telefonda kucuk yuvarlak ikonlar, icerik altta kalmasin */
     '@media (max-width:760px){',
-    'html.bgv-3 .bg-kt-pill{width:46px;height:46px;padding:0!important;justify-content:center;max-width:none}',
-    'html.bgv-3 .bg-kt-pill > *{display:none!important}',
-    'html.bgv-3 .bg-kt-pill::after{content:"";display:block;width:22px;height:22px;background:#141210;-webkit-mask:var(--bgv-gift) center/contain no-repeat;mask:var(--bgv-gift) center/contain no-repeat}',
+    'html.bgv-3 .bg-kt-pill:not(.code){width:46px;height:46px;padding:0!important;justify-content:center;max-width:none}',
+    'html.bgv-3 .bg-kt-pill:not(.code) > *{display:none!important}',
+    'html.bgv-3 .bg-kt-pill:not(.code)::after{content:"";display:block;width:22px;height:22px;background:#141210;-webkit-mask:var(--bgv-gift) center/contain no-repeat;mask:var(--bgv-gift) center/contain no-repeat}',
     'html.bgv-3 .bg-wa{width:46px;height:46px;padding:0!important;justify-content:center;font-size:0!important}',
     'html.bgv-3 .bg-wa svg{width:22px;height:22px;margin:0}',
     'html.bgv-3 body{padding-bottom:72px}',
