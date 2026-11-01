@@ -230,14 +230,14 @@
     '.bgk-sg button{display:block;width:100%;text-align:left;padding:10px 12px;border:0;background:transparent;color:#D9D5CD;font:500 14px Manrope,sans-serif;cursor:pointer}.bgk-sg button:hover{background:#1E1E21;color:#fff}',
     '.bgk-x{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;border:1px solid #3A383F;background:transparent;color:#A3A09A;cursor:pointer;font:700 13px/1 Manrope,sans-serif}',
     '.bgk-sc{position:relative;border-radius:20px;border:1px solid #26252A;background:linear-gradient(180deg,#141416 0%,#0F0F10 78%,#121110 100%);padding:10px;overflow:hidden}',
-    '.bgk-sc canvas{width:100%;aspect-ratio:15/7;display:block}',
+    '.bgk-sc canvas{width:100%;aspect-ratio:1500/700;display:block}',
     '.bgk-bot{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;justify-content:space-between;margin-top:16px}',
     '.bgk-sum{flex:1 1 320px;max-width:520px;border:1px solid #2A292E;border-radius:16px;background:#141416;padding:16px 18px;font-size:14px}',
-    '.bgk-sum div{display:flex;justify-content:space-between;gap:12px;padding:5px 0;color:#D9D5CD}.bgk-sum div a{color:#D9D5CD!important;text-decoration:none!important}.bgk-sum div a:hover{color:#E2C285!important}',
+    '.bgk-sum div{display:flex;justify-content:space-between;gap:12px;padding:5px 0;color:#D9D5CD}.bgk-sum div a{color:#D9D5CD!important;text-decoration:none!important}.bgk-sum div a:hover{color:#E2C285!important}.bgk-sum div>:last-child{white-space:nowrap;flex:none}',
     '.bgk-sum .ds{color:#7CD3A0}.bgk-sum .tt{border-top:1px solid #2A292E;margin-top:6px;padding-top:10px;font:800 18px Manrope,sans-serif;color:#F2F0EB}',
     '.bgk-act{flex:1 1 240px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}',
     '.bgk-act small{font-size:12px;color:#8E8A83;line-height:1.5}',
-    '@media (max-width:760px){.bgk-sl{grid-template-columns:none}.bgk-sc canvas{aspect-ratio:15/9}}',
+    '@media (max-width:760px){.bgk-sl{grid-template-columns:none;gap:8px}.bgk-s{padding:8px 10px}.bgk-sc{padding:4px}.bgk-sc canvas{aspect-ratio:1000/540}}',
     /* 4 karsilastir */
     '.bgc{display:flex;flex-wrap:wrap;gap:24px;align-items:center}',
     '.bgc-c{flex:2 1 460px;min-width:0;position:relative;display:flex;flex-direction:column;align-items:center}',
@@ -370,6 +370,7 @@
     anchor.parentNode.insertBefore(box, anchor.nextSibling);
     var st = { p: 'royal-gold', it: KDEF.map(function (k) { return byDir(k[1]); }), cs: [] };
     var cv = box.querySelector('canvas'), x = cv.getContext('2d'), W = 1500, H = 700, prev = null, tok = 0;
+    function dims() { var mob = (box.clientWidth || 1000) < 640; var w = mob ? 1000 : 1500, h = mob ? 540 : 700; if (cv.width !== w || cv.height !== h) { cv.width = W = w; cv.height = H = h; prev = null; } }
     function bb(c) {
       if (c.__bb) return c.__bb;
       var t = document.createElement('canvas'); t.width = t.height = 120; var y = t.getContext('2d'); y.drawImage(c, 0, 0, 120, 120);
@@ -380,6 +381,7 @@
     }
     function scene(cs) {
       var c = document.createElement('canvas'); c.width = W; c.height = H; var y = c.getContext('2d');
+      var dl = document.createElement('canvas'); dl.width = W; dl.height = H; var z = dl.getContext('2d'); c.__dev = dl;
       var on = st.it.map(function (d, i) { return d ? i : -1; }).filter(function (i) { return i >= 0; }), n = on.length;
       var fy = H * .8;
       /* raf: cam plaka + altin LED + yansima zemini */
@@ -388,11 +390,11 @@
       y.fillStyle = 'rgba(255,255,255,.45)'; y.fillRect(W * .04, fy - 2, W * .92, 1.5);
       y.save(); y.shadowColor = 'rgba(226,194,133,.9)'; y.shadowBlur = 22; y.fillStyle = '#E2C285'; y.fillRect(W * .06, fy + 16, W * .88, 3); y.restore();
       if (!n) return c;
-      var slot = (W * .9) / n;
+      var slot = (W * (W < 1200 ? .96 : .9)) / n;
       on.forEach(function (i, k) {
         var cc = cs[i]; if (!cc) return;
         var b = bb(cc), S = cc.width, bw = (b[2] - b[0]) * S, bh = (b[3] - b[1]) * S;
-        var sc = Math.min(slot * .86 / bw, H * .66 / bh), dw = bw * sc, dh = bh * sc, cx = W * .05 + slot * k + slot / 2, dx = cx - dw / 2, dy = fy - dh;
+        var sc = Math.min(slot * (n > 2 ? .9 : .8) / bw, H * .66 / bh), dw = bw * sc, dh = bh * sc, cx = W * (W < 1200 ? .02 : .05) + slot * k + slot / 2, dx = cx - dw / 2, dy = fy - dh;
         /* ust spot isigi */
         var sp = y.createRadialGradient(cx, fy - dh * .55, 10, cx, fy - dh * .55, Math.max(dw, dh) * .8); sp.addColorStop(0, 'rgba(226,194,133,.13)'); sp.addColorStop(1, 'rgba(226,194,133,0)'); y.fillStyle = sp; y.fillRect(cx - dw, fy - dh * 1.4, dw * 2, dh * 1.4);
         /* temas golgesi */
@@ -404,11 +406,12 @@
         y.drawImage(rf, dx, fy + 18);
         /* cihaz */
         y.save(); y.shadowColor = 'rgba(0,0,0,.55)'; y.shadowBlur = 26; y.shadowOffsetY = 10; y.drawImage(cc, b[0] * S, b[1] * S, bw, bh, dx, dy, dw, dh); y.restore();
+        z.drawImage(cc, b[0] * S, b[1] * S, bw, bh, dx, dy, dw, dh);
       });
       return c;
     }
     function render() {
-      var my = ++tok;
+      dims(); var my = ++tok;
       Promise.all(st.it.map(function (d) { return d ? comp(d, st.p, 600) : Promise.resolve(null); })).then(function (cs) {
         if (my !== tok) return; var s = scene(cs);
         var k = function () { prev = s; };
@@ -418,10 +421,15 @@
       st.it.forEach(function (d, i) { box.querySelector('#bgk-q' + i).value = d ? d.b + ' ' + d.m : ''; });
     }
     function wipeWide(a, b, cb) {
-      var t0 = 0, D = 1100, Wd = 120, my = tok;
+      var t0 = 0, D = 1100, Wd = 120, my = tok, gl = null;
       function fr(now) { if (my !== tok) return; if (!t0) t0 = now; var k = Math.min(1, (now - t0) / D), px = ease(k) * (W + 2 * Wd) - Wd;
         x.clearRect(0, 0, W, H); x.drawImage(a, 0, 0); x.save(); x.beginPath(); x.rect(0, 0, Math.max(0, px), H); x.clip(); x.drawImage(b, 0, 0); x.restore();
-        if (k < 1) { x.save(); x.globalCompositeOperation = 'source-atop'; var g = x.createLinearGradient(px - Wd, 0, px + Wd, 0); g.addColorStop(0, 'rgba(255,236,190,0)'); g.addColorStop(.5, 'rgba(255,236,190,.85)'); g.addColorStop(1, 'rgba(255,236,190,0)'); x.fillStyle = g; x.fillRect(px - Wd, 0, 2 * Wd, H); x.restore(); requestAnimationFrame(fr); } else { x.clearRect(0, 0, W, H); x.drawImage(b, 0, 0); cb(); } }
+        if (k < 1) {
+          if (!gl) { gl = document.createElement('canvas'); gl.width = W; gl.height = H; }
+          var gx = gl.getContext('2d'); gx.globalCompositeOperation = 'source-over'; gx.clearRect(0, 0, W, H); gx.drawImage(b.__dev || b, 0, 0); gx.globalCompositeOperation = 'source-in';
+          var g = gx.createLinearGradient(px - Wd, 0, px + Wd, 0); g.addColorStop(0, 'rgba(255,236,190,0)'); g.addColorStop(.5, 'rgba(255,236,190,.85)'); g.addColorStop(1, 'rgba(255,236,190,0)'); gx.fillStyle = g; gx.fillRect(px - Wd, 0, 2 * Wd, H);
+          x.drawImage(gl, 0, 0); requestAnimationFrame(fr);
+        } else { x.clearRect(0, 0, W, H); x.drawImage(b, 0, 0); cb(); } }
       requestAnimationFrame(fr);
     }
     function sum() {
@@ -443,6 +451,10 @@
       s.querySelector('.bgk-x').addEventListener('click', function () { st.it[i] = null; render(); });
     });
     box.querySelector('.bgx-chips').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { st.p = b.getAttribute('data-p'); render(); } });
+    function pre(s) { st.it.forEach(function (d) { if (d) { limg(IMG + d.f + '/' + s + '.webp'); limg(IMG + d.f + '/bare.webp'); } }); }
+    ['pointerover', 'pointerdown', 'focusin'].forEach(function (ev) { box.querySelector('.bgx-chips').addEventListener(ev, function (e) { var b = e.target.closest('button'); if (b) pre(b.getAttribute('data-p')); }); });
+    try { var io = new IntersectionObserver(function (es) { if (!es[0].isIntersecting) return; io.disconnect(); if (navigator.connection && navigator.connection.saveData) return; var i = 0; (function nx() { if (i >= FEAT.length) return; pre(FEAT[i++]); setTimeout(nx, 350); })(); }, { rootMargin: '300px' }); io.observe(box); } catch (e) {}
+    window.addEventListener('resize', function () { var w = box.clientWidth; if ((w < 640) !== (W < 1200)) render(); });
     box.querySelector('[data-a="sh"]').addEventListener('click', function () { var L = st.it.filter(Boolean); if (L.length) shareCard(L, st.p); });
     onStage(function (s) { if (s.p !== st.p) { st.p = s.p; render(); } });
     render();
