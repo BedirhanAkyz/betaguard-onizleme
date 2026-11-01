@@ -254,7 +254,7 @@
     }
     /* 3D: Sony A7R V - 6 cephe fotografindan gorsel kabuk govde + doku atlasi. On yuz = CV (gecis dahil), diger yuzler = maske x desen */
     function init3D() {
-      if (R3 || init3D.t || !window.WebGLRenderingContext || st.dev.f !== D3) return; init3D.t = 1;
+      if (R3 || init3D.t || !window.__BG_3D || !window.WebGLRenderingContext || st.dev.f !== D3) return; init3D.t = 1;
       var imp; try { imp = new Function('u', 'return import(u)'); } catch (e) { return; }
       var M3 = [A3, A3.replace('//cdn.', '//fastly.'), A3.replace('https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@', 'https://raw.githubusercontent.com/BedirhanAkyz/betaguard-onizleme/')];
       function gimg(f, i) { i = i || 0; return limg(M3[i] + f).then(function (im) { return im || (i < 2 ? gimg(f, i + 1) : null); }); }
