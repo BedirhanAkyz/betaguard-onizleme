@@ -3702,11 +3702,9 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bgs-st{position:relative;z-index:2;width:min(560px,100%);aspect-ratio:1/1;touch-action:pan-y;user-select:none;-webkit-user-select:none}',
     '.bgs-fl{position:absolute;inset:0;animation:bgsF 6s ease-in-out infinite}',
     '@keyframes bgsF{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}',
-    '.bgs-dv{position:absolute;inset:0;transition:transform .35s ease,opacity .25s ease;filter:drop-shadow(0 34px 34px rgba(0,0,0,.65))}',
-    '.bgs-m{position:absolute;inset:0;-webkit-mask:var(--mk) center/100% 100% no-repeat;mask:var(--mk) center/100% 100% no-repeat}',
-    '.bgs-m img,.bgs-bare{position:absolute;inset:0;width:100%!important;height:100%!important;max-width:none!important;object-fit:contain;display:block;border-radius:0!important;pointer-events:none}',
-    '.bgs-b{clip-path:inset(0 100% 0 0)}',
-    '.bgs-sw{position:absolute;top:0;bottom:0;left:0;width:90px;margin-left:-45px;opacity:0;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,233,180,.15) 30%,rgba(255,236,190,.9) 50%,rgba(255,233,180,.15) 70%,transparent);mix-blend-mode:screen}',
+    '.bgs-dv{position:absolute;inset:0;transition:transform .35s ease,opacity .18s ease;will-change:transform;filter:drop-shadow(0 34px 34px rgba(0,0,0,.65))}',
+    '.bgs-cv{position:absolute;inset:0;width:100%!important;height:100%!important;display:block}',
+    '.bgs-bare{position:absolute;inset:0;width:100%!important;height:100%!important;max-width:none!important;object-fit:contain;display:block;border-radius:0!important;pointer-events:none}',
     '.bgs-bare{clip-path:inset(0 50% 0 0);opacity:0;transition:opacity .3s}',
     '.bgs.cmp .bgs-bare{opacity:1}',
     '.bgs-hd{position:absolute;top:10%;bottom:10%;left:50%;width:2px;margin-left:-1px;background:' + G + ';box-shadow:0 0 12px rgba(201,164,92,.7);opacity:0;pointer-events:none;transition:opacity .3s;z-index:3}',
@@ -3716,7 +3714,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bgs-pd{position:relative;z-index:1;width:min(460px,86%);height:64px;margin-top:-110px;transition:margin-top .35s ease}',
     '.bgs-pd:before{content:"";position:absolute;left:0;right:0;top:0;height:58px;border-radius:50%;background:radial-gradient(ellipse at 50% 30%,#2A292E 0%,#161618 55%,#0E0E0F 82%);border-top:1px solid rgba(226,194,133,.55);box-shadow:0 -4px 34px rgba(var(--g),.35),inset 0 10px 24px rgba(226,194,133,.07)}',
     '.bgs-pd:after{content:"";position:absolute;left:8%;right:8%;top:50px;height:16px;border-radius:50%;background:radial-gradient(closest-side,rgba(var(--g),.45),transparent)}',
-    '.bgs-cmpb{margin-top:6px;display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid #3A383F;background:rgba(20,20,22,.8);color:#F2F0EB;font:700 13px Manrope,sans-serif;cursor:pointer;transition:border-color .2s,background .2s}',
+    '.bgs-cmpb{position:relative;z-index:3;margin-top:6px;display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid #3A383F;background:rgba(20,20,22,.8);color:#F2F0EB;font:700 13px Manrope,sans-serif;cursor:pointer;transition:border-color .2s,background .2s}',
     '.bgs-cmpb:hover{border-color:' + G + '}.bgs.cmp .bgs-cmpb{background:' + G + ';color:#0E0E0F;border-color:' + G + '}',
     '.bgs-r{grid-area:r;align-self:center;display:flex;flex-direction:column;gap:18px;position:relative;z-index:2}',
     '.bgs-tb{display:flex;flex-wrap:wrap;gap:6px}',
@@ -3763,7 +3761,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         '<div class="bgs-btns"><a class="bgs-pill g" href="/betaguard-kaplama">Serileri keşfet</a><a class="bgs-pill o" href="#bg-find">Kategoriler</a></div></div>' +
       '<div class="bgs-c"><div class="bgs-gh" aria-hidden="true">KAMERAN</div>' +
         '<div class="bgs-st"><div class="bgs-fl"><div class="bgs-dv">' +
-          '<div class="bgs-m"><img class="bgs-a" alt="" decoding="async" fetchpriority="high"><img class="bgs-b" alt="" aria-hidden="true" decoding="async"><i class="bgs-sw" aria-hidden="true"></i></div>' +
+          '<canvas class="bgs-cv" width="1000" height="1000" role="img" aria-label="Kaplamalı cihaz"></canvas>' +
           '<img class="bgs-bare" alt="" aria-hidden="true" decoding="async">' +
           '<span class="bgs-lb l" aria-hidden="true">ORİJİNAL</span><span class="bgs-lb r" aria-hidden="true">KAPLAMALI</span>' +
           '<div class="bgs-hd" aria-hidden="true"><i>‹›</i></div>' +
@@ -3780,13 +3778,27 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
   function init(root) {
     var q = function (s) { return root.querySelector(s); };
-    var A = q('.bgs-a'), Bm = q('.bgs-b'), SW = q('.bgs-sw'), M = q('.bgs-m'), BARE = q('.bgs-bare'), HD = q('.bgs-hd'), DV = q('.bgs-dv'), ST = q('.bgs-st');
-    var st = { dev: null, p: 'royal-gold', busy: false, pend: null, hold: false, cmp: false, cx: 50, vis: true };
+    var CV = q('.bgs-cv'), CX = CV.getContext('2d'), N = CV.width, BARE = q('.bgs-bare'), HD = q('.bgs-hd'), DV = q('.bgs-dv'), ST = q('.bgs-st');
+    var st = { dev: null, p: 'royal-gold', busy: false, pend: null, hold: false, cmp: false, cx: 50, vis: true, cur: null };
     var tabs = q('.bgs-tb');
     tabs.innerHTML = TABS.filter(function (t) { return byDir(t[2]); }).map(function (t) { return '<button type="button" data-t="' + t[0] + '" data-f="' + t[2] + '" aria-pressed="false">' + t[1] + '</button>'; }).join('');
 
     function url(d, s) { return CDN + d.f + '/' + s + '.webp'; }
-    function load(u) { return new Promise(function (res) { var im = new Image(); im.decoding = 'async'; im.onload = im.onerror = function () { res(u); }; im.src = u; }); }
+    var IMC = {};
+    function limg(u) {
+      if (IMC[u]) return IMC[u];
+      return (IMC[u] = new Promise(function (res) { var im = new Image(); im.crossOrigin = 'anonymous'; im.decoding = 'async'; im.onload = function () { res(im); }; im.onerror = function () { delete IMC[u]; res(null); }; im.src = u; }));
+    }
+    function prep(d, s) {
+      return Promise.all([limg(url(d, s)), limg(CDN + d.f + '/bare.webp')]).then(function (r) {
+        var c = document.createElement('canvas'); c.width = c.height = N; var x = c.getContext('2d');
+        if (r[0]) x.drawImage(r[0], 0, 0, N, N);
+        if (r[1]) { x.globalCompositeOperation = 'destination-in'; x.drawImage(r[1], 0, 0, N, N); }
+        return r[0] ? c : null;
+      });
+    }
+    function paint(c) { CX.clearRect(0, 0, N, N); if (c) CX.drawImage(c, 0, 0); }
+    function ease(k) { return k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
     function info() {
       var d = st.dev, p = P[BYS[st.p]];
       q('.bgs-dn').textContent = d.b + ' ' + d.m;
@@ -3797,55 +3809,60 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       [].forEach.call(root.querySelectorAll('.bgs-cl button[data-p]'), function (b) { var on = b.getAttribute('data-p') === st.p; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
       [].forEach.call(tabs.querySelectorAll('button'), function (b) { var on = b.getAttribute('data-f') === d.f; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
       q('.bgs-gh').textContent = GHOST[d.t] || 'KAMERAN';
-      A.alt = d.b + ' ' + d.m + ' ' + p[1] + ' kaplama';
+      CV.setAttribute('aria-label', d.b + ' ' + d.m + ' ' + p[1] + ' kaplama');
       q('.bgs-cmpb').style.display = NOBARE[d.f] ? 'none' : '';
       if (NOBARE[d.f] && st.cmp) setCmp(false);
     }
-    function preNext() { var i = FEAT.indexOf(st.p), n = FEAT[(i + 1) % FEAT.length]; if (st.dev) load(url(st.dev, n)); }
+    function preNext() { var i = FEAT.indexOf(st.p), n = FEAT[(i + 1) % FEAT.length]; if (st.dev) limg(url(st.dev, n)); }
+    function done() { preNext(); if (st.pend) { var n = st.pend; st.pend = null; setPat(n); } }
     function setPat(s) {
       if (!st.dev || s === st.p && !st.busy) return;
       if (st.busy) { st.pend = s; return; }
-      st.busy = true; var u = url(st.dev, s);
-      load(u).then(function () {
+      st.busy = true; var dev = st.dev;
+      prep(dev, s).then(function (nc) {
+        if (dev !== st.dev) { st.busy = false; return; }
+        if (!nc) { st.busy = false; return done(); }
         st.p = s; info();
-        if (RM) { A.src = u; st.busy = false; return done(); }
-        Bm.src = u;
-        var go = function () { wipe(u); };
-        if (Bm.decode) Bm.decode().then(go, go); else go();
+        var oc = st.cur; st.cur = nc;
+        if (RM || !oc) { paint(nc); st.busy = false; return done(); }
+        var t0 = 0, D = 1300, W = N * 0.09;
+        function fr(now) {
+          if (dev !== st.dev) return;
+          if (!t0) t0 = now;
+          var k = Math.min(1, (now - t0) / D), x = ease(k) * (N + 2 * W) - W;
+          CX.clearRect(0, 0, N, N); CX.drawImage(oc, 0, 0);
+          CX.save(); CX.beginPath(); CX.rect(0, 0, Math.max(0, x), N); CX.clip(); CX.drawImage(nc, 0, 0); CX.restore();
+          if (k < 1) {
+            CX.save(); CX.globalCompositeOperation = 'source-atop';
+            var g = CX.createLinearGradient(x - W, 0, x + W, 0);
+            g.addColorStop(0, 'rgba(255,233,180,0)'); g.addColorStop(.5, 'rgba(255,238,196,.9)'); g.addColorStop(1, 'rgba(255,233,180,0)');
+            CX.fillStyle = g; CX.fillRect(x - W, 0, 2 * W, N); CX.restore();
+            requestAnimationFrame(fr);
+          } else { paint(nc); st.busy = false; done(); }
+        }
+        requestAnimationFrame(fr);
       });
-      function wipe(u) {
-        Bm.style.transition = 'none'; Bm.style.clipPath = 'inset(0 100% 0 0)'; SW.style.transition = 'none'; SW.style.left = '0%'; SW.style.opacity = '1';
-        void Bm.offsetWidth;
-        var e = 'cubic-bezier(.4,.1,.3,1)';
-        Bm.style.transition = 'clip-path 1.1s ' + e; SW.style.transition = 'left 1.1s ' + e + ', opacity .3s ease .95s';
-        Bm.style.clipPath = 'inset(0 0% 0 0)'; SW.style.left = '100%'; SW.style.opacity = '0';
-        setTimeout(function () {
-          A.src = u;
-          var fin = function () { Bm.style.transition = 'none'; Bm.style.clipPath = 'inset(0 100% 0 0)'; st.busy = false; done(); };
-          if (A.decode) A.decode().then(fin, fin); else fin();
-        }, 1130);
-      }
-      function done() { preNext(); if (st.pend) { var n = st.pend; st.pend = null; setPat(n); } }
     }
     function setDev(d) {
       if (!d) return;
       var same = st.dev && st.dev.f === d.f; st.dev = d;
       if (same) { info(); return; }
-      var u = url(d, st.p), mk = CDN + d.f + '/bare.webp';
+      var mk = CDN + d.f + '/bare.webp';
       DV.style.opacity = '0';
-      bottom(mk);
-      Promise.all([load(u), load(mk)]).then(function () {
-        M.style.setProperty('--mk', 'url("' + mk + '")');
-        A.src = u; BARE.src = NOBARE[d.f] ? '' : mk;
-        info();
-        setTimeout(function () { DV.style.opacity = '1'; preNext(); }, 30);
+      st.pend = null;
+      prep(d, st.p).then(function (c) {
+        if (d !== st.dev) return;
+        st.cur = c; st.busy = false;
+        setTimeout(function () {
+          paint(c); BARE.src = NOBARE[d.f] ? '' : mk; info(); bottom(mk);
+          DV.style.opacity = '1'; preNext();
+        }, 180);
       });
     }
     var PD = q('.bgs-pd'); st.bot = .8;
     function placePd() { var h = ST.offsetHeight || 0; PD.style.marginTop = Math.round(-(h * (1 - st.bot)) + 4) + 'px'; }
     function bottom(mk) {
-      var im = new Image(); im.crossOrigin = 'anonymous';
-      im.onload = function () {
+      limg(mk).then(function (im) {
         try {
           var c = document.createElement('canvas'); c.width = c.height = 100; var x = c.getContext('2d'); x.drawImage(im, 0, 0, 100, 100);
           var a = x.getImageData(0, 0, 100, 100).data, b = 80;
@@ -3853,9 +3870,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
           st.bot = b / 100;
         } catch (e) { st.bot = .8; }
         placePd();
-      };
-      im.onerror = function () { st.bot = .8; placePd(); };
-      im.src = mk;
+      });
     }
     window.addEventListener('resize', placePd);
     function stop() { st.hold = true; }
