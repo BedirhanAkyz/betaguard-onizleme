@@ -100,7 +100,8 @@
     '.bgs-cl button:hover{transform:translateY(-3px)}.bgs-cl button.on{border-color:#E2C285}',
     '.bgs-cl button img{width:100%!important;height:100%!important;border-radius:50%!important;object-fit:cover;display:block}',
     '.bgs-cl button.x{display:none}.bgs.all .bgs-cl button.x{display:block}',
-    '.bgs-ar{flex:0 0 auto;width:46px;height:46px;border-radius:50%;border:1px solid #3A383F;background:#141416;color:#F2F0EB;font:700 18px/1 Manrope,sans-serif;cursor:pointer}',
+    '.bgs-ar{flex:0 0 auto;width:46px;height:46px;min-width:46px;max-width:46px;padding:0!important;display:inline-flex!important;align-items:center;justify-content:center;box-sizing:border-box;line-height:0;border-radius:50%;border:1px solid #3A383F;background:#141416;color:#F2F0EB;font:700 18px/1 Manrope,sans-serif;cursor:pointer}',
+    '.bgs-ar svg{display:block;pointer-events:none}',
     '.bgs-ar:hover{border-color:' + G + '}',
     '.bgs-more{width:auto!important;padding:0 14px!important;border-radius:999px!important;font:700 12px Manrope,sans-serif;color:#E2C285;white-space:nowrap}',
     '@media (max-width:1100px){.bgs-gr{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);grid-template-areas:"l1 c" "l2 c" "r r" "ch ch"}.bgs-r{flex-direction:row;flex-wrap:wrap;align-items:flex-end;margin-top:18px}}',
@@ -138,7 +139,7 @@
         '<div class="bgs-k"><span>CİHAZ</span><strong class="bgs-dn"></strong></div>' +
         '<div class="bgs-k"><span>DESEN</span><em class="bgs-pn"></em><small class="bgs-ps"></small></div>' +
         '<a class="bgs-go" href="/betaguard-kaplama">Bu kombinasyonu incele →</a></div>' +
-      '<div class="bgs-ch"><button type="button" class="bgs-ar" data-d="-1" aria-label="Önceki desen">‹</button><div class="bgs-cl">' + chipsHTML() + '</div><button type="button" class="bgs-ar" data-d="1" aria-label="Sonraki desen">›</button></div>' +
+      '<div class="bgs-ch"><button type="button" class="bgs-ar" data-d="-1" aria-label="Önceki desen"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="bgs-cl">' + chipsHTML() + '</div><button type="button" class="bgs-ar" data-d="1" aria-label="Sonraki desen"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>' +
     '</div>';
   }
 

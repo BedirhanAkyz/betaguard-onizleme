@@ -3736,7 +3736,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bgs-cl button:hover{transform:translateY(-3px)}.bgs-cl button.on{border-color:#E2C285}',
     '.bgs-cl button img{width:100%!important;height:100%!important;border-radius:50%!important;object-fit:cover;display:block}',
     '.bgs-cl button.x{display:none}.bgs.all .bgs-cl button.x{display:block}',
-    '.bgs-ar{flex:0 0 auto;width:46px;height:46px;border-radius:50%;border:1px solid #3A383F;background:#141416;color:#F2F0EB;font:700 18px/1 Manrope,sans-serif;cursor:pointer}',
+    '.bgs-ar{flex:0 0 auto;width:46px;height:46px;min-width:46px;max-width:46px;padding:0!important;display:inline-flex!important;align-items:center;justify-content:center;box-sizing:border-box;line-height:0;border-radius:50%;border:1px solid #3A383F;background:#141416;color:#F2F0EB;font:700 18px/1 Manrope,sans-serif;cursor:pointer}',
+    '.bgs-ar svg{display:block;pointer-events:none}',
     '.bgs-ar:hover{border-color:' + G + '}',
     '.bgs-more{width:auto!important;padding:0 14px!important;border-radius:999px!important;font:700 12px Manrope,sans-serif;color:#E2C285;white-space:nowrap}',
     '@media (max-width:1100px){.bgs-gr{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);grid-template-areas:"l1 c" "l2 c" "r r" "ch ch"}.bgs-r{flex-direction:row;flex-wrap:wrap;align-items:flex-end;margin-top:18px}}',
@@ -3774,7 +3775,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         '<div class="bgs-k"><span>CİHAZ</span><strong class="bgs-dn"></strong></div>' +
         '<div class="bgs-k"><span>DESEN</span><em class="bgs-pn"></em><small class="bgs-ps"></small></div>' +
         '<a class="bgs-go" href="/betaguard-kaplama">Bu kombinasyonu incele →</a></div>' +
-      '<div class="bgs-ch"><button type="button" class="bgs-ar" data-d="-1" aria-label="Önceki desen">‹</button><div class="bgs-cl">' + chipsHTML() + '</div><button type="button" class="bgs-ar" data-d="1" aria-label="Sonraki desen">›</button></div>' +
+      '<div class="bgs-ch"><button type="button" class="bgs-ar" data-d="-1" aria-label="Önceki desen"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="bgs-cl">' + chipsHTML() + '</div><button type="button" class="bgs-ar" data-d="1" aria-label="Sonraki desen"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>' +
     '</div>';
   }
 
@@ -4270,10 +4271,51 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     why.parentNode.insertBefore(box, why);
     var cv = box.querySelector('canvas'), x = cv.getContext('2d'), N = 900;
     var sc = document.createElement('canvas'); sc.width = sc.height = N; var sx = sc.getContext('2d');
-    var st = { d: stage().d, p: 'carbon', c: null, b: null, off: false, n: 0 };
-    function render() { if (!st.c) return; x.clearRect(0, 0, N, N); x.drawImage(st.c, 0, 0); x.save(); x.globalCompositeOperation = 'source-atop'; x.drawImage(sc, 0, 0); x.restore(); }
-    function load() { Promise.all([comp(st.d, st.p, N), bare(st.d, N)]).then(function (r) { st.c = r[0]; st.b = r[1]; st.off = false; render(); }); }
-    function flat() { var c = document.createElement('canvas'); c.width = c.height = N; var y = c.getContext('2d'); y.drawImage(st.c, 0, 0); y.globalCompositeOperation = 'source-atop'; y.drawImage(sc, 0, 0); return c; }
+    var st = { d: stage().d, p: 'carbon', c: null, b: null, m: null, off: false, n: 0 };
+    /* cizilebilir alan: cihaz govdesi eksi lens yuvasi (metal bayonet halkasi + ici: sensor/ayna). Halka = en buyuk, kareye yakin, ici bos acik gri metal bilesen */
+    function wmask(c, b) {
+      try {
+        var B = b.getContext('2d').getImageData(0, 0, N, N).data, n = N * N, met = new Uint8Array(n), i, k, x0, y0;
+        for (i = 0; i < n; i++) { k = i * 4; if (B[k + 3] > 100) { var r = B[k], g = B[k + 1], bl = B[k + 2], mx = Math.max(r, g, bl), mn = Math.min(r, g, bl); if ((r + g + bl) / 3 > 70 && mx - mn < 45) met[i] = 1; } }
+        var dm = new Uint8Array(n);
+        for (y0 = 0; y0 < N; y0++) for (x0 = 0; x0 < N; x0++) { if (!met[y0 * N + x0]) continue; for (var dy = -2; dy <= 2; dy++) for (var dx = -2; dx <= 2; dx++) { var yy = y0 + dy, xx = x0 + dx; if (yy >= 0 && yy < N && xx >= 0 && xx < N) dm[yy * N + xx] = 1; } }
+        var lab = new Int32Array(n), q = new Int32Array(n), L = 0, best = null, bs = 0;
+        for (i = 0; i < n; i++) {
+          if (!dm[i] || lab[i]) continue; L++; var h = 0, t = 0, mnx = N, mny = N, mxx = 0, mxy = 0, cnt = 0; q[t++] = i; lab[i] = L;
+          while (h < t) { var p = q[h++], px = p % N, py = (p / N) | 0; cnt++; if (px < mnx) mnx = px; if (px > mxx) mxx = px; if (py < mny) mny = py; if (py > mxy) mxy = py;
+            for (var ey = -1; ey <= 1; ey++) for (var ex = -1; ex <= 1; ex++) { var nx = px + ex, ny = py + ey; if (nx < 0 || ny < 0 || nx >= N || ny >= N) continue; var o = ny * N + nx; if (dm[o] && !lab[o]) { lab[o] = L; q[t++] = o; } } }
+          var w = mxx - mnx + 1, hh = mxy - mny + 1;
+          if (w > .15 * N && hh > .15 * N && w / hh > .8 && w / hh < 1.25 && w * hh > bs) {
+            /* ici bos mu: kutu kenarindan komsu olmayan pikselleri doldur, ulasilamayanlar = delik */
+            var bw = w + 2, bh = hh + 2, seen = new Uint8Array(bw * bh), qq = new Int32Array(bw * bh), a = 0, z = 0, ins = 0;
+            var isC = function (xx, yy) { var X = xx + mnx - 1, Y = yy + mny - 1; return X >= 0 && Y >= 0 && X < N && Y < N && lab[Y * N + X] === L; };
+            qq[z++] = 0; seen[0] = 1;
+            while (a < z) { var pp = qq[a++], qx = pp % bw, qy = (pp / bw) | 0; [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(function (d) { var sx2 = qx + d[0], sy2 = qy + d[1]; if (sx2 < 0 || sy2 < 0 || sx2 >= bw || sy2 >= bh) return; var o2 = sy2 * bw + sx2; if (seen[o2] || isC(sx2, sy2)) return; seen[o2] = 1; qq[z++] = o2; }); }
+            var fill = bw * bh - z; /* bilesen + delik */
+            if (fill / (w * hh) > .6 && cnt / fill < .7) { bs = w * hh; best = { L: L, x: mnx - 1, y: mny - 1, bw: bw, bh: bh, seen: seen }; }
+          }
+        }
+        var ex2 = new Uint8Array(n), area = 0, al = 0;
+        if (best) for (var yy2 = 0; yy2 < best.bh; yy2++) for (var xx2 = 0; xx2 < best.bw; xx2++) { if (best.seen[yy2 * best.bw + xx2]) continue; var X2 = xx2 + best.x, Y2 = yy2 + best.y; if (X2 < 0 || Y2 < 0 || X2 >= N || Y2 >= N) continue; ex2[Y2 * N + X2] = 1; area++; }
+        for (i = 0; i < n; i++) if (B[i * 4 + 3] > 100) al++;
+        if (area > al * .35) area = 0; /* hatali tespit: cok buyuk */
+        var mc = document.createElement('canvas'); mc.width = mc.height = N; var mxc = mc.getContext('2d'), im = mxc.createImageData(N, N), D = im.data;
+        for (i = 0; i < n; i++) D[i * 4 + 3] = B[i * 4 + 3] > 100 ? 255 : 0;
+        mxc.putImageData(im, 0, 0);
+        if (area) {
+          var ec = document.createElement('canvas'); ec.width = ec.height = N; var exc = ec.getContext('2d'), im2 = exc.createImageData(N, N), D2 = im2.data;
+          for (i = 0; i < n; i++) if (ex2[i]) D2[i * 4 + 3] = 255;
+          exc.putImageData(im2, 0, 0);
+          mxc.globalCompositeOperation = 'destination-out'; for (var s2 = 0; s2 < 8; s2++) { var an = s2 * Math.PI / 4; mxc.drawImage(ec, Math.round(Math.cos(an) * 5), Math.round(Math.sin(an) * 5)); } mxc.drawImage(ec, 0, 0);
+        }
+        return mc;
+      } catch (e) { return null; }
+    }
+    var tmp = document.createElement('canvas'); tmp.width = tmp.height = N; var tx = tmp.getContext('2d');
+    function scr() { tx.globalCompositeOperation = 'source-over'; tx.clearRect(0, 0, N, N); tx.drawImage(sc, 0, 0); if (st.m) { tx.globalCompositeOperation = 'destination-in'; tx.drawImage(st.m, 0, 0); } return tmp; }
+    function render() { if (!st.c) return; x.clearRect(0, 0, N, N); x.drawImage(st.c, 0, 0); x.save(); x.globalCompositeOperation = 'source-atop'; x.drawImage(scr(), 0, 0); x.restore(); }
+    function load() { Promise.all([comp(st.d, st.p, N), bare(st.d, N)]).then(function (r) { st.c = r[0]; st.b = r[1]; st.m = wmask(r[0], r[1]); st.off = false; render(); }); }
+    function flat() { var c = document.createElement('canvas'); c.width = c.height = N; var y = c.getContext('2d'); y.drawImage(st.c, 0, 0); y.globalCompositeOperation = 'source-atop'; y.drawImage(scr(), 0, 0); return c; }
     var drawing = false, lp = null;
     function pt(e) { var r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * N, (e.clientY - r.top) / r.height * N]; }
     function line(a, b) {

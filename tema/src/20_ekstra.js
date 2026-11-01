@@ -244,10 +244,51 @@
     why.parentNode.insertBefore(box, why);
     var cv = box.querySelector('canvas'), x = cv.getContext('2d'), N = 900;
     var sc = document.createElement('canvas'); sc.width = sc.height = N; var sx = sc.getContext('2d');
-    var st = { d: stage().d, p: 'carbon', c: null, b: null, off: false, n: 0 };
-    function render() { if (!st.c) return; x.clearRect(0, 0, N, N); x.drawImage(st.c, 0, 0); x.save(); x.globalCompositeOperation = 'source-atop'; x.drawImage(sc, 0, 0); x.restore(); }
-    function load() { Promise.all([comp(st.d, st.p, N), bare(st.d, N)]).then(function (r) { st.c = r[0]; st.b = r[1]; st.off = false; render(); }); }
-    function flat() { var c = document.createElement('canvas'); c.width = c.height = N; var y = c.getContext('2d'); y.drawImage(st.c, 0, 0); y.globalCompositeOperation = 'source-atop'; y.drawImage(sc, 0, 0); return c; }
+    var st = { d: stage().d, p: 'carbon', c: null, b: null, m: null, off: false, n: 0 };
+    /* cizilebilir alan: cihaz govdesi eksi lens yuvasi (metal bayonet halkasi + ici: sensor/ayna). Halka = en buyuk, kareye yakin, ici bos acik gri metal bilesen */
+    function wmask(c, b) {
+      try {
+        var B = b.getContext('2d').getImageData(0, 0, N, N).data, n = N * N, met = new Uint8Array(n), i, k, x0, y0;
+        for (i = 0; i < n; i++) { k = i * 4; if (B[k + 3] > 100) { var r = B[k], g = B[k + 1], bl = B[k + 2], mx = Math.max(r, g, bl), mn = Math.min(r, g, bl); if ((r + g + bl) / 3 > 70 && mx - mn < 45) met[i] = 1; } }
+        var dm = new Uint8Array(n);
+        for (y0 = 0; y0 < N; y0++) for (x0 = 0; x0 < N; x0++) { if (!met[y0 * N + x0]) continue; for (var dy = -2; dy <= 2; dy++) for (var dx = -2; dx <= 2; dx++) { var yy = y0 + dy, xx = x0 + dx; if (yy >= 0 && yy < N && xx >= 0 && xx < N) dm[yy * N + xx] = 1; } }
+        var lab = new Int32Array(n), q = new Int32Array(n), L = 0, best = null, bs = 0;
+        for (i = 0; i < n; i++) {
+          if (!dm[i] || lab[i]) continue; L++; var h = 0, t = 0, mnx = N, mny = N, mxx = 0, mxy = 0, cnt = 0; q[t++] = i; lab[i] = L;
+          while (h < t) { var p = q[h++], px = p % N, py = (p / N) | 0; cnt++; if (px < mnx) mnx = px; if (px > mxx) mxx = px; if (py < mny) mny = py; if (py > mxy) mxy = py;
+            for (var ey = -1; ey <= 1; ey++) for (var ex = -1; ex <= 1; ex++) { var nx = px + ex, ny = py + ey; if (nx < 0 || ny < 0 || nx >= N || ny >= N) continue; var o = ny * N + nx; if (dm[o] && !lab[o]) { lab[o] = L; q[t++] = o; } } }
+          var w = mxx - mnx + 1, hh = mxy - mny + 1;
+          if (w > .15 * N && hh > .15 * N && w / hh > .8 && w / hh < 1.25 && w * hh > bs) {
+            /* ici bos mu: kutu kenarindan komsu olmayan pikselleri doldur, ulasilamayanlar = delik */
+            var bw = w + 2, bh = hh + 2, seen = new Uint8Array(bw * bh), qq = new Int32Array(bw * bh), a = 0, z = 0, ins = 0;
+            var isC = function (xx, yy) { var X = xx + mnx - 1, Y = yy + mny - 1; return X >= 0 && Y >= 0 && X < N && Y < N && lab[Y * N + X] === L; };
+            qq[z++] = 0; seen[0] = 1;
+            while (a < z) { var pp = qq[a++], qx = pp % bw, qy = (pp / bw) | 0; [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(function (d) { var sx2 = qx + d[0], sy2 = qy + d[1]; if (sx2 < 0 || sy2 < 0 || sx2 >= bw || sy2 >= bh) return; var o2 = sy2 * bw + sx2; if (seen[o2] || isC(sx2, sy2)) return; seen[o2] = 1; qq[z++] = o2; }); }
+            var fill = bw * bh - z; /* bilesen + delik */
+            if (fill / (w * hh) > .6 && cnt / fill < .7) { bs = w * hh; best = { L: L, x: mnx - 1, y: mny - 1, bw: bw, bh: bh, seen: seen }; }
+          }
+        }
+        var ex2 = new Uint8Array(n), area = 0, al = 0;
+        if (best) for (var yy2 = 0; yy2 < best.bh; yy2++) for (var xx2 = 0; xx2 < best.bw; xx2++) { if (best.seen[yy2 * best.bw + xx2]) continue; var X2 = xx2 + best.x, Y2 = yy2 + best.y; if (X2 < 0 || Y2 < 0 || X2 >= N || Y2 >= N) continue; ex2[Y2 * N + X2] = 1; area++; }
+        for (i = 0; i < n; i++) if (B[i * 4 + 3] > 100) al++;
+        if (area > al * .35) area = 0; /* hatali tespit: cok buyuk */
+        var mc = document.createElement('canvas'); mc.width = mc.height = N; var mxc = mc.getContext('2d'), im = mxc.createImageData(N, N), D = im.data;
+        for (i = 0; i < n; i++) D[i * 4 + 3] = B[i * 4 + 3] > 100 ? 255 : 0;
+        mxc.putImageData(im, 0, 0);
+        if (area) {
+          var ec = document.createElement('canvas'); ec.width = ec.height = N; var exc = ec.getContext('2d'), im2 = exc.createImageData(N, N), D2 = im2.data;
+          for (i = 0; i < n; i++) if (ex2[i]) D2[i * 4 + 3] = 255;
+          exc.putImageData(im2, 0, 0);
+          mxc.globalCompositeOperation = 'destination-out'; for (var s2 = 0; s2 < 8; s2++) { var an = s2 * Math.PI / 4; mxc.drawImage(ec, Math.round(Math.cos(an) * 5), Math.round(Math.sin(an) * 5)); } mxc.drawImage(ec, 0, 0);
+        }
+        return mc;
+      } catch (e) { return null; }
+    }
+    var tmp = document.createElement('canvas'); tmp.width = tmp.height = N; var tx = tmp.getContext('2d');
+    function scr() { tx.globalCompositeOperation = 'source-over'; tx.clearRect(0, 0, N, N); tx.drawImage(sc, 0, 0); if (st.m) { tx.globalCompositeOperation = 'destination-in'; tx.drawImage(st.m, 0, 0); } return tmp; }
+    function render() { if (!st.c) return; x.clearRect(0, 0, N, N); x.drawImage(st.c, 0, 0); x.save(); x.globalCompositeOperation = 'source-atop'; x.drawImage(scr(), 0, 0); x.restore(); }
+    function load() { Promise.all([comp(st.d, st.p, N), bare(st.d, N)]).then(function (r) { st.c = r[0]; st.b = r[1]; st.m = wmask(r[0], r[1]); st.off = false; render(); }); }
+    function flat() { var c = document.createElement('canvas'); c.width = c.height = N; var y = c.getContext('2d'); y.drawImage(st.c, 0, 0); y.globalCompositeOperation = 'source-atop'; y.drawImage(scr(), 0, 0); return c; }
     var drawing = false, lp = null;
     function pt(e) { var r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * N, (e.clientY - r.top) / r.height * N]; }
     function line(a, b) {
