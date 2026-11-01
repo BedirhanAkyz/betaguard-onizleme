@@ -1019,7 +1019,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
   function addWall() {
     var home = document.querySelector('[data-bg-home]');
-    if (!home || home.querySelector('[data-bg-wall]')) return;
+    if (!home || document.querySelector('[data-bg-wall]')) return;
     var steps = home.querySelector('[data-bg="steps"]'); if (!steps) return;
     var all = [];
     for (var i = 0; i < Math.max(WALL.length, WALL.length ? 0 : WALL_N); i++) all.push(WALL[i] || '');
@@ -1201,7 +1201,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   ];
   function addFaq() {
     var home = document.querySelector('[data-bg-home]');
-    if (!home || home.querySelector('[data-bg-faq]')) return;
+    if (!home || document.querySelector('[data-bg-faq]')) return;
     var after = home.querySelector('[data-bg-wall]') || home.querySelector('[data-bg="steps"]'); if (!after) return;
     var sec = document.createElement('section'); sec.setAttribute('data-bg-faq', '1'); sec.setAttribute('aria-label', 'Sık sorulan sorular');
     sec.innerHTML = '<div class="bg-faq-in"><div class="bg-faq-h"><h2>Sık sorulanlar</h2><p>Cevabını bulamadığın bir şey olursa <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan yaz</a>.</p></div><div class="bg-faq-l">' +
@@ -1222,13 +1222,18 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       if (!isHome()) { var h = document.querySelector('[data-bg-home]'); if (h) h.remove(); }
       addEyebrows(); addHome(); addInfo(); addWA(); fixHero(); tagArrows(); addMarqueeAndIcons(); addSilhouettes(); addTop(); addProductPage(); fixHomeAndNav(); addInsta(); addWall(); addDesenler(); addFaq(); fixFooter(); darken();
     } catch (e) { }
+    if (started) mark();
     busy = false;
   }
   var tmr = null;
   function schedule() { if (!started || tmr) return; tmr = setTimeout(function () { tmr = null; run(); }, 150); }
   var started = false;
-  function start() { if (started) return; started = true; run(); document.documentElement.classList.add('bg-ready'); }
-  if (document.readyState !== 'loading') setTimeout(start, 500); else document.addEventListener('DOMContentLoaded', function () { setTimeout(start, 500); });
+  /* acilis ekrani: sayfa hazir olur olmaz kalkar (ana sayfa: ust blok, urun sayfasi: urun duzeni; digerleri hemen) */
+  function isProd() { var s = document.querySelectorAll('script[type="application/ld+json"]'); for (var i = 0; i < s.length; i++) if (/"@type"\s*:\s*"Product"/.test(s[i].textContent)) return true; return false; }
+  function mark() { var de = document.documentElement; if (de.classList.contains('bg-ready')) return; var ok = isHome() ? !!document.querySelector('[data-bg-top]') : (!isProd() || !!document.querySelector('.bg-pp')); if (ok) de.classList.add('bg-ready'); }
+  function start() { if (started) return; started = true; run(); mark(); }
+  setTimeout(function () { document.documentElement.classList.add('bg-ready'); }, 3500);
+  if (document.readyState !== 'loading') setTimeout(start, 150); else document.addEventListener('DOMContentLoaded', function () { setTimeout(start, 150); });
   window.addEventListener('load', function () { setTimeout(start, 200); });
   setTimeout(start, 6000);
   document.addEventListener('load', function (ev) { if (ev.target && ev.target.tagName === 'IMG') schedule(); }, true);
