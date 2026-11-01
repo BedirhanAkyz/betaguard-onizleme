@@ -68,7 +68,7 @@
     '.bgs-gh{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);font:italic 900 clamp(84px,10.5vw,190px)/.9 Archivo,sans-serif;letter-spacing:-.02em;white-space:nowrap;color:transparent;-webkit-text-stroke:1.5px rgba(226,194,133,.2);pointer-events:none;user-select:none;transition:opacity .4s}',
     '.bgs-st{position:relative;z-index:2;width:min(560px,100%);aspect-ratio:1/1;touch-action:pan-y;user-select:none;-webkit-user-select:none}',
     '.bgs-fl{position:absolute;inset:0;animation:bgsF 6s ease-in-out infinite}',
-    '@keyframes bgsF{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}',
+    '@keyframes bgsF{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}',
     '.bgs-dv{position:absolute;inset:0;transition:transform .35s ease,opacity .18s ease;will-change:transform;filter:drop-shadow(0 34px 34px rgba(0,0,0,.65))}',
     '.bgs-cv{position:absolute;inset:0;width:100%!important;height:100%!important;display:block}',
     '.bgs-bare{position:absolute;inset:0;width:100%!important;height:100%!important;max-width:none!important;object-fit:contain;display:block;border-radius:0!important;pointer-events:none}',
