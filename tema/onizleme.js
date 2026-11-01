@@ -1,7 +1,6 @@
 /* Betaguard ana sayfa ONIZLEME - yalnizca ?onizleme=<sha> ile yuklenir (19_onizleme.js). Normal ziyaretci gormez. */
 (function () {
   if (window.__bgOniz) return; window.__bgOniz = 1;
-  if (location.pathname !== '/' && location.pathname !== '') return;
   var IMG = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@eb5ee5c0/img/';
   var P = [
     ['royal-gold', 'Royal Gold'], ['royal-navy', 'Royal Navy'], ['royal-black', 'Royal Black'], ['carbon', 'Carbon'],
@@ -76,8 +75,8 @@
   function watchStage() {
     var a = document.querySelector('.bgs-go'); if (!a || a.__bgoW) return; a.__bgoW = 1;
     var sec = document.querySelector('[data-bgs]'), touched = 0;
-    if (sec) ['pointerdown', 'keydown', 'input', 'touchend'].forEach(function (ev) { sec.addEventListener(ev, function () { touched = Date.now(); }, true); });
-    new MutationObserver(function () { var h = a.getAttribute('href'); if (h === last) return; last = h; if (Date.now() - touched > 8000) return; var s = stage(); SUBS.forEach(function (f) { try { f(s); } catch (e) {} }); }).observe(a, { attributes: true, attributeFilter: ['href'] });
+    if (sec) ['pointerdown', 'keydown', 'input', 'touchend'].forEach(function (ev) { sec.addEventListener(ev, function (e) { if (e.target && e.target.closest && e.target.closest('.bgs-share')) return; touched = Date.now(); }, true); });
+    new MutationObserver(function () { var h = a.getAttribute('href'); if (h === last) return; last = h; if (Date.now() - touched > 3000) return; var s = stage(); SUBS.forEach(function (f) { try { f(s); } catch (e) {} }); }).observe(a, { attributes: true, attributeFilter: ['href'] });
     last = a.getAttribute('href');
   }
   function stagePick(slug) {
@@ -200,283 +199,324 @@
   function chips(list, cls) { return '<div class="bgo-chips ' + (cls || '') + '">' + list.map(function (s) { return '<button type="button" data-p="' + s + '" aria-label="' + esc(NAME[s]) + '" aria-pressed="false"><img alt="" loading="lazy" src="' + IMG + 'site/desen/' + s + '.webp"></button>'; }).join('') + '</div>'; }
   function markChips(root, s) { [].forEach.call(root.querySelectorAll('.bgo-chips button'), function (b) { var on = b.getAttribute('data-p') === s; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); }); }
 
-  /* ===== 1 + 4: vitrin rafi + secilen desen tum cihazlarda ===== */
-  function S14() {
-    var pop = document.querySelector('.bg26-pop'); if (!pop || pop.querySelector('[data-bgo14]')) return !!pop;
-    var g = pop.querySelector('.bg26-pop-g'); if (!g) return false;
-    var items = [].map.call(g.querySelectorAll('a.bg26-it'), function (a) { var h = a.getAttribute('href') || ''; var m = /^\/([^?]+)(?:\?desen=([a-z0-9-]+))?/.exec(h); var d = m && bySlug(m[1]); return d ? { d: d, p: m[2] && NAME[m[2]] ? m[2] : 'royal-gold' } : null; }).filter(Boolean);
-    if (!items.length) return false;
-    var box = document.createElement('div'); box.className = 'bgo'; box.setAttribute('data-bgo14', '1'); box.id = 'bgo-1';
-    var per = window.matchMedia('(max-width:760px)').matches ? 2 : 4, rows = '';
-    for (var i = 0; i < items.length; i += per) {
-      rows += '<div class="bgo-row"><div class="bgo-row-i">' + items.slice(i, i + per).map(function (it, k) {
-        return '<a class="bgo-it" data-i="' + (i + k) + '" href="/' + it.d.s + '?desen=' + it.p + '"><span class="bgo-sp" aria-hidden="true"></span><span class="bgo-lb"><b>' + esc(it.d.b + ' ' + it.d.m) + '</b><span>' + fmt(it.d.p) + ' · bu desenle gör →</span></span><canvas width="500" height="500" role="img" aria-label="' + esc(it.d.b + ' ' + it.d.m) + '"></canvas></a>';
-      }).join('') + '</div><div class="bgo-plate" aria-hidden="true"></div><div class="bgo-led" aria-hidden="true"></div></div>';
+  /* ================= ONIZLEME v3: urun sahnesi, set kurucu, paylas, karsilastir, kesim haritasi ================= */
+  var TYPEN = { K: 'Kamera', L: 'Lens', D: 'Drone', G: 'Gimbal', A: 'Aksiyon kamera' };
+  var css2 = [
+    /* 1 urun sahnesi */
+    '.bgp{position:absolute;inset:0;z-index:2;background:radial-gradient(55% 55% at 50% 50%,rgba(var(--g,201,164,92),.18),rgba(var(--g,201,164,92),.04) 55%,transparent 75%),radial-gradient(120% 90% at 50% 0%,#18181A 0%,#0E0E0F 70%);transition:opacity .3s}',
+    '.bgp.off{opacity:0;pointer-events:none}',
+    '.bgp-st{position:absolute;left:6%;right:6%;top:4%;bottom:12%;touch-action:pan-y;user-select:none;-webkit-user-select:none}',
+    '.bgp-st canvas,.bgp-st img{position:absolute;inset:0;width:100%!important;height:100%!important;object-fit:contain;display:block;border-radius:0!important;aspect-ratio:auto!important}',
+    '.bgp-st canvas{filter:drop-shadow(0 26px 26px rgba(0,0,0,.6))}',
+    '.bgp-bare{clip-path:inset(0 50% 0 0);opacity:0;transition:opacity .3s;pointer-events:none}',
+    '.bgp.cmp .bgp-bare{opacity:1}',
+    '.bgp-hd{position:absolute;top:8%;bottom:8%;left:50%;width:2px;margin-left:-1px;background:' + G + ';box-shadow:0 0 12px rgba(201,164,92,.7);opacity:0;transition:opacity .3s;pointer-events:none}',
+    '.bgp-hd i{position:absolute;top:50%;left:50%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:#0E0E0F;border:2px solid ' + G + ';display:flex;align-items:center;justify-content:center;color:#E2C285;font:700 14px Manrope,sans-serif;font-style:normal}',
+    '.bgp.cmp .bgp-hd{opacity:1}',
+    '.bgp-lb{position:absolute;top:4%;font:800 10px Manrope,sans-serif;letter-spacing:.16em;color:#A3A09A;opacity:0;transition:opacity .3s}.bgp-lb.l{left:6%}.bgp-lb.r{right:6%;color:#E2C285}.bgp.cmp .bgp-lb{opacity:1}',
+    '.bgp-pd{position:absolute;left:20%;right:20%;bottom:9%;height:7%;border-radius:50%;background:radial-gradient(ellipse at 50% 30%,#2A292E 0%,#161618 55%,transparent 80%);border-top:1px solid rgba(226,194,133,.45);box-shadow:0 -4px 26px rgba(var(--g,201,164,92),.3)}',
+    '.bgp-bt{position:absolute;left:14px;bottom:62px;display:flex;flex-wrap:wrap;gap:8px;z-index:4}',
+    '.bgp-bt button{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 14px;border-radius:999px;border:1px solid #3A383F;background:rgba(14,14,15,.85);color:#F2F0EB;font:700 12px Manrope,sans-serif;cursor:pointer}',
+    '.bgp-bt button:hover{border-color:' + G + '}.bgp.cmp .bgp-bt button[data-a="cmp"]{background:' + G + ';color:#0E0E0F;border-color:' + G + '}',
+    '.bgp-bd{position:absolute;top:12px;left:12px;z-index:4}',
+    '.bgp-back{position:absolute;right:14px;bottom:62px;z-index:4;display:none;min-height:38px;padding:0 14px;border-radius:999px;border:1px solid ' + G + ';background:rgba(14,14,15,.85);color:#E2C285;font:700 12px Manrope,sans-serif;cursor:pointer}',
+    /* 2 set kurucu */
+    '.bgk-sl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}',
+    '.bgk-s{position:relative;border:1px solid #2A292E;border-radius:14px;background:#141416;padding:12px}',
+    '.bgk-s label{display:block;font:800 11px Manrope,sans-serif;letter-spacing:.16em;color:#8E8A83;margin-bottom:6px}',
+    '.bgk-s input{width:100%;background:#0E0E0F!important;border:1px solid #3A383F!important;border-radius:10px;padding:11px 12px;color:#F2F0EB!important;font:600 14px Manrope,sans-serif;outline:none}',
+    '.bgk-s input:focus{border-color:' + G + '!important}',
+    '.bgk-sg{position:absolute;left:12px;right:12px;top:calc(100% - 6px);z-index:20;background:#141416;border:1px solid #3A383F;border-radius:12px;overflow:hidden;display:none;box-shadow:0 16px 30px rgba(0,0,0,.5)}',
+    '.bgk-sg button{display:block;width:100%;text-align:left;padding:10px 12px;border:0;background:transparent;color:#D9D5CD;font:500 14px Manrope,sans-serif;cursor:pointer}.bgk-sg button:hover{background:#1E1E21;color:#fff}',
+    '.bgk-x{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;border:1px solid #3A383F;background:transparent;color:#A3A09A;cursor:pointer;font:700 13px/1 Manrope,sans-serif}',
+    '.bgk-sc{position:relative;border-radius:20px;border:1px solid #26252A;background:radial-gradient(60% 70% at 50% 60%,rgba(var(--g,201,164,92),.14),transparent 70%),#121214;padding:10px}',
+    '.bgk-sc canvas{width:100%;aspect-ratio:15/7;display:block}',
+    '.bgk-bot{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;justify-content:space-between;margin-top:16px}',
+    '.bgk-sum{flex:1 1 320px;max-width:520px;border:1px solid #2A292E;border-radius:16px;background:#141416;padding:16px 18px;font-size:14px}',
+    '.bgk-sum div{display:flex;justify-content:space-between;gap:12px;padding:5px 0;color:#D9D5CD}.bgk-sum div a{color:#D9D5CD!important;text-decoration:none!important}.bgk-sum div a:hover{color:#E2C285!important}',
+    '.bgk-sum .ds{color:#7CD3A0}.bgk-sum .tt{border-top:1px solid #2A292E;margin-top:6px;padding-top:10px;font:800 18px Manrope,sans-serif;color:#F2F0EB}',
+    '.bgk-act{flex:1 1 240px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}',
+    '.bgk-act small{font-size:12px;color:#8E8A83;line-height:1.5}',
+    '@media (max-width:760px){.bgk-sl{grid-template-columns:none}.bgk-sc canvas{aspect-ratio:15/9}}',
+    /* 4 karsilastir */
+    '.bgc{display:flex;flex-wrap:wrap;gap:24px;align-items:center}',
+    '.bgc-c{flex:2 1 460px;min-width:0;position:relative;display:flex;flex-direction:column;align-items:center}',
+    '.bgc-st{position:relative;width:min(600px,100%);aspect-ratio:1/1;touch-action:pan-y;cursor:ew-resize;user-select:none}',
+    '.bgc-st canvas{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 26px 26px rgba(0,0,0,.6))}',
+    '.bgc-hd{position:absolute;top:6%;bottom:6%;width:2px;margin-left:-1px;background:' + G + ';box-shadow:0 0 12px rgba(201,164,92,.7);pointer-events:none}',
+    '.bgc-hd i{position:absolute;top:50%;left:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:#0E0E0F;border:2px solid ' + G + ';display:flex;align-items:center;justify-content:center;color:#E2C285;font:700 15px Manrope,sans-serif;font-style:normal}',
+    '.bgc-nm{position:absolute;top:2%;font:italic 900 20px Archivo,sans-serif;color:#E2C285;pointer-events:none}.bgc-nm.l{left:2%}.bgc-nm.r{right:2%;text-align:right}',
+    '.bgc-l{flex:1 1 280px;max-width:400px;display:flex;flex-direction:column;gap:14px}',
+    '.bgc-l h3{margin:6px 0 0;font:800 13px Manrope,sans-serif;letter-spacing:.14em;color:#8E8A83}',
+    /* 5 kesim haritasi */
+    '.bgm{display:flex;flex-wrap:wrap;gap:28px;align-items:center}',
+    '.bgm-c{flex:2 1 460px;min-width:0;display:flex;flex-direction:column;align-items:center}',
+    '.bgm-c canvas{width:min(580px,100%);aspect-ratio:1/1;filter:drop-shadow(0 26px 26px rgba(0,0,0,.6))}',
+    '.bgm-l{flex:1 1 300px;max-width:420px;display:flex;flex-direction:column;gap:12px}',
+    '.bgm-k{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;padding:12px 14px;border-radius:14px;border:1px solid #2A292E;background:#141416;color:#F2F0EB;font-family:Manrope,sans-serif;cursor:pointer;transition:border-color .2s,background .2s}',
+    '.bgm-k:hover,.bgm-k.on{border-color:' + G + ';background:#1B1912}',
+    '.bgm-k i{flex:0 0 auto;width:18px;height:18px;border-radius:5px;margin-top:2px}',
+    '.bgm-k b{display:block;font-size:15px;margin-bottom:3px}.bgm-k span{font-size:13px;line-height:1.5;color:#A9A59D}',
+    '.bgm-tb{display:flex;flex-wrap:wrap;gap:6px}',
+    '.bgm-tb button{min-height:36px;padding:0 14px;border-radius:999px;border:1px solid #3A383F;background:transparent;color:#F2F0EB;font:700 12px Manrope,sans-serif;cursor:pointer}.bgm-tb button.on{background:' + G + ';border-color:' + G + ';color:#0E0E0F}',
+    /* paylas */
+    '.bgs-share{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border-radius:999px;border:1px dashed ' + G + ';background:transparent;color:#E2C285;font:700 13px Manrope,sans-serif;cursor:pointer;align-self:flex-start}',
+    '.bgs-share:hover{background:rgba(201,164,92,.12)}',
+    '.bgo-toast{position:fixed;left:50%;bottom:70px;transform:translateX(-50%);z-index:2147483001;padding:10px 16px;border-radius:999px;background:#141416;border:1px solid ' + G + ';color:#E2C285;font:700 13px Manrope,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.5)}'
+  ].join('');
+  var SHARE_IC = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/></svg>';
+  function toast(t) { var d = document.createElement('div'); d.className = 'bgo-toast'; d.textContent = t; document.body.appendChild(d); setTimeout(function () { d.remove(); }, 2600); }
+
+  /* ===== 3: kombinini paylas (1080x1920 hikaye gorseli) ===== */
+  function ped(x, cx, cy, w, h) {
+    var g = x.createRadialGradient(cx, cy - h * .2, 10, cx, cy, w * .55); g.addColorStop(0, '#2A292E'); g.addColorStop(.6, '#161618'); g.addColorStop(1, 'rgba(14,14,15,0)');
+    x.save(); x.fillStyle = g; x.beginPath(); x.ellipse(cx, cy, w / 2, h / 2, 0, 0, 6.283); x.fill();
+    x.strokeStyle = 'rgba(226,194,133,.55)'; x.lineWidth = 2; x.beginPath(); x.ellipse(cx, cy, w / 2, h / 2, 0, Math.PI * 1.05, Math.PI * 1.95); x.stroke(); x.restore();
+  }
+  function card(list, slug) {
+    var W = 1080, H = 1920, c = document.createElement('canvas'); c.width = W; c.height = H; var x = c.getContext('2d');
+    var bg = x.createRadialGradient(W / 2, H * .45, 50, W / 2, H * .45, W * .9); bg.addColorStop(0, '#1C1A16'); bg.addColorStop(.55, '#111112'); bg.addColorStop(1, '#0B0B0C');
+    x.fillStyle = bg; x.fillRect(0, 0, W, H);
+    x.strokeStyle = 'rgba(201,164,92,.7)'; x.lineWidth = 3; x.strokeRect(46, 46, W - 92, H - 92);
+    x.fillStyle = '#E2C285'; x.font = 'italic 900 64px Archivo, sans-serif'; x.textAlign = 'center'; x.fillText('BETAGUARD', W / 2, 190);
+    x.fillStyle = '#8E8A83'; x.font = '700 26px Manrope, sans-serif'; x.fillText('CİHAZA ÖZEL KESİM KAPLAMA', W / 2, 245);
+    return Promise.all(list.map(function (d) { return comp(d, slug, 1000); })).then(function (cs) {
+      if (cs.length === 1) { ped(x, W / 2, 1210, 760, 120); x.save(); x.shadowColor = 'rgba(0,0,0,.6)'; x.shadowBlur = 50; x.shadowOffsetY = 30; x.drawImage(cs[0], 40, 260, 1000, 1000); x.restore(); }
+      else {
+        var n = cs.length, sz = n === 2 ? 560 : 470, pos = n === 2 ? [[300, 640], [780, 980]] : [[540, 560], [300, 1000], [780, 1000]];
+        cs.forEach(function (cc, i) { var p = pos[i]; ped(x, p[0], p[1] + sz * .36, sz * .8, 80); x.save(); x.shadowColor = 'rgba(0,0,0,.6)'; x.shadowBlur = 40; x.shadowOffsetY = 24; x.drawImage(cc, p[0] - sz / 2, p[1] - sz / 2, sz, sz); x.restore(); });
+      }
+      x.fillStyle = '#E2C285'; x.font = 'italic 900 110px Archivo, sans-serif'; x.fillText(NAME[slug], W / 2, 1460);
+      x.fillStyle = '#F2F0EB'; x.font = '700 40px Manrope, sans-serif';
+      var t = list.length === 1 ? list[0].b + ' ' + list[0].m : list.map(function (d) { return d.m; }).join(' · ');
+      while (x.measureText(t).width > W - 160 && t.length > 10) t = t.slice(0, -2); x.fillText(t, W / 2, 1540);
+      x.fillStyle = '#A9A59D'; x.font = '600 34px Manrope, sans-serif'; x.fillText(list.length === 1 ? '39 desenden biri' : 'Aynı desenle set', W / 2, 1600);
+      x.fillStyle = '#C9A45C'; x.fillRect(W / 2 - 60, 1680, 120, 3);
+      x.fillStyle = '#F2F0EB'; x.font = '800 40px Manrope, sans-serif'; x.fillText('betaguard.com.tr', W / 2, 1760);
+      x.fillStyle = '#E2C285'; x.font = '700 34px Manrope, sans-serif'; x.fillText('@betaguard.tr', W / 2, 1815);
+      return c;
+    });
+  }
+  function shareCard(list, slug) {
+    toast('Görsel hazırlanıyor…');
+    card(list, slug).then(function (c) {
+      c.toBlob(function (b) {
+        if (!b) { toast('Görsel oluşturulamadı'); return; }
+        var fn = 'betaguard-' + (list.length === 1 ? list[0].s.replace(/-kaplama$/, '') : 'set') + '-' + slug + '.png';
+        try { var f = new File([b], fn, { type: 'image/png' }); if (navigator.canShare && navigator.canShare({ files: [f] }) && /Mobi|Android|iPhone/i.test(navigator.userAgent)) { navigator.share({ files: [f], title: 'Betaguard', text: NAME[slug] + ' · betaguard.com.tr' }).catch(function () {}); return; } } catch (e) {}
+        var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = fn; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+        toast('Görsel indirildi');
+      }, 'image/png');
+    });
+  }
+  function S3share() {
+    var r = document.querySelector('[data-bgs] .bgs-r'); if (!r) return false; if (r.querySelector('.bgs-share')) return true;
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'bgs-share'; b.innerHTML = SHARE_IC + 'Kombinini paylaş <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#C9A45C;color:#0E0E0F;letter-spacing:.08em">ÖNİZLEME 3</span>';
+    b.addEventListener('click', function () { var s = stage(); shareCard([s.d], s.p); });
+    r.appendChild(b); return true;
+  }
+
+  /* ===== 1: urun sayfasi sahnesi ===== */
+  function S1() {
+    var d = bySlug(location.pathname.replace(/^\/|\/$/g, '')); if (!d) return false;
+    var main = document.querySelector('.bg-gal-main'); if (!main) return false;
+    if (main.querySelector('.bgp')) return true;
+    var o = document.createElement('div'); o.className = 'bgp'; o.setAttribute('data-bgo1', '1');
+    o.innerHTML = '<span class="bgp-bd">' + badge(1, 'Ürün sahnesi').replace('class="bgo-bd"', 'class="bgo-bd" style="position:static"') + '</span>' +
+      '<div class="bgp-pd" aria-hidden="true"></div><div class="bgp-st"><canvas width="1000" height="1000" role="img"></canvas><img class="bgp-bare" alt="" aria-hidden="true"></div>' +
+      '<span class="bgp-lb l">ORİJİNAL</span><span class="bgp-lb r">KAPLAMALI</span><div class="bgp-hd" aria-hidden="true"><i>‹›</i></div>' +
+      '<div class="bgp-bt">' + (NOBARE[d.f] ? '' : '<button type="button" data-a="cmp">Önce / Sonra</button>') + '<button type="button" data-a="sh">' + SHARE_IC + 'Paylaş</button></div>';
+    main.appendChild(o);
+    var back = document.createElement('button'); back.type = 'button'; back.className = 'bgp-back'; back.textContent = 'Sahneye dön'; main.appendChild(back);
+    var cv = o.querySelector('canvas'), bare = o.querySelector('.bgp-bare'), hd = o.querySelector('.bgp-hd'), st = { p: null, c: null, cmp: false, x: 50 };
+    bare.crossOrigin = 'anonymous'; bare.src = IMG + d.f + '/bare.webp';
+    function cur() { var pp = document.querySelector('.bg-pp'); var m = pp && /Desen:\s*([^\n]+)/.exec(pp.innerText || ''); var nm = m && m[1].trim(); for (var k in NAME) if (NAME[k] === nm) return k; var q = /[?&]desen=([a-z0-9-]+)/.exec(location.search); return q && NAME[q[1]] ? q[1] : 'line-black'; }
+    function setP(s) {
+      if (s === st.p) return; st.p = s;
+      o.style.setProperty('--g', ({ 'royal-gold': '201,164,92', 'line-red': '208,26,44', 'nexus-cyan': '31,181,201', 'tactical-green': '90,165,72', 'mono-white': '232,230,224', 'mono-orange': '226,98,10', 'hexagonal-red': '192,40,58', 'topografik-navy': '40,90,170' })[s] || '201,164,92');
+      comp(d, s, 1000).then(function (c) { if (st.p !== s) return; if (st.c) wipe(cv, st.c, c, 1100, 1); else show(cv, c); st.c = c; });
+      o.classList.remove('off'); back.style.display = 'none';
     }
-    box.innerHTML = badge('1 + 4', 'Vitrin rafı · seçtiğin desen her cihazda') +
-      '<div class="bgo-hd"><div><p class="bgo-tag">Rafın deseni: <b class="bgo-cur">Her cihaz kendi deseninde</b></p><p class="bgo-sub" style="margin-top:4px">Yukarıdaki sahnede bir desen seçince raftaki bütün cihazlar o desene bürünür. Buradan da seçebilirsin.</p></div>' + chips(FEAT) + '</div>' +
-      '<div class="bgo-wall">' + rows + '</div>';
-    g.parentNode.insertBefore(box, g); g.style.display = 'none';
-    var cvs = box.querySelectorAll('canvas'), cur = {};
-    items.forEach(function (it, i) { comp(it.d, it.p, 500).then(function (c) { cur[i] = c; show(cvs[i], c); }); });
-    function all(slug, src) {
-      markChips(box, slug); box.querySelector('.bgo-cur').textContent = NAME[slug] + (src ? ' (sahneden)' : '');
-      items.forEach(function (it, i) {
-        it.p = slug; var a = box.querySelector('.bgo-it[data-i="' + i + '"]'); a.setAttribute('href', '/' + it.d.s + '?desen=' + slug);
-        comp(it.d, slug, 500).then(function (c) { setTimeout(function () { wipe(cvs[i], cur[i], c, 900, 1, null); cur[i] = c; }, i * 90); });
+    function setX(v) { st.x = clamp(v, 4, 96); bare.style.clipPath = 'inset(0 ' + (100 - st.x) + '% 0 0)'; hd.style.left = st.x + '%'; }
+    var drag = false, stg = o.querySelector('.bgp-st');
+    function px(e) { var r = stg.getBoundingClientRect(); return (e.clientX - r.left) / r.width * 100; }
+    o.addEventListener('pointerdown', function (e) { if (!st.cmp || e.target.closest('button')) return; drag = true; setX(px(e)); try { o.setPointerCapture(e.pointerId); } catch (z) {} });
+    o.addEventListener('pointermove', function (e) { if (drag) setX(px(e)); });
+    o.addEventListener('pointerup', function () { drag = false; });
+    o.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-a]'); if (!b) return;
+      if (b.getAttribute('data-a') === 'cmp') { st.cmp = !st.cmp; o.classList.toggle('cmp', st.cmp); if (st.cmp) setX(50); }
+      else shareCard([d], st.p || cur());
+    });
+    var ctl = main.querySelector('.bg-gal-ctl');
+    if (ctl) ctl.addEventListener('click', function () { o.classList.add('off'); back.style.display = 'inline-flex'; }, true);
+    back.addEventListener('click', function () { o.classList.remove('off'); back.style.display = 'none'; });
+    var pp = document.querySelector('.bg-pp');
+    if (pp) new MutationObserver(function () { setP(cur()); }).observe(pp, { subtree: true, childList: true, characterData: true });
+    setP(cur());
+    return true;
+  }
+
+  /* ===== 2: setini kapla ===== */
+  var KDEF = [['K', 'kamera-sony-alpha-a7-mark-iv'], ['L', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'drone-dji-mini-4-pro']];
+  function byDir(f) { var L = devs(); for (var i = 0; i < L.length; i++) if (L[i].f === f) return L[i]; return null; }
+  function find(q, types) {
+    q = String(q || '').toLowerCase().replace(/\bmark\s*/g, '').trim(); var toks = q.split(/\s+/).filter(Boolean);
+    return devs().filter(function (d) { if (types && types.indexOf(d.t) < 0) return false; var k = d.key || (d.b + ' ' + d.m).toLowerCase(); return toks.every(function (t) { return k.indexOf(t) >= 0; }); }).slice(0, 6);
+  }
+  function S2k() {
+    var anchor = document.querySelector('[data-bge5]') || document.querySelector('.bg26-pop'); if (!anchor) return false; if (document.querySelector('[data-bgo2k]')) return true;
+    var box = document.createElement('div'); box.className = 'bgo'; box.setAttribute('data-bgo2k', '1'); box.id = 'bgo-2';
+    var SL = [['K', 'KAMERA', ['K']], ['L', 'LENS', ['L']], ['D', 'DRONE / AKSİYON / GİMBAL', ['D', 'A', 'G']]];
+    box.innerHTML = badge(2, 'Setini kapla') +
+      '<div class="bgo-hd"><div><h2>Setini aynı desenle kapla.</h2><p class="bgo-sub">Cihazlarını seç, deseni seç, üçünü yan yana gör. 2 kaplamaya 250 ₺, 3 ve üzerine 500 ₺ indirim otomatik hesaplanır.</p></div>' + chips(FEAT) + '</div>' +
+      '<div class="bgk-sl">' + SL.map(function (s, i) { return '<div class="bgk-s" data-i="' + i + '"><label for="bgk-q' + i + '">' + s[1] + '</label><input id="bgk-q' + i + '" type="text" autocomplete="off" placeholder="Model yaz…"><button type="button" class="bgk-x" aria-label="Bu cihazı çıkar">×</button><div class="bgk-sg"></div></div>'; }).join('') + '</div>' +
+      '<div class="bgk-sc"><canvas width="1500" height="700" role="img" aria-label="Set önizlemesi"></canvas></div>' +
+      '<div class="bgk-bot"><div class="bgk-sum" aria-live="polite"></div><div class="bgk-act"><button type="button" class="bgo-btn g" data-a="sh">' + SHARE_IC + 'Setimi paylaş</button><small>Önizlemede her cihaz kendi sayfasına seçtiğin desenle açılır. Canlıya alırken tek tuşla sepete ekleme de bağlanabilir.</small></div></div>';
+    anchor.parentNode.insertBefore(box, anchor.nextSibling);
+    var st = { p: 'royal-gold', it: KDEF.map(function (k) { return byDir(k[1]); }), cs: [] };
+    var cv = box.querySelector('canvas'), x = cv.getContext('2d'), W = 1500, H = 700, prev = null, tok = 0;
+    function scene(cs) {
+      var c = document.createElement('canvas'); c.width = W; c.height = H; var y = c.getContext('2d');
+      var on = st.it.map(function (d, i) { return d ? i : -1; }).filter(function (i) { return i >= 0; }), n = on.length; if (!n) return c;
+      var slot = W / n, sz = Math.min(slot * .95, 600);
+      on.forEach(function (i, k) { var cx = slot * k + slot / 2; ped(y, cx, H * .82, sz * .78, 70); if (cs[i]) { y.save(); y.shadowColor = 'rgba(0,0,0,.6)'; y.shadowBlur = 34; y.shadowOffsetY = 22; y.drawImage(cs[i], cx - sz / 2, H * .82 - sz * .86, sz, sz); y.restore(); } });
+      return c;
+    }
+    function render() {
+      var my = ++tok;
+      Promise.all(st.it.map(function (d) { return d ? comp(d, st.p, 600) : Promise.resolve(null); })).then(function (cs) {
+        if (my !== tok) return; var s = scene(cs);
+        var k = function () { prev = s; };
+        if (prev) { var tmp = document.createElement('canvas'); tmp.width = W; tmp.height = H; wipeWide(prev, s, k); } else { x.clearRect(0, 0, W, H); x.drawImage(s, 0, 0); k(); }
       });
+      sum(); markChips(box, st.p); box.style.setProperty('--g', '201,164,92');
+      st.it.forEach(function (d, i) { box.querySelector('#bgk-q' + i).value = d ? d.b + ' ' + d.m : ''; });
     }
-    box.querySelector('.bgo-chips').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) all(b.getAttribute('data-p')); });
-    onStage(function (s) { all(s.p, 1); });
+    function wipeWide(a, b, cb) {
+      var t0 = 0, D = 1100, Wd = 120, my = tok;
+      function fr(now) { if (my !== tok) return; if (!t0) t0 = now; var k = Math.min(1, (now - t0) / D), px = ease(k) * (W + 2 * Wd) - Wd;
+        x.clearRect(0, 0, W, H); x.drawImage(a, 0, 0); x.save(); x.beginPath(); x.rect(0, 0, Math.max(0, px), H); x.clip(); x.drawImage(b, 0, 0); x.restore();
+        if (k < 1) { x.save(); x.globalCompositeOperation = 'source-atop'; var g = x.createLinearGradient(px - Wd, 0, px + Wd, 0); g.addColorStop(0, 'rgba(255,236,190,0)'); g.addColorStop(.5, 'rgba(255,236,190,.85)'); g.addColorStop(1, 'rgba(255,236,190,0)'); x.fillStyle = g; x.fillRect(px - Wd, 0, 2 * Wd, H); x.restore(); requestAnimationFrame(fr); } else { x.clearRect(0, 0, W, H); x.drawImage(b, 0, 0); cb(); } }
+      requestAnimationFrame(fr);
+    }
+    function sum() {
+      var L = st.it.filter(Boolean), sub = L.reduce(function (a, d) { return a + (+d.p || 0); }, 0), ds = L.length >= 3 ? 500 : L.length === 2 ? 250 : 0, tot = sub - ds;
+      var h = L.map(function (d) { return '<div><a href="/' + d.s + '?desen=' + st.p + '">' + esc(d.b + ' ' + d.m) + ' · ' + esc(NAME[st.p]) + ' →</a><span>' + fmt(d.p) + '</span></div>'; }).join('');
+      if (!L.length) h = '<div><span>Bir cihaz seç.</span></div>';
+      h += '<div><span>Ara toplam</span><span>' + fmt(sub) + '</span></div>';
+      h += '<div class="ds"><span>Set indirimi' + (ds ? ' (' + L.length + ' kaplama)' : '') + '</span><span>' + (ds ? '−' + fmt(ds) : (L.length === 1 ? 'bir cihaz daha ekle: −250 ₺' : '—')) + '</span></div>';
+      h += '<div><span>Kargo</span><span>' + (tot >= 2000 ? 'Ücretsiz' : '200 ₺') + '</span></div>';
+      h += '<div class="tt"><span>Toplam</span><span>' + fmt(tot + (tot >= 2000 || !L.length ? 0 : 200)) + '</span></div>';
+      box.querySelector('.bgk-sum').innerHTML = h;
+    }
+    [].forEach.call(box.querySelectorAll('.bgk-s'), function (s) {
+      var i = +s.getAttribute('data-i'), inp = s.querySelector('input'), sg = s.querySelector('.bgk-sg'), list = [];
+      inp.addEventListener('focus', function () { inp.select(); });
+      inp.addEventListener('input', function () { list = inp.value.trim().length < 2 ? [] : find(inp.value, SL[i][2]); sg.innerHTML = list.map(function (d, k) { return '<button type="button" data-k="' + k + '"><b>' + esc(d.b) + '</b> ' + esc(d.m) + ' <span style="color:#8E8A83;font-size:12px">· ' + fmt(d.p) + '</span></button>'; }).join(''); sg.style.display = list.length ? 'block' : 'none'; });
+      sg.addEventListener('mousedown', function (e) { var b = e.target.closest('button'); if (!b) return; e.preventDefault(); st.it[i] = list[+b.getAttribute('data-k')]; sg.style.display = 'none'; inp.blur(); render(); });
+      inp.addEventListener('blur', function () { setTimeout(function () { sg.style.display = 'none'; var d = st.it[i]; inp.value = d ? d.b + ' ' + d.m : ''; }, 150); });
+      s.querySelector('.bgk-x').addEventListener('click', function () { st.it[i] = null; render(); });
+    });
+    box.querySelector('.bgo-chips').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { st.p = b.getAttribute('data-p'); render(); } });
+    box.querySelector('[data-a="sh"]').addEventListener('click', function () { var L = st.it.filter(Boolean); if (L.length) shareCard(L, st.p); });
+    onStage(function (s) { if (s.p !== st.p) { st.p = s.p; render(); } });
+    render();
     return true;
   }
 
-  /* ===== 5: desen bulucu test ===== */
-  var FAM = function (s) { return s.split('-')[0]; };
-  var TAG = {
-    style: { sade: 'mono-black mono-white mono-green mono-blue mono-brown carbon line-black tactical-black tactical-grey royal-black topografik-black topografik-white hexagonal-silver', dikkat: 'line-red nexus-red hexagonal-red tactical-red mono-red mono-orange mono-yellow nexus-cyan line-cyan hexagonal-blue tactical-blue line-blue nexus-blue mono-pink lego', klasik: 'royal-gold royal-navy royal-black carbon mono-black mono-brown line-navy topografik-black mono-white', eglenceli: 'lego mono-pink mono-yellow mono-orange nexus-cyan line-cyan tactical-blue topografik-red topografik-blue tactical-green' },
-    color: { siyah: 'carbon mono-black tactical-black line-black royal-black topografik-white hexagonal-silver tactical-grey line-navy', mavi: 'line-blue line-cyan line-navy tactical-blue hexagonal-blue nexus-blue nexus-cyan topografik-navy topografik-blue mono-blue royal-navy', sicak: 'royal-gold line-red tactical-red hexagonal-red nexus-red mono-red mono-orange mono-yellow topografik-red mono-brown lego mono-pink', yesil: 'tactical-green hexagonal-green topografik-green mono-green', acik: 'mono-white line-white nexus-white topografik-black topografik-green topografik-blue topografik-red tactical-grey' },
-    place: { studyo: 'carbon mono-black royal-black line-black tactical-black mono-white royal-gold royal-navy', sokak: 'line-black line-white line-navy line-blue line-cyan line-red nexus-white nexus-blue nexus-cyan nexus-red hexagonal-silver hexagonal-blue hexagonal-red mono-red mono-orange mono-yellow', doga: 'tactical-black tactical-grey tactical-green tactical-blue tactical-red topografik-black topografik-white topografik-navy topografik-blue topografik-green topografik-red hexagonal-green mono-green mono-brown', etkinlik: 'royal-gold royal-navy nexus-red line-red mono-white carbon hexagonal-silver' }
-  };
-  var QS = [
-    ['style', 'Tarzın nasıl?', [['sade', 'Sade'], ['klasik', 'Klasik, şık'], ['dikkat', 'Dikkat çekici'], ['eglenceli', 'Eğlenceli']]],
-    ['color', 'Hangi renkler?', [['siyah', 'Siyah – gri'], ['mavi', 'Mavi tonları'], ['sicak', 'Kırmızı – altın – turuncu'], ['yesil', 'Yeşil'], ['acik', 'Beyaz – açık']]],
-    ['place', 'En çok nerede çekiyorsun?', [['studyo', 'Stüdyo / iş'], ['sokak', 'Sokak / seyahat'], ['doga', 'Doğa / outdoor'], ['etkinlik', 'Düğün / etkinlik']]]
-  ];
-  function S5() {
-    var pop = document.querySelector('.bg26-pop'); if (!pop) return false; if (document.querySelector('[data-bgo5]')) return true;
-    var box = document.createElement('div'); box.className = 'bgo'; box.setAttribute('data-bgo5', '1'); box.id = 'bgo-5';
-    box.innerHTML = badge(5, 'Sana uygun deseni bulalım') +
-      '<div class="bgo-hd"><div><h2>Kararsız mısın? 3 soruda bulalım.</h2><p class="bgo-sub">Cevaplarına göre 39 desen arasından üçünü seçip <b class="bgo-dn"></b> üzerinde gösteriyoruz.</p></div></div>' +
-      QS.map(function (q, i) { return '<div class="bgo-q" data-k="' + q[0] + '"><h3><i>0' + (i + 1) + '</i>' + q[1] + '</h3><div class="bgo-opts">' + q[2].map(function (o) { return '<button type="button" data-v="' + o[0] + '" aria-pressed="false">' + o[1] + '</button>'; }).join('') + '</div></div>'; }).join('') +
-      '<div class="bgo-res" aria-live="polite"></div>';
-    pop.parentNode.insertBefore(box, pop.nextSibling);
-    var ans = {}, dev = stage().d;
-    box.querySelector('.bgo-dn').textContent = dev.b + ' ' + dev.m;
-    function inT(cat, key, s) { return (' ' + TAG[cat][key] + ' ').indexOf(' ' + s + ' ') >= 0; }
-    function run() {
-      var res = box.querySelector('.bgo-res');
-      if (!ans.style || !ans.color || !ans.place) { res.innerHTML = ''; return; }
-      var sc = P.map(function (p, i) { var s = p[0]; return [s, (inT('color', ans.color, s) ? 3 : 0) + (inT('style', ans.style, s) ? 2 : 0) + (inT('place', ans.place, s) ? 1 : 0) - (FEAT.indexOf(s) < 0 ? .1 : 0) - i * .001]; }).sort(function (a, b) { return b[1] - a[1]; });
-      var pick = [], fams = {};
-      sc.forEach(function (x) { if (pick.length < 3 && !fams[FAM(x[0])]) { pick.push(x[0]); fams[FAM(x[0])] = 1; } });
-      sc.forEach(function (x) { if (pick.length < 3 && pick.indexOf(x[0]) < 0) pick.push(x[0]); });
-      res.innerHTML = pick.map(function (s, i) {
-        return '<div class="bgo-rc"><span class="n">' + (i ? (i + 1) + '. ÖNERİ' : 'EN UYGUN') + '</span><canvas width="500" height="500" role="img" aria-label="' + esc(dev.b + ' ' + dev.m + ' ' + NAME[s]) + '"></canvas><em>' + esc(NAME[s]) + '</em><small>' + esc(dev.b + ' ' + dev.m) + ' üzerinde</small><div><a class="bgo-btn g" href="/' + dev.s + '?desen=' + s + '">İncele</a><button type="button" class="bgo-btn" data-try="' + s + '">Sahnede dene</button></div></div>';
-      }).join('');
-      var cv = res.querySelectorAll('canvas');
-      pick.forEach(function (s, i) { comp(dev, s, 500).then(function (c) { var b = document.createElement('canvas'); b.width = b.height = 500; wipe(cv[i], b, c, 900 + i * 200, 1); }); });
+  /* ===== 4: iki deseni karsilastir ===== */
+  function S4() {
+    var anchor = document.querySelector('[data-bgo2k]'); if (!anchor) return false; if (document.querySelector('[data-bgo4]')) return true;
+    var box = document.createElement('div'); box.className = 'bgo'; box.setAttribute('data-bgo4', '1'); box.id = 'bgo-4';
+    box.innerHTML = badge(4, 'İki deseni karşılaştır') +
+      '<div class="bgc"><div class="bgc-l"><h2>Hangisi?</h2><p class="bgo-sub">İki desen seç, ortadaki tutamacı sürükle. <b class="bgo-dn"></b> üzerinde.</p>' +
+      '<h3>SOL</h3>' + chips(FEAT, 'L') + '<h3>SAĞ</h3>' + chips(FEAT, 'R') + '</div>' +
+      '<div class="bgc-c"><div class="bgc-st"><canvas width="1000" height="1000" role="img" aria-label="İki desen karşılaştırması"></canvas><span class="bgc-nm l"></span><span class="bgc-nm r"></span><div class="bgc-hd" aria-hidden="true"><i>‹›</i></div></div><div class="bgo-ped" aria-hidden="true"></div></div></div>';
+    anchor.parentNode.insertBefore(box, anchor.nextSibling);
+    var cv = box.querySelector('canvas'), x = cv.getContext('2d'), stg = box.querySelector('.bgc-st'), hd = box.querySelector('.bgc-hd');
+    var st = { d: stage().d, l: 'royal-gold', r: 'carbon', cl: null, cr: null, pos: 50 };
+    function draw() {
+      x.clearRect(0, 0, 1000, 1000); var X = st.pos * 10;
+      if (st.cr) x.drawImage(st.cr, 0, 0);
+      if (st.cl) { x.save(); x.beginPath(); x.rect(0, 0, X, 1000); x.clip(); x.clearRect(0, 0, X, 1000); x.drawImage(st.cl, 0, 0); x.restore(); }
+      hd.style.left = st.pos + '%';
     }
-    box.addEventListener('click', function (e) {
-      var t = e.target.closest('[data-try]'); if (t) { stagePick(t.getAttribute('data-try')); return; }
-      var b = e.target.closest('.bgo-opts button'); if (!b) return;
-      var q = b.closest('.bgo-q'); ans[q.getAttribute('data-k')] = b.getAttribute('data-v');
-      [].forEach.call(q.querySelectorAll('button'), function (x) { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      run();
-    });
-    onStage(function (s) { if (s.d.f !== dev.f) { dev = s.d; box.querySelector('.bgo-dn').textContent = dev.b + ' ' + dev.m; run(); } });
-    return true;
-  }
-
-  /* ===== 7: cizik testi ===== */
-  function S7() {
-    var why = document.querySelector('[data-bg-why]'); if (!why) return false; if (document.querySelector('[data-bgo7]')) return true;
-    var box = document.createElement('div'); box.className = 'bgo'; box.setAttribute('data-bgo7', '1'); box.id = 'bgo-7';
-    box.innerHTML = badge(7, 'Çizik testi') +
-      '<div class="bgo-sc"><div class="bgo-sc-l"><h2>Çiz bakalım.</h2><p class="bgo-sub">Fareyle ya da parmağınla cihazın üzerine çizik at. Sonra kaplamayı sök ve altına bak.</p>' +
-      '<div class="bgo-msg" aria-live="polite"></div><div style="display:flex;flex-wrap:wrap;gap:10px"><button type="button" class="bgo-btn g" data-a="sok">Kaplamayı sök</button><button type="button" class="bgo-btn" data-a="yeni">Yeniden kapla</button></div></div>' +
-      '<div class="bgo-sc-r"><canvas width="900" height="900" role="img" aria-label="Çizik testi: kaplamalı cihaz"></canvas><span class="bgo-hint">✎ Cihazın üzerine çiz</span><div class="bgo-ped" aria-hidden="true"></div></div></div>';
-    why.parentNode.insertBefore(box, why);
-    var cv = box.querySelector('canvas'), x = cv.getContext('2d'), N = 900;
-    var sc = document.createElement('canvas'); sc.width = sc.height = N; var sx = sc.getContext('2d');
-    var st = { d: stage().d, p: 'carbon', c: null, b: null, off: false, n: 0 };
-    function render() { if (!st.c) return; x.clearRect(0, 0, N, N); x.drawImage(st.c, 0, 0); x.save(); x.globalCompositeOperation = 'source-atop'; x.drawImage(sc, 0, 0); x.restore(); }
-    function load() { Promise.all([comp(st.d, st.p, N), bare(st.d, N)]).then(function (r) { st.c = r[0]; st.b = r[1]; st.off = false; render(); }); }
-    function flat() { var c = document.createElement('canvas'); c.width = c.height = N; var y = c.getContext('2d'); y.drawImage(st.c, 0, 0); y.globalCompositeOperation = 'source-atop'; y.drawImage(sc, 0, 0); return c; }
-    var drawing = false, lp = null;
-    function pt(e) { var r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * N, (e.clientY - r.top) / r.height * N]; }
-    function line(a, b) {
-      var segs = 6, px = a[0], py = a[1];
-      for (var i = 1; i <= segs; i++) {
-        var t = i / segs, nx = a[0] + (b[0] - a[0]) * t + (Math.random() - .5) * 4, ny = a[1] + (b[1] - a[1]) * t + (Math.random() - .5) * 4;
-        sx.strokeStyle = 'rgba(0,0,0,.35)'; sx.lineWidth = 3.2; sx.lineCap = 'round'; sx.beginPath(); sx.moveTo(px + 1.5, py + 1.5); sx.lineTo(nx + 1.5, ny + 1.5); sx.stroke();
-        sx.strokeStyle = 'rgba(235,235,235,.75)'; sx.lineWidth = 1.6; sx.beginPath(); sx.moveTo(px, py); sx.lineTo(nx, ny); sx.stroke();
-        px = nx; py = ny;
-      }
+    function load() {
+      box.querySelector('.bgo-dn').textContent = st.d.b + ' ' + st.d.m;
+      box.querySelector('.bgc-nm.l').textContent = NAME[st.l]; box.querySelector('.bgc-nm.r').textContent = NAME[st.r];
+      [].forEach.call(box.querySelectorAll('.bgo-chips.L button'), function (b) { b.classList.toggle('on', b.getAttribute('data-p') === st.l); });
+      [].forEach.call(box.querySelectorAll('.bgo-chips.R button'), function (b) { b.classList.toggle('on', b.getAttribute('data-p') === st.r); });
+      Promise.all([comp(st.d, st.l, 1000), comp(st.d, st.r, 1000)]).then(function (r) { st.cl = r[0]; st.cr = r[1]; draw(); });
     }
-    cv.addEventListener('pointerdown', function (e) { if (st.off || !st.c) return; drawing = true; lp = pt(e); try { cv.setPointerCapture(e.pointerId); } catch (z) {} box.querySelector('.bgo-hint').style.opacity = '0'; });
-    cv.addEventListener('pointermove', function (e) { if (!drawing) return; var p = pt(e); line(lp, p); lp = p; st.n++; render(); if (st.n === 40) msg('İyi gidiyorsun. Şimdi <b>Kaplamayı sök</b> düğmesine bas.'); });
-    window.addEventListener('pointerup', function () { drawing = false; });
-    function msg(h) { box.querySelector('.bgo-msg').innerHTML = h; }
-    box.addEventListener('click', function (e) {
-      var a = e.target.closest('[data-a]'); if (!a || !st.c) return;
-      if (a.getAttribute('data-a') === 'sok' && !st.off) {
-        st.off = true; wipe(cv, flat(), st.b, 1400, -1, function () { msg(st.n ? '<b>Cihaz tertemiz.</b> Çiziklerin hepsi kaplamada kaldı.' : '<b>Cihaz tertemiz.</b> Önce birkaç çizik atıp tekrar dene.'); });
-      } else if (a.getAttribute('data-a') === 'yeni') {
-        sx.clearRect(0, 0, N, N); st.n = 0; var from = st.off ? st.b : flat(); st.off = true;
-        wipe(cv, from, st.c, 1100, 1, function () { st.off = false; msg(''); box.querySelector('.bgo-hint').style.opacity = '1'; });
-      }
-    });
-    onStage(function (s) { if (s.d.f !== st.d.f) { st.d = s.d; sx.clearRect(0, 0, N, N); st.n = 0; msg(''); load(); } });
+    var drag = false;
+    function pos(e) { var r = stg.getBoundingClientRect(); st.pos = clamp((e.clientX - r.left) / r.width * 100, 3, 97); draw(); }
+    stg.addEventListener('pointerdown', function (e) { drag = true; pos(e); try { stg.setPointerCapture(e.pointerId); } catch (z) {} });
+    stg.addEventListener('pointermove', function (e) { if (drag || e.pointerType === 'mouse' && e.buttons) pos(e); });
+    stg.addEventListener('pointerup', function () { drag = false; });
+    box.addEventListener('click', function (e) { var b = e.target.closest('.bgo-chips button'); if (!b) return; if (b.closest('.L')) st.l = b.getAttribute('data-p'); else st.r = b.getAttribute('data-p'); load(); });
+    onStage(function (s) { if (s.d.f !== st.d.f) { st.d = s.d; load(); } });
     load();
     return true;
   }
 
-  /* ===== 3: desen askisi ===== */
-  var GRP = [['all', 'Tümü'], ['royal', 'Royal'], ['carbon', 'Carbon'], ['tactical', 'Tactical'], ['hexagonal', 'Hexagonal'], ['topografik', 'Topografik'], ['line', 'Line'], ['nexus', 'Nexus'], ['mono', 'Mono'], ['lego', 'Lego']];
-  function S3() {
-    var wall = document.querySelector('[data-bg-wall][data-v24]'); if (!wall) return false; if (document.querySelector('[data-bgo3]')) return true;
-    var box = document.createElement('div'); box.className = 'bgo'; box.setAttribute('data-bgo3', '1'); box.id = 'bgo-3';
-    box.innerHTML = badge(3, 'Desen askısı') +
-      '<div class="bgo-ak"><div class="bgo-ak-i"><h2>Askıdan seç.</h2><p class="bgo-sub">Bir desene dokun, <b class="bgo-dn"></b> o desenle kaplansın.</p>' +
-      '<div class="bgo-ak-sw"><img alt=""><span class="bgo-lim" hidden>LİMİTED</span></div><em class="bgo-pn"></em><small class="bgo-ps"></small>' +
-      '<div style="display:flex;flex-wrap:wrap;gap:10px"><a class="bgo-btn g bgo-go" href="#">Bu desenle incele</a><button type="button" class="bgo-btn" data-try="1">Sahnede göster</button></div></div>' +
-      '<div class="bgo-ak-c"><canvas width="900" height="900" role="img"></canvas><div class="bgo-ped" aria-hidden="true"></div></div></div>' +
-      '<div class="bgo-grp" role="group" aria-label="Seri">' + GRP.map(function (g) { return '<button type="button" data-g="' + g[0] + '"' + (g[0] === 'all' ? ' class="on"' : '') + '>' + g[1] + '</button>'; }).join('') + '</div>' +
-      '<div class="bgo-rail"><div class="bgo-rail-t">' + P.map(function (p) {
-        return '<button type="button" class="bgo-hg" data-p="' + p[0] + '" aria-label="' + esc(p[1]) + (LIM[p[0]] ? ' (limited)' : '') + '"><svg aria-hidden="true" width="24" height="32" viewBox="0 0 26 34" fill="none" stroke="#C9A45C" stroke-width="2" stroke-linecap="round"><path d="M13 30V20"></path><path d="M13 20c0-4 6-4 6-9a6 6 0 0 0-12 0"></path></svg><span class="cd"><img alt="" loading="lazy" src="' + IMG + 'site/desen/' + p[0] + '.webp">' + (LIM[p[0]] ? '<span class="bgo-lim">LİMİTED</span>' : '') + '</span><span>' + esc(p[1]) + '</span></button>';
-      }).join('') + '</div></div>';
-    wall.parentNode.insertBefore(box, wall); wall.classList.add('bgo-old');
-    var cv = box.querySelector('canvas'), st = { d: stage().d, p: 'royal-gold', c: null };
-    function info() {
+  /* ===== 5: kesim haritasi ===== */
+  var MT = [['K', 'Kamera', 'kamera-sony-alpha-a7-mark-iv'], ['L', 'Lens', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'Drone', 'drone-dji-mini-4-pro'], ['A', 'Aksiyon', 'aksiyon-kamera-dji-osmo-pocket-3']];
+  function S5m() {
+    var anchor = document.querySelector('[data-bge7]'); if (!anchor) return false; if (document.querySelector('[data-bgo5m]')) return true;
+    var box = document.createElement('div'); box.className = 'bgo'; box.setAttribute('data-bgo5m', '1'); box.id = 'bgo-5';
+    box.innerHTML = badge(5, 'Kesim haritası') +
+      '<div class="bgm"><div class="bgm-l"><h2>Nereler kaplanıyor?</h2><p class="bgo-sub">Kaplama, <b class="bgo-dn"></b> için ayrı ayrı kesilmiş parçalardan oluşur. Üzerine gel, hangi bölge nasıl kaplanıyor gör.</p>' +
+      '<div class="bgm-tb" role="group" aria-label="Cihaz">' + MT.filter(function (t) { return byDir(t[2]); }).map(function (t) { return '<button type="button" data-f="' + t[2] + '">' + t[1] + '</button>'; }).join('') + '</div>' +
+      '<button type="button" class="bgm-k" data-k="d"><i style="background:#E2C285"></i><div><b>Desenli parçalar</b><span>Metal yüzeyler seçtiğin desenle kaplanır.</span></div></button>' +
+      '<button type="button" class="bgm-k" data-k="t"><i style="background:#7FA8D9"></i><div><b>Dokulu siyah parçalar</b><span>Plastik ve kauçuk kısımlar dokulu siyah kaplamayla kaplanır.</span></div></button>' +
+      '<button type="button" class="bgm-k" data-k="o"><i style="background:#3A383F;border:1px solid #6B6870"></i><div><b>Açık kalan yerler</b><span>Lens, ekran, düğmeler ve portlar kapanmaz.</span></div></button>' +
+      '</div><div class="bgm-c"><canvas width="900" height="900" role="img" aria-label="Kesim haritası"></canvas><div class="bgo-ped" aria-hidden="true"></div></div></div>';
+    anchor.parentNode.insertBefore(box, anchor.nextSibling);
+    var cv = box.querySelector('canvas'), x = cv.getContext('2d'), N = 900, st = { d: stage().d, base: null, m: null, hl: null, t0: 0 };
+    function maps(d) {
+      var S = 450;
+      return Promise.all([limg(IMG + d.f + '/mono-white.webp'), limg(IMG + d.f + '/mono-black.webp'), limg(IMG + d.f + '/bare.webp')]).then(function (r) {
+        var g = function (im) { var c = document.createElement('canvas'); c.width = c.height = S; c.getContext('2d').drawImage(im, 0, 0, S, S); return c.getContext('2d').getImageData(0, 0, S, S).data; };
+        var w = g(r[0]), k = g(r[1]), b = g(r[2]);
+        var mk = function (col) { var c = document.createElement('canvas'); c.width = c.height = S; return [c, c.getContext('2d').createImageData(S, S)]; };
+        var D = mk(), T = mk(), O = mk();
+        for (var i = 0; i < S * S; i++) {
+          var j = i * 4; if (b[j + 3] < 90) continue;
+          var lw = (w[j] + w[j + 1] + w[j + 2]) / 3, lk = (k[j] + k[j + 1] + k[j + 2]) / 3, lb = (b[j] + b[j + 1] + b[j + 2]) / 3;
+          var tgt;
+          if (lw - lk > 70) tgt = D; else if (Math.abs(lk - lb) > 16 || Math.abs((k[j] - b[j]) + (k[j + 2] - b[j + 2])) > 30) tgt = T; else tgt = O;
+          tgt[1].data[j] = 255; tgt[1].data[j + 1] = 255; tgt[1].data[j + 2] = 255; tgt[1].data[j + 3] = 255;
+        }
+        [D, T, O].forEach(function (m) { m[0].getContext('2d').putImageData(m[1], 0, 0); });
+        var tint = function (m, col) { var c = document.createElement('canvas'); c.width = c.height = N; var y = c.getContext('2d'); y.filter = 'blur(1.2px)'; y.drawImage(m[0], 0, 0, N, N); y.filter = 'none'; y.globalCompositeOperation = 'source-in'; y.fillStyle = col; y.fillRect(0, 0, N, N); return c; };
+        return { d: tint(D, '#E2C285'), t: tint(T, '#7FA8D9'), o: tint(O, '#6B6870') };
+      });
+    }
+    function load() {
       box.querySelector('.bgo-dn').textContent = st.d.b + ' ' + st.d.m;
-      box.querySelector('.bgo-pn').textContent = NAME[st.p];
-      box.querySelector('.bgo-ps').textContent = st.p.split('-')[0].toUpperCase() + ' serisi · ' + (P.map(function (p) { return p[0]; }).indexOf(st.p) + 1) + ' / 39';
-      box.querySelector('.bgo-ak-sw img').src = IMG + 'site/desen/' + st.p + '.webp';
-      box.querySelector('.bgo-ak-sw .bgo-lim').hidden = !LIM[st.p];
-      box.querySelector('.bgo-go').setAttribute('href', '/' + st.d.s + '?desen=' + st.p);
-      cv.setAttribute('aria-label', st.d.b + ' ' + st.d.m + ' ' + NAME[st.p] + ' kaplama');
-      [].forEach.call(box.querySelectorAll('.bgo-hg'), function (b) { b.classList.toggle('on', b.getAttribute('data-p') === st.p); });
+      [].forEach.call(box.querySelectorAll('.bgm-tb button'), function (b) { b.classList.toggle('on', b.getAttribute('data-f') === st.d.f); });
+      Promise.all([comp(st.d, 'royal-gold', N), maps(st.d)]).then(function (r) { st.base = r[0]; st.m = r[1]; st.t0 = performance.now(); loop(); });
     }
-    function set(s, first) { st.p = s; info(); comp(st.d, s, 900).then(function (c) { if (first || !st.c) show(cv, c); else wipe(cv, st.c, c, 1100, 1); st.c = c; }); }
-    box.addEventListener('click', function (e) {
-      var h = e.target.closest('.bgo-hg'); if (h) { set(h.getAttribute('data-p')); return; }
-      var g = e.target.closest('[data-g]'); if (g) { var k = g.getAttribute('data-g'); [].forEach.call(box.querySelectorAll('[data-g]'), function (x) { x.classList.toggle('on', x === g); }); [].forEach.call(box.querySelectorAll('.bgo-hg'), function (b) { b.style.display = k === 'all' || b.getAttribute('data-p').split('-')[0] === k ? '' : 'none'; }); return; }
-      if (e.target.closest('[data-try]')) stagePick(st.p);
+    var raf = 0;
+    function loop() { cancelAnimationFrame(raf); raf = requestAnimationFrame(function fr(now) { draw(now); if (document.documentElement.contains(box)) raf = requestAnimationFrame(fr); }); }
+    function draw(now) {
+      if (!st.base) return; x.clearRect(0, 0, N, N); x.drawImage(st.base, 0, 0);
+      var ph = (now - st.t0) / 1000, auto = ['d', 't', 'o'][Math.floor(ph / 1.6) % 3];
+      ['d', 't', 'o'].forEach(function (k) {
+        var on = st.hl ? st.hl === k : true, pulse = st.hl ? (.55 + .25 * Math.sin(ph * 4)) : (auto === k ? .62 : .32);
+        x.save(); x.globalAlpha = on ? pulse : .08; x.drawImage(st.m[k], 0, 0); x.restore();
+      });
+      if (!st.hl) [].forEach.call(box.querySelectorAll('.bgm-k'), function (b) { b.classList.toggle('on', b.getAttribute('data-k') === auto); });
+    }
+    [].forEach.call(box.querySelectorAll('.bgm-k'), function (b) {
+      var k = b.getAttribute('data-k');
+      b.addEventListener('mouseenter', function () { st.hl = k; [].forEach.call(box.querySelectorAll('.bgm-k'), function (z) { z.classList.toggle('on', z === b); }); });
+      b.addEventListener('mouseleave', function () { st.hl = null; });
+      b.addEventListener('click', function () { st.hl = st.hl === k ? null : k; });
     });
-    onStage(function (s) { if (s.d.f !== st.d.f) { st.d = s.d; st.c = null; set(st.p, 1); } });
-    set('royal-gold', 1);
-    return true;
-  }
-
-  /* ===== 6: desen buyuteci ===== */
-  function S6() {
-    var a3 = document.querySelector('[data-bgo3]'); if (!a3) return false; if (document.querySelector('[data-bgo6]')) return true;
-    var box = document.createElement('div'); box.className = 'bgo'; box.setAttribute('data-bgo6', '1'); box.id = 'bgo-6';
-    box.innerHTML = badge(6, 'Desen büyüteci') +
-      '<div class="bgo-mg"><div class="bgo-mg-l"><h2>Dokuyu yakından gör.</h2><p class="bgo-sub">Fareyi (telefonda parmağını) cihazın üzerinde gezdir; büyüteç baskıyı ve kesimi yakından gösterir.</p>' + chips(FEAT) + '</div>' +
-      '<div class="bgo-mg-c"><canvas class="d" width="1000" height="1000" role="img"></canvas><div class="bgo-lens" aria-hidden="true"><canvas width="380" height="380"></canvas></div></div></div>';
-    a3.parentNode.insertBefore(box, a3.nextSibling);
-    var cv = box.querySelector('canvas.d'), lens = box.querySelector('.bgo-lens'), lc = lens.querySelector('canvas'), lx = lc.getContext('2d'), st = { d: stage().d, p: 'royal-gold', c: null };
-    function set(s, first) { st.p = s; markChips(box, s); cv.setAttribute('aria-label', st.d.b + ' ' + st.d.m + ' ' + NAME[s]); comp(st.d, s, 1000).then(function (c) { if (first || !st.c) show(cv, c); else wipe(cv, st.c, c, 1000, 1); st.c = c; }); }
-    function mv(e) {
-      if (!st.c) return; var r = cv.getBoundingClientRect(), wr = cv.parentNode.getBoundingClientRect();
-      var u = (e.clientX - r.left) / r.width, v = (e.clientY - r.top) / r.height;
-      if (u < 0 || u > 1 || v < 0 || v > 1) { lens.style.opacity = '0'; return; }
-      lens.style.opacity = '1'; lens.style.left = (e.clientX - wr.left - 95) + 'px'; lens.style.top = (e.clientY - wr.top - 95 - (e.pointerType === 'touch' ? 90 : 0)) + 'px';
-      var Z = 2.6, src = 190 * 1000 / (r.width * Z);
-      lx.fillStyle = '#0E0E0F'; lx.fillRect(0, 0, 380, 380);
-      lx.drawImage(st.c, u * 1000 - src / 2, v * 1000 - src / 2, src, src, 0, 0, 380, 380);
-    }
-    cv.addEventListener('pointermove', mv); cv.addEventListener('pointerdown', mv);
-    cv.addEventListener('pointerleave', function () { lens.style.opacity = '0'; });
-    cv.addEventListener('pointerup', function (e) { if (e.pointerType === 'touch') lens.style.opacity = '0'; });
-    box.querySelector('.bgo-chips').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) set(b.getAttribute('data-p')); });
-    onStage(function (s) { if (s.d.f !== st.d.f) { st.d = s.d; st.c = null; set(st.p, 1); } });
-    set('royal-gold', 1);
-    return true;
-  }
-
-  /* ===== 2: nasil uygulanir - kaydirdikca kaplanan cihaz (v2) ===== */
-  var ICO = [
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18c3-1 5-4 6-8l6 6c-4 1-7 3-8 6z"/><path d="M15 3l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/><path d="M19 10l.6 1.2 1.2.6-1.2.6-.6 1.2-.6-1.2-1.2-.6 1.2-.6z"/></svg>',
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/><circle cx="12" cy="12" r="1.5"/></svg>',
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0-6 0"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>',
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h10a3 3 0 0 1 0 6H9l-2 6H5l1-6H4z"/><path d="M17 9c1.5 0 2 1 3 1M17 13c1.5 0 2 1 3 1"/></svg>'
-  ];
-  var CAP = ['Toz ve parmak izi kalmasın.', 'Düğme boşluklarına göre yerini bul.', 'Ortadan kenarlara doğru bastır.', 'Kenarları ısıt, bastır. Hazır.'];
-  function S2() {
-    var steps = document.querySelector('[data-bg="steps"]'); if (!steps) return false; if (document.querySelector('[data-bgo2]')) return true;
-    var T = [].map.call(steps.querySelectorAll('.bg-card'), function (c) { var h = c.querySelector('h3'), p = c.querySelector('p'); return [h ? h.textContent : '', p ? p.textContent : '']; });
-    if (T.length < 4) T = [['Temizle', ''], ['Hizala', ''], ['Yapıştır', ''], ['Kenarları oturt', '']];
-    var box = document.createElement('div'); box.className = 'bgo bgo-st'; box.setAttribute('data-bgo2', '1'); box.id = 'bgo-2';
-    box.innerHTML = '<div class="bgo-st-scroll"><div class="bgo-st-sticky"><div class="bgo-st-in">' + badge(2, 'Nasıl uygulanır · v2') +
-      '<div class="bgo-st-l"><span class="bgo-eb">4 ADIMDA, 10 DAKİKADA</span><h2 style="margin-bottom:10px">Nasıl uygulanır?</h2>' + T.slice(0, 4).map(function (t, i) { return '<button type="button" class="bgo-step" data-s="' + i + '"><i class="ic">' + ICO[i] + '</i><div><b><em>0' + (i + 1) + '</em>' + esc(t[0]) + '</b><span>' + esc(t[1]) + '</span></div></button>'; }).join('') +
-      '<div class="bgo-end"><a class="bgo-btn g" href="#" data-top="1">Cihazını seç</a><a class="bgo-btn" href="/blog/uygulama-rehberi">Ayrıntılı rehber</a></div></div>' +
-      '<div class="bgo-st-r"><span class="bgo-num" aria-hidden="true">01</span><canvas width="900" height="900" role="img" aria-label="Kaplama uygulama adımları"></canvas><div class="bgo-ped" aria-hidden="true"></div>' +
-      '<p class="bgo-cap" aria-live="polite"></p><div class="bgo-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>' +
-      '</div></div></div>';
-    steps.parentNode.insertBefore(box, steps); steps.classList.add('bgo-old');
-    var cv = box.querySelector('canvas'), x = cv.getContext('2d'), N = 900, st = { d: stage().d, p: 'royal-gold', c: null, b: null, o: null, dust: [] };
-    var sc = box.querySelector('.bgo-st-scroll'), stepEls = box.querySelectorAll('.bgo-step'), dots = box.querySelectorAll('.bgo-dots i'), num = box.querySelector('.bgo-num'), cap = box.querySelector('.bgo-cap'), endB = box.querySelector('.bgo-end');
-    function outline(b) {
-      var o = document.createElement('canvas'); o.width = o.height = N; var y = o.getContext('2d');
-      var s = document.createElement('canvas'); s.width = s.height = N; var z = s.getContext('2d'); z.drawImage(b, 0, 0); z.globalCompositeOperation = 'source-in'; z.fillStyle = '#E2C285'; z.fillRect(0, 0, N, N);
-      [[-4, 0], [4, 0], [0, -4], [0, 4], [-3, -3], [3, 3], [-3, 3], [3, -3]].forEach(function (d) { y.drawImage(s, d[0], d[1]); });
-      y.globalCompositeOperation = 'destination-out'; y.drawImage(s, 0, 0); return o;
-    }
-    function dust(b) {
-      var t = document.createElement('canvas'); t.width = t.height = 90; var y = t.getContext("2d"), out = []; y.drawImage(b, 0, 0, 90, 90);
-      try { var a = y.getImageData(0, 0, 90, 90).data; for (var k = 0; k < 4000 && out.length < 70; k++) { var px = Math.random() * 90 | 0, py = Math.random() * 90 | 0; if (a[(py * 90 + px) * 4 + 3] > 220) out.push([px * 10 + Math.random() * 10, py * 10 + Math.random() * 10, 1.5 + Math.random() * 3.5, .25 + Math.random() * .45]); } } catch (e) {}
-      return out;
-    }
-    function load() { Promise.all([comp(st.d, st.p, N), bare(st.d, N)]).then(function (r) { st.c = r[0]; st.b = r[1]; st.o = outline(r[1]); st.dust = dust(r[1]); draw(); }); }
-    function prog() { var r = sc.getBoundingClientRect(), h = r.height - innerHeight; return clamp(-r.top / Math.max(1, h), 0, 1); }
-    function star(cx, cy, r, a) { x.save(); x.globalAlpha = a; x.fillStyle = '#FFF4D6'; x.beginPath(); for (var i = 0; i < 8; i++) { var ang = i * Math.PI / 4, rr = i % 2 ? r * .28 : r; x.lineTo(cx + Math.cos(ang) * rr, cy + Math.sin(ang) * rr); } x.closePath(); x.fill(); x.restore(); }
-    var lastSi = -1;
-    function draw() {
-      if (!st.c) return;
-      var p = prog(), si = Math.min(3, Math.floor(p * 4)), t = clamp((p - si * .25) / .25, 0, 1), e = ease(t);
-      if (si !== lastSi) {
-        lastSi = si; [].forEach.call(stepEls, function (el, i) { el.classList.toggle('on', i === si); el.classList.toggle('dn', i < si); });
-        num.textContent = '0' + (si + 1); num.classList.remove('in'); void num.offsetWidth; num.classList.add('in');
-        cap.textContent = CAP[si];
-      }
-      [].forEach.call(dots, function (d, i) { d.style.setProperty('--f', (i < si ? 1 : i > si ? 0 : t).toFixed(3)); });
-      endB.classList.toggle('on', p > .96);
-      x.clearRect(0, 0, N, N);
-      if (si === 0) {
-        x.drawImage(st.b, 0, 0); var sx = t * (N + 240) - 120;
-        x.save(); x.globalCompositeOperation = 'source-atop';
-        st.dust.forEach(function (d) { if (d[0] > sx) { x.globalAlpha = d[3]; x.fillStyle = '#D8D4CC'; x.beginPath(); x.arc(d[0], d[1], d[2], 0, 6.283); x.fill(); } });
-        x.restore();
-        glint(x, sx, N, 110, '255,255,255');
-        st.dust.forEach(function (d, i) { if (i % 6 === 0 && d[0] < sx && d[0] > sx - 260) star(d[0], d[1], 9 + (i % 3) * 3, clamp(1 - (sx - d[0]) / 260, 0, 1)); });
-      } else if (si === 1) {
-        x.drawImage(st.b, 0, 0);
-        x.save(); x.globalAlpha = .35 + .35 * Math.sin(t * 18) * (1 - e) + (t > .9 ? (t - .9) * 6 : 0); x.drawImage(st.o, 0, 0); x.restore();
-        x.save(); x.globalAlpha = .6 + .4 * e; x.translate(N / 2 + (1 - e) * N * .2, N / 2 - (1 - e) * N * .14); x.rotate(-(1 - e) * .1); var sc2 = 1 + (1 - e) * .06; x.scale(sc2, sc2);
-        x.shadowColor = 'rgba(0,0,0,.55)'; x.shadowBlur = 40 * (1 - e); x.shadowOffsetY = 34 * (1 - e); x.drawImage(st.c, -N / 2, -N / 2); x.restore();
-        if (t > .9) { x.save(); x.globalAlpha = (1 - t) * 10 * .8; x.drawImage(st.o, 0, 0); x.restore(); }
-      } else if (si === 2) {
-        x.drawImage(st.b, 0, 0);
-        x.save(); x.globalCompositeOperation = 'source-atop'; x.fillStyle = 'rgba(242,240,235,.16)'; x.fillRect(0, 0, N, N); x.restore();
-        var R = e * N * .78;
-        x.save(); x.beginPath(); x.arc(N / 2, N / 2, Math.max(1, R), 0, 6.283); x.clip(); x.drawImage(st.c, 0, 0); x.restore();
-        if (t < .98) {
-          var tmp = document.createElement('canvas'); tmp.width = tmp.height = N; var y = tmp.getContext('2d'); y.drawImage(st.b, 0, 0); y.globalCompositeOperation = 'source-in';
-          var g = y.createRadialGradient(N / 2, N / 2, Math.max(0, R - 30), N / 2, N / 2, R + 6); g.addColorStop(0, 'rgba(255,236,190,0)'); g.addColorStop(.8, 'rgba(255,236,190,.85)'); g.addColorStop(1, 'rgba(201,164,92,0)');
-          y.fillStyle = g; y.fillRect(0, 0, N, N); x.drawImage(tmp, 0, 0);
-        }
-      } else {
-        x.drawImage(st.c, 0, 0);
-        var h = Math.sin(clamp(t / .55, 0, 1) * Math.PI);
-        if (h > .01) { x.save(); x.globalAlpha = h * .9; x.shadowColor = 'rgba(255,130,40,.9)'; x.shadowBlur = 26; x.globalCompositeOperation = 'lighter'; x.drawImage(st.o, 0, 0); x.restore(); }
-        if (t > .45 && t < .95) glint(x, ((t - .45) / .5) * (N + 200) - 100, N, 80, '255,236,190');
-        if (t > .85) {
-          var k = ease(clamp((t - .85) / .15, 0, 1)), r = 58 * k, cx = N * .5, cy = N * .5;
-          x.save(); x.globalAlpha = k; x.fillStyle = '#C9A45C'; x.beginPath(); x.arc(cx, cy, r, 0, 6.283); x.fill();
-          x.strokeStyle = '#0E0E0F'; x.lineWidth = 9 * k; x.lineCap = 'round'; x.lineJoin = 'round'; x.beginPath(); x.moveTo(cx - r * .42, cy + r * .02); x.lineTo(cx - r * .1, cy + r * .32); x.lineTo(cx + r * .45, cy - r * .3); x.stroke(); x.restore();
-        }
-      }
-    }
-    function goStep(i) { var r = sc.getBoundingClientRect(), h = r.height - innerHeight, y = r.top + scrollY + h * (i * .25 + .2); scrollTo({ top: y, behavior: 'smooth' }); }
-    [].forEach.call(stepEls, function (el, i) { el.addEventListener('click', function () { goStep(i); }); });
-    box.querySelector('[data-top]').addEventListener('click', function (e) { e.preventDefault(); var s = document.querySelector('[data-bgs]'); if (s) { s.scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(function () { var q = document.getElementById('bgs-q'); if (q) q.focus({ preventScroll: true }); }, 700); } });
-    var tick = false;
-    window.addEventListener('scroll', function () { if (tick) return; tick = true; requestAnimationFrame(function () { tick = false; if (document.documentElement.contains(box)) draw(); }); }, { passive: true });
-    window.addEventListener('resize', draw);
-    onStage(function (s) { if (s.d.f !== st.d.f || s.p !== st.p) { st.d = s.d; st.p = s.p; load(); } });
+    box.querySelector('.bgm-tb').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { st.d = byDir(b.getAttribute('data-f')) || st.d; load(); } });
+    onStage(function (s) { if (s.d.f !== st.d.f) { st.d = s.d; load(); } });
     load();
     return true;
   }
@@ -485,24 +525,29 @@
   function nav() {
     if (document.querySelector('.bgo-nav')) return;
     var n = document.createElement('div'); n.className = 'bgo-nav'; n.setAttribute('role', 'navigation'); n.setAttribute('aria-label', 'Önizlemeler');
-    n.innerHTML = 'ÖNİZLEME ' + [2].map(function (i) { return '<button type="button" data-n="' + i + '" aria-label="Önizleme ' + i + '">' + i + '</button>'; }).join('') + '<button type="button" data-x="1" aria-label="Önizlemeyi kapat">×</button>';
+    n.innerHTML = 'ÖNİZLEME ' + [1, 2, 3, 4, 5].map(function (i) { return '<button type="button" data-n="' + i + '" aria-label="Önizleme ' + i + '">' + i + '</button>'; }).join('') + '<button type="button" data-x="1" aria-label="Önizlemeyi kapat">×</button>';
     n.addEventListener('click', function (e) {
       var b = e.target.closest('button'); if (!b) return;
-      if (b.getAttribute('data-x')) { location.href = '/'; return; }
-      var k = +b.getAttribute('data-n'), id = { 1: 'bgo-1', 4: 'bgo-1', 2: 'bgo-2', 3: 'bgo-3', 5: 'bgo-5', 6: 'bgo-6', 7: 'bgo-7' }[k];
-      var el = document.getElementById(id); if (!el) return;
-      var y = el.getBoundingClientRect().top + scrollY - 70; scrollTo({ top: y, behavior: 'smooth' });
+      if (b.getAttribute('data-x')) { location.href = location.pathname; return; }
+      var k = +b.getAttribute('data-n'), V = (/[?&]onizleme=([0-9a-f]+)/.exec(location.search) || [])[1] || '';
+      var home = location.pathname === '/' || location.pathname === '';
+      if (k === 1) { if (home) { location.href = '/sony-alpha-a7-iv-kaplama?desen=royal-gold&onizleme=' + V; } else { var g = document.querySelector('.bg-gal'); if (g) g.scrollIntoView({ behavior: 'smooth', block: 'center' }); } return; }
+      if (!home) { location.href = '/?onizleme=' + V + '#bgo-' + k; return; }
+      var el = k === 3 ? document.querySelector('[data-bgs]') : document.getElementById('bgo-' + k); if (!el) return;
+      scrollTo({ top: el.getBoundingClientRect().top + scrollY - 70, behavior: 'smooth' });
     });
     document.body.appendChild(n);
   }
-  var DONE = {};
   function build() {
-    if (!document.getElementById('bgo-css')) { var s = document.createElement('style'); s.id = 'bgo-css'; s.textContent = css; document.head.appendChild(s); }
+    if (!document.getElementById('bgo-css')) { var s = document.createElement('style'); s.id = 'bgo-css'; s.textContent = css + css2; document.head.appendChild(s); }
     if (!devs().length) return;
-    watchStage();
-    [['2', S2]].forEach(function (f) { if (!DONE[f[0]] || !document.querySelector('[data-bgo' + f[0] + ']')) { try { DONE[f[0]] = f[1](); } catch (e) { if (window.console) console.warn('bgo', f[0], e); } } });
+    var home = location.pathname === '/' || location.pathname === '';
+    var L = home ? [['3', S3share], ['2k', S2k], ['4', S4], ['5m', S5m]] : [['1', S1]];
+    if (home) watchStage();
+    L.forEach(function (f) { try { f[1](); } catch (e) { if (window.console) console.warn('bgo', f[0], e); } });
     nav();
+    if (home && location.hash && /^#bgo-\d$/.test(location.hash) && !build.j) { var el = document.querySelector(location.hash); if (el) { build.j = 1; setTimeout(function () { el.scrollIntoView({ block: 'start' }); }, 600); } }
   }
-  var tries = 0, iv = setInterval(function () { build(); if (++tries > 60) clearInterval(iv); }, 500);
-  new MutationObserver(function () { if (tries > 60) build(); }).observe(document.documentElement, { childList: true, subtree: false });
+  var q = false; function sch() { if (q) return; q = true; setTimeout(function () { q = false; build(); }, 400); }
+  sch(); new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true });
 })();
