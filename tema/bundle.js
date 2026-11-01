@@ -3883,7 +3883,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         var s = ST.getBoundingClientRect(), sx = (e.clientX - s.left) / s.width - .5, sy = (e.clientY - s.top) / s.height - .5;
         sx = Math.max(-1, Math.min(1, sx)); sy = Math.max(-1, Math.min(1, sy));
         if (R3) { R3.hover(sx, sy); return; }
-        DV.style.transform = 'perspective(1100px) rotateY(' + (sx * 14).toFixed(2) + 'deg) rotateX(' + (-sy * 10).toFixed(2) + 'deg)';
+        DV.style.transform = 'perspective(1600px) rotateY(' + (sx * 3).toFixed(2) + 'deg) rotateX(' + (-sy * 2).toFixed(2) + 'deg)';
       });
       root.addEventListener('pointerleave', function () { if (R3) R3.hover(null); DV.style.transform = ''; root.style.setProperty('--mx', '50%'); root.style.setProperty('--my', '55%'); });
     }
