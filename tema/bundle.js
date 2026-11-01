@@ -4671,11 +4671,19 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       y.fillStyle = 'rgba(255,255,255,.45)'; y.fillRect(W * .04, fy - 2, W * .92, 1.5);
       y.save(); y.shadowColor = 'rgba(226,194,133,.9)'; y.shadowBlur = 22; y.fillStyle = '#E2C285'; y.fillRect(W * .06, fy + 16, W * .88, 3); y.restore();
       if (!n) return c;
-      var slot = (W * (W < 1200 ? .96 : .9)) / n;
-      on.forEach(function (i, k) {
-        var cc = cs[i]; if (!cc) return;
-        var b = bb(cc), S = cc.width, bw = (b[2] - b[0]) * S, bh = (b[3] - b[1]) * S;
-        var sc = Math.min(slot * (n > 2 ? .9 : .8) / bw, H * .66 / bh), dw = bw * sc, dh = bh * sc, cx = W * (W < 1200 ? .02 : .05) + slot * k + slot / 2, dx = cx - dw / 2, dy = fy - dh;
+      /* gercek boyuta yakin ortak olcek: her cihaz turu icin yaklasik mm; lens bayonet altta dik durur */
+      var it = on.map(function (i) {
+        var cc = cs[i]; if (!cc) return null; var d = st.it[i], t = d.t;
+        var q = bb(cc), S = cc.width, sw = (q[2] - q[0]) * S, sh = (q[3] - q[1]) * S, img = document.createElement('canvas');
+        if (t === 'L') { img.width = Math.round(sh); img.height = Math.round(sw); var g = img.getContext('2d'); g.translate(img.width, 0); g.rotate(Math.PI / 2); g.drawImage(cc, q[0] * S, q[1] * S, sw, sh, 0, 0, sw, sh); }
+        else { img.width = Math.round(sw); img.height = Math.round(sh); img.getContext('2d').drawImage(cc, q[0] * S, q[1] * S, sw, sh, 0, 0, sw, sh); }
+        var w = img.width, h = img.height, mm = t === 'K' ? 132 / w : t === 'L' ? 82 / w : t === 'D' ? 175 / w : t === 'A' ? 72 / w : t === 'G' ? 260 / h : 130 / w;
+        return { img: img, w: w, h: h, mw: w * mm, mh: h * mm };
+      }).filter(Boolean);
+      var gap = W * .045, tw = it.reduce(function (a, o) { return a + o.mw; }, 0), mh = Math.max.apply(null, it.map(function (o) { return o.mh; }));
+      var K = Math.min((W * (W < 1200 ? .9 : .82) - gap * (it.length - 1)) / tw, H * .68 / mh), tot = tw * K + gap * (it.length - 1), x0 = (W - tot) / 2;
+      it.forEach(function (o) {
+        var cc = o.img, b = [0, 0, 1, 1], S = 1, bw = o.w, bh = o.h, dw = o.mw * K, dh = o.mh * K, dx = x0, cx = dx + dw / 2, dy = fy - dh; x0 += dw + gap;
         /* ust spot isigi */
         var sp = y.createRadialGradient(cx, fy - dh * .55, 10, cx, fy - dh * .55, Math.max(dw, dh) * .8); sp.addColorStop(0, 'rgba(226,194,133,.13)'); sp.addColorStop(1, 'rgba(226,194,133,0)'); y.fillStyle = sp; y.fillRect(cx - dw, fy - dh * 1.4, dw * 2, dh * 1.4);
         /* temas golgesi */
