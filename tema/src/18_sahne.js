@@ -188,7 +188,7 @@
         st.p = s; info();
         var oc = st.cur; st.cur = nc;
         if (RM || !oc) { paint(nc); st.busy = false; return done(); }
-        var t0 = 0, D = PV ? 750 : 1300, W = N * 0.09;
+        var t0 = 0, D = 750, W = N * 0.09;
         function fr(now) {
           if (dev !== st.dev) return;
           if (!t0) t0 = now;
@@ -358,7 +358,7 @@
     var timer = setInterval(function () {
       if (!document.documentElement.contains(root)) { clearInterval(timer); return; }
       if (st.hold || RM || document.hidden || !st.vis || st.busy) return;
-      if (PV && root.matches(':hover')) return;
+      if (root.matches(':hover')) return;
       stepFeat(1);
     }, 4200);
 

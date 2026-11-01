@@ -21,7 +21,7 @@
   function devs() { return window.__bgDevices || []; }
   function bySlug(s) { var L = devs(); for (var i = 0; i < L.length; i++) if (L[i].s === s) return L[i]; return null; }
   var PV = /[?&]onizleme=/.test(location.search);
-  var DEF = PV ? { s: 'sony-alpha-a7r-v-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7R V', p: 2000, f: 'kamera-sony-alpha-a7r-v' } : { s: 'sony-alpha-a7-iv-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7 IV', p: 2000, f: 'kamera-sony-alpha-a7-mark-iv' };
+  var DEF = true ? { s: 'sony-alpha-a7r-v-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7R V', p: 2000, f: 'kamera-sony-alpha-a7r-v' } : { s: 'sony-alpha-a7-iv-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7 IV', p: 2000, f: 'kamera-sony-alpha-a7-mark-iv' };
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function fmt(n) { return Number(n).toLocaleString('tr-TR') + ' ₺'; }
   function ease(k) { return k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
@@ -353,7 +353,7 @@
   }
 
   /* ===== 2: setini kapla ===== */
-  var KDEF = [['K', PV ? 'kamera-sony-alpha-a7r-v' : 'kamera-sony-alpha-a7-mark-iv'], ['L', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'drone-dji-mini-4-pro']];
+  var KDEF = [['K', true ? 'kamera-sony-alpha-a7r-v' : 'kamera-sony-alpha-a7-mark-iv'], ['L', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'drone-dji-mini-4-pro']];
   function byDir(f) { var L = devs(); for (var i = 0; i < L.length; i++) if (L[i].f === f) return L[i]; return null; }
   function find(q, types) {
     q = String(q || '').toLowerCase().replace(/\bmark\s*/g, '').trim(); var toks = q.split(/\s+/).filter(Boolean);
@@ -469,7 +469,7 @@
   }
 
   /* ===== 4: iki deseni karsilastir ===== */
-  var CT = [['K', 'Kamera', PV ? 'kamera-sony-alpha-a7r-v' : 'kamera-sony-alpha-a7-mark-iv'], ['L', 'Lens', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'Drone', 'drone-dji-mini-4-pro'], ['A', 'Aksiyon', 'aksiyon-kamera-dji-osmo-pocket-3']];
+  var CT = [['K', 'Kamera', true ? 'kamera-sony-alpha-a7r-v' : 'kamera-sony-alpha-a7-mark-iv'], ['L', 'Lens', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'Drone', 'drone-dji-mini-4-pro'], ['A', 'Aksiyon', 'aksiyon-kamera-dji-osmo-pocket-3']];
   function S4() {
     var anchor = document.querySelector('[data-bgx2k]'); if (!anchor) return false; if (document.querySelector('[data-bgx4]')) return true;
     var box = document.createElement('div'); box.className = 'bgx'; box.setAttribute('data-bgx4', '1'); box.id = 'bgx-4';
