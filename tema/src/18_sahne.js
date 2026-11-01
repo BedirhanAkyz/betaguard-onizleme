@@ -1,4 +1,4 @@
-/* v33: ana sayfa sahnesi - tek cihaz (Sony A7 IV) 3D gorunum (siluetten derinlikli govde, three.js), kaplama gecisi, desen secimi */
+/* v34: ana sayfa sahnesi - tek cihaz (Sony A7R V) gercek 3D govde (6 cephe fotografindan, three.js), kaplama gecisi, desen secimi */
 (function () {
   if (window.__bgSahne) return; window.__bgSahne = 1;
   if (window.__BG_SAHNE === false) return;
@@ -19,12 +19,12 @@
   var FEAT = ['royal-gold', 'carbon', 'topografik-navy', 'tactical-black', 'nexus-cyan', 'hexagonal-red', 'line-cyan', 'mono-white', 'royal-navy', 'tactical-green', 'line-red', 'mono-orange'];
   var LIMITED = { 'line-red': 1, 'nexus-red': 1 };
   var NOBARE = { 'kamera-sony-alpha-a6300': 1, 'kamera-canon-eos-50d': 1 };
-  var TABS = [['K', 'Kamera', 'kamera-sony-alpha-a7-mark-iv'], ['L', 'Lens', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'Drone', 'drone-dji-mini-4-pro'], ['G', 'Gimbal', 'gimbal-dji-rs-4'], ['A', 'Aksiyon', 'aksiyon-kamera-dji-osmo-pocket-3']];
-  var FALLBACK = { 'kamera-sony-alpha-a7-mark-iv': { s: 'sony-alpha-a7-iv-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7 IV', f: 'kamera-sony-alpha-a7-mark-iv' }, 'lens-sony-fe-24-70mm-f2-8-gm-ii': { s: 'sony-fe-24-70mm-f2-8-gm-ii-lens-kaplama', t: 'L', b: 'Sony', m: 'FE 24-70mm f2.8 GM II', f: 'lens-sony-fe-24-70mm-f2-8-gm-ii' }, 'drone-dji-mini-4-pro': { s: 'dji-mini-4-pro-kaplama', t: 'D', b: 'DJI', m: 'Mini 4 Pro', f: 'drone-dji-mini-4-pro' } };
+  var TABS = [['K', 'Kamera', 'kamera-sony-alpha-a7r-v'], ['L', 'Lens', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'Drone', 'drone-dji-mini-4-pro'], ['G', 'Gimbal', 'gimbal-dji-rs-4'], ['A', 'Aksiyon', 'aksiyon-kamera-dji-osmo-pocket-3']];
+  var FALLBACK = { 'kamera-sony-alpha-a7r-v': { s: 'sony-alpha-a7r-v-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7R V', f: 'kamera-sony-alpha-a7r-v' }, 'kamera-sony-alpha-a7-mark-iv': { s: 'sony-alpha-a7-iv-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7 IV', f: 'kamera-sony-alpha-a7-mark-iv' }, 'lens-sony-fe-24-70mm-f2-8-gm-ii': { s: 'sony-fe-24-70mm-f2-8-gm-ii-lens-kaplama', t: 'L', b: 'Sony', m: 'FE 24-70mm f2.8 GM II', f: 'lens-sony-fe-24-70mm-f2-8-gm-ii' }, 'drone-dji-mini-4-pro': { s: 'dji-mini-4-pro-kaplama', t: 'D', b: 'DJI', m: 'Mini 4 Pro', f: 'drone-dji-mini-4-pro' } };
   var GHOST = { K: 'KAMERAN', L: 'LENSİN', D: 'DRONUN', G: 'GİMBALİN', A: 'KAMERAN' };
   var TYPEN = { K: 'Kamera', L: 'Lens', D: 'Drone', G: 'Gimbal', A: 'Aksiyon kamera' };
+  var D3 = 'kamera-sony-alpha-a7r-v', A3 = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@9137e3dd/img/3d/a7rv/';
   var THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js';
-  var C3 = [[0.194,0.7864],[0.187,0.7864],[0.1857,0.786],[0.185,0.7846],[0.183,0.784],[0.139,0.7836],[0.128,0.7819],[0.127,0.7823],[0.121,0.7804],[0.1136,0.773],[0.1134,0.771],[0.1116,0.768],[0.1114,0.763],[0.1106,0.762],[0.1105,0.722],[0.1113,0.72],[0.1105,0.718],[0.1105,0.696],[0.1113,0.694],[0.1106,0.693],[0.1105,0.686],[0.1113,0.684],[0.1106,0.683],[0.1105,0.677],[0.1113,0.675],[0.1105,0.673],[0.1114,0.671],[0.1115,0.665],[0.1105,0.659],[0.1115,0.655],[0.1106,0.653],[0.1104,0.649],[0.1096,0.648],[0.1096,0.647],[0.1114,0.645],[0.1106,0.642],[0.1115,0.637],[0.1114,0.632],[0.1107,0.631],[0.1114,0.63],[0.1115,0.626],[0.1105,0.623],[0.1115,0.619],[0.1115,0.585],[0.1105,0.581],[0.1115,0.576],[0.1115,0.518],[0.1107,0.516],[0.1115,0.514],[0.1115,0.405],[0.1107,0.402],[0.1124,0.4],[0.1125,0.395],[0.1124,0.394],[0.11,0.3916],[0.094,0.3824],[0.0845,0.376],[0.0816,0.372],[0.0796,0.364],[0.0826,0.355],[0.089,0.3496],[0.093,0.3494],[0.095,0.3485],[0.099,0.3493],[0.102,0.3485],[0.105,0.3494],[0.106,0.3486],[0.115,0.3484],[0.1195,0.343],[0.1225,0.342],[0.1234,0.341],[0.1235,0.329],[0.1246,0.324],[0.129,0.3206],[0.162,0.3204],[0.1634,0.319],[0.1636,0.315],[0.167,0.3127],[0.169,0.3135],[0.183,0.3136],[0.184,0.3144],[0.186,0.3137],[0.1873,0.315],[0.1866,0.319],[0.189,0.3211],[0.191,0.3205],[0.195,0.3211],[0.201,0.3205],[0.204,0.3214],[0.206,0.3205],[0.208,0.3213],[0.212,0.3204],[0.221,0.3166],[0.228,0.3154],[0.229,0.3146],[0.245,0.3134],[0.247,0.3125],[0.257,0.3125],[0.279,0.3156],[0.285,0.3186],[0.287,0.3204],[0.292,0.3213],[0.293,0.3206],[0.297,0.3213],[0.301,0.3205],[0.304,0.3213],[0.306,0.3206],[0.308,0.3215],[0.311,0.3206],[0.312,0.3214],[0.314,0.3214],[0.317,0.3176],[0.32,0.3174],[0.3213,0.316],[0.32,0.3146],[0.316,0.3144],[0.3146,0.313],[0.3154,0.311],[0.3147,0.309],[0.3154,0.306],[0.3147,0.305],[0.3155,0.303],[0.3147,0.301],[0.3155,0.299],[0.3146,0.296],[0.3154,0.295],[0.3147,0.293],[0.3155,0.291],[0.3146,0.289],[0.3154,0.287],[0.3146,0.284],[0.319,0.2786],[0.328,0.2785],[0.331,0.2775],[0.362,0.2775],[0.364,0.2767],[0.366,0.2774],[0.369,0.2766],[0.371,0.2774],[0.374,0.2766],[0.376,0.2775],[0.386,0.2775],[0.388,0.2767],[0.39,0.2775],[0.415,0.2775],[0.418,0.2785],[0.421,0.2775],[0.423,0.2784],[0.425,0.2777],[0.426,0.2784],[0.433,0.2786],[0.4364,0.283],[0.4364,0.286],[0.4357,0.287],[0.4364,0.289],[0.4356,0.291],[0.438,0.2943],[0.443,0.2885],[0.4484,0.284],[0.4536,0.272],[0.459,0.2645],[0.465,0.2585],[0.477,0.2496],[0.4795,0.249],[0.4824,0.246],[0.4836,0.242],[0.488,0.2376],[0.49,0.2366],[0.497,0.2364],[0.499,0.2345],[0.5006,0.222],[0.5026,0.216],[0.504,0.2146],[0.514,0.2145],[0.516,0.2137],[0.518,0.2144],[0.522,0.213],[0.528,0.2127],[0.615,0.2129],[0.625,0.2135],[0.628,0.2145],[0.644,0.2146],[0.6454,0.218],[0.6456,0.221],[0.6474,0.224],[0.6476,0.233],[0.649,0.2355],[0.65,0.2364],[0.657,0.2366],[0.659,0.2376],[0.6644,0.243],[0.6646,0.245],[0.667,0.2485],[0.677,0.2546],[0.683,0.2596],[0.6894,0.267],[0.6983,0.283],[0.6977,0.284],[0.7004,0.292],[0.7006,0.296],[0.7024,0.3],[0.7026,0.307],[0.7034,0.308],[0.7036,0.316],[0.7045,0.318],[0.7045,0.334],[0.7053,0.336],[0.7047,0.337],[0.707,0.3394],[0.834,0.3395],[0.838,0.3405],[0.883,0.3405],[0.8844,0.341],[0.8846,0.348],[0.886,0.3494],[0.907,0.3496],[0.91,0.3506],[0.914,0.3536],[0.9174,0.358],[0.9192,0.363],[0.9194,0.368],[0.9164,0.376],[0.9,0.3864],[0.89,0.3916],[0.8856,0.395],[0.8855,0.411],[0.8863,0.413],[0.8856,0.415],[0.887,0.4164],[0.8904,0.417],[0.8905,0.423],[0.8904,0.425],[0.889,0.4264],[0.887,0.4266],[0.8855,0.429],[0.8855,0.462],[0.8863,0.464],[0.8855,0.467],[0.8855,0.739],[0.8846,0.741],[0.8844,0.749],[0.8804,0.759],[0.876,0.7655],[0.867,0.7734],[0.859,0.7774],[0.847,0.7804],[0.791,0.7807],[0.788,0.7825],[0.779,0.7815],[0.777,0.7823],[0.775,0.7815],[0.752,0.7812],[0.32,0.7815],[0.278,0.7835],[0.197,0.784],[0.195,0.7848],[0.194,0.7864]];
   var RM = false; try { RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
   function devs() { return window.__bgDevices || []; }
@@ -252,40 +252,71 @@
       });
       root.addEventListener('pointerleave', function () { if (R3) R3.hover(null); DV.style.transform = ''; root.style.setProperty('--mx', '50%'); root.style.setProperty('--my', '55%'); });
     }
-    /* 3D: siluetten derinlikli govde; doku = CV tuvali (gecis animasyonu dahil) */
+    /* 3D: Sony A7R V - 6 cephe fotografindan gorsel kabuk govde + doku atlasi. On yuz = CV (gecis dahil), diger yuzler = maske x desen */
     function init3D() {
-      if (R3 || init3D.t || !window.WebGLRenderingContext || st.dev.f !== 'kamera-sony-alpha-a7-mark-iv') return; init3D.t = 1;
+      if (R3 || init3D.t || !window.WebGLRenderingContext || st.dev.f !== D3) return; init3D.t = 1;
       var imp; try { imp = new Function('u', 'return import(u)'); } catch (e) { return; }
-      imp(THREE_URL).then(function (T) {
-        var S = 2, D = .4, k;
-        var shape = new T.Shape(); C3.forEach(function (p, i) { var X = (p[0] - .5) * S, Y = (.5 - p[1]) * S; if (i) shape.lineTo(X, Y); else shape.moveTo(X, Y); });
-        var uvg = {
-          generateTopUV: function (g, v, a, b, c) { return [a, b, c].map(function (i) { return new T.Vector2(v[i * 3] / S + .5, v[i * 3 + 1] / S + .5); }); },
-          generateSideWallUV: function (g, v, a, b, c, d) { return [a, b, c, d].map(function (i) { return new T.Vector2(v[i * 3] / S * .975 + .5, v[i * 3 + 1] / S * .975 + .5); }); }
-        };
-        var geo = new T.ExtrudeGeometry(shape, { depth: D, bevelEnabled: true, bevelThickness: .03, bevelSize: .014, bevelSegments: 4, curveSegments: 2, UVGenerator: uvg });
-        geo.translate(0, 0, -D / 2);
-        var tex = new T.CanvasTexture(CV); tex.colorSpace = T.SRGBColorSpace; tex.anisotropy = 4;
-        var cap = new T.MeshStandardMaterial({ map: tex, roughness: .5, metalness: .12 });
-        var side = new T.MeshStandardMaterial({ map: tex, roughness: .55, metalness: .1, color: 0x8a8a8a });
-        var mesh = new T.Mesh(geo, [cap, side]);
-        var scene = new T.Scene(), cam = new T.PerspectiveCamera(30, 1, .1, 50); cam.position.set(0, 0, 1 / Math.tan(15 * Math.PI / 180) + D / 2);
-        scene.add(new T.HemisphereLight(0xffffff, 0x2a2622, 1.6));
-        var key = new T.DirectionalLight(0xffffff, 1.9); key.position.set(-1.2, 1.4, 3); scene.add(key);
-        var rim = new T.DirectionalLight(0xE2C285, 1.6); rim.position.set(2.5, .8, -2); scene.add(rim);
+      Promise.all([imp(THREE_URL), fetch(A3 + 'a7rv.json').then(function (r) { return r.json(); }), limg(A3 + 'atlas_base.webp'), limg(A3 + 'atlas_mask.webp')]).then(function (R) {
+        var T = R[0], J = R[1], BA = R[2], MA = R[3]; if (!BA || !MA) return;
+        function dec(b, Ty) { var s = atob(b), u = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return new Ty(u.buffer); }
+        var p = dec(J.pos, Int16Array), uv = dec(J.uv, Uint16Array), nr = dec(J.nor, Int8Array), ix = dec(J.idx, J.i32 ? Uint32Array : Uint16Array);
+        var C = J.cells, F = C.front.c, dm = J.dim, XM = dm[0], ZH = dm[2], RS = 1000; /* render px */
+        var w = 0, h = 0; /* front render bbox (pad 6) */
+        var u0 = F[0] + 6, v0 = F[1] + 6, u1 = F[2] - 6, v1 = F[3] - 6, ku = (u1 - u0) / (2 * XM), kv = (v1 - v0) / ZH;
+        var n = p.length / 3, P = new Float32Array(n * 3), NN = new Float32Array(n * 3), U = new Float32Array(n * 2);
+        for (var i = 0; i < n; i++) {
+          var X = p[i * 3] / 50, Y = p[i * 3 + 1] / 50, Z = p[i * 3 + 2] / 50;
+          P[i * 3] = (u0 + (XM - X) * ku - 500) / 500; P[i * 3 + 1] = (500 - (v1 - Z * kv)) / 500; P[i * 3 + 2] = Y * kv / 500;
+          var a = -nr[i * 3], b = nr[i * 3 + 2], c = nr[i * 3 + 1], l = Math.sqrt(a * a + b * b + c * c) || 1; NN[i * 3] = a / l; NN[i * 3 + 1] = b / l; NN[i * 3 + 2] = c / l;
+          U[i * 2] = uv[i * 2] / 65535; U[i * 2 + 1] = uv[i * 2 + 1] / 65535;
+        }
+        var geo = new T.BufferGeometry(); geo.setAttribute('position', new T.BufferAttribute(P, 3)); geo.setAttribute('normal', new T.BufferAttribute(NN, 3)); geo.setAttribute('uv', new T.BufferAttribute(U, 2)); geo.setIndex(new T.BufferAttribute(ix, 1));
+        /* atlas tuvali */
+        var AW = BA.naturalWidth || 2048, AS = AW / 2048, AT = document.createElement('canvas'); AT.width = AT.height = AW; var AX = AT.getContext('2d');
+        var OV = {}, ovOld = null, ovNew = null, fade = 1;
+        function overlay(s) {
+          if (OV[s]) return Promise.resolve(OV[s]);
+          return limg(url(st.dev, s)).then(function (im) {
+            if (!im) return null;
+            var t = J.tile, tw = t[2] - t[0], th = t[3] - t[1], tl = document.createElement('canvas'); tl.width = tw * 2; tl.height = th * 2; var tx = tl.getContext('2d'), sc = (im.naturalWidth || RS) / RS;
+            [[1, 1, 0, 0], [-1, 1, 2 * tw, 0], [1, -1, 0, 2 * th], [-1, -1, 2 * tw, 2 * th]].forEach(function (m) { tx.setTransform(m[0], 0, 0, m[1], m[2], m[3]); tx.drawImage(im, t[0] * sc, t[1] * sc, tw * sc, th * sc, 0, 0, tw, th); });
+            var o = document.createElement('canvas'); o.width = o.height = AW; var ox = o.getContext('2d'), pat = ox.createPattern(tl, 'repeat');
+            Object.keys(C).forEach(function (k) { if (k === 'front') return; var c = C[k], m = new DOMMatrix([c.pk * AS, 0, 0, c.pk * AS, c.o[0] * AS, c.o[1] * AS]); pat.setTransform(m); ox.fillStyle = pat; ox.fillRect(c.o[0] * AS, c.o[1] * AS, 1024 * AS, 682 * AS); });
+            ox.globalCompositeOperation = 'multiply'; ox.drawImage(MA, 0, 0, AW, AW);
+            ox.globalCompositeOperation = 'destination-in'; ox.drawImage(MA, 0, 0, AW, AW);
+            return (OV[s] = o);
+          });
+        }
+        function compose() {
+          AX.globalAlpha = 1; AX.drawImage(BA, 0, 0, AW, AW);
+          var c = C.front, k = N / RS; AX.drawImage(CV, c.c[0] * k, c.c[1] * k, (c.c[2] - c.c[0]) * k, (c.c[3] - c.c[1]) * k, c.o[0] * AS, c.o[1] * AS, (c.c[2] - c.c[0]) * c.s * AS, (c.c[3] - c.c[1]) * c.s * AS);
+          if (ovOld && fade < 1) { AX.globalAlpha = 1 - fade; AX.drawImage(ovOld, 0, 0); }
+          if (ovNew) { AX.globalAlpha = fade; AX.drawImage(ovNew, 0, 0); }
+          AX.globalAlpha = 1;
+        }
+        var cp = st.p, fT = 0;
+        function want(s) { overlay(s).then(function (o) { if (s !== st.p || !o) return; ovOld = ovNew; ovNew = o; fade = ovOld ? 0 : 1; fT = performance.now(); st.dirty = true; }); }
+        want(st.p);
+        var tex = new T.CanvasTexture(AT); tex.colorSpace = T.SRGBColorSpace; tex.anisotropy = 8; tex.flipY = true;
+        var mat = new T.MeshStandardMaterial({ map: tex, roughness: .58, metalness: .08 });
+        var mesh = new T.Mesh(geo, mat);
+        var scene = new T.Scene(), cam = new T.PerspectiveCamera(30, 1, .1, 50); cam.position.set(0, 0, 1 / Math.tan(15 * Math.PI / 180) + .5);
+        scene.add(new T.HemisphereLight(0xffffff, 0x2a2622, 1.5));
+        var key = new T.DirectionalLight(0xffffff, 1.5); key.position.set(-1.2, 1.4, 3); scene.add(key);
+        var rim = new T.DirectionalLight(0xE2C285, 1.4); rim.position.set(2.5, .8, -2); scene.add(rim);
         var rim2 = new T.DirectionalLight(0xffffff, .5); rim2.position.set(-2.5, -.5, -1.5); scene.add(rim2);
         scene.add(mesh);
         var ren = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
         ren.outputColorSpace = T.SRGBColorSpace; ren.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         var gl = ren.domElement; gl.className = 'bgs-3d'; gl.setAttribute('role', 'img'); gl.setAttribute('aria-label', CV.getAttribute('aria-label') || 'Kaplamalı cihaz 3D');
-        DV.appendChild(gl); root.classList.add('is3d');
+        compose(); DV.appendChild(gl); root.classList.add('is3d');
         function size() { var w = ST.clientWidth || 500; ren.setSize(w, w, false); }
         size(); window.addEventListener('resize', size);
         var ry = 0, rx = .06, tY = null, tX = null, drag = null, last = performance.now(), t = 0;
-        R3 = { hover: function (sx, sy) { if (drag) return; if (sx === null) { tY = tX = null; return; } tY = sx * .75; tX = sy * .28 + .04; } };
+        R3 = { hover: function (sx, sy) { if (drag) return; if (sx === null) { tY = tX = null; return; } tY = sx * .9; tX = sy * .3 + .05; } };
         gl.addEventListener('pointerdown', function (e) { stop(); drag = { x: e.clientX, y: e.clientY, ry: ry, rx: rx }; try { gl.setPointerCapture(e.pointerId); } catch (z) {} root.classList.add('drg'); });
-        gl.addEventListener('pointermove', function (e) { if (!drag) return; ry = Math.max(-1.15, Math.min(1.15, drag.ry + (e.clientX - drag.x) * .008)); rx = Math.max(-.35, Math.min(.45, drag.rx + (e.clientY - drag.y) * .004)); tY = ry; tX = rx; });
-        function up() { if (!drag) return; drag = null; root.classList.remove('drg'); setTimeout(function () { if (!drag) { tY = tX = null; } }, 2600); }
+        gl.addEventListener('pointermove', function (e) { if (!drag) return; ry = drag.ry + (e.clientX - drag.x) * .009; rx = Math.max(-.6, Math.min(.75, drag.rx + (e.clientY - drag.y) * .005)); tY = ry; tX = rx; });
+        function up() { if (!drag) return; drag = null; root.classList.remove('drg'); setTimeout(function () { if (!drag) { tY = tX = null; ry = Math.atan2(Math.sin(ry), Math.cos(ry)); } }, 2600); }
         gl.addEventListener('pointerup', up); gl.addEventListener('pointercancel', up);
         function loop(now) {
           if (!document.documentElement.contains(root)) return;
@@ -293,10 +324,12 @@
           var dt = Math.min(.05, (now - last) / 1000); last = now;
           if (document.hidden || !st.vis) return;
           t += dt;
-          var gy = tY !== null ? tY : (RM ? 0 : Math.sin(t * .45) * .38), gx = tX !== null ? tX : .07 + Math.sin(t * .31) * .05;
-          if (!drag) { ry += (gy - ry) * Math.min(1, dt * 3.2); rx += (gx - rx) * Math.min(1, dt * 3.2); }
+          if (st.p !== cp) { cp = st.p; want(cp); }
+          if (fade < 1) { fade = Math.min(1, (now - fT) / 900); st.dirty = true; }
+          var gy = tY !== null ? tY : (RM ? 0 : Math.sin(t * .4) * .55), gx = tX !== null ? tX : .08 + Math.sin(t * .29) * .07;
+          if (!drag) { ry += (gy - ry) * Math.min(1, dt * 3); rx += (gx - rx) * Math.min(1, dt * 3); }
           mesh.rotation.set(rx, ry, 0);
-          if (st.dirty) { tex.needsUpdate = true; st.dirty = false; gl.setAttribute('aria-label', CV.getAttribute('aria-label') || ''); }
+          if (st.dirty) { compose(); tex.needsUpdate = true; st.dirty = false; gl.setAttribute('aria-label', CV.getAttribute('aria-label') || ''); }
           ren.render(scene, cam);
         }
         requestAnimationFrame(loop);
