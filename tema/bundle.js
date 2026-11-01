@@ -3666,6 +3666,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var TYPEN = { K: 'Kamera', L: 'Lens', D: 'Drone', G: 'Gimbal', A: 'Aksiyon kamera' };
   var D3 = 'kamera-sony-alpha-a7r-v', A3 = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@9137e3dd/img/3d/a7rv/';
   var THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js';
+  var PV = /[?&]onizleme=/.test(location.search);
   var RM = false; try { RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
   function devs() { return window.__bgDevices || []; }
@@ -3828,7 +3829,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         st.p = s; info();
         var oc = st.cur; st.cur = nc;
         if (RM || !oc) { paint(nc); st.busy = false; return done(); }
-        var t0 = 0, D = 1300, W = N * 0.09;
+        var t0 = 0, D = PV ? 750 : 1300, W = N * 0.09;
         function fr(now) {
           if (dev !== st.dev) return;
           if (!t0) t0 = now;
@@ -3998,6 +3999,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     var timer = setInterval(function () {
       if (!document.documentElement.contains(root)) { clearInterval(timer); return; }
       if (st.hold || RM || document.hidden || !st.vis || st.busy) return;
+      if (PV && root.matches(':hover')) return;
       stepFeat(1);
     }, 4200);
 
@@ -4052,7 +4054,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
   function devs() { return window.__bgDevices || []; }
   function bySlug(s) { var L = devs(); for (var i = 0; i < L.length; i++) if (L[i].s === s) return L[i]; return null; }
-  var DEF = { s: 'sony-alpha-a7-iv-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7 IV', p: 2000, f: 'kamera-sony-alpha-a7-mark-iv' };
+  var PV = /[?&]onizleme=/.test(location.search);
+  var DEF = PV ? { s: 'sony-alpha-a7r-v-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7R V', p: 2000, f: 'kamera-sony-alpha-a7r-v' } : { s: 'sony-alpha-a7-iv-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7 IV', p: 2000, f: 'kamera-sony-alpha-a7-mark-iv' };
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function fmt(n) { return Number(n).toLocaleString('tr-TR') + ' ₺'; }
   function ease(k) { return k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
@@ -4385,7 +4388,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
   function devs() { return window.__bgDevices || []; }
   function bySlug(s) { var L = devs(); for (var i = 0; i < L.length; i++) if (L[i].s === s) return L[i]; return null; }
-  var DEF = { s: 'sony-alpha-a7-iv-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7 IV', p: 2000, f: 'kamera-sony-alpha-a7-mark-iv' };
+  var PV = /[?&]onizleme=/.test(location.search);
+  var DEF = PV ? { s: 'sony-alpha-a7r-v-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7R V', p: 2000, f: 'kamera-sony-alpha-a7r-v' } : { s: 'sony-alpha-a7-iv-kaplama', t: 'K', b: 'Sony', m: 'Alpha A7 IV', p: 2000, f: 'kamera-sony-alpha-a7-mark-iv' };
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function fmt(n) { return Number(n).toLocaleString('tr-TR') + ' ₺'; }
   function ease(k) { return k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
@@ -4717,7 +4721,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
 
   /* ===== 2: setini kapla ===== */
-  var KDEF = [['K', 'kamera-sony-alpha-a7-mark-iv'], ['L', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'drone-dji-mini-4-pro']];
+  var KDEF = [['K', PV ? 'kamera-sony-alpha-a7r-v' : 'kamera-sony-alpha-a7-mark-iv'], ['L', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'drone-dji-mini-4-pro']];
   function byDir(f) { var L = devs(); for (var i = 0; i < L.length; i++) if (L[i].f === f) return L[i]; return null; }
   function find(q, types) {
     q = String(q || '').toLowerCase().replace(/\bmark\s*/g, '').trim(); var toks = q.split(/\s+/).filter(Boolean);
@@ -4833,7 +4837,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
 
   /* ===== 4: iki deseni karsilastir ===== */
-  var CT = [['K', 'Kamera', 'kamera-sony-alpha-a7-mark-iv'], ['L', 'Lens', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'Drone', 'drone-dji-mini-4-pro'], ['A', 'Aksiyon', 'aksiyon-kamera-dji-osmo-pocket-3']];
+  var CT = [['K', 'Kamera', PV ? 'kamera-sony-alpha-a7r-v' : 'kamera-sony-alpha-a7-mark-iv'], ['L', 'Lens', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'Drone', 'drone-dji-mini-4-pro'], ['A', 'Aksiyon', 'aksiyon-kamera-dji-osmo-pocket-3']];
   function S4() {
     var anchor = document.querySelector('[data-bgx2k]'); if (!anchor) return false; if (document.querySelector('[data-bgx4]')) return true;
     var box = document.createElement('div'); box.className = 'bgx'; box.setAttribute('data-bgx4', '1'); box.id = 'bgx-4';

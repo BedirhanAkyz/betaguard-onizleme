@@ -25,6 +25,7 @@
   var TYPEN = { K: 'Kamera', L: 'Lens', D: 'Drone', G: 'Gimbal', A: 'Aksiyon kamera' };
   var D3 = 'kamera-sony-alpha-a7r-v', A3 = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@9137e3dd/img/3d/a7rv/';
   var THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js';
+  var PV = /[?&]onizleme=/.test(location.search);
   var RM = false; try { RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
   function devs() { return window.__bgDevices || []; }
@@ -187,7 +188,7 @@
         st.p = s; info();
         var oc = st.cur; st.cur = nc;
         if (RM || !oc) { paint(nc); st.busy = false; return done(); }
-        var t0 = 0, D = 1300, W = N * 0.09;
+        var t0 = 0, D = PV ? 750 : 1300, W = N * 0.09;
         function fr(now) {
           if (dev !== st.dev) return;
           if (!t0) t0 = now;
@@ -357,6 +358,7 @@
     var timer = setInterval(function () {
       if (!document.documentElement.contains(root)) { clearInterval(timer); return; }
       if (st.hold || RM || document.hidden || !st.vis || st.busy) return;
+      if (PV && root.matches(':hover')) return;
       stepFeat(1);
     }, 4200);
 
