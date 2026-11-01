@@ -75,7 +75,9 @@
   function onStage(fn) { SUBS.push(fn); }
   function watchStage() {
     var a = document.querySelector('.bgs-go'); if (!a || a.__bgoW) return; a.__bgoW = 1;
-    new MutationObserver(function () { var h = a.getAttribute('href'); if (h === last) return; last = h; var s = stage(); SUBS.forEach(function (f) { try { f(s); } catch (e) {} }); }).observe(a, { attributes: true, attributeFilter: ['href'] });
+    var sec = document.querySelector('[data-bgs]'), touched = 0;
+    if (sec) ['pointerdown', 'keydown', 'input', 'touchend'].forEach(function (ev) { sec.addEventListener(ev, function () { touched = Date.now(); }, true); });
+    new MutationObserver(function () { var h = a.getAttribute('href'); if (h === last) return; last = h; if (Date.now() - touched > 8000) return; var s = stage(); SUBS.forEach(function (f) { try { f(s); } catch (e) {} }); }).observe(a, { attributes: true, attributeFilter: ['href'] });
     last = a.getAttribute('href');
   }
   function stagePick(slug) {
@@ -383,7 +385,7 @@
       '<div class="bgo-st-r"><canvas width="900" height="900" role="img" aria-label="Kaplama uygulama adımları"></canvas><div class="bgo-ped" aria-hidden="true"></div><div class="bgo-bar"><i></i></div></div>' +
       '</div></div></div>';
     steps.parentNode.insertBefore(box, steps); steps.classList.add('bgo-old');
-    var cv = box.querySelector('canvas'), x = cv.getContext('2d'), N = 900, st = { d: stage().d, p: 'carbon', c: null, b: null };
+    var cv = box.querySelector('canvas'), x = cv.getContext('2d'), N = 900, st = { d: stage().d, p: 'royal-gold', c: null, b: null };
     var sc = box.querySelector('.bgo-st-scroll'), bar = box.querySelector('.bgo-bar i'), stepEls = box.querySelectorAll('.bgo-step');
     function load() { Promise.all([comp(st.d, st.p, N), bare(st.d, N)]).then(function (r) { st.c = r[0]; st.b = r[1]; draw(); }); }
     var lastP = -1;
@@ -408,7 +410,7 @@
     window.addEventListener('scroll', function () { if (tick) return; tick = true; requestAnimationFrame(function () { tick = false; if (document.documentElement.contains(box)) draw(); }); }, { passive: true });
     window.addEventListener('resize', draw);
     onStage(function (s) { if (s.d.f !== st.d.f || s.p !== st.p) { st.d = s.d; st.p = s.p; load(); } });
-    var s0 = stage(); if (s0.live) st.p = s0.p;
+    st.p = 'royal-gold';
     load();
     return true;
   }
