@@ -167,7 +167,8 @@
       /* yerli alani gizle, kendi kutumuzu yerine koy */
       var field = sel.closest('.pcz') || sel.parentElement;
       if (field && !field.classList.contains('bg27k-hide')) field.classList.add('bg27k-hide');
-      var box = field.previousElementSibling && field.previousElementSibling.classList.contains('bg27k') ? field.previousElementSibling : null;
+      /* ayni .pcz icinde birden fazla select olabilir: kutuyu tur'e gore bul, sirayla .pcz'nin onune koy */
+      var box = document.querySelector('.bg27k[data-kind="' + x.kind + '"]');
       if (!box) {
         box = document.createElement('div'); box.className = 'bg27k'; box.setAttribute('data-kind', x.kind);
         (field.parentElement || field).insertBefore(box, field);
