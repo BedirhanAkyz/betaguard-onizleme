@@ -1,6 +1,6 @@
 (function () {
   if (window.__bgTheme) return; window.__bgTheme = 1;
-  (function(){ var p = document.createElement('style'); p.id = 'bg-pre'; p.textContent = 'html{background:#0E0E0F!important}body{opacity:0!important}html.bg-ready body{opacity:1!important;transition:opacity .25s ease}'; (document.head || document.documentElement).appendChild(p); setTimeout(function(){ document.documentElement.classList.add('bg-ready'); }, 8000); })();
+  (function(){ var p = document.createElement('style'); p.id = 'bg-pre'; p.textContent = 'html{background:#0E0E0F!important}body{opacity:0!important}html.bg-ready body{opacity:1!important;transition:opacity .25s ease}'; (document.head || document.documentElement).appendChild(p); setTimeout(function(){ document.documentElement.classList.add('bg-ready'); }, 1000); })();
   var GOLD = '#C9A45C', WA = 'https://wa.me/905353211911';
   var f = document.createElement('link');
   f.rel = 'stylesheet';
@@ -1235,7 +1235,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function isProd() { var s = document.querySelectorAll('script[type="application/ld+json"]'); for (var i = 0; i < s.length; i++) if (/"@type"\s*:\s*"Product"/.test(s[i].textContent)) return true; return false; }
   function mark() { var de = document.documentElement; if (de.classList.contains('bg-ready')) return; var ok = isHome() ? !!document.querySelector('[data-bg-top]') : (!isProd() || !!document.querySelector('.bg-pp')); if (ok) de.classList.add('bg-ready'); }
   function start() { if (started) return; started = true; run(); mark(); }
-  setTimeout(function () { document.documentElement.classList.add('bg-ready'); }, 3500);
+  setTimeout(function () { document.documentElement.classList.add('bg-ready'); }, 1000);
   if (document.readyState !== 'loading') setTimeout(start, 150); else document.addEventListener('DOMContentLoaded', function () { setTimeout(start, 150); });
   window.addEventListener('load', function () { setTimeout(start, 200); });
   setTimeout(start, 6000);
