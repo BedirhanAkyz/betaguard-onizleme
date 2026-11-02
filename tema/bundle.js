@@ -2169,20 +2169,23 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     document.addEventListener('keydown', key2);
   }
   window.bgOpenPolicy = open;
+  /* ayri sayfalar (ikas ozel sayfa): footer linkleri gercek URL'ye gider */
+  var URLS = { gizlilik: '/pages/kvkk', mesafeli: '/pages/mesafeli-satis-sozlesmesi', iade: '/pages/iade-kosullari', kargo: '/pages/kargo-ve-teslimat', kunye: '/pages/kunye' };
   function which(a){ var t = (a.textContent || '').trim(); if (t.length > 40) return null; for (var i = 0; i < MAP.length; i++) if (MAP[i][0].test(t)) return MAP[i][1]; return null; }
   document.addEventListener('click', function(e){
     var a = e.target.closest && e.target.closest('a'); if (!a) return;
     var h = a.getAttribute('href') || ''; if (h && h !== '#' && h.indexOf('javascript') !== 0) return;
     var k = which(a); if (!k) return;
-    e.preventDefault(); e.stopPropagation(); open(k);
+    e.preventDefault(); e.stopPropagation();
+    if (URLS[k]) location.href = URLS[k]; else open(k);
   }, true);
   function deco(){
     [].forEach.call(document.querySelectorAll('a'), function(a){
       var h = a.getAttribute('href'); if (h && h !== '#') return; var k = which(a); if (!k) return;
-      if (!h) a.setAttribute('href', '#'); a.setAttribute('role','button');
+      if (URLS[k]) a.setAttribute('href', URLS[k]); else { if (!h) a.setAttribute('href', '#'); a.setAttribute('role','button'); }
       if (k === 'iade' && !a.getAttribute('data-bg-pol-more')) {
         a.setAttribute('data-bg-pol-more','1');
-        var mk = function(txt){ var n = a.cloneNode(false); n.removeAttribute('data-bg-pol-more'); n.textContent = txt; return n; };
+        var mk = function(txt){ var n = a.cloneNode(false); n.removeAttribute('data-bg-pol-more'); n.textContent = txt; var kk = which(n); n.setAttribute('href', URLS[kk] || '#'); return n; };
         var par = a.parentNode; if (!par) return;
         var holder = a; if (par.children.length === 1 && par.parentNode) { holder = par; }
         [['Kargo ve Teslimat'],['Künye']].reverse().forEach(function(x){
