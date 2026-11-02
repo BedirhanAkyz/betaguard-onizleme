@@ -4,12 +4,23 @@
   var API = null;
   function api(){ return API || (API = window.__BG || null); }
 
-  var RC = [
-    { f: 'drone-dji-rc-n1-n2-n3', t: 'DJI RC-N1 / N2 / N3', n: 'RC-N1 / N2 / N3', s: 'Telefonlu kumanda' },
-    { f: 'drone-dji-rc',          t: 'DJI RC',              n: 'DJI RC',          s: 'Ekranlı kumanda' },
-    { f: 'drone-dji-rc-pro',      t: ['DJI RC 2', 'DJI RC Pro'], n: 'DJI RC 2',     s: 'Ekranlı kumanda' }
+  /* tum kumanda + gozluk modelleri; sayfadaki select'te hangileri varsa onlar gosterilir */
+  var CAT = [
+    { f: 'drone-dji-rc-n1-n2-n3',     t: 'DJI RC-N1 / N2 / N3', n: 'RC-N1 / N2 / N3', s: 'Telefonlu kumanda' },
+    { f: 'drone-dji-rc',              t: 'DJI RC',              n: 'DJI RC',          s: 'Ekranlı kumanda' },
+    { f: 'drone-dji-rc-pro',          t: ['DJI RC 2', 'DJI RC Pro'], n: 'DJI RC 2',   s: 'Ekranlı kumanda' },
+    { f: 'drone-dji-rc-motion-3',     t: 'DJI RC Motion 3',     n: 'RC Motion 3',     s: 'Hareket kumandası' },
+    { f: 'drone-dji-rc-motion-2',     t: 'DJI RC Motion 2',     n: 'RC Motion 2',     s: 'Hareket kumandası' },
+    { f: 'drone-dji-goggles-3',       t: 'DJI Goggles 3',       n: 'Goggles 3',       s: 'FPV gözlük' },
+    { f: 'drone-dji-goggles-n3',      t: 'DJI Goggles N3',      n: 'Goggles N3',      s: 'FPV gözlük' },
+    { f: 'drone-dji-goggles-integra', t: 'DJI Goggles Integra', n: 'Goggles Integra', s: 'FPV gözlük' },
+    { f: 'drone-dji-fpv-goggles-v2',  t: 'DJI FPV Goggles V2',  n: 'FPV Goggles V2',  s: 'FPV gözlük' }
   ];
-  var NONE = 'İstemiyorum';   /* "Istemiyorum · sadece drone" degerinin basi */
+  var KIND = {
+    kum: { h: 'Kumanda', none: 'Sadece drone', noneS: 'Kumanda kaplaması yok', yes: 'Drone + kumanda', what: 'kumanda', note: 'Kumanda, drone ile <b>aynı desende</b> kesilir. Kumandanı seç, kutudan takım çıksın.' },
+    goz: { h: 'Gözlük', none: 'Gözlük yok', noneS: 'Gözlük kaplaması yok', yes: 'Gözlük de olsun', what: 'gözlük', note: 'Gözlük, drone ile <b>aynı desende</b> kesilir. Gözlüğünün modelini seç.' }
+  };
+  var NONE = 'İstemiyorum';   /* "Istemiyorum · ..." degerlerinin basi */
   var EK = 1000;
 
   var CSS = [
@@ -53,16 +64,17 @@
   }
   function imgUrl(f, ds){ var a = api(); return (a ? a.CDN : '') + f + '/' + ds + '.webp'; }
 
-  /* sayfadaki ikas kisisellestirme select'i (Kumanda kaplamasi) */
-  function nativeSel(){
-    var ss = document.querySelectorAll('select');
+  /* sayfadaki ikas kisisellestirme select'leri (Kumanda / Gozluk kaplamasi) */
+  function nativeSels(){
+    var out = [], ss = document.querySelectorAll('select');
     for (var i = 0; i < ss.length; i++) {
-      var s = ss[i], hit = 0;
-      for (var k = 0; k < s.options.length; k++) if (s.options[k].text.indexOf(NONE) === 0) hit = 1;
-      if (hit) return s;
+      var s = ss[i], hit = 0, goz = 0;
+      for (var k = 0; k < s.options.length; k++) { var tx = s.options[k].text; if (tx.indexOf(NONE) === 0) hit = 1; if (/Goggles/.test(tx)) goz = 1; }
+      if (hit) out.push({ sel: s, kind: goz ? 'goz' : 'kum' });
     }
-    return null;
+    return out;
   }
+  function itemsFor(sel){ return CAT.filter(function(r){ return !!optByText(sel, r.t); }); }
   function optByText(sel, txt){
     var ts = [].concat(txt);
     for (var j = 0; j < ts.length; j++) for (var i = 0; i < sel.options.length; i++) if (sel.options[i].text.trim() === ts[j]) return sel.options[i];
@@ -82,50 +94,53 @@
   }
   function curText(sel){ if (!sel.value) return ''; var o = sel.options[sel.selectedIndex]; return o ? o.text.trim() : ''; }
 
-  /* kumanda secilmeden "Sepete Ekle"ye basilirsa: ikas sessizce yutuyor, biz uyaralim */
-  function uyar(){
-    var k = document.querySelector('.bg27k'); if (!k) return;
+  /* secim yapilmadan "Sepete Ekle"ye basilirsa: ikas sessizce yutuyor, biz uyaralim */
+  function uyar(kind){
+    var k = document.querySelector('.bg27k[data-kind="' + kind + '"]') || document.querySelector('.bg27k'); if (!k) return;
     var w = k.querySelector('.bg27k-w');
     if (!w) { w = document.createElement('p'); w.className = 'bg27k-w'; w.setAttribute('role', 'alert'); k.appendChild(w); }
-    w.textContent = 'Sepete eklemek için önce kumanda seçimini yap: sadece drone mu, drone + kumanda mı?';
+    w.textContent = 'Sepete eklemek için önce ' + KIND[kind].what + ' seçimini yap.';
     k.classList.remove('bg-shake'); void k.offsetWidth; k.classList.add('bg-shake');
     k.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
   document.addEventListener('click', function(e){
-    var k = document.querySelector('.bg27k'); if (!k) return;
-    var sel = nativeSel(); if (!sel || sel.value) return;
-    if (k.contains(e.target)) return;
+    if (!document.querySelector('.bg27k')) return;
+    var miss = nativeSels().filter(function(x){ return !x.sel.value; })[0]; if (!miss) return;
+    if (e.target.closest && e.target.closest('.bg27k')) return;
     var n = e.target, hit = 0;
     for (var i = 0; i < 5 && n; i++, n = n.parentElement) {
       if (/^Sepete Ekle(\s|·|$)/.test((n.textContent || '').trim())) { hit = 1; break; }
     }
     if (!hit) return;
     e.preventDefault(); e.stopImmediatePropagation();
-    uyar();
+    uyar(miss.kind);
   }, true);
 
-  function render(box, sel){
+  function extras(){ var t = 0; nativeSels().forEach(function(x){ var c = curText(x.sel); if (c && c.indexOf(NONE) !== 0) t += EK; }); return t; }
+
+  function render(box, sel, kind, no){
+    var K = KIND[kind], LIST = itemsFor(sel);
     var cur = curText(sel);
     var isNone = cur.indexOf(NONE) === 0;
-    var model = null; RC.forEach(function(r){ if (isT(r, cur)) model = r; });
-    var withRc = !!model;
-    window.__bgKumEk = withRc ? EK : 0;   /* 00_main buton fiyatina ekler */
+    var model = null; LIST.forEach(function(r){ if (isT(r, cur)) model = r; });
+    var withM = !!model;
+    window.__bgKumEk = extras();   /* 00_main buton fiyatina ekler */
     var ds = desen();
-    var h = '<div class="bg27k-h"><span>3. Kumanda</span><em class="' + (cur ? 'on' : '') + '">' +
-      (isNone ? 'Sadece drone' : model ? esc(model.n) : 'Seçim zorunlu') + '</em></div>';
+    var h = '<div class="bg27k-h"><span>' + no + '. ' + K.h + '</span><em class="' + (cur ? 'on' : '') + '">' +
+      (isNone ? K.none : model ? esc(model.n) : 'Seçim zorunlu') + '</em></div>';
     h += '<div class="bg27k-g">' +
-      '<button type="button" class="bg27k-b' + (isNone ? ' on' : '') + '" data-k="none"><b>Sadece drone</b><small>Kumanda kaplaması yok</small></button>' +
-      '<button type="button" class="bg27k-b' + (withRc ? ' on' : '') + '" data-k="rc"><b>Drone + kumanda</b><small>+' + fmt(EK) + '</small></button>' +
+      '<button type="button" class="bg27k-b' + (isNone ? ' on' : '') + '" data-k="none"><b>' + K.none + '</b><small>' + K.noneS + '</small></button>' +
+      '<button type="button" class="bg27k-b' + (withM ? ' on' : '') + '" data-k="rc"><b>' + K.yes + '</b><small>+' + fmt(EK) + '</small></button>' +
       '</div>';
-    if (withRc) {
-      h += '<div class="bg27k-m">' + RC.map(function(r){
+    if (withM) {
+      h += '<div class="bg27k-m">' + LIST.map(function(r){
         return '<button type="button" class="bg27k-c' + (model && model.f === r.f ? ' on' : '') + '" data-m="' + r.f + '">' +
           '<span class="im"><img decoding="async" src="' + imgUrl(r.f, ds) + '" alt="' + esc(r.n + ' ' + ds) + ' kaplama"></span>' +
           '<b>' + esc(r.n) + '</b><small>' + esc(r.s) + '</small></button>';
       }).join('') + '</div>';
-      var dv = api().cur();
-      h += '<p class="bg27k-n">Kumanda, drone ile <b>aynı desende</b> kesilir. Kumandanı seç, kutudan takım çıksın.' +
-        (dv && dv.p ? '<br>Toplam <b>' + fmt(dv.p + EK) + '</b> · drone ' + fmt(dv.p) + ' + kumanda ' + fmt(EK) : '') + '</p>';
+      var dv = api().cur(), ex = extras();
+      h += '<p class="bg27k-n">' + K.note +
+        (dv && dv.p ? '<br>Toplam <b>' + fmt(dv.p + ex) + '</b> · drone ' + fmt(dv.p) + ' + ek ' + fmt(ex) : '') + '</p>';
     } else if (!cur) {
       h += '<p class="bg27k-w">Devam etmek için bu seçimi yapman gerekiyor.</p>';
     }
@@ -134,30 +149,34 @@
       var b = e.target.closest('button'); if (!b) return;
       e.preventDefault();
       if (b.dataset.k === 'none') { setSel(sel, optNone(sel)); }
-      else if (b.dataset.k === 'rc') { setSel(sel, optByText(sel, RC[0].t)); }
-      else if (b.dataset.m) { var r = RC.filter(function(x){ return x.f === b.dataset.m; })[0]; if (r) setSel(sel, optByText(sel, r.t)); }
-      setTimeout(function(){ render(box, sel); }, 60);
+      else if (b.dataset.k === 'rc') { setSel(sel, optByText(sel, LIST[0].t)); }
+      else if (b.dataset.m) { var r = LIST.filter(function(x){ return x.f === b.dataset.m; })[0]; if (r) setSel(sel, optByText(sel, r.t)); }
+      setTimeout(function(){ box.removeAttribute('data-sig'); run(); }, 60);
     };
   }
 
   function run(){
     var a = api(); if (!a) return;
     var dev = a.cur();
-    var sel = nativeSel();
-    var box = document.querySelector('.bg27k');
-    if (!dev || dev.t !== 'D' || !sel) { if (box) box.remove(); window.__bgKumEk = 0; return; }
+    var list = nativeSels();
+    if (!dev || dev.t !== 'D' || !list.length) { [].forEach.call(document.querySelectorAll('.bg27k'), function(b){ b.remove(); }); window.__bgKumEk = 0; return; }
     css();
-    /* yerli alani gizle, kendi kutumuzu yerine koy */
-    var field = sel.closest('.pcz') || sel.parentElement;
-    if (field && !field.classList.contains('bg27k-hide')) field.classList.add('bg27k-hide');
-    if (!box) {
-      box = document.createElement('div'); box.className = 'bg27k';
-      (field.parentElement || field).insertBefore(box, field);
-    }
-    var sig = curText(sel) + '|' + desen();
-    if (box.getAttribute('data-sig') === sig) return;
-    box.setAttribute('data-sig', sig);
-    render(box, sel);
+    var sig0 = desen() + '|' + list.map(function(x){ return curText(x.sel); }).join('|');
+    list.forEach(function(x, i){
+      var sel = x.sel;
+      /* yerli alani gizle, kendi kutumuzu yerine koy */
+      var field = sel.closest('.pcz') || sel.parentElement;
+      if (field && !field.classList.contains('bg27k-hide')) field.classList.add('bg27k-hide');
+      var box = field.previousElementSibling && field.previousElementSibling.classList.contains('bg27k') ? field.previousElementSibling : null;
+      if (!box) {
+        box = document.createElement('div'); box.className = 'bg27k'; box.setAttribute('data-kind', x.kind);
+        (field.parentElement || field).insertBefore(box, field);
+      }
+      var sig = sig0 + '|' + i;
+      if (box.getAttribute('data-sig') === sig) return;
+      box.setAttribute('data-sig', sig);
+      render(box, sel, x.kind, 3 + i);
+    });
   }
 
   var q = false;
