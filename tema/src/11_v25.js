@@ -32,7 +32,7 @@
     '.bg-pay span{display:inline-flex;align-items:center;gap:8px}.bg-pay svg{width:18px;height:18px;flex:none;stroke:#C9A45C;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}',
     /* cerez seridi */
     '.bg-cookie{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:99990;width:min(720px,calc(100% - 24px));display:flex;align-items:center;gap:16px;padding:14px 16px 14px 20px;border-radius:16px;background:#16151A;border:1px solid #2A292E;box-shadow:0 12px 40px rgba(0,0,0,.5);color:#D9D5CE;font:500 13px/1.55 Manrope,sans-serif;box-sizing:border-box}',
-    '.bg-cookie p{margin:0;flex:1}.bg-cookie a{color:#E2C285;text-decoration:underline;cursor:pointer}',
+    '.bg-cookie p{margin:0;flex:1}.bg-cookie .t::before{content:"Sitenin çalışması için zorunlu çerezler, reklamlarımızı ölçmek için pazarlama çerezleri kullanıyoruz. Ayrıntılar:"}.bg-cookie a{color:#E2C285;text-decoration:underline;cursor:pointer}',
     '.bg-cookie .b{display:flex;gap:8px;flex:none}',
     '.bg-cookie button{appearance:none;cursor:pointer;border-radius:999px;padding:10px 16px;font:700 13px/1 Manrope,sans-serif;white-space:nowrap}',
     '.bg-cookie .n{background:transparent;border:1px solid #4a463e;color:#D9D5CE}.bg-cookie .y{background:#C9A45C;border:1px solid #C9A45C;color:#141210}',
@@ -43,7 +43,7 @@
   function banner(){
     if (getC() || document.querySelector('.bg-cookie') || !document.body) return;
     var b = document.createElement('div'); b.className = 'bg-cookie'; b.setAttribute('role', 'dialog'); b.setAttribute('aria-label', 'Çerez tercihi');
-    b.innerHTML = '<p>Sitenin çalışması için zorunlu çerezler, reklamlarımızı ölçmek için pazarlama çerezleri kullanıyoruz. Ayrıntılar: <a data-p="1">Gizlilik ve Çerez Politikası</a>.</p><div class="b"><button type="button" class="n">Sadece zorunlu</button><button type="button" class="y">Kabul et</button></div>';
+    b.setAttribute('aria-describedby','bg-ck-t'); b.innerHTML = '<p id="bg-ck-t" aria-label="Sitenin çalışması için zorunlu çerezler, reklamlarımızı ölçmek için pazarlama çerezleri kullanıyoruz."><span class="t" aria-hidden="true"></span> <a data-p="1">Gizlilik ve Çerez Politikası</a></p><div class="b"><button type="button" class="n">Sadece zorunlu</button><button type="button" class="y">Kabul et</button></div>';
     b.querySelector('a').onclick = function(e){ e.preventDefault(); if (window.bgOpenPolicy) window.bgOpenPolicy('gizlilik'); };
     b.querySelector('.n').onclick = function(){ setC('min'); px('revoke'); b.remove(); };
     b.querySelector('.y').onclick = function(){ setC('all'); px('grant'); b.remove(); };
