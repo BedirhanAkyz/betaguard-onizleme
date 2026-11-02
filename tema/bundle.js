@@ -2559,8 +2559,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   /* cerez seridi: ilk etkilesimde ya da 4 sn sonra (acilis boyamasini/LCP'yi geciktirmesin) */
   var bOk = false;
   function bGo(){ if (bOk) return; bOk = true; try { banner(); } catch (e) {} }
-  ['pointerdown','keydown','scroll','touchstart'].forEach(function(ev){ window.addEventListener(ev, bGo, { once: true, passive: true }); });
-  setTimeout(bGo, 4000);
+  /* bant ilk etkilesimde gelir (kaydirma, dokunma, fare, tus): sayfa acilisinin LCP'sini cerez metni ele gecirmesin */
+  ['pointerdown','pointermove','keydown','scroll','wheel','touchstart'].forEach(function(ev){ window.addEventListener(ev, bGo, { once: true, passive: true }); });
   function run(){ try { texts(); } catch (e) {} try { pay(); } catch (e) {} if (bOk) { try { banner(); } catch (e) {} } }
   var q = false;
   function sch(){ if (q) return; q = true; setTimeout(function(){ q = false; run(); }, 200); }
