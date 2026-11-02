@@ -171,11 +171,15 @@
     'rgb(235, 235, 235)': '#1E1E21', 'rgb(229, 229, 229)': '#2A292E'
   };
   var TXT = { 'rgb(0, 0, 0)': '#F2F0EB', 'rgb(20, 20, 26)': '#F2F0EB', 'rgb(17, 17, 17)': '#F2F0EB', 'rgb(33, 33, 33)': '#F2F0EB', 'rgb(51, 51, 51)': '#D9D5CD' };
+  var DKN = typeof WeakSet !== 'undefined' ? new WeakSet() : null, dkT0 = Date.now(), dkLast = 0;
   function darken() {
     if (/^\/checkout/.test(location.pathname)) return; /* ikas odeme sayfasi kendi acik temasiyla kalsin */
     var els = document.body ? document.body.getElementsByTagName('*') : [];
+    /* performans: ilk 5 sn ve sonra 4 sn'de bir tam tarama, arada sadece yeni eklenen ogeleri tara (her turda tum sayfada getComputedStyle pahali) */
+    var now = Date.now(), full = !DKN || now - dkLast > (now - dkT0 < 5000 ? 800 : 4000); if (full) dkLast = now;
     for (var i = 0; i < els.length; i++) {
       var e = els[i], tn = e.tagName;
+      if (!full && DKN.has(e)) continue; if (DKN) DKN.add(e);
       if (tn === 'IMG' || tn === 'svg' || tn === 'SVG' || tn === 'path' || tn === 'SCRIPT' || tn === 'STYLE') continue;
       var sk = e.closest && e.closest('.bg-cta,.bg-disc,[class^="bg-"],[class*=" bg-"],[class^="bg2"],[class*=" bg2"],[data-bg-rev],[data-bg-faq]');
       if (sk && sk !== document.documentElement && sk !== document.body) continue;

@@ -111,7 +111,12 @@
     fb.parentElement.insertBefore(r, fb);
   }
 
-  function run(){ try { texts(); } catch (e) {} try { pay(); } catch (e) {} try { banner(); } catch (e) {} }
+  /* cerez seridi: ilk etkilesimde ya da 4 sn sonra (acilis boyamasini/LCP'yi geciktirmesin) */
+  var bOk = false;
+  function bGo(){ if (bOk) return; bOk = true; try { banner(); } catch (e) {} }
+  ['pointerdown','keydown','scroll','touchstart'].forEach(function(ev){ window.addEventListener(ev, bGo, { once: true, passive: true }); });
+  setTimeout(bGo, 4000);
+  function run(){ try { texts(); } catch (e) {} try { pay(); } catch (e) {} if (bOk) { try { banner(); } catch (e) {} } }
   var q = false;
   function sch(){ if (q) return; q = true; setTimeout(function(){ q = false; run(); }, 200); }
   function go(){ sch(); new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true }); }
