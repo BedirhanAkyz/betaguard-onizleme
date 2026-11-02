@@ -3376,7 +3376,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (withM) {
       h += '<div class="bg27k-m">' + LIST.map(function(r){
         return '<button type="button" class="bg27k-c' + (model && model.f === r.f ? ' on' : '') + '" data-m="' + r.f + '">' +
-          '<span class="im"><img decoding="async" src="' + imgUrl(r.f, ds) + '" alt="' + esc(r.n + ' ' + ds) + ' kaplama"></span>' +
+          '<span class="im"><img decoding="async" src="' + imgUrl(r.f, ds) + '" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src=this.src.replace(\'//cdn.jsdelivr\',\'//fastly.jsdelivr\')}" alt="' + esc(r.n + ' ' + ds) + ' kaplama"></span>' +
           '<b>' + esc(r.n) + '</b><small>' + esc(r.s) + '</small></button>';
       }).join('') + '</div>';
       var dv = api().cur(), ex = extras();
