@@ -172,6 +172,7 @@
   };
   var TXT = { 'rgb(0, 0, 0)': '#F2F0EB', 'rgb(20, 20, 26)': '#F2F0EB', 'rgb(17, 17, 17)': '#F2F0EB', 'rgb(33, 33, 33)': '#F2F0EB', 'rgb(51, 51, 51)': '#D9D5CD' };
   function darken() {
+    if (/^\/checkout/.test(location.pathname)) return; /* ikas odeme sayfasi kendi acik temasiyla kalsin */
     var els = document.body ? document.body.getElementsByTagName('*') : [];
     for (var i = 0; i < els.length; i++) {
       var e = els[i], tn = e.tagName;
