@@ -364,7 +364,14 @@
     var sub = '✓ ' + dev.b + ' ' + dev.m + ' için birebir kesim · 39 desen' + (dev.t !== 'D' || /Goggles|^RC/.test(dev.m) ? '' : /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m) ? ' · kumanda kaplaması dahil' : /Avata/.test(dev.m) ? ' · kumanda / gözlük kaplaması +1.000 ₺' : ' · kumanda kaplaması +1.000 ₺') + ' · 1-2 iş gününde kargoda';
     if (t && t.getAttribute('data-bg26-sub') !== sub) t.setAttribute('data-bg26-sub', sub);
     var old = document.querySelector('.bg26-fit'); if (old) old.remove();
-    [].forEach.call(document.querySelectorAll('[data-bg-pinfo] li'), function(li){ if (/Drone siparişlerinde/.test(li.textContent)) li.classList.toggle('bg26-nodrone', dev.t !== 'D'); });
+    var combo = /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m), acc = /Goggles|^RC/.test(dev.m);
+    [].forEach.call(document.querySelectorAll('[data-bg-pinfo] li'), function(li){
+      if (!li.hasAttribute('data-bg-dl') && !/Drone siparişlerinde/.test(li.textContent)) return;
+      li.setAttribute('data-bg-dl', '1');
+      li.classList.toggle('bg26-nodrone', dev.t !== 'D' || acc);
+      var tx = combo ? 'Bu modelde kumanda kaplaması fiyata dahildir' : /Avata/.test(dev.m) ? 'Kumanda / gözlük kaplaması 1.000 ₺ ile eklenir (tek başına 1.500 ₺)' : 'Kumanda kaplaması siparişte 1.000 ₺ ile eklenir (tek başına 1.500 ₺)';
+      if (li.textContent !== tx) li.textContent = tx;
+    });
     var rep = document.querySelector('.bg-rep');
     var sp = rep && (rep.querySelector('p') || rep.lastElementChild);
     if (sp && sp.getAttribute('data-bg26') !== dev.s + '2') { sp.setAttribute('data-bg26', dev.s + '2'); sp.innerHTML = repTxt(dev); }
