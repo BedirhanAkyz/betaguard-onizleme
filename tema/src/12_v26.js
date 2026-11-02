@@ -22,10 +22,14 @@
 
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function fmt(n){ return Number(n).toLocaleString('tr-TR') + ' ₺'; }
-  function img(d, desen){ return CDN + d.f + '/' + (desen || 'line-black') + '.webp'; }
+  /* sonradan eklenen cihazlar: gorseller yeni commit'te, GitHub raw'dan */
+  var XB = { 'drone-dji-flip': 'https://raw.githubusercontent.com/BedirhanAkyz/betaguard-onizleme/ab4a71d5c7c9b1786f5107a2dcc3abda98e0dd0e/img/' };
+  window.__bgXB = XB;
+  function base(f){ return XB[f] || CDN; }
+  function img(d, desen){ return base(d.f) + d.f + '/' + (desen || 'line-black') + '.webp'; }
   /* kart kucuk gorseli: kapak desenleri icin 400px onizleme (img/<ds>/t/), yoksa tam boy */
   var THUMB = {}; ['royal-gold','tactical-blue','line-cyan','hexagonal-red','topografik-navy','nexus-cyan','carbon','royal-navy','tactical-green','line-red','hexagonal-blue','nexus-red','topografik-red','tactical-red','royal-black','hexagonal-green','line-black'].forEach(function(k){ THUMB[k] = 1; });
-  function timg(d, desen){ desen = desen || 'line-black'; return THUMB[desen] ? CDN + d.f + '/t/' + desen + '.webp' : img(d, desen); }
+  function timg(d, desen){ desen = desen || 'line-black'; return THUMB[desen] ? base(d.f) + d.f + '/t/' + desen + '.webp' : img(d, desen); }
   function tattr(d, desen){ return 'src="' + timg(d, desen) + '" width="400" height="400" onerror="this.onerror=null;this.src=\'' + img(d, desen) + '\'"'; }
   var COVERS = ['royal-gold','tactical-blue','line-cyan','hexagonal-red','topografik-navy','nexus-cyan','carbon','royal-navy','tactical-green','line-red','hexagonal-blue','nexus-red','topografik-red','tactical-red','royal-black','hexagonal-green'];
   function cover(d){ return COVERS[ALL.indexOf(d) % COVERS.length]; }
@@ -554,7 +558,7 @@
   }
   /* drone + aksiyon: en guncel model ustte (cikis yili.ay); drone aksesuarlari (kumanda/gozluk) drone'lardan sonra */
   var YEAR = {
-    'Lito X1': 2026.04, 'Lito 1': 2026.04, 'Avata 360': 2026.02, 'Mini 5 Pro': 2025.09, 'Neo 2': 2025.11, 'Mavic 4 Pro': 2025.05, 'Air 3S': 2024.10, 'Neo': 2024.09,
+    'Lito X1': 2026.04, 'Lito 1': 2026.04, 'Avata 360': 2026.02, 'Mini 5 Pro': 2025.09, 'Neo 2': 2025.11, 'Mavic 4 Pro': 2025.05, 'Flip': 2025.01, 'Air 3S': 2024.10, 'Neo': 2024.09,
     'Avata 2': 2024.04, 'Mini 4 Pro': 2023.09, 'Air 3': 2023.07, 'Mavic 3 Pro': 2023.04, 'Mini 3': 2022.12, 'Mavic 3 Classic': 2022.11, 'Avata': 2022.08,
     'Mini 3 Pro': 2022.05, 'Mavic 3': 2021.11, 'Air 2S': 2021.04, 'Mavic Mini 2': 2020.11, 'Mavic Air 2': 2020.04, 'Mavic Mini': 2019.10, 'Tello': 2018.01,
     'Mavic Air': 2018.01, 'Spark': 2017.05, 'Phantom 4 / 4 Pro': 2016.11, 'Mavic Pro': 2016.09, 'Phantom 3 Pro': 2015.04, 'Phantom 3': 2015.04, 'Inspire 1': 2014.11,

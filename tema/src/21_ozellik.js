@@ -47,9 +47,10 @@
   }
   /* sonradan duzeltilen maskeler (kafes ici beyaz bosluklar) */
   var BARE_SHA = { 'drone-dji-avata-2': 'a73d0b39', 'drone-dji-avata-360': 'a73d0b39', 'drone-dji-avata': 'a73d0b39', 'drone-dji-neo-2': 'a73d0b39', 'drone-dji-neo': 'a73d0b39', 'lens-metabones-canon-ef-sony-e-smart-adapter': 'a73d0b39' };
-  function bareUrl(f) { return BARE_SHA[f] ? IMG.replace(/@[0-9a-f]+\//, '@' + BARE_SHA[f] + '/') + f + '/bare.webp' : IMG + f + '/bare.webp'; }
+  function ib(f) { return (window.__bgXB && window.__bgXB[f]) || IMG; }
+  function bareUrl(f) { if (window.__bgXB && window.__bgXB[f]) return window.__bgXB[f] + f + '/bare.webp'; return BARE_SHA[f] ? IMG.replace(/@[0-9a-f]+\//, '@' + BARE_SHA[f] + '/') + f + '/bare.webp' : IMG + f + '/bare.webp'; }
   function comp(d, slug, N) {
-    return Promise.all([limg(IMG + d.f + '/' + slug + '.webp'), limg(bareUrl(d.f))]).then(function (r) {
+    return Promise.all([limg(ib(d.f) + d.f + '/' + slug + '.webp'), limg(bareUrl(d.f))]).then(function (r) {
       var c = document.createElement('canvas'); c.width = c.height = N; var x = c.getContext('2d');
       if (r[0]) x.drawImage(r[0], 0, 0, N, N);
       if (r[1]) { x.globalCompositeOperation = 'destination-in'; x.drawImage(r[1], 0, 0, N, N); }
@@ -486,7 +487,7 @@
       s.querySelector('.bgk-x').addEventListener('click', function () { st.it[i] = null; render(); });
     });
     box.querySelector('.bgx-chips').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { st.p = b.getAttribute('data-p'); render(); } });
-    function pre(s) { st.it.forEach(function (d) { if (d) { limg(IMG + d.f + '/' + s + '.webp'); limg(bareUrl(d.f)); } }); }
+    function pre(s) { st.it.forEach(function (d) { if (d) { limg(ib(d.f) + d.f + '/' + s + '.webp'); limg(bareUrl(d.f)); } }); }
     ['pointerover', 'pointerdown', 'focusin'].forEach(function (ev) { box.querySelector('.bgx-chips').addEventListener(ev, function (e) { var b = e.target.closest('button'); if (b) pre(b.getAttribute('data-p')); }); });
     try { var io = new IntersectionObserver(function (es) { if (!es[0].isIntersecting) return; io.disconnect(); if (navigator.connection && navigator.connection.saveData) return; var i = 0; (function nx() { if (i >= FEAT.length) return; pre(FEAT[i++]); setTimeout(nx, 350); })(); }, { rootMargin: '300px' }); io.observe(box); } catch (e) {}
     window.addEventListener('resize', function () { var w = box.clientWidth; if ((w < 640) !== (W < 1200)) render(); });

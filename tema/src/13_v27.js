@@ -62,7 +62,7 @@
     if (a && nm && a.SLUGOF[nm]) return a.SLUGOF[nm];
     return a ? a.curDesen() : 'line-black';
   }
-  function imgUrl(f, ds){ var a = api(); return (a ? a.CDN : '') + f + '/' + ds + '.webp'; }
+  function imgUrl(f, ds){ var a = api(); return ((window.__bgXB && window.__bgXB[f]) || (a ? a.CDN : '')) + f + '/' + ds + '.webp'; }
 
   /* sayfadaki ikas kisisellestirme select'leri (Kumanda / Gozluk kaplamasi) */
   function nativeSels(){
