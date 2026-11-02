@@ -3744,7 +3744,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bgs-pill.g{background:' + G + ';color:#0E0E0F!important}.bgs-pill.g:hover{background:#E2C285}',
     '.bgs-pill.o{border:1px solid #4A4850;color:#F2F0EB!important}.bgs-pill.o:hover{border-color:' + G + '}',
     '.bgs-c{grid-area:c;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0}',
-    '.bgs-gh{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);font:italic 900 clamp(84px,10.5vw,190px)/.9 Archivo,sans-serif;letter-spacing:-.02em;white-space:nowrap;color:transparent;-webkit-text-stroke:1.5px rgba(226,194,133,.2);pointer-events:none;user-select:none;transition:opacity .4s}',
+    '.bgs-gh::before{content:attr(data-t)}.bgs-gh{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);font:italic 900 clamp(84px,10.5vw,190px)/.9 Archivo,sans-serif;letter-spacing:-.02em;white-space:nowrap;color:transparent;-webkit-text-stroke:1.5px rgba(226,194,133,.2);pointer-events:none;user-select:none;transition:opacity .4s}',
     '.bgs-st{position:relative;z-index:2;width:min(560px,100%);aspect-ratio:1/1;touch-action:pan-y;user-select:none;-webkit-user-select:none}',
     '.bgs-fl{position:absolute;inset:0;animation:bgsF 6s ease-in-out infinite}',
     '@keyframes bgsF{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}',
@@ -3808,7 +3808,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         '<h1><span class="bgs-sr">Kamera, lens ve drone kaplama: </span>Ekipmanını koru.<br>Tarzını yansıt.</h1></div>' +
       '<div class="bgs-l2"><p class="bgs-p">Kamera, lens, drone ve gimbal kaplamaları. Her siparişi cihazının ölçüsüne göre basıp kesiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
         '<div class="bgs-btns"><a class="bgs-pill g" href="/betaguard-kaplama">Serileri keşfet</a><a class="bgs-pill o" href="#bg-find">Kategoriler</a></div></div>' +
-      '<div class="bgs-c"><div class="bgs-gh" aria-hidden="true">KAMERAN</div>' +
+      '<div class="bgs-c"><div class="bgs-gh" aria-hidden="true" data-t="KAMERAN"></div>' +
         '<div class="bgs-st"><div class="bgs-fl"><div class="bgs-dv">' +
           '<canvas class="bgs-cv" width="1000" height="1000" role="img" aria-label="Kaplamalı cihaz"></canvas>' +
         '</div></div></div>' +
@@ -3851,7 +3851,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       q('.bgs-go').setAttribute('href', '/' + d.s + '?desen=' + st.p);
       root.style.setProperty('--g', p[2]);
       [].forEach.call(root.querySelectorAll('.bgs-cl button[data-p]'), function (b) { var on = b.getAttribute('data-p') === st.p; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
-      q('.bgs-gh').textContent = GHOST[d.t] || 'KAMERAN';
+      q('.bgs-gh').setAttribute('data-t', GHOST[d.t] || 'KAMERAN');
       CV.setAttribute('aria-label', d.b + ' ' + d.m + ' ' + p[1] + ' kaplama');
     }
     function preNext() { var i = FEAT.indexOf(st.p), n = FEAT[(i + 1) % FEAT.length]; if (st.dev) limg(url(st.dev, n)); }
