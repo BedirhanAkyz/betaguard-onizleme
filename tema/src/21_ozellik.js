@@ -28,20 +28,48 @@
   function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
 
   var IMC = {};
+  /* jsDelivr bazen "package size" 403 donuyor: once cdn, olmazsa fastly, sonra GitHub raw */
+  function alts(u) {
+    var m = /^https:\/\/cdn\.jsdelivr\.net\/gh\/BedirhanAkyz\/betaguard-onizleme@([0-9a-f]+)\/(.*)$/.exec(u);
+    if (!m) return [u];
+    return [u, u.replace('//cdn.jsdelivr', '//fastly.jsdelivr'), 'https://raw.githubusercontent.com/BedirhanAkyz/betaguard-onizleme/' + m[1] + '/' + m[2]];
+  }
   function limg(u) {
     if (IMC[u]) return IMC[u];
-    return (IMC[u] = new Promise(function (res) { var im = new Image(); im.crossOrigin = 'anonymous'; im.decoding = 'async'; im.onload = function () { res(im); }; im.onerror = function () { delete IMC[u]; res(null); }; im.src = u; }));
+    var L = alts(u);
+    return (IMC[u] = new Promise(function (res) {
+      (function tr(i) {
+        if (i >= L.length) { delete IMC[u]; res(null); return; }
+        var im = new Image(); im.crossOrigin = 'anonymous'; im.decoding = 'async';
+        im.onload = function () { res(im); }; im.onerror = function () { tr(i + 1); }; im.src = L[i];
+      })(0);
+    }));
   }
+  /* sonradan duzeltilen maskeler (kafes ici beyaz bosluklar) */
+  var BARE_SHA = { 'drone-dji-avata-2': 'a73d0b39', 'drone-dji-avata-360': 'a73d0b39', 'drone-dji-avata': 'a73d0b39', 'drone-dji-neo-2': 'a73d0b39', 'drone-dji-neo': 'a73d0b39', 'lens-metabones-canon-ef-sony-e-smart-adapter': 'a73d0b39' };
+  function bareUrl(f) { return BARE_SHA[f] ? IMG.replace(/@[0-9a-f]+\//, '@' + BARE_SHA[f] + '/') + f + '/bare.webp' : IMG + f + '/bare.webp'; }
   function comp(d, slug, N) {
-    return Promise.all([limg(IMG + d.f + '/' + slug + '.webp'), limg(IMG + d.f + '/bare.webp')]).then(function (r) {
+    return Promise.all([limg(IMG + d.f + '/' + slug + '.webp'), limg(bareUrl(d.f))]).then(function (r) {
       var c = document.createElement('canvas'); c.width = c.height = N; var x = c.getContext('2d');
       if (r[0]) x.drawImage(r[0], 0, 0, N, N);
       if (r[1]) { x.globalCompositeOperation = 'destination-in'; x.drawImage(r[1], 0, 0, N, N); }
+      else if (r[0]) { try { unwhite(x, N); } catch (e) {} }   /* maske yuklenemezse beyaz zemini kenardan doldurarak sil */
       return c;
     });
   }
+  function unwhite(x, N) {
+    var id = x.getImageData(0, 0, N, N), p = id.data, seen = new Uint8Array(N * N), st = [];
+    function w(i) { var k = i * 4; return p[k] > 240 && p[k + 1] > 240 && p[k + 2] > 240; }
+    for (var i = 0; i < N; i++) { st.push(i, (N - 1) * N + i, i * N, i * N + N - 1); }
+    while (st.length) {
+      var j = st.pop(); if (seen[j] || !w(j)) continue; seen[j] = 1; p[j * 4 + 3] = 0;
+      var cx = j % N, cy = (j - cx) / N;
+      if (cx > 0) st.push(j - 1); if (cx < N - 1) st.push(j + 1); if (cy > 0) st.push(j - N); if (cy < N - 1) st.push(j + N);
+    }
+    x.putImageData(id, 0, 0);
+  }
   function bare(d, N) {
-    return limg(IMG + d.f + '/bare.webp').then(function (im) { var c = document.createElement('canvas'); c.width = c.height = N; if (im) c.getContext('2d').drawImage(im, 0, 0, N, N); return c; });
+    return limg(bareUrl(d.f)).then(function (im) { var c = document.createElement('canvas'); c.width = c.height = N; if (im) c.getContext('2d').drawImage(im, 0, 0, N, N); return c; });
   }
   function glint(x, cx, N, W, col) {
     x.save(); x.globalCompositeOperation = 'source-atop';
@@ -458,7 +486,7 @@
       s.querySelector('.bgk-x').addEventListener('click', function () { st.it[i] = null; render(); });
     });
     box.querySelector('.bgx-chips').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { st.p = b.getAttribute('data-p'); render(); } });
-    function pre(s) { st.it.forEach(function (d) { if (d) { limg(IMG + d.f + '/' + s + '.webp'); limg(IMG + d.f + '/bare.webp'); } }); }
+    function pre(s) { st.it.forEach(function (d) { if (d) { limg(IMG + d.f + '/' + s + '.webp'); limg(bareUrl(d.f)); } }); }
     ['pointerover', 'pointerdown', 'focusin'].forEach(function (ev) { box.querySelector('.bgx-chips').addEventListener(ev, function (e) { var b = e.target.closest('button'); if (b) pre(b.getAttribute('data-p')); }); });
     try { var io = new IntersectionObserver(function (es) { if (!es[0].isIntersecting) return; io.disconnect(); if (navigator.connection && navigator.connection.saveData) return; var i = 0; (function nx() { if (i >= FEAT.length) return; pre(FEAT[i++]); setTimeout(nx, 350); })(); }, { rootMargin: '300px' }); io.observe(box); } catch (e) {}
     window.addEventListener('resize', function () { var w = box.clientWidth; if ((w < 640) !== (W < 1200)) render(); });
