@@ -5296,16 +5296,23 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   if (to) { try { location.replace(to); } catch (e) {} return; }
   function rootOf(t) { return t.split('#')[0]; }
   function fix() {
-    var seen = [];
+    var done = [];
     [].forEach.call(document.querySelectorAll('a[href]'), function (a) {
-      var t = legacy(a.getAttribute('href')); if (!t) return;
-      a.setAttribute('href', t);
-      var li = a.parentElement && a.parentElement.children.length === 1 ? a.parentElement : a;
-      var list = li.parentElement; if (!list || seen.indexOf(list) >= 0) return; seen.push(list);
-      var r = rootOf(t); if (!ALL[r] || list.querySelector('[data-bg-all]')) return;
-      if ([].some.call(list.querySelectorAll('a[href]'), function (x) { return x.getAttribute('href') === r; })) return;
-      var c = li.cloneNode(true), ca = c.tagName === 'A' ? c : c.querySelector('a');
-      ca.setAttribute('href', r); ca.setAttribute('data-bg-all', '1');
+      var t = legacy(a.getAttribute('href')); if (t) a.setAttribute('href', t);
+    });
+    [].forEach.call(document.querySelectorAll('a[href*="#"]'), function (a) {
+      var h = a.getAttribute('href'), r = rootOf(h);
+      if (!ALL[r] || !/^\/(kamera|lens|aksiyon-kamera)#/.test(h) || a.closest('.bg26-chips,.bg26-mm')) return;
+      /* marka linklerini birlikte iceren en yakin ata = liste; a'yi iceren dogrudan cocugu = satir */
+      var list = a.parentElement, item = a;
+      while (list && list.querySelectorAll('a[href^="' + r + '#"]').length < 2) { item = list; list = list.parentElement; }
+      if (!list || done.indexOf(list) >= 0) return; done.push(list);
+      if (list.querySelector('[data-bg-all]') || [].some.call(list.querySelectorAll('a[href]'), function (x) { return x.getAttribute('href') === r && !x.closest('[data-bg-all]'); })) return;
+      while (item.parentElement !== list) item = item.parentElement;
+      var c = item.cloneNode(true), ca = c.tagName === 'A' ? c : c.querySelector('a[href^="' + r + '#"]');
+      if (!ca) return;
+      [].forEach.call(c.querySelectorAll('a'), function (x) { if (x !== ca) x.remove(); });
+      ca.setAttribute('href', r); c.setAttribute('data-bg-all', '1');
       var leaf = ca; while (leaf.children.length === 1) leaf = leaf.children[0];
       if (!leaf.children.length) leaf.textContent = ALL[r]; else ca.textContent = ALL[r];
       list.insertBefore(c, list.firstElementChild);
