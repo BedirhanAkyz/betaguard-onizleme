@@ -9,10 +9,10 @@
   function slug(s){ return String(s).normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/ı/g,'i').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
   var DSLUG = {}; DESEN.forEach(function(n){ DSLUG[slug(n)] = n; });
   var CATS = {
-    K: { root: 'kamera', subs: [['Sony','sony-kamera'],['Canon','canon-kamera'],['Nikon','nikon-kamera'],['Fujifilm','fujifilm-kamera'],['Panasonic','panasonic-kamera']] },
-    L: { root: 'lens', subs: [['Sony','sony-lens'],['Canon','canon-lens'],['Nikon','nikon-lens'],['Fujifilm','fujifilm-lens'],['Sigma','sigma-lens']] },
-    D: { root: 'drone', subs: [['DJI','dji-drone']] },
-    A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','dji-osmo'],['GoPro','aksiyon-kamera#gopro'],['Insta360','aksiyon-kamera#insta360']] },
+    K: { root: 'kamera', subs: [['Sony','kamera#sony'],['Canon','kamera#canon'],['Nikon','kamera#nikon'],['Fujifilm','kamera#fujifilm'],['Panasonic','kamera#panasonic']] },
+    L: { root: 'lens', subs: [['Sony','lens#sony'],['Canon','lens#canon'],['Nikon','lens#nikon'],['Fujifilm','lens#fujifilm'],['Sigma','lens#sigma']] },
+    D: { root: 'drone', subs: [['DJI','drone#dji']] },
+    A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','aksiyon-kamera#dji-osmo'],['GoPro','aksiyon-kamera#gopro'],['Insta360','aksiyon-kamera#insta360']] },
     G: { root: 'gimbal', subs: [['DJI','gimbal#dji'],['Zhiyun','gimbal#zhiyun']] }
   };
   var TURCAT = { 'Kamera': '/kamera', 'Lens': '/lens', 'Drone': '/drone', 'Aksiyon Kamera': '/aksiyon-kamera', 'Gimbal': '/gimbal' };

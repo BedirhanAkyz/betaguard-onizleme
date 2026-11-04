@@ -2580,10 +2580,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function slug(s){ return String(s).normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/ı/g,'i').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
   var DSLUG = {}; DESEN.forEach(function(n){ DSLUG[slug(n)] = n; });
   var CATS = {
-    K: { root: 'kamera', subs: [['Sony','sony-kamera'],['Canon','canon-kamera'],['Nikon','nikon-kamera'],['Fujifilm','fujifilm-kamera'],['Panasonic','panasonic-kamera']] },
-    L: { root: 'lens', subs: [['Sony','sony-lens'],['Canon','canon-lens'],['Nikon','nikon-lens'],['Fujifilm','fujifilm-lens'],['Sigma','sigma-lens']] },
-    D: { root: 'drone', subs: [['DJI','dji-drone']] },
-    A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','dji-osmo'],['GoPro','aksiyon-kamera#gopro'],['Insta360','aksiyon-kamera#insta360']] },
+    K: { root: 'kamera', subs: [['Sony','kamera#sony'],['Canon','kamera#canon'],['Nikon','kamera#nikon'],['Fujifilm','kamera#fujifilm'],['Panasonic','kamera#panasonic']] },
+    L: { root: 'lens', subs: [['Sony','lens#sony'],['Canon','lens#canon'],['Nikon','lens#nikon'],['Fujifilm','lens#fujifilm'],['Sigma','lens#sigma']] },
+    D: { root: 'drone', subs: [['DJI','drone#dji']] },
+    A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','aksiyon-kamera#dji-osmo'],['GoPro','aksiyon-kamera#gopro'],['Insta360','aksiyon-kamera#insta360']] },
     G: { root: 'gimbal', subs: [['DJI','gimbal#dji'],['Zhiyun','gimbal#zhiyun']] }
   };
   var TURCAT = { 'Kamera': '/kamera', 'Lens': '/lens', 'Drone': '/drone', 'Aksiyon Kamera': '/aksiyon-kamera', 'Gimbal': '/gimbal' };
@@ -5278,5 +5278,53 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
   var q = 0; function sch() { if (q) return; q = 1; setTimeout(function () { q = 0; try { run(); } catch (e) {} }, 200); }
   function go() { new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true }); setInterval(sch, 1200); sch(); }
+  if (document.readyState !== 'loading') go(); else document.addEventListener('DOMContentLoaded', go);
+})();
+
+/* ===== 27_marka.js ===== */
+/* v41: eski marka kategori sayfalari (ikas'ta bos kaliyor) -> ana kategori + marka filtresi.
+   /sony-kamera-kaplama -> /kamera#sony ; mobil menude "Tum kameralar" satiri ; ayni sayfada hash degisince marka cipi */
+(function () {
+  if (window.__bgMarka) return; window.__bgMarka = 1;
+  var B = { kamera: ['sony','canon','nikon','fujifilm','panasonic'], lens: ['sony','canon','nikon','fujifilm','sigma','tamron'] };
+  var MAP = { 'dji-drone': '/drone', 'dji-drone-kaplama': '/drone', 'dji-osmo': '/aksiyon-kamera#dji-osmo', 'dji-osmo-kaplama': '/aksiyon-kamera#dji-osmo' };
+  Object.keys(B).forEach(function (r) { B[r].forEach(function (b) { MAP[b + '-' + r] = MAP[b + '-' + r + '-kaplama'] = '/' + r + '#' + b; }); });
+  var ALL = { '/kamera': 'Tüm kameralar', '/lens': 'Tüm lensler', '/drone': 'Tüm dronelar', '/aksiyon-kamera': 'Tüm aksiyon kameraları', '/gimbal': 'Tüm gimballer' };
+  function legacy(h) { if (!h || h.charAt(0) !== '/') return null; return MAP[h.replace(/^\/|\/$/g, '').split('?')[0].split('#')[0]] || null; }
+  /* 1 - dogrudan acilan eski marka sayfasi */
+  var to = legacy(location.pathname);
+  if (to) { try { location.replace(to); } catch (e) {} return; }
+  function rootOf(t) { return t.split('#')[0]; }
+  function fix() {
+    var seen = [];
+    [].forEach.call(document.querySelectorAll('a[href]'), function (a) {
+      var t = legacy(a.getAttribute('href')); if (!t) return;
+      a.setAttribute('href', t);
+      var li = a.parentElement && a.parentElement.children.length === 1 ? a.parentElement : a;
+      var list = li.parentElement; if (!list || seen.indexOf(list) >= 0) return; seen.push(list);
+      var r = rootOf(t); if (!ALL[r] || list.querySelector('[data-bg-all]')) return;
+      if ([].some.call(list.querySelectorAll('a[href]'), function (x) { return x.getAttribute('href') === r; })) return;
+      var c = li.cloneNode(true), ca = c.tagName === 'A' ? c : c.querySelector('a');
+      ca.setAttribute('href', r); ca.setAttribute('data-bg-all', '1');
+      var leaf = ca; while (leaf.children.length === 1) leaf = leaf.children[0];
+      if (!leaf.children.length) leaf.textContent = ALL[r]; else ca.textContent = ALL[r];
+      list.insertBefore(c, list.firstElementChild);
+    });
+  }
+  /* 3 - kategori sayfasindayken hash degisirse ilgili marka cipine bas */
+  function chip() {
+    var want = location.pathname + (location.hash || '');
+    var bar = document.querySelector('.bg26-chips'); if (!bar) return;
+    var a = [].filter.call(bar.querySelectorAll('a'), function (x) { return x.getAttribute('href') === want.toLowerCase(); })[0] || (!location.hash && bar.querySelector('a'));
+    if (a && !a.classList.contains('on')) a.click();
+  }
+  window.addEventListener('hashchange', chip);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="#"]'); if (!a) return;
+    var h = a.getAttribute('href'); if (!/^\/(kamera|lens|drone|aksiyon-kamera|gimbal)#/.test(h) || rootOf(h) !== location.pathname || a.closest('.bg26-chips')) return;
+    setTimeout(chip, 50);
+  });
+  var q = 0; function sch() { if (q) return; q = 1; setTimeout(function () { q = 0; try { fix(); } catch (e) {} }, 150); }
+  function go() { fix(); new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true }); }
   if (document.readyState !== 'loading') go(); else document.addEventListener('DOMContentLoaded', go);
 })();
