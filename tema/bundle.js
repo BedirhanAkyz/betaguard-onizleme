@@ -5442,10 +5442,11 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
   /* son guvenlik: tukenmis desen seciliyken sepete ekleme tiklamasini durdur */
   document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('[data-bg-pcart]')) run();
     if (!document.documentElement.classList.contains('bg-tk-sel')) return;
     if (e.target.closest && e.target.closest('[data-bg-pcart]')) { e.preventDefault(); e.stopPropagation(); }
   }, true);
-  var tm; new MutationObserver(function () { clearTimeout(tm); tm = setTimeout(run, 80); }).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+  var tm = 0; new MutationObserver(function () { if (!tm) tm = setTimeout(function () { tm = 0; run(); }, 80); }).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
   setInterval(run, 60000);
   run();
 })();
