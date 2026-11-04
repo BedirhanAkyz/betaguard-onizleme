@@ -5354,6 +5354,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     'html.bg-kus-page .rich-text h1,html.bg-kus-page .rich-text h2,html.bg-kus-page .rich-text h3{margin:22px 0 10px!important;line-height:1.3!important}',
     'html.bg-kus-page .rich-text ul,html.bg-kus-page .rich-text ol{margin:0 0 12px!important;padding-left:20px!important;line-height:1.65!important}',
     'html.bg-kus-page .rich-text li{margin:0 0 6px!important}',
+    /* arama onerileri: model adi + rozet kutudan tasmasin */
+    '.bg-sr-g a{min-width:0}',
+    '.bg-sr-g a>span:first-child{flex:1 1 auto!important;min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:3px 6px}',
+    '.bg-sr-g a .bg26-pv{margin:0!important}',
     '.bg-kus-hide{display:none!important}'
   ].join('');
   var st = document.createElement('style'); st.id = 'bg-kus'; st.textContent = css;
