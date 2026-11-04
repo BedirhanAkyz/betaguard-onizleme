@@ -3,7 +3,14 @@
 (function () {
   if (window.__bgTk) return; window.__bgTk = 1;
   function norm(s) { return String(s || '').toLocaleLowerCase('tr').replace(/\s+/g, ' ').trim(); }
-  function list() { var l = window.BG_TUKENDI; return (Array.isArray(l) ? l : []).map(norm).filter(Boolean); }
+  /* ogeler: 'Royal Gold' (hemen) ya da ['Carbon','2026-11-05T14:00'] (o saatten itibaren, Turkiye saati) */
+  function list() {
+    var l = window.BG_TUKENDI, now = Date.now();
+    return (Array.isArray(l) ? l : []).map(function (x) {
+      if (Array.isArray(x)) { var t = Date.parse(String(x[1] || '').replace(/(T\d\d:\d\d)$/, '$1:00+03:00')); return isNaN(t) || now >= t ? norm(x[0]) : ''; }
+      return norm(x);
+    }).filter(Boolean);
+  }
   var css = [
     '.bg-pp-one.bg-tk{position:relative}',
     '.bg-pp-one.bg-tk img,.bg-pp-one.bg-tk .bg-pp-ph{filter:grayscale(1) brightness(.55)}',
@@ -38,5 +45,6 @@
     if (e.target.closest && e.target.closest('[data-bg-pcart]')) { e.preventDefault(); e.stopPropagation(); }
   }, true);
   var tm; new MutationObserver(function () { clearTimeout(tm); tm = setTimeout(run, 80); }).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+  setInterval(run, 60000);
   run();
 })();
