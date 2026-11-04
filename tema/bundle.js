@@ -5377,8 +5377,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         if (c === n || c.classList.contains('bg-kus-hide') || c.querySelector('.bg27,.bg26-bar,.bg26-catdesc')) return;
         if (/^bg/.test(c.className + '')) return;
         var t = c.textContent.replace(/\s+/g, ' ').trim();
-        if (/^Öne Çıkanlar/.test(t) && t.length < 120) c.classList.add('bg-kus-hide');
-        else if (/^[\d\s.…<>‹›«»]+$/.test(t) && t.length < 40 && c.querySelector('a,button')) c.classList.add('bg-kus-hide');
+        if (/^Öne Çıkanlar/.test(t) && t.length < 400) c.classList.add('bg-kus-hide');
+        else if (/^[\d\s.…<>‹›«»]+$/.test(t) && t.length < 40 && c.offsetHeight < 90) c.classList.add('bg-kus-hide');
       });
       n = p;
     }
