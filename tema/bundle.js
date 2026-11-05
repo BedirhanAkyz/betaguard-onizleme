@@ -5345,7 +5345,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     ':root{--bgv-gift:' + GIFT + '}',
     '@media (max-width:760px){html .bg-kt-pill:not(.code)::after{-webkit-mask-image:' + GIFT + ';mask-image:' + GIFT + '}}',
     /* desen etiketleri: tek satirda kesme yerine iki satira kadar */
-    '.bg-pp-one b,.bg-pp-one small{white-space:normal;overflow:hidden;text-overflow:clip;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:break-word;hyphens:auto}',
+    '.bg-pp-one b,.bg-pp-one small{white-space:normal;overflow:hidden;text-overflow:clip;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:normal;overflow-wrap:normal;hyphens:manual}',
+    '.bg-pp-one.lng b{display:block;white-space:nowrap;overflow:visible;margin:0 -3px;font-size:9px;letter-spacing:-.25px}',
     /* kargo kutusu yazilari kesilmesin */
     '.bg26-ship b,.bg26-ship small{white-space:normal;overflow:visible;text-overflow:clip}',
     '@media(max-width:420px){.bg26-ship small{font-size:10.5px;line-height:1.25}}',
@@ -5393,6 +5394,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     document.documentElement.classList.toggle('bg-kus-page', isPage);
     if (TITLES[p] && document.title !== TITLES[p]) document.title = TITLES[p];
     hideIkas();
+    [].forEach.call(document.querySelectorAll('.bg-pp-one:not(.lng-ok)'), function (x) { var b = x.querySelector('b'); if (!b) return; x.classList.add('lng-ok'); if (b.textContent.trim().length > 8) x.classList.add('lng'); });
   }
   var tm; new MutationObserver(function(){ clearTimeout(tm); tm = setTimeout(run, 120); }).observe(document.documentElement, { childList: true, subtree: true });
   run();
