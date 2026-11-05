@@ -5396,7 +5396,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     hideIkas();
     [].forEach.call(document.querySelectorAll('.bg-pp-one:not(.lng-ok)'), function (x) { var b = x.querySelector('b'); if (!b) return; x.classList.add('lng-ok'); if (b.textContent.trim().length > 8) x.classList.add('lng'); });
   }
-  var tm; new MutationObserver(function(){ clearTimeout(tm); tm = setTimeout(run, 120); }).observe(document.documentElement, { childList: true, subtree: true });
+  var tm = 0; new MutationObserver(function(){ if (!tm) tm = setTimeout(function(){ tm = 0; run(); }, 150); }).observe(document.documentElement, { childList: true, subtree: true });
   run();
 })();
 
