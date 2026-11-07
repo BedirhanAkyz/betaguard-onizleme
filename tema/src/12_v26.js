@@ -672,7 +672,7 @@
       e.preventDefault(); e.stopPropagation();
       st.brand = nb; st.n = LIMIT; draw();
       [].forEach.call(bar.querySelectorAll('.bg26-chips a'), function(x){ x.classList.toggle('on', x === a); });
-      host.querySelector('h1').firstChild.textContent = (nb ? nb + ' ' : '') + TYPE[ci.k] + ' kaplama';
+      host.querySelector('h1').firstChild.textContent = (nb ? nb + ' ' : '') + TYPE[ci.k] + ' Kaplama';
       var cd = document.querySelector('.bg26-catdesc'); if (cd) cd.style.display = nb === bn ? '' : 'none';   /* ikas aciklamasi ilk acilan markaya ait */
       try { history.replaceState(null, '', '/' + sl); } catch (x) {}
       window.scrollTo({ top: host.getBoundingClientRect().top + window.pageYOffset - 90, behavior: 'smooth' });
