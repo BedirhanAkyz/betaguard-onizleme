@@ -17,8 +17,8 @@
     { f: 'drone-dji-fpv-goggles-v2',  t: 'DJI FPV Goggles V2',  n: 'FPV Goggles V2',  s: 'FPV gözlük' }
   ];
   var KIND = {
-    kum: { h: 'Kumanda', none: 'Sadece drone', noneS: 'Kumanda kaplaması yok', yes: 'Drone + kumanda', what: 'kumanda', note: 'Kumanda, drone ile <b>aynı desende</b> kesilir. Kumandanı seç, kutudan takım çıksın.' },
-    goz: { h: 'Gözlük', none: 'Gözlük yok', noneS: 'Gözlük kaplaması yok', yes: 'Gözlük de olsun', what: 'gözlük', note: 'Gözlük, drone ile <b>aynı desende</b> kesilir. Gözlüğünün modelini seç.' }
+    kum: { h: 'Kumanda', none: 'Sadece drone', noneS: 'Kumanda kaplaması yok', yes: 'Drone + kumanda', what: 'kumanda', note: 'Kumanda, drone ile <b>aynı desende</b> üretilir. Kumandanı seç, kutudan takım çıksın.' },
+    goz: { h: 'Gözlük', none: 'Gözlük yok', noneS: 'Gözlük kaplaması yok', yes: 'Gözlük de olsun', what: 'gözlük', note: 'Gözlük, drone ile <b>aynı desende</b> üretilir. Gözlüğünün modelini seç.' }
   };
   var NONE = 'İstemiyorum';   /* "Istemiyorum · ..." degerlerinin basi */
   var EK = 1000;

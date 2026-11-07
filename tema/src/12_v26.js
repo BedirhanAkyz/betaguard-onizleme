@@ -362,7 +362,7 @@
   }
   function fitLine(dev){
     var t = document.querySelector('[data-bg-ptitle]');
-    var sub = '✓ ' + dev.b + ' ' + dev.m + ' için birebir kesim · 39 desen' + (dev.t !== 'D' || /Goggles|^RC/.test(dev.m) ? '' : /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m) ? ' · kumanda kaplaması dahil' : /Avata/.test(dev.m) ? ' · kumanda / gözlük kaplaması +1.000 ₺' : ' · kumanda kaplaması +1.000 ₺') + ' · 1-2 iş gününde kargoda';
+    var sub = '✓ ' + dev.b + ' ' + dev.m + ' için özel üretim · 39 desen' + (dev.t !== 'D' || /Goggles|^RC/.test(dev.m) ? '' : /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m) ? ' · kumanda kaplaması dahil' : /Avata/.test(dev.m) ? ' · kumanda / gözlük kaplaması +1.000 ₺' : ' · kumanda kaplaması +1.000 ₺') + ' · 1-2 iş gününde kargoda';
     if (t && t.getAttribute('data-bg26-sub') !== sub) t.setAttribute('data-bg26-sub', sub);
     var old = document.querySelector('.bg26-fit'); if (old) old.remove();
     var combo = /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m), acc = /Goggles|^RC/.test(dev.m);
@@ -653,7 +653,7 @@
     function draw(){
       var l = list(), show = l.slice(0, st.n);
       sub.textContent = l.length + ' model' + (st.q.trim() ? ' bulundu' : '') + ' · her birinde 39 desen · 1-2 iş gününde kargoda';
-      g.innerHTML = show.length ? show.map(card).join('') : '<div class="bg27-empty">Bu aramayla eşleşen önizlemeli model yok.<br>Modelin listede yoksa <a href="#" data-bg27-open>cihazını ara</a> ya da <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan yaz</a>, kesimi varsa hemen söyleyelim.</div>';
+      g.innerHTML = show.length ? show.map(card).join('') : '<div class="bg27-empty">Bu aramayla eşleşen önizlemeli model yok.<br>Modelin listede yoksa <a href="#" data-bg27-open>cihazını ara</a> ya da <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan yaz</a>, üretebiliyorsak hemen söyleyelim.</div>';
       more.innerHTML = l.length > show.length ? '<button type="button" data-more>Daha fazla göster <span style="opacity:.7">(' + (l.length - show.length) + ')</span></button><button type="button" data-all>Tümünü göster</button>' : '';
     }
     host.addEventListener('click', function(e){

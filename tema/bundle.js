@@ -64,7 +64,7 @@
   var HOME_HTML =
     '<div class="bg-band" data-bg="feat"><div class="bg-sec"><span class="bg-eyebrow">NEDEN BETAGUARD</span><h2>Koru, kişiselleştir, fark yarat</h2><div class="bg-grid">' +
       feat('shield', 'Çizilme koruması', 'Günlük kullanımda oluşan çizik ve sürtünmeleri kaplama üstlenir.') +
-      feat('cut', 'Cihazına özel kesim', 'Her parça modeline göre kesilir; düğmeler ve portlar açık kalır.') +
+      feat('cut', 'Cihazına özel üretim', 'Her parça modeline göre üretilir; düğmeler ve portlar açık kalır.') +
       feat('swap', 'İz bırakmadan sökülür', 'Tarzın değişince sök, yenisini uygula. Cihaz yüzeyine zarar vermez.') +
       feat('hand', 'Metal + plastik aksam', 'Metal aksam seçtiğin desenle, plastik aksam dokulu siyah kaplamayla kaplanır.') +
     '</div></div></div>' +
@@ -79,7 +79,7 @@
     '<div class="bg-info" data-bg="info">' +
       '<div class="bg-disc">2 kaplamaya 250 ₺, 3 ve üzeri kaplamaya 500 ₺ indirim · 2.000 ₺ üzeri kargo ücretsiz</div>' +
       '<div class="r">' + I.dot + '<span><b>Metal aksam</b> seçtiğin desenle, <b>plastik aksam</b> dokulu siyah kaplamayla kaplanır.</span></div>' +
-      '<div class="r">' + I.dot + '<span>Siparişe özel basılır ve kesilir, <b>1-2 iş gününde</b> kargoda.</span></div>' +
+      '<div class="r">' + I.dot + '<span>Siparişe özel üretilir, <b>1-2 iş gününde</b> kargoda.</span></div>' +
       '<div class="r">' + I.dot + '<span><b>Uygulama seti hediye.</b> Cihazın listede yoksa <a href="' + WA + '" target="_blank" rel="noopener" style="color:#E2C285">WhatsApp\'tan yaz</a>.</span></div>' +
     '</div>';
   function txt(e) { return (e.textContent || '').replace(/\s+/g, ' ').trim(); }
@@ -280,7 +280,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     for (var i = 0; i < all.length; i++) {
       var e = all[i];
       if (e.children.length) continue;
-      if (txt(e) === 'Cihazına özel hassas kesim') {
+      if (/^Cihazına özel hassas (kesim|üretim)$/.test(txt(e))) {
         var app = document.getElementById('app');
         var s = e;
         while (s.parentElement && s.parentElement.parentElement && s.parentElement.parentElement !== app) s = s.parentElement;
@@ -390,14 +390,14 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     return '<section class="bg-hero" data-bg="hero"><div class="bg-hero-l">' +
         '' +
         '<h1>Tek desen.<br>Tek karakter.</h1>' +
-        '<p>Kamera, lens, drone ve gimbal kaplamaları. Her siparişi cihazının ölçüsüne göre basıp kesiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
+        '<p>Kamera, lens, drone ve gimbal kaplamaları. Her siparişi cihazının ölçüsüne göre üretiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
         '<div class="bg-btns"><a class="bg-pill" href="/betaguard-kaplama">Serileri keşfet</a><a class="bg-pill o" href="#bg-find">Cihazını seç</a></div>' +
       '</div><div class="bg-hero-r"><img alt="Betaguard kaplamalı kamera, drone ve aksesuarlar" src="' + img + '"></div></section>' +
       '<section class="bg-find" id="bg-find" data-bg="find"><div class="bg-find-h"><div><h2>Cihazını bul</h2></div></div>' +
         '<div class="bg-cats">' + cats + '</div>' +
         '<div class="bg-srch"><label for="bg-q" style="position:absolute;width:1px;height:1px;overflow:hidden">Model ara</label><input id="bg-q" type="text" autocomplete="off" placeholder="Model ara: ZV-E10, Avata 2, X-S20…"><a class="bg-go" href="/betaguard-kaplama">Desenleri gör</a><div class="bg-sugg"></div></div>' +
         '<div class="bg-res"></div>' +
-        '<div class="bg-find-n">Listede yoksa <a class="wl" href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan model adını yaz</a>, kesimi var mı bakalım.</div>' +
+        '<div class="bg-find-n">Listede yoksa <a class="wl" href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan model adını yaz</a>, üretebiliyorsak hemen söyleyelim.</div>' +
       '</section>';
   }
 
@@ -426,7 +426,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var out = [], all = models();
       out = smartFind(all, q.value, function (m) { return m[0] + ' ' + m[1]; }, 8);
       show(out);
-      if (!out.length) res.innerHTML = 'Bu model listede görünmüyor. <a class="wl" href="' + WA + '" target="_blank" rel="noopener" style="color:#E2C285">WhatsApp\'tan yaz</a>, kesimi var mı hemen söyleyelim.';
+      if (!out.length) res.innerHTML = 'Bu model listede görünmüyor. <a class="wl" href="' + WA + '" target="_blank" rel="noopener" style="color:#E2C285">WhatsApp\'tan yaz</a>, üretebiliyorsak hemen söyleyelim.';
     });
     sg.addEventListener('mousedown', function (e) {
       var d = e.target.closest('div[data-i]'); if (!d) return; e.preventDefault(); pick(sg._list[+d.dataset.i]);
@@ -518,7 +518,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '@media (min-width:900px){[data-bg-pgrid]{grid-template-columns:minmax(0,1.08fr) minmax(0,1fr)!important;column-gap:48px!important;align-items:start!important}[data-bg-pgrid]>*{grid-column:1;grid-row:1}[data-bg-pgrid]>[data-bg-pinfo]{grid-column:2!important;grid-row:1!important}}',
     '@media (max-width:899px){[data-bg-pwrap]{width:calc(100% - 32px)!important}}',
     '[data-bg-ptitle]{font:italic 900 46px/1.02 Archivo,sans-serif!important;letter-spacing:.005em;color:#F2F0EB!important}',
-    '[data-bg-ptitle]::after{content:"Cihazına özel hassas kesim. Kamera, lens, drone, gimbal ve aksiyon kameralar için.";display:block;margin-top:12px;font:400 16px/1.6 Manrope,sans-serif;font-style:normal;color:#B9B5AD}',
+    '[data-bg-ptitle]::after{content:"Cihazına özel üretim. Kamera, lens, drone, gimbal ve aksiyon kameralar için.";display:block;margin-top:12px;font:400 16px/1.6 Manrope,sans-serif;font-style:normal;color:#B9B5AD}',
     '@media (max-width:640px){[data-bg-ptitle]{font-size:36px!important}}',
     '[data-bg-pprice]{font:800 30px Archivo,sans-serif!important;color:#E2C285!important}',
     '.pcz-title{display:none!important}',
@@ -884,7 +884,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   window.addEventListener('resize', function () { if (ppState) syncPP(); });
 
   /* ---------- v7: "Neden Betaguard" redesign ---------- */
-  var st7 = document.createElement('style'); st7.id = 'bg-theme-css7'; st7.textContent = "[data-bg=\"feat\"]{background:radial-gradient(70% 120% at 0% 0%,rgba(201,164,92,.10),transparent 60%),#0E0E0F!important;border-top:1px solid #1F1E23;border-bottom:1px solid #1F1E23}[data-bg=\"feat\"] .bg-sec{display:grid!important;grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr);column-gap:56px;row-gap:0;align-items:start;padding-top:72px!important;padding-bottom:72px!important}[data-bg=\"feat\"] .bg-eyebrow{grid-column:1;grid-row:1;align-self:end}[data-bg=\"feat\"] h2{grid-column:1;grid-row:2;font-size:44px!important;line-height:1.05!important;margin:10px 0 0!important;font-style:italic;font-weight:900!important}[data-bg=\"feat\"] h2::after{content:\"Kamera, lens, drone ve gimbalın için cihazına özel kesilmiş kaplamalar. Korur, tarzını yansıtır, istediğinde iz bırakmadan çıkar.\";display:block;margin-top:18px;font:400 16px/1.65 Manrope,sans-serif;font-style:normal;color:#B9B5AD;max-width:400px}[data-bg=\"feat\"] .bg-grid{grid-column:2;grid-row:1 / span 3;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin:0!important}[data-bg=\"feat\"] .bg-feat{background:linear-gradient(180deg,#19191C,#131315)!important;border:1px solid #26252A;border-radius:18px;padding:26px 24px 24px!important;display:flex;flex-direction:column;gap:10px;transition:transform .2s ease,border-color .2s ease}[data-bg=\"feat\"] .bg-feat:hover{transform:translateY(-3px);border-color:rgba(201,164,92,.55)}[data-bg=\"feat\"] .bg-feat svg{width:48px!important;height:48px!important;padding:11px;box-sizing:border-box;border-radius:14px;background:rgba(201,164,92,.12);border:1px solid rgba(201,164,92,.28);margin-bottom:6px}[data-bg=\"feat\"] .bg-feat h3{margin:0!important;font:800 19px/1.25 Archivo,sans-serif!important;color:#F2F0EB}[data-bg=\"feat\"] .bg-feat p{margin:0!important;font:400 14.5px/1.6 Manrope,sans-serif!important;color:#A9A59D}[data-bg=\"steps\"] h2{margin-bottom:24px!important}@media (max-width:900px){[data-bg=\"feat\"] .bg-sec{grid-template-columns:1fr;padding-top:48px!important;padding-bottom:48px!important}[data-bg=\"feat\"] .bg-grid{grid-column:1;grid-row:3;margin-top:28px!important}[data-bg=\"feat\"] h2{font-size:34px!important}}@media (max-width:520px){[data-bg=\"feat\"] .bg-grid{grid-template-columns:1fr!important;gap:12px!important}[data-bg=\"feat\"] .bg-feat{display:grid!important;grid-template-columns:48px minmax(0,1fr);column-gap:14px;row-gap:4px;padding:18px 18px!important;align-items:start}[data-bg=\"feat\"] .bg-feat svg{grid-row:1 / span 2;margin:0!important}[data-bg=\"feat\"] .bg-feat h3{font-size:17px!important;align-self:center}[data-bg=\"feat\"] .bg-feat p{font-size:14px!important}}";
+  var st7 = document.createElement('style'); st7.id = 'bg-theme-css7'; st7.textContent = "[data-bg=\"feat\"]{background:radial-gradient(70% 120% at 0% 0%,rgba(201,164,92,.10),transparent 60%),#0E0E0F!important;border-top:1px solid #1F1E23;border-bottom:1px solid #1F1E23}[data-bg=\"feat\"] .bg-sec{display:grid!important;grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr);column-gap:56px;row-gap:0;align-items:start;padding-top:72px!important;padding-bottom:72px!important}[data-bg=\"feat\"] .bg-eyebrow{grid-column:1;grid-row:1;align-self:end}[data-bg=\"feat\"] h2{grid-column:1;grid-row:2;font-size:44px!important;line-height:1.05!important;margin:10px 0 0!important;font-style:italic;font-weight:900!important}[data-bg=\"feat\"] h2::after{content:\"Kamera, lens, drone ve gimbalın için cihazına özel üretilmiş kaplamalar. Korur, tarzını yansıtır, istediğinde iz bırakmadan çıkar.\";display:block;margin-top:18px;font:400 16px/1.65 Manrope,sans-serif;font-style:normal;color:#B9B5AD;max-width:400px}[data-bg=\"feat\"] .bg-grid{grid-column:2;grid-row:1 / span 3;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin:0!important}[data-bg=\"feat\"] .bg-feat{background:linear-gradient(180deg,#19191C,#131315)!important;border:1px solid #26252A;border-radius:18px;padding:26px 24px 24px!important;display:flex;flex-direction:column;gap:10px;transition:transform .2s ease,border-color .2s ease}[data-bg=\"feat\"] .bg-feat:hover{transform:translateY(-3px);border-color:rgba(201,164,92,.55)}[data-bg=\"feat\"] .bg-feat svg{width:48px!important;height:48px!important;padding:11px;box-sizing:border-box;border-radius:14px;background:rgba(201,164,92,.12);border:1px solid rgba(201,164,92,.28);margin-bottom:6px}[data-bg=\"feat\"] .bg-feat h3{margin:0!important;font:800 19px/1.25 Archivo,sans-serif!important;color:#F2F0EB}[data-bg=\"feat\"] .bg-feat p{margin:0!important;font:400 14.5px/1.6 Manrope,sans-serif!important;color:#A9A59D}[data-bg=\"steps\"] h2{margin-bottom:24px!important}@media (max-width:900px){[data-bg=\"feat\"] .bg-sec{grid-template-columns:1fr;padding-top:48px!important;padding-bottom:48px!important}[data-bg=\"feat\"] .bg-grid{grid-column:1;grid-row:3;margin-top:28px!important}[data-bg=\"feat\"] h2{font-size:34px!important}}@media (max-width:520px){[data-bg=\"feat\"] .bg-grid{grid-template-columns:1fr!important;gap:12px!important}[data-bg=\"feat\"] .bg-feat{display:grid!important;grid-template-columns:48px minmax(0,1fr);column-gap:14px;row-gap:4px;padding:18px 18px!important;align-items:start}[data-bg=\"feat\"] .bg-feat svg{grid-row:1 / span 2;margin:0!important}[data-bg=\"feat\"] .bg-feat h3{font-size:17px!important;align-self:center}[data-bg=\"feat\"] .bg-feat p{font-size:14px!important}}";
   (document.head || document.documentElement).appendChild(st7);
 
   /* ---------- v6: hide home "Seriler" slider, point menu/category links to the product page ---------- */
@@ -1160,7 +1160,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
   var TI = function (d) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + d + '</svg>'; };
   var TRUST_HTML = '<div class="bg-trust">' +
-    '<div>' + TI('<path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><rect x="8" y="8" width="8" height="8" rx="1.5"/>') + 'Cihazına özel kesim</div>' +
+    '<div>' + TI('<path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><rect x="8" y="8" width="8" height="8" rx="1.5"/>') + 'Cihazına özel üretim</div>' +
     '<div>' + TI('<path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/>') + '1-2 iş gününde kargoda</div>' +
     '<div>' + TI('<path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>') + 'İz bırakmadan sökülür</div>' +
     '<div>' + TI('<path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13M12 7c-2-4-6-3-5 0M12 7c2-4 6-3 5 0"/>') + 'Uygulama seti hediye</div>' +
@@ -1198,7 +1198,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var ins = document.querySelector('[data-bg-insta]');
       if (!list || !list.length || !ins || document.querySelector('[data-bg-desen]')) return;
       var sec = document.createElement('section'); sec.setAttribute('data-bg-desen', '1'); sec.setAttribute('aria-label', 'Desenler');
-      sec.innerHTML = '<div class="bg-ds-h"><div><span class="bg-eyebrow">DESENLER</span><h2>' + list.length + ' seri, tek karakter</h2><p>Serini seç, cihazında nasıl duracağını gör. Her kaplama modeline göre kesilir.</p></div><a class="bg-ds-all" href="' + KAPLAMA_URL + '">Tümünü gör →</a></div>' +
+      sec.innerHTML = '<div class="bg-ds-h"><div><span class="bg-eyebrow">DESENLER</span><h2>' + list.length + ' seri, tek karakter</h2><p>Serini seç, cihazında nasıl duracağını gör. Her kaplama modeline göre üretilir.</p></div><a class="bg-ds-all" href="' + KAPLAMA_URL + '">Tümünü gör →</a></div>' +
         '<div class="bg-ds-grid">' + list.map(function (d) {
           return '<a class="bg-ds-card" href="' + KAPLAMA_URL + '?desen=' + encodeURIComponent(d.s) + '">' + (d.i ? '<img src="' + imgUrl(d.i, 360) + '" alt="' + esc(d.n) + ' deseni" loading="lazy">' : '<span class="bg-ds-ph" aria-hidden="true">' + esc(initials(d.n)) + '</span>') + '<b>' + esc(d.n) + '</b><small>' + (d.c > 1 ? d.c + ' renk' : 'tek renk') + '</small></a>';
         }).join('') + '</div>';
@@ -1209,10 +1209,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var FAQ = [
     ['Kaplama cihazıma zarar verir mi, iz bırakır mı?', 'Hayır. Kaplama günlük çizik ve sürtünmelere karşı korur. Söktüğünde cihazda iz kalmaz.'],
     ['Kendim uygulayabilir miyim?', 'Evet. Paketten çıkan uygulama setiyle (spatula ve temizlik mendilleri) yukarıdaki 4 adımı izleyerek kendin uygulayabilirsin.'],
-    ['Kesim cihazıma tam oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel basılıp kesilir. Düğmeler, portlar ve ekran alanları açık bırakılır.'],
+    ['Kaplama cihazıma tam oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel üretilir. Düğmeler, portlar ve ekran alanları açık bırakılır.'],
     ['Plastik kısımlar da kaplanıyor mu?', 'Evet. Cihazın metal aksamı seçtiğin desenle, plastik aksamı dokulu siyah kaplamayla kaplanır.'],
     ['Siparişim ne zaman kargoya verilir?', 'Kaplamalar siparişe özel üretilir ve 1-2 iş gününde kargoya verilir. 2.000 ₺ üzeri siparişlerde kargo ücretsizdir.'],
-    ['Cihazım listede yok, ne yapmalıyım?', 'WhatsApp’tan modelini yaz, kesimi olup olmadığını hemen söyleyelim.']
+    ['Cihazım listede yok, ne yapmalıyım?', 'WhatsApp’tan modelini yaz, üretebiliyorsak hemen söyleyelim.']
   ];
   function addFaq() {
     var home = document.querySelector('[data-bg-home]');
@@ -1334,7 +1334,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       document.title = 'Betaguard | Kamera, Lens, Drone ve Gimbal Kaplamaları';
       var md = document.querySelector('meta[name="description"]');
       if (!md) { md = document.createElement('meta'); md.setAttribute('name', 'description'); document.head.appendChild(md); }
-      if (!md.getAttribute('content')) md.setAttribute('content', 'Kamera, lens, drone, gimbal ve aksiyon kameralar için cihaza özel kesim desenli kaplamalar. Çizilmeye karşı korur, iz bırakmadan sökülür. 1-2 iş gününde kargoda.');
+      if (!md.getAttribute('content')) md.setAttribute('content', 'Kamera, lens, drone, gimbal ve aksiyon kameralar için cihaza özel üretilen desenli kaplamalar. Çizilmeye karşı korur, iz bırakmadan sökülür. 1-2 iş gününde kargoda.');
     }
   }
   function pp(){
@@ -1435,7 +1435,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     var box = document.createElement('div'); box.className = 'bg-ft';
     box.innerHTML =
       '<div class="bg-ft-brand"><a class="bg-ft-logo" href="/" aria-label="Betaguard ana sayfa"><img src="' + LOGO + '" alt="Betaguard" loading="lazy"></a>' +
-      '<p>Kamera, lens, drone, gimbal ve aksiyon kameralar için cihazına özel kesim kaplamalar. Siparişe özel basılır, kesilir ve İzmir\'den gönderilir.</p>' +
+      '<p>Kamera, lens, drone, gimbal ve aksiyon kameralar için cihazına özel üretim kaplamalar. Siparişe özel üretilir ve İzmir\'den gönderilir.</p>' +
       '<div class="bg-ft-social"><a href="' + WA + '" target="_blank" rel="noopener">' + IC.chat + 'WhatsApp\'tan yaz</a><a href="' + IG + '" target="_blank" rel="noopener">' + IC.cam + '@betaguard.tr</a></div></div>' +
       '<div><h2 class="bg-ft-h">Cihazlar</h2><ul>' + cats.map(function(c){ return '<li><a href="' + href(c, '/betaguard-kaplama') + '">' + c + '</a></li>'; }).join('') + '</ul></div>' +
       '<div><h2 class="bg-ft-h">Keşfet</h2><ul><li><a href="/betaguard-kaplama">Tüm desenler</a></li><li><a href="/#desenler">Seriler</a></li><li><a href="/blog/uygulama-rehberi">Uygulama rehberi</a></li><li><a href="/blog">Blog</a></li><li><a href="/#sss">Sık sorulanlar</a></li></ul></div>' +
@@ -1592,7 +1592,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         hits.slice(0, 24).map(function(d){ return '<a href="/betaguard-kaplama?cihaz=' + encodeURIComponent(d.b + '|' + d.m) + '"><span style="color:#F2EFEA">' + esc(d.m) + ' <b>' + esc(d.b) + '</b></span><span>→</span></a>'; }).join('') + '</div>' +
         (hits.length > 24 ? '<p style="margin:12px 0 0">+' + (hits.length - 24) + ' model daha. Aramayı biraz daralt.</p>' : '');
     } else {
-      box.innerHTML = '<h3>Cihazını listede bulamadın mı?</h3><p>Modelini yaz, kesimi olup olmadığını hemen söyleyelim.</p><a class="bg-sr-wa" href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan sor</a>';
+      box.innerHTML = '<h3>Cihazını listede bulamadın mı?</h3><p>Modelini yaz, üretebiliyorsak hemen söyleyelim.</p><a class="bg-sr-wa" href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan sor</a>';
     }
     if (!old) {
       while (anchor.parentElement && anchor.parentElement !== document.body && getComputedStyle(anchor.parentElement).flexDirection === 'row' && getComputedStyle(anchor.parentElement).display.indexOf('flex') >= 0) anchor = anchor.parentElement;
@@ -1602,7 +1602,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
   /* 3) sayfa basliklari */
   var TITLES = {
-    '/': ['Betaguard | Kamera, Lens, Drone ve Gimbal Kaplama', 'Kamera, lens, drone, gimbal ve aksiyon kameran için cihazına özel kesimli, iz bırakmadan sökülen Betaguard kaplamalar. İzmir\'den Türkiye\'ye kargo.'],
+    '/': ['Betaguard | Kamera, Lens, Drone ve Gimbal Kaplama', 'Kamera, lens, drone, gimbal ve aksiyon kameran için cihazına özel üretilen, iz bırakmadan sökülen Betaguard kaplamalar. İzmir\'den Türkiye\'ye kargo.'],
     '/search': ['Arama | Betaguard', ''],
     '/pages/iletisim': ['İletişim | Betaguard', 'Betaguard ile WhatsApp, Instagram ve e-posta üzerinden iletişime geç.']
   };
@@ -1791,7 +1791,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 })();
 
 /* ===== 06_v20.js ===== */
-/* v20: "Kesimi Tuttur" indirim oyunu - ana sayfa karti + acilir oyun penceresi */
+/* v20: "Hizayı Tuttur" indirim oyunu - ana sayfa karti + acilir oyun penceresi */
 (function(){
   if (window.__bgV20) return; window.__bgV20 = 1;
   // Kademe kodlari (ikas'ta kupon olarak tanimli; musteri basina 1 kullanim). Hafifce gizlenmis.
@@ -1841,7 +1841,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function openGame(){
     var prev = store();
     var ov = document.createElement('div'); ov.className = 'bg-kt-ov'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true');
-    ov.innerHTML = '<div class="bg-kt-m"><div class="bg-kt-hd"><b>🎯 Kesimi tuttur</b><button class="bg-kt-x" aria-label="Kapat">×</button></div><div class="bg-kt-body"></div></div>';
+    ov.innerHTML = '<div class="bg-kt-m"><div class="bg-kt-hd"><b>🎯 Hizayı tuttur</b><button class="bg-kt-x" aria-label="Kapat">×</button></div><div class="bg-kt-body"></div></div>';
     document.body.appendChild(ov); document.documentElement.style.overflow = 'hidden';
     var body = ov.querySelector('.bg-kt-body'), raf = 0;
     function close(){ cancelAnimationFrame(raf); ov.remove(); document.documentElement.style.overflow = ''; document.removeEventListener('keydown', onKey); }
@@ -1892,7 +1892,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var p = pos(s.r,s.t), k = Math.min(W,H)*.2, acc = Math.max(0, Math.round(100 - Math.hypot(p.x,p.y)/(k*1.2)*100));
       s.lock = p; s.ph = 'locked'; s.sc.push(acc);
       rds[s.r].textContent = R[s.r].n + ' %' + acc; rds[s.r].className = 'bg-kt-rd done';
-      say(acc>=95 ? 'Kusursuz kesim! %'+acc : acc>=80 ? 'Çok yakın! %'+acc : acc>=50 ? 'Fena değil · %'+acc : 'Kaydı · %'+acc, acc>=80 ? '#7FC79A' : acc<50 ? '#E07A5F' : '#F2EFEA');
+      say(acc>=95 ? 'Kusursuz hiza! %'+acc : acc>=80 ? 'Çok yakın! %'+acc : acc>=50 ? 'Fena değil · %'+acc : 'Kaydı · %'+acc, acc>=80 ? '#7FC79A' : acc<50 ? '#E07A5F' : '#F2EFEA');
       setTimeout(function(){
         s.r++;
         if (s.r>2){ var avg = Math.round(s.sc.reduce(function(a,b){return a+b;},0)/3), tier = avg>=90 ? 2 : avg>=75 ? 1 : 0; store({avg:avg, tier:tier, code:1, at:Date.now()}); cancelAnimationFrame(raf); result(avg, tier, false); return; }
@@ -1906,7 +1906,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
     function result(avg, tier, again){
       var code = atob(K[tier]);
-      body.innerHTML = '<div class="bg-kt-res"><div class="s">%' + avg + '</div><h4>' + ['Isınma turu','Usta işi','Kesim ustası'][tier] + ' · ' + AMT[tier] + ' ₺ indirim</h4>' +
+      body.innerHTML = '<div class="bg-kt-res"><div class="s">%' + avg + '</div><h4>' + ['Isınma turu','Usta işi','Hiza ustası'][tier] + ' · ' + AMT[tier] + ' ₺ indirim</h4>' +
         '<p>' + (again ? 'Oyunu daha önce oynadın, kazandığın kod burada.' : 'Üç cihazda ortalama isabetin %' + avg + '.') + ' Kodu ödeme sayfasındaki indirim kodu alanına yaz. Her müşteri bir kez kullanabilir.</p>' +
         '<div class="bg-kt-code"><output>' + code + '</output><button class="bg-kt-btn" type="button">Kodu kopyala</button></div>' +
         '<div class="bg-kt-tiers"><span>%90+ → 250 ₺</span><span>%75–89 → 150 ₺</span><span>%75 altı → 100 ₺</span></div>' +
@@ -1948,7 +1948,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (!after || !after.parentNode) return;
     var sec = document.createElement('section'); sec.className = 'bg-kt'; sec.setAttribute('data-bg-kt', '1');
     var prev = store();
-    sec.innerHTML = '<div class="bg-kt-card"><div><small>5 Kasım\'a kadar</small><h3>Kesimi tuttur, indirim kazan</h3><p>Kaplamayı cihaza ne kadar düzgün oturtursan o kadar indirim: 100 ile 250 ₺ arası. Oyun 20 saniye sürüyor.</p></div><button class="bg-kt-btn" type="button">' + (prev && prev.code ? 'Kodumu göster' : 'Hemen oyna') + '</button></div>';
+    sec.innerHTML = '<div class="bg-kt-card"><div><small>5 Kasım\'a kadar</small><h3>Hizayı tuttur, indirim kazan</h3><p>Kaplamayı cihaza ne kadar düzgün oturtursan o kadar indirim: 100 ile 250 ₺ arası. Oyun 20 saniye sürüyor.</p></div><button class="bg-kt-btn" type="button">' + (prev && prev.code ? 'Kodumu göster' : 'Hemen oyna') + '</button></div>';
     sec.querySelector('button').onclick = openGame;
     after.parentNode.insertBefore(sec, after.nextSibling);
   }
@@ -2069,7 +2069,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var px = document.createElement('div'); px.className = 'bg-px';
       px.innerHTML =
         '<div class="bg-px-c"><h4><i>◆</i>Kutuda ne var?</h4><ul class="bg-px-box">' +
-          '<li>Cihazının modeline özel kesilmiş kaplama parçaları</li>' +
+          '<li>Cihazının modeline özel üretilmiş kaplama parçaları</li>' +
           '<li>Uygulama seti: spatula, ıslak ve kuru temizlik mendili</li>' +
           '<li>Drone siparişlerinde kumanda kaplaması 1.000 ₺ ile eklenir</li></ul></div>' +
         '<div class="bg-px-c"><h4><i>◆</i>4 adımda kendin uygula</h4><div class="bg-px-st">' +
@@ -2080,7 +2080,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
           '<a class="bg-px-more" href="/blog/uygulama-rehberi">Cihaz türüne göre detaylı uygulama rehberi →</a></div>' +
         '<div class="bg-px-c"><h4><i>◆</i>Sık sorulanlar</h4>' +
           det(['Kaplama cihazıma zarar verir mi?', 'Hayır. Günlük çizik ve sürtünmelere karşı korur. Söktüğünde cihazda iz kalmaz.']) +
-          det(['Kesim cihazıma oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel kesilir. Düğmeler, portlar ve ekran alanları açık kalır.']) +
+          det(['Kaplama cihazıma oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel üretilir. Düğmeler, portlar ve ekran alanları açık kalır.']) +
           det(['Ne zaman kargoya verilir?', 'Siparişe özel üretilir ve 1-2 iş gününde kargoya verilir. 2.000 ₺ üzeri kargo ücretsiz.']) +
           det(FAQ[2]) +
           '<a class="bg-px-more" href="/#sss">Tüm sorular →</a> &nbsp; <a class="bg-px-more" href="' + WA + '" target="_blank" rel="noopener">WhatsApp’tan sor</a></div>';
@@ -2102,8 +2102,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         why.setAttribute('data-bg-v21', '1');
         var c = cards[2];
         c.querySelector('i').innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg>';
-        c.querySelector('b').textContent = 'Cihazına özel kesim';
-        c.querySelector('span').textContent = 'Her parça modeline göre kesilir. Düğmeler, portlar ve ekran açıkta kalır.';
+        c.querySelector('b').textContent = 'Cihazına özel üretim';
+        c.querySelector('span').textContent = 'Her parça modeline göre üretilir. Düğmeler, portlar ve ekran açıkta kalır.';
         var g = why.querySelector('.bg-why-g');
         if (g && !why.querySelector('.bg-why-note')) { var n = document.createElement('p'); n.className = 'bg-why-note'; n.textContent = 'Metal aksam seçtiğin desenle, plastik aksam dokulu siyah kaplamayla kaplanır.'; g.parentNode.insertBefore(n, g.nextSibling); }
       }
@@ -2136,7 +2136,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   ].join('');
   var st = document.createElement('style'); st.id = 'bg-theme-css22'; st.textContent = css; (document.head || document.documentElement).appendChild(st);
   var HTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>' +
-    '<p><b>Görseller temsilidir.</b> <span class="s">Kaplaman seçtiğin modele özel kesilir; renkler ekrana göre biraz farklı görünebilir.</span><span class="l">Deseni göstermek için fotoğraflarda örnek cihazlar kullanıyoruz; senin kaplaman seçtiğin modele özel kesilir. Renkler ekran ve parlaklık ayarına göre biraz farklı görünebilir.</span></p>';
+    '<p><b>Görseller temsilidir.</b> <span class="s">Kaplaman seçtiğin modele özel üretilir; renkler ekrana göre biraz farklı görünebilir.</span><span class="l">Deseni göstermek için fotoğraflarda örnek cihazlar kullanıyoruz; senin kaplaman seçtiğin modele özel üretilir. Renkler ekran ve parlaklık ayarına göre biraz farklı görünebilir.</span></p>';
   function run(){
     var note = document.querySelector('.bg-gal .bg-gal-note');
     if (!note) return;
@@ -2156,7 +2156,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 /* v23: footer sozlesme linkleri (acilir pencere) + e-posta adresi */
 (function(){
   if (window.__bgV23) return; window.__bgV23 = 1;
-  var DOCS = {"gizlilik": "<h2>GİZLİLİK POLİTİKASI VE KVKK AYDINLATMA METNİ</h2><p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (\"KVKK\") kapsamında betaguard.com.tr ziyaretçilerini ve müşterilerini bilgilendirmek amacıyla hazırlanmıştır.</p><h3>1. Veri Sorumlusu</h3><p>Bedirhan Akyüz (Betaguard) – Altıntepe Mahallesi, Babil Sitesi No:144, Menderes / İzmir – Telefon / WhatsApp: 0535 321 19 11 – E-posta: info@betaguard.com.tr</p><h3>2. İşlenen Kişisel Veriler</h3><ul><li><strong>Kimlik ve iletişim:</strong> ad, soyad, e-posta, telefon, teslimat ve fatura adresi</li><li><strong>Sipariş bilgileri:</strong> satın alınan ürünler, cihaz modeli, sipariş ve ödeme kayıtları (kart bilgileri tarafımızca saklanmaz, ödeme kuruluşu tarafından işlenir)</li><li><strong>İletişim kayıtları:</strong> WhatsApp, Instagram ve e-posta yazışmaları</li><li><strong>Dijital iz:</strong> IP adresi, tarayıcı ve cihaz bilgileri, çerez verileri</li></ul><h3>3. İşleme Amaçları ve Hukuki Sebepler</h3><ul><li>Siparişin alınması, üretimi, faturalandırılması ve teslimi – <em>sözleşmenin kurulması ve ifası (KVKK md. 5/2-c)</em></li><li>Yasal saklama ve vergi yükümlülükleri – <em>hukuki yükümlülük (md. 5/2-ç)</em></li><li>Müşteri desteği, iade ve şikayet süreçleri – <em>meşru menfaat (md. 5/2-f)</em></li><li>Kampanya ve tanıtım iletileri, reklam ve analiz çerezleri – <em>yalnızca açık rızanız ile (md. 5/1)</em></li></ul><h3>4. Aktarım</h3><p>Kişisel verileriniz yalnızca yukarıdaki amaçlarla sınırlı olarak; e-ticaret altyapı sağlayıcımız (ikas), ödeme kuruluşu, kargo firması (Aras Kargo), mali müşavir ve yetkili kamu kurumları ile paylaşılır. Reklam ve analiz hizmetleri (ör. Meta, Google) yurt dışında bulunan sunucular kullanabilir; bu hizmetler için veri aktarımı yalnızca açık rızanız veya KVKK md. 9'daki şartlar çerçevesinde yapılır.</p><h3>5. Çerezler</h3><p>Sitemizde, sitenin çalışması için zorunlu çerezler ile ziyaretçi istatistikleri ve reklam ölçümü için analiz/pazarlama çerezleri kullanılır. Zorunlu olmayan çerezler onayınız alınarak kullanılır. Tarayıcı ayarlarınızdan çerezleri dilediğiniz zaman silebilir veya engelleyebilirsiniz.</p><h3>6. Saklama Süresi</h3><p>Verileriniz, işleme amacının gerektirdiği süre ve ilgili mevzuatta öngörülen yasal saklama süreleri (ör. vergi mevzuatı gereği 10 yıl) boyunca saklanır, süre sonunda silinir, yok edilir veya anonim hale getirilir.</p><h3>7. Haklarınız</h3><p>KVKK md. 11 uyarınca; verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, amacına uygun kullanılıp kullanılmadığını öğrenme, aktarıldığı üçüncü kişileri bilme, eksik veya yanlış işlenmişse düzeltilmesini, silinmesini veya yok edilmesini isteme, otomatik sistemlerle analiz sonucu aleyhinize bir sonuca itiraz etme ve zarara uğramanız halinde tazminat talep etme haklarına sahipsiniz.</p><p>Başvurularınızı yukarıdaki adrese yazılı olarak, info@betaguard.com.tr adresine e-posta ile veya WhatsApp (0535 321 19 11) üzerinden iletebilirsiniz. Başvurular en geç 30 gün içinde ücretsiz olarak sonuçlandırılır.</p>", "mesafeli": "<h2>MESAFELİ SATIŞ SÖZLEŞMESİ</h2><h3>1. Taraflar</h3><p><strong>SATICI</strong><br>Ünvan: Bedirhan Akyüz (Betaguard)<br>Adres: Altıntepe Mahallesi, Babil Sitesi No:144, Menderes / İzmir<br>Vergi Dairesi / No: Avanos V.D. / 23897325346<br>Telefon / WhatsApp: 0535 321 19 11<br>E-posta: info@betaguard.com.tr<br>Web: betaguard.com.tr</p><p><strong>ALICI</strong><br>Ad Soyad: Sipariş sırasında belirtilen ad soyad<br>E-posta: Sipariş sırasında belirtilen e-posta<br>Telefon: Sipariş sırasında belirtilen telefon<br>Teslimat Adresi: Sipariş sırasında belirtilen teslimat adresi<br>Fatura Adresi: Sipariş sırasında belirtilen fatura adresi</p><h3>2. Konu</h3><p>İşbu sözleşmenin konusu, ALICI'nın betaguard.com.tr internet sitesi üzerinden elektronik ortamda siparişini verdiği aşağıda nitelikleri ve satış fiyatı belirtilen ürünün satışı ve teslimi ile ilgili olarak 6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği hükümleri gereğince tarafların hak ve yükümlülüklerinin belirlenmesidir.</p><h3>3. Sözleşme Konusu Ürün ve Ödeme Bilgileri</h3><p>Sipariş No: Sipariş onayında belirtilir<br>Sipariş Tarihi: Sipariş tarihi<br>Ürünler: Sepetteki ürünler<br>Kargo Ücreti: Ödeme sayfasında belirtilir<br>Toplam Tutar (KDV dahil): Ödeme sayfasında belirtilir<br>Ödeme Şekli: Ödeme sayfasında seçilen yöntem</p><p>Ürünler, ALICI'nın sipariş sırasında seçtiği cihaz modeli, seri ve renk bilgilerine göre <strong>kişiye özel olarak kesilip üretilen</strong> koruyucu kaplama (skin) ürünleridir. Sitede yer alan ürün görselleri temsilidir; renkler ekran ve ışık koşullarına göre küçük farklılıklar gösterebilir.</p><h3>4. Genel Hükümler</h3><p>4.1. ALICI, sözleşme konusu ürünün temel nitelikleri, satış fiyatı, ödeme şekli, teslimat koşulları ve cayma hakkına ilişkin ön bilgileri okuyup bilgi sahibi olduğunu ve elektronik ortamda gerekli teyidi verdiğini kabul eder.</p><p>4.2. Sipariş sırasında cihaz modelinin doğru seçilmesi ALICI'nın sorumluluğundadır. SATICI, ALICI'nın seçtiği modele göre üretim yapar.</p><p>4.3. Ürün, siparişin onaylanmasından itibaren genellikle 1–2 iş günü içinde kargoya verilir; her durumda yasal 30 günlük süreyi aşmaz. Teslimat, ALICI'nın belirttiği adrese kargo firması aracılığıyla yapılır.</p><p>4.4. 2.000 TL ve üzeri siparişlerde kargo ücretsizdir; 2.000 TL altındaki siparişlerde kargo ücreti ödeme sayfasında gösterilir ve ALICI tarafından ödenir.</p><p>4.5. SATICI, mücbir sebepler veya olağanüstü durumlar nedeniyle siparişi teslim edemeyecek olursa durumu ALICI'ya bildirir ve ödenen tutarı en geç 14 gün içinde iade eder.</p><p>4.6. Ödemenin kredi kartı ile yapıldığı hallerde, kartın yetkisiz kullanımı nedeniyle bedelin ilgili banka veya ödeme kuruluşu tarafından SATICI'ya ödenmemesi halinde SATICI teslim yükümlülüğünden kurtulur.</p><h3>5. Cayma Hakkı</h3><p>Mesafeli Sözleşmeler Yönetmeliği'nin 15. maddesinin (ç) bendi uyarınca, <strong>tüketicinin istekleri veya kişisel ihtiyaçları doğrultusunda hazırlanan mallara ilişkin sözleşmelerde cayma hakkı kullanılamaz.</strong> Betaguard ürünleri ALICI'nın seçtiği cihaz modeline göre kişiye özel kesildiğinden, bu ürünlerde cayma hakkı bulunmamaktadır. ALICI bu durumu sipariş öncesinde bilerek kabul eder.</p><h3>6. Ayıplı veya Hatalı Ürün</h3><p>6.1. Ürünün hatalı kesilmesi, hasarlı ulaşması, yanlış seri/renk gönderilmesi gibi SATICI'dan kaynaklanan durumlarda ALICI, ürünü teslim aldıktan sonra fotoğraf ile birlikte WhatsApp (0535 321 19 11) veya info@betaguard.com.tr üzerinden SATICI'ya bildirimde bulunur.</p><p>6.2. SATICI, kendisinden kaynaklanan hatalarda <strong>aynı ürünü ücretsiz olarak yeniden üretip gönderir</strong>; bu süreçteki kargo masrafları SATICI'ya aittir.</p><p>6.3. Bu madde, ALICI'nın 6502 sayılı Kanun'un 11. maddesinde sayılan ayıplı mala ilişkin kanuni seçimlik haklarını (sözleşmeden dönme, bedelden indirim, ücretsiz onarım, ayıpsız misli ile değişim) ortadan kaldırmaz.</p><p>6.4. ALICI'nın hatalı cihaz modeli seçmesi, ürünün uygulama talimatlarına aykırı uygulanması veya kullanım sonucu oluşan aşınmalar ayıp kapsamında değildir.</p><h3>7. Uyuşmazlıkların Çözümü</h3><p>İşbu sözleşmeden doğan uyuşmazlıklarda, Ticaret Bakanlığı tarafından her yıl ilan edilen parasal sınırlar dahilinde ALICI'nın veya SATICI'nın yerleşim yerindeki Tüketici Hakem Heyetleri, bu sınırları aşan durumlarda Tüketici Mahkemeleri yetkilidir.</p><h3>8. Yürürlük</h3><p>ALICI, siparişi onaylamakla işbu sözleşmenin tüm koşullarını kabul etmiş sayılır. Sözleşme, sipariş tarihinde elektronik ortamda kurulmuş olup bir örneği ALICI'nın e-posta adresine gönderilir.</p><p><em>Bu metnin siparişinize özel, bilgileriniz doldurulmuş hali ödeme adımında onayınıza sunulur ve sipariş e-postanızla gönderilir.</em></p>", "iade": "<h2>İADE VE DEĞİŞİM POLİTİKASI</h2><h3>Kişiye özel ürün – cayma hakkı yoktur</h3><p>Betaguard kaplamaları, sipariş sırasında seçtiğiniz cihaz modeline göre <strong>kişiye özel olarak kesilir.</strong> Mesafeli Sözleşmeler Yönetmeliği md. 15/1-(ç) uyarınca kişisel istek ve ihtiyaçlara göre hazırlanan ürünlerde cayma hakkı bulunmadığından, \"fikrimi değiştirdim\" kaynaklı iade kabul edilmemektedir. Lütfen sipariş vermeden önce cihaz modelinizi kontrol edin; emin değilseniz WhatsApp'tan bize sorun.</p><h3>Bizden kaynaklanan hatalar</h3><p>Aşağıdaki durumlarda <strong>aynı ürünü ücretsiz olarak yeniden üretip gönderiyoruz:</strong></p><ul><li>Kesimin seçtiğiniz modele uymaması</li><li>Siparişinizden farklı seri, renk veya model gönderilmesi</li><li>Ürünün kargoda hasar görmüş olarak ulaşması</li></ul><p>Bunun için ürünü teslim aldıktan sonra sipariş numaranız ve ürünün fotoğraflarıyla birlikte WhatsApp (0535 321 19 11) veya info@betaguard.com.tr üzerinden bize ulaşmanız yeterli. Gerekirse ürünün geri gönderimi Aras Kargo ile ücretsiz yapılır. 6502 sayılı Kanun'dan doğan ayıplı mala ilişkin yasal haklarınız saklıdır.</p><h3>Kapsam dışı durumlar</h3><ul><li>Sipariş sırasında yanlış cihaz modelinin seçilmesi</li><li>Uygulama talimatlarına aykırı uygulama nedeniyle oluşan kabarma, yırtılma veya hizalama hataları</li><li>Kullanıma bağlı aşınma ve çizikler</li></ul><h3>İletişim</h3><p>Bedirhan Akyüz (Betaguard) – Altıntepe Mahallesi, Babil Sitesi No:144, Menderes / İzmir – 0535 321 19 11 – info@betaguard.com.tr</p>", "kargo": "<h2>KARGO VE TESLİMAT POLİTİKASI</h2><ul><li><strong>Hazırlık süresi:</strong> Kaplamalar cihazınıza özel kesildiği için siparişiniz onaylandıktan sonra genellikle 1–2 iş günü içinde kargoya verilir.</li><li><strong>Kargo firması:</strong> Tüm gönderiler Aras Kargo ile yapılır. Kargoya verildiğinde takip numaranız e-posta ile gönderilir.</li><li><strong>Kargo ücreti:</strong> 2.000 TL ve üzeri siparişlerde kargo ücretsizdir. 2.000 TL altındaki siparişlerde kargo ücreti 200 TL'dir ve ödeme sayfasında gösterilir.</li><li><strong>Teslimat bölgesi:</strong> Türkiye'nin tüm illerine gönderim yapılmaktadır.</li><li><strong>Yasal süre:</strong> Siparişiniz her durumda en geç 30 gün içinde teslim edilir.</li><li><strong>Hasarlı paket:</strong> Paket hasarlı ulaşırsa kargo görevlisine tutanak tutturmanızı ve bize fotoğrafla WhatsApp'tan (0535 321 19 11) bildirmenizi rica ederiz; ürünü ücretsiz olarak yeniden gönderiyoruz.</li></ul>", "kunye": "<h2>KÜNYE</h2><p><strong>Marka:</strong> Betaguard<br><strong>Satıcı:</strong> Bedirhan Akyüz (şahıs işletmesi)<br><strong>Adres:</strong> Altıntepe Mahallesi, Babil Sitesi No:144, Menderes / İzmir<br><strong>Vergi Dairesi / No:</strong> Avanos V.D. / 23897325346<br><strong>Telefon / WhatsApp:</strong> 0535 321 19 11<br><strong>E-posta:</strong> info@betaguard.com.tr<br><strong>Instagram:</strong> @betaguard.tr<br><strong>Web:</strong> betaguard.com.tr</p>"};
+  var DOCS = {"gizlilik": "<h2>GİZLİLİK POLİTİKASI VE KVKK AYDINLATMA METNİ</h2><p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (\"KVKK\") kapsamında betaguard.com.tr ziyaretçilerini ve müşterilerini bilgilendirmek amacıyla hazırlanmıştır.</p><h3>1. Veri Sorumlusu</h3><p>Bedirhan Akyüz (Betaguard) – Altıntepe Mahallesi, Babil Sitesi No:144, Menderes / İzmir – Telefon / WhatsApp: 0535 321 19 11 – E-posta: info@betaguard.com.tr</p><h3>2. İşlenen Kişisel Veriler</h3><ul><li><strong>Kimlik ve iletişim:</strong> ad, soyad, e-posta, telefon, teslimat ve fatura adresi</li><li><strong>Sipariş bilgileri:</strong> satın alınan ürünler, cihaz modeli, sipariş ve ödeme kayıtları (kart bilgileri tarafımızca saklanmaz, ödeme kuruluşu tarafından işlenir)</li><li><strong>İletişim kayıtları:</strong> WhatsApp, Instagram ve e-posta yazışmaları</li><li><strong>Dijital iz:</strong> IP adresi, tarayıcı ve cihaz bilgileri, çerez verileri</li></ul><h3>3. İşleme Amaçları ve Hukuki Sebepler</h3><ul><li>Siparişin alınması, üretimi, faturalandırılması ve teslimi – <em>sözleşmenin kurulması ve ifası (KVKK md. 5/2-c)</em></li><li>Yasal saklama ve vergi yükümlülükleri – <em>hukuki yükümlülük (md. 5/2-ç)</em></li><li>Müşteri desteği, iade ve şikayet süreçleri – <em>meşru menfaat (md. 5/2-f)</em></li><li>Kampanya ve tanıtım iletileri, reklam ve analiz çerezleri – <em>yalnızca açık rızanız ile (md. 5/1)</em></li></ul><h3>4. Aktarım</h3><p>Kişisel verileriniz yalnızca yukarıdaki amaçlarla sınırlı olarak; e-ticaret altyapı sağlayıcımız (ikas), ödeme kuruluşu, kargo firması (Aras Kargo), mali müşavir ve yetkili kamu kurumları ile paylaşılır. Reklam ve analiz hizmetleri (ör. Meta, Google) yurt dışında bulunan sunucular kullanabilir; bu hizmetler için veri aktarımı yalnızca açık rızanız veya KVKK md. 9'daki şartlar çerçevesinde yapılır.</p><h3>5. Çerezler</h3><p>Sitemizde, sitenin çalışması için zorunlu çerezler ile ziyaretçi istatistikleri ve reklam ölçümü için analiz/pazarlama çerezleri kullanılır. Zorunlu olmayan çerezler onayınız alınarak kullanılır. Tarayıcı ayarlarınızdan çerezleri dilediğiniz zaman silebilir veya engelleyebilirsiniz.</p><h3>6. Saklama Süresi</h3><p>Verileriniz, işleme amacının gerektirdiği süre ve ilgili mevzuatta öngörülen yasal saklama süreleri (ör. vergi mevzuatı gereği 10 yıl) boyunca saklanır, süre sonunda silinir, yok edilir veya anonim hale getirilir.</p><h3>7. Haklarınız</h3><p>KVKK md. 11 uyarınca; verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, amacına uygun kullanılıp kullanılmadığını öğrenme, aktarıldığı üçüncü kişileri bilme, eksik veya yanlış işlenmişse düzeltilmesini, silinmesini veya yok edilmesini isteme, otomatik sistemlerle analiz sonucu aleyhinize bir sonuca itiraz etme ve zarara uğramanız halinde tazminat talep etme haklarına sahipsiniz.</p><p>Başvurularınızı yukarıdaki adrese yazılı olarak, info@betaguard.com.tr adresine e-posta ile veya WhatsApp (0535 321 19 11) üzerinden iletebilirsiniz. Başvurular en geç 30 gün içinde ücretsiz olarak sonuçlandırılır.</p>", "mesafeli": "<h2>MESAFELİ SATIŞ SÖZLEŞMESİ</h2><h3>1. Taraflar</h3><p><strong>SATICI</strong><br>Ünvan: Bedirhan Akyüz (Betaguard)<br>Adres: Altıntepe Mahallesi, Babil Sitesi No:144, Menderes / İzmir<br>Vergi Dairesi / No: Avanos V.D. / 23897325346<br>Telefon / WhatsApp: 0535 321 19 11<br>E-posta: info@betaguard.com.tr<br>Web: betaguard.com.tr</p><p><strong>ALICI</strong><br>Ad Soyad: Sipariş sırasında belirtilen ad soyad<br>E-posta: Sipariş sırasında belirtilen e-posta<br>Telefon: Sipariş sırasında belirtilen telefon<br>Teslimat Adresi: Sipariş sırasında belirtilen teslimat adresi<br>Fatura Adresi: Sipariş sırasında belirtilen fatura adresi</p><h3>2. Konu</h3><p>İşbu sözleşmenin konusu, ALICI'nın betaguard.com.tr internet sitesi üzerinden elektronik ortamda siparişini verdiği aşağıda nitelikleri ve satış fiyatı belirtilen ürünün satışı ve teslimi ile ilgili olarak 6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği hükümleri gereğince tarafların hak ve yükümlülüklerinin belirlenmesidir.</p><h3>3. Sözleşme Konusu Ürün ve Ödeme Bilgileri</h3><p>Sipariş No: Sipariş onayında belirtilir<br>Sipariş Tarihi: Sipariş tarihi<br>Ürünler: Sepetteki ürünler<br>Kargo Ücreti: Ödeme sayfasında belirtilir<br>Toplam Tutar (KDV dahil): Ödeme sayfasında belirtilir<br>Ödeme Şekli: Ödeme sayfasında seçilen yöntem</p><p>Ürünler, ALICI'nın sipariş sırasında seçtiği cihaz modeli, seri ve renk bilgilerine göre <strong>kişiye özel olarak üretilen</strong> koruyucu kaplama (skin) ürünleridir. Sitede yer alan ürün görselleri temsilidir; renkler ekran ve ışık koşullarına göre küçük farklılıklar gösterebilir.</p><h3>4. Genel Hükümler</h3><p>4.1. ALICI, sözleşme konusu ürünün temel nitelikleri, satış fiyatı, ödeme şekli, teslimat koşulları ve cayma hakkına ilişkin ön bilgileri okuyup bilgi sahibi olduğunu ve elektronik ortamda gerekli teyidi verdiğini kabul eder.</p><p>4.2. Sipariş sırasında cihaz modelinin doğru seçilmesi ALICI'nın sorumluluğundadır. SATICI, ALICI'nın seçtiği modele göre üretim yapar.</p><p>4.3. Ürün, siparişin onaylanmasından itibaren genellikle 1–2 iş günü içinde kargoya verilir; her durumda yasal 30 günlük süreyi aşmaz. Teslimat, ALICI'nın belirttiği adrese kargo firması aracılığıyla yapılır.</p><p>4.4. 2.000 TL ve üzeri siparişlerde kargo ücretsizdir; 2.000 TL altındaki siparişlerde kargo ücreti ödeme sayfasında gösterilir ve ALICI tarafından ödenir.</p><p>4.5. SATICI, mücbir sebepler veya olağanüstü durumlar nedeniyle siparişi teslim edemeyecek olursa durumu ALICI'ya bildirir ve ödenen tutarı en geç 14 gün içinde iade eder.</p><p>4.6. Ödemenin kredi kartı ile yapıldığı hallerde, kartın yetkisiz kullanımı nedeniyle bedelin ilgili banka veya ödeme kuruluşu tarafından SATICI'ya ödenmemesi halinde SATICI teslim yükümlülüğünden kurtulur.</p><h3>5. Cayma Hakkı</h3><p>Mesafeli Sözleşmeler Yönetmeliği'nin 15. maddesinin (ç) bendi uyarınca, <strong>tüketicinin istekleri veya kişisel ihtiyaçları doğrultusunda hazırlanan mallara ilişkin sözleşmelerde cayma hakkı kullanılamaz.</strong> Betaguard ürünleri ALICI'nın seçtiği cihaz modeline göre kişiye özel üretildiğinden, bu ürünlerde cayma hakkı bulunmamaktadır. ALICI bu durumu sipariş öncesinde bilerek kabul eder.</p><h3>6. Ayıplı veya Hatalı Ürün</h3><p>6.1. Ürünün hatalı üretilmesi, hasarlı ulaşması, yanlış seri/renk gönderilmesi gibi SATICI'dan kaynaklanan durumlarda ALICI, ürünü teslim aldıktan sonra fotoğraf ile birlikte WhatsApp (0535 321 19 11) veya info@betaguard.com.tr üzerinden SATICI'ya bildirimde bulunur.</p><p>6.2. SATICI, kendisinden kaynaklanan hatalarda <strong>aynı ürünü ücretsiz olarak yeniden üretip gönderir</strong>; bu süreçteki kargo masrafları SATICI'ya aittir.</p><p>6.3. Bu madde, ALICI'nın 6502 sayılı Kanun'un 11. maddesinde sayılan ayıplı mala ilişkin kanuni seçimlik haklarını (sözleşmeden dönme, bedelden indirim, ücretsiz onarım, ayıpsız misli ile değişim) ortadan kaldırmaz.</p><p>6.4. ALICI'nın hatalı cihaz modeli seçmesi, ürünün uygulama talimatlarına aykırı uygulanması veya kullanım sonucu oluşan aşınmalar ayıp kapsamında değildir.</p><h3>7. Uyuşmazlıkların Çözümü</h3><p>İşbu sözleşmeden doğan uyuşmazlıklarda, Ticaret Bakanlığı tarafından her yıl ilan edilen parasal sınırlar dahilinde ALICI'nın veya SATICI'nın yerleşim yerindeki Tüketici Hakem Heyetleri, bu sınırları aşan durumlarda Tüketici Mahkemeleri yetkilidir.</p><h3>8. Yürürlük</h3><p>ALICI, siparişi onaylamakla işbu sözleşmenin tüm koşullarını kabul etmiş sayılır. Sözleşme, sipariş tarihinde elektronik ortamda kurulmuş olup bir örneği ALICI'nın e-posta adresine gönderilir.</p><p><em>Bu metnin siparişinize özel, bilgileriniz doldurulmuş hali ödeme adımında onayınıza sunulur ve sipariş e-postanızla gönderilir.</em></p>", "iade": "<h2>İADE VE DEĞİŞİM POLİTİKASI</h2><h3>Kişiye özel ürün – cayma hakkı yoktur</h3><p>Betaguard kaplamaları, sipariş sırasında seçtiğiniz cihaz modeline göre <strong>kişiye özel olarak üretilir.</strong> Mesafeli Sözleşmeler Yönetmeliği md. 15/1-(ç) uyarınca kişisel istek ve ihtiyaçlara göre hazırlanan ürünlerde cayma hakkı bulunmadığından, \"fikrimi değiştirdim\" kaynaklı iade kabul edilmemektedir. Lütfen sipariş vermeden önce cihaz modelinizi kontrol edin; emin değilseniz WhatsApp'tan bize sorun.</p><h3>Bizden kaynaklanan hatalar</h3><p>Aşağıdaki durumlarda <strong>aynı ürünü ücretsiz olarak yeniden üretip gönderiyoruz:</strong></p><ul><li>Kaplamanın seçtiğiniz modele uymaması</li><li>Siparişinizden farklı seri, renk veya model gönderilmesi</li><li>Ürünün kargoda hasar görmüş olarak ulaşması</li></ul><p>Bunun için ürünü teslim aldıktan sonra sipariş numaranız ve ürünün fotoğraflarıyla birlikte WhatsApp (0535 321 19 11) veya info@betaguard.com.tr üzerinden bize ulaşmanız yeterli. Gerekirse ürünün geri gönderimi Aras Kargo ile ücretsiz yapılır. 6502 sayılı Kanun'dan doğan ayıplı mala ilişkin yasal haklarınız saklıdır.</p><h3>Kapsam dışı durumlar</h3><ul><li>Sipariş sırasında yanlış cihaz modelinin seçilmesi</li><li>Uygulama talimatlarına aykırı uygulama nedeniyle oluşan kabarma, yırtılma veya hizalama hataları</li><li>Kullanıma bağlı aşınma ve çizikler</li></ul><h3>İletişim</h3><p>Bedirhan Akyüz (Betaguard) – Altıntepe Mahallesi, Babil Sitesi No:144, Menderes / İzmir – 0535 321 19 11 – info@betaguard.com.tr</p>", "kargo": "<h2>KARGO VE TESLİMAT POLİTİKASI</h2><ul><li><strong>Hazırlık süresi:</strong> Kaplamalar cihazınıza özel üretildiği için siparişiniz onaylandıktan sonra genellikle 1–2 iş günü içinde kargoya verilir.</li><li><strong>Kargo firması:</strong> Tüm gönderiler Aras Kargo ile yapılır. Kargoya verildiğinde takip numaranız e-posta ile gönderilir.</li><li><strong>Kargo ücreti:</strong> 2.000 TL ve üzeri siparişlerde kargo ücretsizdir. 2.000 TL altındaki siparişlerde kargo ücreti 200 TL'dir ve ödeme sayfasında gösterilir.</li><li><strong>Teslimat bölgesi:</strong> Türkiye'nin tüm illerine gönderim yapılmaktadır.</li><li><strong>Yasal süre:</strong> Siparişiniz her durumda en geç 30 gün içinde teslim edilir.</li><li><strong>Hasarlı paket:</strong> Paket hasarlı ulaşırsa kargo görevlisine tutanak tutturmanızı ve bize fotoğrafla WhatsApp'tan (0535 321 19 11) bildirmenizi rica ederiz; ürünü ücretsiz olarak yeniden gönderiyoruz.</li></ul>", "kunye": "<h2>KÜNYE</h2><p><strong>Marka:</strong> Betaguard<br><strong>Satıcı:</strong> Bedirhan Akyüz (şahıs işletmesi)<br><strong>Adres:</strong> Altıntepe Mahallesi, Babil Sitesi No:144, Menderes / İzmir<br><strong>Vergi Dairesi / No:</strong> Avanos V.D. / 23897325346<br><strong>Telefon / WhatsApp:</strong> 0535 321 19 11<br><strong>E-posta:</strong> info@betaguard.com.tr<br><strong>Instagram:</strong> @betaguard.tr<br><strong>Web:</strong> betaguard.com.tr</p>"};
   var MAIL = 'info@betaguard.com.tr';
   var MAP = [[/Gizlilik/i,'gizlilik'],[/Mesafeli/i,'mesafeli'],[/İade Koşul/i,'iade'],[/Kargo ve Teslimat/i,'kargo'],[/Künye/i,'kunye']];
   var css = [
@@ -2508,7 +2508,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var FAQ = [
     [/^Siparişim ne zaman kargoya verilir/, 'Kaplamalar siparişe özel üretilir ve 1-2 iş gününde Aras Kargo ile gönderilir. 2.000 ₺ ve üzeri siparişlerde kargo ücretsiz, altındaki siparişlerde 200 ₺\'dir.'],
     [/^Hangi ödeme yöntemleri var/, 'Kredi kartı ve banka kartıyla, ikas güvenli ödeme altyapısı üzerinden ödeyebilirsin. Kredi kartına 12 aya varan taksit var, taksit farkı ödeme sayfasında görünür.'],
-    [/^İade veya değişim yapabilir miyim/, 'Kaplamalar seçtiğin cihaza özel kesildiği için cayma hakkı kapsamında değildir. Kesim hatası, yanlış ürün ya da kargo hasarı gibi bizden kaynaklı bir sorunda aynı ürünü ücretsiz olarak yeniden gönderiyoruz; ürünün fotoğrafıyla WhatsApp\'tan bildirmen yeterli.']
+    [/^İade veya değişim yapabilir miyim/, 'Kaplamalar seçtiğin cihaza özel üretildiği için cayma hakkı kapsamında değildir. Üretim hatası, yanlış ürün ya da kargo hasarı gibi bizden kaynaklı bir sorunda aynı ürünü ücretsiz olarak yeniden gönderiyoruz; ürünün fotoğrafıyla WhatsApp\'tan bildirmen yeterli.']
   ];
 
   function texts(){
@@ -2943,7 +2943,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
   function fitLine(dev){
     var t = document.querySelector('[data-bg-ptitle]');
-    var sub = '✓ ' + dev.b + ' ' + dev.m + ' için birebir kesim · 39 desen' + (dev.t !== 'D' || /Goggles|^RC/.test(dev.m) ? '' : /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m) ? ' · kumanda kaplaması dahil' : /Avata/.test(dev.m) ? ' · kumanda / gözlük kaplaması +1.000 ₺' : ' · kumanda kaplaması +1.000 ₺') + ' · 1-2 iş gününde kargoda';
+    var sub = '✓ ' + dev.b + ' ' + dev.m + ' için özel üretim · 39 desen' + (dev.t !== 'D' || /Goggles|^RC/.test(dev.m) ? '' : /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m) ? ' · kumanda kaplaması dahil' : /Avata/.test(dev.m) ? ' · kumanda / gözlük kaplaması +1.000 ₺' : ' · kumanda kaplaması +1.000 ₺') + ' · 1-2 iş gününde kargoda';
     if (t && t.getAttribute('data-bg26-sub') !== sub) t.setAttribute('data-bg26-sub', sub);
     var old = document.querySelector('.bg26-fit'); if (old) old.remove();
     var combo = /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m), acc = /Goggles|^RC/.test(dev.m);
@@ -3234,7 +3234,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     function draw(){
       var l = list(), show = l.slice(0, st.n);
       sub.textContent = l.length + ' model' + (st.q.trim() ? ' bulundu' : '') + ' · her birinde 39 desen · 1-2 iş gününde kargoda';
-      g.innerHTML = show.length ? show.map(card).join('') : '<div class="bg27-empty">Bu aramayla eşleşen önizlemeli model yok.<br>Modelin listede yoksa <a href="#" data-bg27-open>cihazını ara</a> ya da <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan yaz</a>, kesimi varsa hemen söyleyelim.</div>';
+      g.innerHTML = show.length ? show.map(card).join('') : '<div class="bg27-empty">Bu aramayla eşleşen önizlemeli model yok.<br>Modelin listede yoksa <a href="#" data-bg27-open>cihazını ara</a> ya da <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan yaz</a>, üretebiliyorsak hemen söyleyelim.</div>';
       more.innerHTML = l.length > show.length ? '<button type="button" data-more>Daha fazla göster <span style="opacity:.7">(' + (l.length - show.length) + ')</span></button><button type="button" data-all>Tümünü göster</button>' : '';
     }
     host.addEventListener('click', function(e){
@@ -3294,8 +3294,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     { f: 'drone-dji-fpv-goggles-v2',  t: 'DJI FPV Goggles V2',  n: 'FPV Goggles V2',  s: 'FPV gözlük' }
   ];
   var KIND = {
-    kum: { h: 'Kumanda', none: 'Sadece drone', noneS: 'Kumanda kaplaması yok', yes: 'Drone + kumanda', what: 'kumanda', note: 'Kumanda, drone ile <b>aynı desende</b> kesilir. Kumandanı seç, kutudan takım çıksın.' },
-    goz: { h: 'Gözlük', none: 'Gözlük yok', noneS: 'Gözlük kaplaması yok', yes: 'Gözlük de olsun', what: 'gözlük', note: 'Gözlük, drone ile <b>aynı desende</b> kesilir. Gözlüğünün modelini seç.' }
+    kum: { h: 'Kumanda', none: 'Sadece drone', noneS: 'Kumanda kaplaması yok', yes: 'Drone + kumanda', what: 'kumanda', note: 'Kumanda, drone ile <b>aynı desende</b> üretilir. Kumandanı seç, kutudan takım çıksın.' },
+    goz: { h: 'Gözlük', none: 'Gözlük yok', noneS: 'Gözlük kaplaması yok', yes: 'Gözlük de olsun', what: 'gözlük', note: 'Gözlük, drone ile <b>aynı desende</b> üretilir. Gözlüğünün modelini seç.' }
   };
   var NONE = 'İstemiyorum';   /* "Istemiyorum · ..." degerlerinin basi */
   var EK = 1000;
@@ -3827,9 +3827,9 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
   function html() {
     return '<div class="bgs-gr">' +
-      '<div class="bgs-l1"><span class="bgs-tag">CİHAZA ÖZEL KESİM KAPLAMA</span>' +
+      '<div class="bgs-l1"><span class="bgs-tag">CİHAZA ÖZEL ÜRETİM KAPLAMA</span>' +
         '<h1><span class="bgs-sr">Kamera, lens ve drone kaplama: </span>Ekipmanını koru.<br>Tarzını yansıt.</h1></div>' +
-      '<div class="bgs-l2"><p class="bgs-p">Kamera, lens, drone ve gimbal kaplamaları. Her siparişi cihazının ölçüsüne göre basıp kesiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
+      '<div class="bgs-l2"><p class="bgs-p">Kamera, lens, drone ve gimbal kaplamaları. Her siparişi cihazının ölçüsüne göre üretiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
         '<div class="bgs-btns"><a class="bgs-pill g" href="/betaguard-kaplama">Serileri keşfet</a><a class="bgs-pill o" href="#bg-find">Kategoriler</a></div></div>' +
       '<div class="bgs-c"><div class="bgs-gh" aria-hidden="true" data-t="KAMERAN"></div>' +
         '<div class="bgs-st"><div class="bgs-fl"><div class="bgs-dv">' +
@@ -4740,7 +4740,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     x.fillStyle = bg; x.fillRect(0, 0, W, H);
     x.strokeStyle = 'rgba(201,164,92,.7)'; x.lineWidth = 3; x.strokeRect(46, 46, W - 92, H - 92);
     x.fillStyle = '#E2C285'; x.font = 'italic 900 64px Archivo, sans-serif'; x.textAlign = 'center'; x.fillText('BETAGUARD', W / 2, 190);
-    x.fillStyle = '#8E8A83'; x.font = '700 26px Manrope, sans-serif'; x.fillText('CİHAZA ÖZEL KESİM KAPLAMA', W / 2, 245);
+    x.fillStyle = '#8E8A83'; x.font = '700 26px Manrope, sans-serif'; x.fillText('CİHAZA ÖZEL ÜRETİM KAPLAMA', W / 2, 245);
     return Promise.all(list.map(function (d) { return comp(d, slug, 1000); })).then(function (cs) {
       if (cs.length === 1) { ped(x, W / 2, 1210, 760, 120); x.save(); x.shadowColor = 'rgba(0,0,0,.6)'; x.shadowBlur = 50; x.shadowOffsetY = 30; x.drawImage(cs[0], 40, 260, 1000, 1000); x.restore(); }
       else {
@@ -5287,7 +5287,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var r = null; for (var j = recs.length - 1; j >= 0; j--) if (recs[j].n === nm && recs[j].d === ds) { r = recs[j]; break; }
       var old = row.nextElementSibling && row.nextElementSibling.classList.contains('bg-cx') ? row.nextElementSibling : null;
       if (!r || !r.x.length) { if (old) old.remove(); return; }
-      var html = r.x.map(function (x) { return '<span>+ ' + x.k + ': ' + x.t.replace(/[<>&]/g, '') + ' · ' + EK.toLocaleString('tr-TR') + ' ₺</span>'; }).join('') + '<small>Drone ile birlikte indirimli fiyat, aynı desende kesilir</small>';
+      var html = r.x.map(function (x) { return '<span>+ ' + x.k + ': ' + x.t.replace(/[<>&]/g, '') + ' · ' + EK.toLocaleString('tr-TR') + ' ₺</span>'; }).join('') + '<small>Drone ile birlikte indirimli fiyat, aynı desende üretilir</small>';
       if (old) { if (old.innerHTML !== html) old.innerHTML = html; return; }
       var d = document.createElement('div'); d.className = 'bg-cx'; d.innerHTML = html; row.parentNode.insertBefore(d, row.nextSibling);
     });
@@ -5617,4 +5617,74 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var tm = 0;
   new MutationObserver(function () { if (!tm) tm = setTimeout(function () { tm = 0; run(); }, 200); }).observe(document.documentElement, { childList: true, subtree: true });
   run();
+})();
+
+/* ===== 32_uretim.js ===== */
+/* v45: "kesim" dili -> "üretim" dili. ikas tarafindaki metinler (urun aciklamalari, kategori/blog/sayfa
+   icerikleri, meta aciklamalar) CSV/duzenleme ile guncellenene kadar ve gozden kacan her yer icin
+   sayfadaki metin dugumlerinde sozcuk duzeltmesi. Yalnizca kaplama-uretim anlamindaki kaliplar degisir;
+   "keskin", "kesişen", "makasla kesip" gibi sozcuklere dokunulmaz. */
+(function () {
+  if (window.__bgUretim) return; window.__bgUretim = 1;
+  var R = [
+    [/Kesimin seçtiğiniz modele/g, 'Kaplamanın seçtiğiniz modele'],
+    [/Kesim cihazıma/g, 'Kaplama cihazıma'],
+    [/Kesim hatası/g, 'Üretim hatası'],
+    [/kesim hatası/g, 'üretim hatası'],
+    [/kesimini hazırlayalım/g, 'senin için üretelim'],
+    [/kesim yapıp yapamayacağımızı/g, 'üretip üretemeyeceğimizi'],
+    [/kesimi olup olmadığını/g, 'üretip üretemeyeceğimizi'],
+    [/kesimi var mı/g, 'üretebiliyor muyuz'],
+    [/kesimi varsa/g, 'üretebiliyorsak'],
+    [/basılıp kesilir/g, 'üretilir'],
+    [/basılır ve kesilir/g, 'üretilir'],
+    [/basılır, kesilir ve/g, 'üretilir ve'],
+    [/basıp kesiyoruz/g, 'üretiyoruz'],
+    [/kesilip üretilen/g, 'üretilen'],
+    [/parçanın kesimleri/g, 'parçanın açıklıkları'],
+    [/\bkesilen\b/g, 'üretilen'],
+    [/\bKesilen\b/g, 'Üretilen'],
+    [/kesilmiş/g, 'üretilmiş'],
+    [/Kesilmiş/g, 'Üretilmiş'],
+    [/kesildiğinden/g, 'üretildiğinden'],
+    [/kesildiği/g, 'üretildiği'],
+    [/kesilmesi/g, 'üretilmesi'],
+    [/kesilir/g, 'üretilir'],
+    [/Kesilir/g, 'Üretilir'],
+    [/kesiyoruz/g, 'üretiyoruz'],
+    [/özel kesimli/g, 'özel üretilen'],
+    [/özel kesim/g, 'özel üretim'],
+    [/ÖZEL KESİM/g, 'ÖZEL ÜRETİM'],
+    [/hassas kesim/g, 'hassas üretim'],
+    [/Hassas kesim/g, 'Hassas üretim'],
+    [/birebir kesim/g, 'birebir üretim'],
+    [/kesim kaplama/g, 'üretim kaplama'],
+    [/Kesim kaplama/g, 'Üretim kaplama']
+  ];
+  var Q = /kes/i;
+  function fix(s) { if (!Q.test(s)) return s; for (var i = 0; i < R.length; i++) s = s.replace(R[i][0], R[i][1]); return s; }
+  var SKIP = { SCRIPT: 1, STYLE: 1, TEXTAREA: 1, INPUT: 1, NOSCRIPT: 1, CODE: 1, PRE: 1 };
+  function walk(root) {
+    var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), n, chg = 0;
+    while ((n = w.nextNode())) {
+      var d = n.data; if (!Q.test(d)) continue;
+      var p = n.parentNode; if (!p || SKIP[p.nodeName]) continue;
+      var v = fix(d); if (v !== d) { n.data = v; chg++; }
+    }
+    return chg;
+  }
+  function metas() {
+    var t = fix(document.title); if (t !== document.title) document.title = t;
+    [].forEach.call(document.querySelectorAll('meta[name="description"],meta[property="og:description"],meta[name="twitter:description"],meta[property="og:title"]'), function (m) {
+      var c = m.getAttribute('content') || '', v = fix(c); if (v !== c) m.setAttribute('content', v);
+    });
+    [].forEach.call(document.querySelectorAll('#app [alt],#app [title],#app [aria-label],#app [placeholder]'), function (e) {
+      ['alt', 'title', 'aria-label', 'placeholder'].forEach(function (a) { var c = e.getAttribute(a); if (c && Q.test(c)) { var v = fix(c); if (v !== c) e.setAttribute(a, v); } });
+    });
+  }
+  function run() { var app = document.getElementById('app') || document.body; if (!app) return; walk(app); metas(); }
+  var tm = 0;
+  new MutationObserver(function () { if (!tm) tm = setTimeout(function () { tm = 0; run(); }, 250); }).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+  run();
+  window.__bgFixKesim = fix;
 })();

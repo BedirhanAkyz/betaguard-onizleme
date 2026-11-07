@@ -312,7 +312,7 @@
     x.fillStyle = bg; x.fillRect(0, 0, W, H);
     x.strokeStyle = 'rgba(201,164,92,.7)'; x.lineWidth = 3; x.strokeRect(46, 46, W - 92, H - 92);
     x.fillStyle = '#E2C285'; x.font = 'italic 900 64px Archivo, sans-serif'; x.textAlign = 'center'; x.fillText('BETAGUARD', W / 2, 190);
-    x.fillStyle = '#8E8A83'; x.font = '700 26px Manrope, sans-serif'; x.fillText('CİHAZA ÖZEL KESİM KAPLAMA', W / 2, 245);
+    x.fillStyle = '#8E8A83'; x.font = '700 26px Manrope, sans-serif'; x.fillText('CİHAZA ÖZEL ÜRETİM KAPLAMA', W / 2, 245);
     return Promise.all(list.map(function (d) { return comp(d, slug, 1000); })).then(function (cs) {
       if (cs.length === 1) { ped(x, W / 2, 1210, 760, 120); x.save(); x.shadowColor = 'rgba(0,0,0,.6)'; x.shadowBlur = 50; x.shadowOffsetY = 30; x.drawImage(cs[0], 40, 260, 1000, 1000); x.restore(); }
       else {

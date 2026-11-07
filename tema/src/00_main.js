@@ -62,7 +62,7 @@
   var HOME_HTML =
     '<div class="bg-band" data-bg="feat"><div class="bg-sec"><span class="bg-eyebrow">NEDEN BETAGUARD</span><h2>Koru, kişiselleştir, fark yarat</h2><div class="bg-grid">' +
       feat('shield', 'Çizilme koruması', 'Günlük kullanımda oluşan çizik ve sürtünmeleri kaplama üstlenir.') +
-      feat('cut', 'Cihazına özel kesim', 'Her parça modeline göre kesilir; düğmeler ve portlar açık kalır.') +
+      feat('cut', 'Cihazına özel üretim', 'Her parça modeline göre üretilir; düğmeler ve portlar açık kalır.') +
       feat('swap', 'İz bırakmadan sökülür', 'Tarzın değişince sök, yenisini uygula. Cihaz yüzeyine zarar vermez.') +
       feat('hand', 'Metal + plastik aksam', 'Metal aksam seçtiğin desenle, plastik aksam dokulu siyah kaplamayla kaplanır.') +
     '</div></div></div>' +
@@ -77,7 +77,7 @@
     '<div class="bg-info" data-bg="info">' +
       '<div class="bg-disc">2 kaplamaya 250 ₺, 3 ve üzeri kaplamaya 500 ₺ indirim · 2.000 ₺ üzeri kargo ücretsiz</div>' +
       '<div class="r">' + I.dot + '<span><b>Metal aksam</b> seçtiğin desenle, <b>plastik aksam</b> dokulu siyah kaplamayla kaplanır.</span></div>' +
-      '<div class="r">' + I.dot + '<span>Siparişe özel basılır ve kesilir, <b>1-2 iş gününde</b> kargoda.</span></div>' +
+      '<div class="r">' + I.dot + '<span>Siparişe özel üretilir, <b>1-2 iş gününde</b> kargoda.</span></div>' +
       '<div class="r">' + I.dot + '<span><b>Uygulama seti hediye.</b> Cihazın listede yoksa <a href="' + WA + '" target="_blank" rel="noopener" style="color:#E2C285">WhatsApp\'tan yaz</a>.</span></div>' +
     '</div>';
   function txt(e) { return (e.textContent || '').replace(/\s+/g, ' ').trim(); }
@@ -278,7 +278,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     for (var i = 0; i < all.length; i++) {
       var e = all[i];
       if (e.children.length) continue;
-      if (txt(e) === 'Cihazına özel hassas kesim') {
+      if (/^Cihazına özel hassas (kesim|üretim)$/.test(txt(e))) {
         var app = document.getElementById('app');
         var s = e;
         while (s.parentElement && s.parentElement.parentElement && s.parentElement.parentElement !== app) s = s.parentElement;
@@ -388,14 +388,14 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     return '<section class="bg-hero" data-bg="hero"><div class="bg-hero-l">' +
         '' +
         '<h1>Tek desen.<br>Tek karakter.</h1>' +
-        '<p>Kamera, lens, drone ve gimbal kaplamaları. Her siparişi cihazının ölçüsüne göre basıp kesiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
+        '<p>Kamera, lens, drone ve gimbal kaplamaları. Her siparişi cihazının ölçüsüne göre üretiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
         '<div class="bg-btns"><a class="bg-pill" href="/betaguard-kaplama">Serileri keşfet</a><a class="bg-pill o" href="#bg-find">Cihazını seç</a></div>' +
       '</div><div class="bg-hero-r"><img alt="Betaguard kaplamalı kamera, drone ve aksesuarlar" src="' + img + '"></div></section>' +
       '<section class="bg-find" id="bg-find" data-bg="find"><div class="bg-find-h"><div><h2>Cihazını bul</h2></div></div>' +
         '<div class="bg-cats">' + cats + '</div>' +
         '<div class="bg-srch"><label for="bg-q" style="position:absolute;width:1px;height:1px;overflow:hidden">Model ara</label><input id="bg-q" type="text" autocomplete="off" placeholder="Model ara: ZV-E10, Avata 2, X-S20…"><a class="bg-go" href="/betaguard-kaplama">Desenleri gör</a><div class="bg-sugg"></div></div>' +
         '<div class="bg-res"></div>' +
-        '<div class="bg-find-n">Listede yoksa <a class="wl" href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan model adını yaz</a>, kesimi var mı bakalım.</div>' +
+        '<div class="bg-find-n">Listede yoksa <a class="wl" href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan model adını yaz</a>, üretebiliyorsak hemen söyleyelim.</div>' +
       '</section>';
   }
 
@@ -424,7 +424,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var out = [], all = models();
       out = smartFind(all, q.value, function (m) { return m[0] + ' ' + m[1]; }, 8);
       show(out);
-      if (!out.length) res.innerHTML = 'Bu model listede görünmüyor. <a class="wl" href="' + WA + '" target="_blank" rel="noopener" style="color:#E2C285">WhatsApp\'tan yaz</a>, kesimi var mı hemen söyleyelim.';
+      if (!out.length) res.innerHTML = 'Bu model listede görünmüyor. <a class="wl" href="' + WA + '" target="_blank" rel="noopener" style="color:#E2C285">WhatsApp\'tan yaz</a>, üretebiliyorsak hemen söyleyelim.';
     });
     sg.addEventListener('mousedown', function (e) {
       var d = e.target.closest('div[data-i]'); if (!d) return; e.preventDefault(); pick(sg._list[+d.dataset.i]);
@@ -516,7 +516,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '@media (min-width:900px){[data-bg-pgrid]{grid-template-columns:minmax(0,1.08fr) minmax(0,1fr)!important;column-gap:48px!important;align-items:start!important}[data-bg-pgrid]>*{grid-column:1;grid-row:1}[data-bg-pgrid]>[data-bg-pinfo]{grid-column:2!important;grid-row:1!important}}',
     '@media (max-width:899px){[data-bg-pwrap]{width:calc(100% - 32px)!important}}',
     '[data-bg-ptitle]{font:italic 900 46px/1.02 Archivo,sans-serif!important;letter-spacing:.005em;color:#F2F0EB!important}',
-    '[data-bg-ptitle]::after{content:"Cihazına özel hassas kesim. Kamera, lens, drone, gimbal ve aksiyon kameralar için.";display:block;margin-top:12px;font:400 16px/1.6 Manrope,sans-serif;font-style:normal;color:#B9B5AD}',
+    '[data-bg-ptitle]::after{content:"Cihazına özel üretim. Kamera, lens, drone, gimbal ve aksiyon kameralar için.";display:block;margin-top:12px;font:400 16px/1.6 Manrope,sans-serif;font-style:normal;color:#B9B5AD}',
     '@media (max-width:640px){[data-bg-ptitle]{font-size:36px!important}}',
     '[data-bg-pprice]{font:800 30px Archivo,sans-serif!important;color:#E2C285!important}',
     '.pcz-title{display:none!important}',
@@ -882,7 +882,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   window.addEventListener('resize', function () { if (ppState) syncPP(); });
 
   /* ---------- v7: "Neden Betaguard" redesign ---------- */
-  var st7 = document.createElement('style'); st7.id = 'bg-theme-css7'; st7.textContent = "[data-bg=\"feat\"]{background:radial-gradient(70% 120% at 0% 0%,rgba(201,164,92,.10),transparent 60%),#0E0E0F!important;border-top:1px solid #1F1E23;border-bottom:1px solid #1F1E23}[data-bg=\"feat\"] .bg-sec{display:grid!important;grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr);column-gap:56px;row-gap:0;align-items:start;padding-top:72px!important;padding-bottom:72px!important}[data-bg=\"feat\"] .bg-eyebrow{grid-column:1;grid-row:1;align-self:end}[data-bg=\"feat\"] h2{grid-column:1;grid-row:2;font-size:44px!important;line-height:1.05!important;margin:10px 0 0!important;font-style:italic;font-weight:900!important}[data-bg=\"feat\"] h2::after{content:\"Kamera, lens, drone ve gimbalın için cihazına özel kesilmiş kaplamalar. Korur, tarzını yansıtır, istediğinde iz bırakmadan çıkar.\";display:block;margin-top:18px;font:400 16px/1.65 Manrope,sans-serif;font-style:normal;color:#B9B5AD;max-width:400px}[data-bg=\"feat\"] .bg-grid{grid-column:2;grid-row:1 / span 3;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin:0!important}[data-bg=\"feat\"] .bg-feat{background:linear-gradient(180deg,#19191C,#131315)!important;border:1px solid #26252A;border-radius:18px;padding:26px 24px 24px!important;display:flex;flex-direction:column;gap:10px;transition:transform .2s ease,border-color .2s ease}[data-bg=\"feat\"] .bg-feat:hover{transform:translateY(-3px);border-color:rgba(201,164,92,.55)}[data-bg=\"feat\"] .bg-feat svg{width:48px!important;height:48px!important;padding:11px;box-sizing:border-box;border-radius:14px;background:rgba(201,164,92,.12);border:1px solid rgba(201,164,92,.28);margin-bottom:6px}[data-bg=\"feat\"] .bg-feat h3{margin:0!important;font:800 19px/1.25 Archivo,sans-serif!important;color:#F2F0EB}[data-bg=\"feat\"] .bg-feat p{margin:0!important;font:400 14.5px/1.6 Manrope,sans-serif!important;color:#A9A59D}[data-bg=\"steps\"] h2{margin-bottom:24px!important}@media (max-width:900px){[data-bg=\"feat\"] .bg-sec{grid-template-columns:1fr;padding-top:48px!important;padding-bottom:48px!important}[data-bg=\"feat\"] .bg-grid{grid-column:1;grid-row:3;margin-top:28px!important}[data-bg=\"feat\"] h2{font-size:34px!important}}@media (max-width:520px){[data-bg=\"feat\"] .bg-grid{grid-template-columns:1fr!important;gap:12px!important}[data-bg=\"feat\"] .bg-feat{display:grid!important;grid-template-columns:48px minmax(0,1fr);column-gap:14px;row-gap:4px;padding:18px 18px!important;align-items:start}[data-bg=\"feat\"] .bg-feat svg{grid-row:1 / span 2;margin:0!important}[data-bg=\"feat\"] .bg-feat h3{font-size:17px!important;align-self:center}[data-bg=\"feat\"] .bg-feat p{font-size:14px!important}}";
+  var st7 = document.createElement('style'); st7.id = 'bg-theme-css7'; st7.textContent = "[data-bg=\"feat\"]{background:radial-gradient(70% 120% at 0% 0%,rgba(201,164,92,.10),transparent 60%),#0E0E0F!important;border-top:1px solid #1F1E23;border-bottom:1px solid #1F1E23}[data-bg=\"feat\"] .bg-sec{display:grid!important;grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr);column-gap:56px;row-gap:0;align-items:start;padding-top:72px!important;padding-bottom:72px!important}[data-bg=\"feat\"] .bg-eyebrow{grid-column:1;grid-row:1;align-self:end}[data-bg=\"feat\"] h2{grid-column:1;grid-row:2;font-size:44px!important;line-height:1.05!important;margin:10px 0 0!important;font-style:italic;font-weight:900!important}[data-bg=\"feat\"] h2::after{content:\"Kamera, lens, drone ve gimbalın için cihazına özel üretilmiş kaplamalar. Korur, tarzını yansıtır, istediğinde iz bırakmadan çıkar.\";display:block;margin-top:18px;font:400 16px/1.65 Manrope,sans-serif;font-style:normal;color:#B9B5AD;max-width:400px}[data-bg=\"feat\"] .bg-grid{grid-column:2;grid-row:1 / span 3;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin:0!important}[data-bg=\"feat\"] .bg-feat{background:linear-gradient(180deg,#19191C,#131315)!important;border:1px solid #26252A;border-radius:18px;padding:26px 24px 24px!important;display:flex;flex-direction:column;gap:10px;transition:transform .2s ease,border-color .2s ease}[data-bg=\"feat\"] .bg-feat:hover{transform:translateY(-3px);border-color:rgba(201,164,92,.55)}[data-bg=\"feat\"] .bg-feat svg{width:48px!important;height:48px!important;padding:11px;box-sizing:border-box;border-radius:14px;background:rgba(201,164,92,.12);border:1px solid rgba(201,164,92,.28);margin-bottom:6px}[data-bg=\"feat\"] .bg-feat h3{margin:0!important;font:800 19px/1.25 Archivo,sans-serif!important;color:#F2F0EB}[data-bg=\"feat\"] .bg-feat p{margin:0!important;font:400 14.5px/1.6 Manrope,sans-serif!important;color:#A9A59D}[data-bg=\"steps\"] h2{margin-bottom:24px!important}@media (max-width:900px){[data-bg=\"feat\"] .bg-sec{grid-template-columns:1fr;padding-top:48px!important;padding-bottom:48px!important}[data-bg=\"feat\"] .bg-grid{grid-column:1;grid-row:3;margin-top:28px!important}[data-bg=\"feat\"] h2{font-size:34px!important}}@media (max-width:520px){[data-bg=\"feat\"] .bg-grid{grid-template-columns:1fr!important;gap:12px!important}[data-bg=\"feat\"] .bg-feat{display:grid!important;grid-template-columns:48px minmax(0,1fr);column-gap:14px;row-gap:4px;padding:18px 18px!important;align-items:start}[data-bg=\"feat\"] .bg-feat svg{grid-row:1 / span 2;margin:0!important}[data-bg=\"feat\"] .bg-feat h3{font-size:17px!important;align-self:center}[data-bg=\"feat\"] .bg-feat p{font-size:14px!important}}";
   (document.head || document.documentElement).appendChild(st7);
 
   /* ---------- v6: hide home "Seriler" slider, point menu/category links to the product page ---------- */
@@ -1158,7 +1158,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
   var TI = function (d) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + d + '</svg>'; };
   var TRUST_HTML = '<div class="bg-trust">' +
-    '<div>' + TI('<path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><rect x="8" y="8" width="8" height="8" rx="1.5"/>') + 'Cihazına özel kesim</div>' +
+    '<div>' + TI('<path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><rect x="8" y="8" width="8" height="8" rx="1.5"/>') + 'Cihazına özel üretim</div>' +
     '<div>' + TI('<path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/>') + '1-2 iş gününde kargoda</div>' +
     '<div>' + TI('<path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>') + 'İz bırakmadan sökülür</div>' +
     '<div>' + TI('<path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13M12 7c-2-4-6-3-5 0M12 7c2-4 6-3 5 0"/>') + 'Uygulama seti hediye</div>' +
@@ -1196,7 +1196,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var ins = document.querySelector('[data-bg-insta]');
       if (!list || !list.length || !ins || document.querySelector('[data-bg-desen]')) return;
       var sec = document.createElement('section'); sec.setAttribute('data-bg-desen', '1'); sec.setAttribute('aria-label', 'Desenler');
-      sec.innerHTML = '<div class="bg-ds-h"><div><span class="bg-eyebrow">DESENLER</span><h2>' + list.length + ' seri, tek karakter</h2><p>Serini seç, cihazında nasıl duracağını gör. Her kaplama modeline göre kesilir.</p></div><a class="bg-ds-all" href="' + KAPLAMA_URL + '">Tümünü gör →</a></div>' +
+      sec.innerHTML = '<div class="bg-ds-h"><div><span class="bg-eyebrow">DESENLER</span><h2>' + list.length + ' seri, tek karakter</h2><p>Serini seç, cihazında nasıl duracağını gör. Her kaplama modeline göre üretilir.</p></div><a class="bg-ds-all" href="' + KAPLAMA_URL + '">Tümünü gör →</a></div>' +
         '<div class="bg-ds-grid">' + list.map(function (d) {
           return '<a class="bg-ds-card" href="' + KAPLAMA_URL + '?desen=' + encodeURIComponent(d.s) + '">' + (d.i ? '<img src="' + imgUrl(d.i, 360) + '" alt="' + esc(d.n) + ' deseni" loading="lazy">' : '<span class="bg-ds-ph" aria-hidden="true">' + esc(initials(d.n)) + '</span>') + '<b>' + esc(d.n) + '</b><small>' + (d.c > 1 ? d.c + ' renk' : 'tek renk') + '</small></a>';
         }).join('') + '</div>';
@@ -1207,10 +1207,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var FAQ = [
     ['Kaplama cihazıma zarar verir mi, iz bırakır mı?', 'Hayır. Kaplama günlük çizik ve sürtünmelere karşı korur. Söktüğünde cihazda iz kalmaz.'],
     ['Kendim uygulayabilir miyim?', 'Evet. Paketten çıkan uygulama setiyle (spatula ve temizlik mendilleri) yukarıdaki 4 adımı izleyerek kendin uygulayabilirsin.'],
-    ['Kesim cihazıma tam oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel basılıp kesilir. Düğmeler, portlar ve ekran alanları açık bırakılır.'],
+    ['Kaplama cihazıma tam oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel üretilir. Düğmeler, portlar ve ekran alanları açık bırakılır.'],
     ['Plastik kısımlar da kaplanıyor mu?', 'Evet. Cihazın metal aksamı seçtiğin desenle, plastik aksamı dokulu siyah kaplamayla kaplanır.'],
     ['Siparişim ne zaman kargoya verilir?', 'Kaplamalar siparişe özel üretilir ve 1-2 iş gününde kargoya verilir. 2.000 ₺ üzeri siparişlerde kargo ücretsizdir.'],
-    ['Cihazım listede yok, ne yapmalıyım?', 'WhatsApp’tan modelini yaz, kesimi olup olmadığını hemen söyleyelim.']
+    ['Cihazım listede yok, ne yapmalıyım?', 'WhatsApp’tan modelini yaz, üretebiliyorsak hemen söyleyelim.']
   ];
   function addFaq() {
     var home = document.querySelector('[data-bg-home]');
@@ -1332,7 +1332,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       document.title = 'Betaguard | Kamera, Lens, Drone ve Gimbal Kaplamaları';
       var md = document.querySelector('meta[name="description"]');
       if (!md) { md = document.createElement('meta'); md.setAttribute('name', 'description'); document.head.appendChild(md); }
-      if (!md.getAttribute('content')) md.setAttribute('content', 'Kamera, lens, drone, gimbal ve aksiyon kameralar için cihaza özel kesim desenli kaplamalar. Çizilmeye karşı korur, iz bırakmadan sökülür. 1-2 iş gününde kargoda.');
+      if (!md.getAttribute('content')) md.setAttribute('content', 'Kamera, lens, drone, gimbal ve aksiyon kameralar için cihaza özel üretilen desenli kaplamalar. Çizilmeye karşı korur, iz bırakmadan sökülür. 1-2 iş gününde kargoda.');
     }
   }
   function pp(){
@@ -1433,7 +1433,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     var box = document.createElement('div'); box.className = 'bg-ft';
     box.innerHTML =
       '<div class="bg-ft-brand"><a class="bg-ft-logo" href="/" aria-label="Betaguard ana sayfa"><img src="' + LOGO + '" alt="Betaguard" loading="lazy"></a>' +
-      '<p>Kamera, lens, drone, gimbal ve aksiyon kameralar için cihazına özel kesim kaplamalar. Siparişe özel basılır, kesilir ve İzmir\'den gönderilir.</p>' +
+      '<p>Kamera, lens, drone, gimbal ve aksiyon kameralar için cihazına özel üretim kaplamalar. Siparişe özel üretilir ve İzmir\'den gönderilir.</p>' +
       '<div class="bg-ft-social"><a href="' + WA + '" target="_blank" rel="noopener">' + IC.chat + 'WhatsApp\'tan yaz</a><a href="' + IG + '" target="_blank" rel="noopener">' + IC.cam + '@betaguard.tr</a></div></div>' +
       '<div><h2 class="bg-ft-h">Cihazlar</h2><ul>' + cats.map(function(c){ return '<li><a href="' + href(c, '/betaguard-kaplama') + '">' + c + '</a></li>'; }).join('') + '</ul></div>' +
       '<div><h2 class="bg-ft-h">Keşfet</h2><ul><li><a href="/betaguard-kaplama">Tüm desenler</a></li><li><a href="/#desenler">Seriler</a></li><li><a href="/blog/uygulama-rehberi">Uygulama rehberi</a></li><li><a href="/blog">Blog</a></li><li><a href="/#sss">Sık sorulanlar</a></li></ul></div>' +

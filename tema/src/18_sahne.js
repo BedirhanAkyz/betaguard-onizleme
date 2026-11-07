@@ -126,9 +126,9 @@
 
   function html() {
     return '<div class="bgs-gr">' +
-      '<div class="bgs-l1"><span class="bgs-tag">CİHAZA ÖZEL KESİM KAPLAMA</span>' +
+      '<div class="bgs-l1"><span class="bgs-tag">CİHAZA ÖZEL ÜRETİM KAPLAMA</span>' +
         '<h1><span class="bgs-sr">Kamera, lens ve drone kaplama: </span>Ekipmanını koru.<br>Tarzını yansıt.</h1></div>' +
-      '<div class="bgs-l2"><p class="bgs-p">Kamera, lens, drone ve gimbal kaplamaları. Her siparişi cihazının ölçüsüne göre basıp kesiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
+      '<div class="bgs-l2"><p class="bgs-p">Kamera, lens, drone ve gimbal kaplamaları. Her siparişi cihazının ölçüsüne göre üretiyoruz. Kolay uygulanır, söktüğünde iz bırakmaz.</p>' +
         '<div class="bgs-btns"><a class="bgs-pill g" href="/betaguard-kaplama">Serileri keşfet</a><a class="bgs-pill o" href="#bg-find">Kategoriler</a></div></div>' +
       '<div class="bgs-c"><div class="bgs-gh" aria-hidden="true" data-t="KAMERAN"></div>' +
         '<div class="bgs-st"><div class="bgs-fl"><div class="bgs-dv">' +

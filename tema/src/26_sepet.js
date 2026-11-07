@@ -56,7 +56,7 @@
       var r = null; for (var j = recs.length - 1; j >= 0; j--) if (recs[j].n === nm && recs[j].d === ds) { r = recs[j]; break; }
       var old = row.nextElementSibling && row.nextElementSibling.classList.contains('bg-cx') ? row.nextElementSibling : null;
       if (!r || !r.x.length) { if (old) old.remove(); return; }
-      var html = r.x.map(function (x) { return '<span>+ ' + x.k + ': ' + x.t.replace(/[<>&]/g, '') + ' · ' + EK.toLocaleString('tr-TR') + ' ₺</span>'; }).join('') + '<small>Drone ile birlikte indirimli fiyat, aynı desende kesilir</small>';
+      var html = r.x.map(function (x) { return '<span>+ ' + x.k + ': ' + x.t.replace(/[<>&]/g, '') + ' · ' + EK.toLocaleString('tr-TR') + ' ₺</span>'; }).join('') + '<small>Drone ile birlikte indirimli fiyat, aynı desende üretilir</small>';
       if (old) { if (old.innerHTML !== html) old.innerHTML = html; return; }
       var d = document.createElement('div'); d.className = 'bg-cx'; d.innerHTML = html; row.parentNode.insertBefore(d, row.nextSibling);
     });

@@ -11,7 +11,7 @@
   ].join('');
   var st = document.createElement('style'); st.id = 'bg-theme-css22'; st.textContent = css; (document.head || document.documentElement).appendChild(st);
   var HTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>' +
-    '<p><b>Görseller temsilidir.</b> <span class="s">Kaplaman seçtiğin modele özel kesilir; renkler ekrana göre biraz farklı görünebilir.</span><span class="l">Deseni göstermek için fotoğraflarda örnek cihazlar kullanıyoruz; senin kaplaman seçtiğin modele özel kesilir. Renkler ekran ve parlaklık ayarına göre biraz farklı görünebilir.</span></p>';
+    '<p><b>Görseller temsilidir.</b> <span class="s">Kaplaman seçtiğin modele özel üretilir; renkler ekrana göre biraz farklı görünebilir.</span><span class="l">Deseni göstermek için fotoğraflarda örnek cihazlar kullanıyoruz; senin kaplaman seçtiğin modele özel üretilir. Renkler ekran ve parlaklık ayarına göre biraz farklı görünebilir.</span></p>';
   function run(){
     var note = document.querySelector('.bg-gal .bg-gal-note');
     if (!note) return;

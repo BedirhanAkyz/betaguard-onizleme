@@ -1,4 +1,4 @@
-/* v20: "Kesimi Tuttur" indirim oyunu - ana sayfa karti + acilir oyun penceresi */
+/* v20: "Hizayı Tuttur" indirim oyunu - ana sayfa karti + acilir oyun penceresi */
 (function(){
   if (window.__bgV20) return; window.__bgV20 = 1;
   // Kademe kodlari (ikas'ta kupon olarak tanimli; musteri basina 1 kullanim). Hafifce gizlenmis.
@@ -48,7 +48,7 @@
   function openGame(){
     var prev = store();
     var ov = document.createElement('div'); ov.className = 'bg-kt-ov'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true');
-    ov.innerHTML = '<div class="bg-kt-m"><div class="bg-kt-hd"><b>🎯 Kesimi tuttur</b><button class="bg-kt-x" aria-label="Kapat">×</button></div><div class="bg-kt-body"></div></div>';
+    ov.innerHTML = '<div class="bg-kt-m"><div class="bg-kt-hd"><b>🎯 Hizayı tuttur</b><button class="bg-kt-x" aria-label="Kapat">×</button></div><div class="bg-kt-body"></div></div>';
     document.body.appendChild(ov); document.documentElement.style.overflow = 'hidden';
     var body = ov.querySelector('.bg-kt-body'), raf = 0;
     function close(){ cancelAnimationFrame(raf); ov.remove(); document.documentElement.style.overflow = ''; document.removeEventListener('keydown', onKey); }
@@ -99,7 +99,7 @@
       var p = pos(s.r,s.t), k = Math.min(W,H)*.2, acc = Math.max(0, Math.round(100 - Math.hypot(p.x,p.y)/(k*1.2)*100));
       s.lock = p; s.ph = 'locked'; s.sc.push(acc);
       rds[s.r].textContent = R[s.r].n + ' %' + acc; rds[s.r].className = 'bg-kt-rd done';
-      say(acc>=95 ? 'Kusursuz kesim! %'+acc : acc>=80 ? 'Çok yakın! %'+acc : acc>=50 ? 'Fena değil · %'+acc : 'Kaydı · %'+acc, acc>=80 ? '#7FC79A' : acc<50 ? '#E07A5F' : '#F2EFEA');
+      say(acc>=95 ? 'Kusursuz hiza! %'+acc : acc>=80 ? 'Çok yakın! %'+acc : acc>=50 ? 'Fena değil · %'+acc : 'Kaydı · %'+acc, acc>=80 ? '#7FC79A' : acc<50 ? '#E07A5F' : '#F2EFEA');
       setTimeout(function(){
         s.r++;
         if (s.r>2){ var avg = Math.round(s.sc.reduce(function(a,b){return a+b;},0)/3), tier = avg>=90 ? 2 : avg>=75 ? 1 : 0; store({avg:avg, tier:tier, code:1, at:Date.now()}); cancelAnimationFrame(raf); result(avg, tier, false); return; }
@@ -113,7 +113,7 @@
 
     function result(avg, tier, again){
       var code = atob(K[tier]);
-      body.innerHTML = '<div class="bg-kt-res"><div class="s">%' + avg + '</div><h4>' + ['Isınma turu','Usta işi','Kesim ustası'][tier] + ' · ' + AMT[tier] + ' ₺ indirim</h4>' +
+      body.innerHTML = '<div class="bg-kt-res"><div class="s">%' + avg + '</div><h4>' + ['Isınma turu','Usta işi','Hiza ustası'][tier] + ' · ' + AMT[tier] + ' ₺ indirim</h4>' +
         '<p>' + (again ? 'Oyunu daha önce oynadın, kazandığın kod burada.' : 'Üç cihazda ortalama isabetin %' + avg + '.') + ' Kodu ödeme sayfasındaki indirim kodu alanına yaz. Her müşteri bir kez kullanabilir.</p>' +
         '<div class="bg-kt-code"><output>' + code + '</output><button class="bg-kt-btn" type="button">Kodu kopyala</button></div>' +
         '<div class="bg-kt-tiers"><span>%90+ → 250 ₺</span><span>%75–89 → 150 ₺</span><span>%75 altı → 100 ₺</span></div>' +
@@ -155,7 +155,7 @@
     if (!after || !after.parentNode) return;
     var sec = document.createElement('section'); sec.className = 'bg-kt'; sec.setAttribute('data-bg-kt', '1');
     var prev = store();
-    sec.innerHTML = '<div class="bg-kt-card"><div><small>5 Kasım\'a kadar</small><h3>Kesimi tuttur, indirim kazan</h3><p>Kaplamayı cihaza ne kadar düzgün oturtursan o kadar indirim: 100 ile 250 ₺ arası. Oyun 20 saniye sürüyor.</p></div><button class="bg-kt-btn" type="button">' + (prev && prev.code ? 'Kodumu göster' : 'Hemen oyna') + '</button></div>';
+    sec.innerHTML = '<div class="bg-kt-card"><div><small>5 Kasım\'a kadar</small><h3>Hizayı tuttur, indirim kazan</h3><p>Kaplamayı cihaza ne kadar düzgün oturtursan o kadar indirim: 100 ile 250 ₺ arası. Oyun 20 saniye sürüyor.</p></div><button class="bg-kt-btn" type="button">' + (prev && prev.code ? 'Kodumu göster' : 'Hemen oyna') + '</button></div>';
     sec.querySelector('button').onclick = openGame;
     after.parentNode.insertBefore(sec, after.nextSibling);
   }

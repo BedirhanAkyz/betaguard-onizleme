@@ -60,7 +60,7 @@
         hits.slice(0, 24).map(function(d){ return '<a href="/betaguard-kaplama?cihaz=' + encodeURIComponent(d.b + '|' + d.m) + '"><span style="color:#F2EFEA">' + esc(d.m) + ' <b>' + esc(d.b) + '</b></span><span>→</span></a>'; }).join('') + '</div>' +
         (hits.length > 24 ? '<p style="margin:12px 0 0">+' + (hits.length - 24) + ' model daha. Aramayı biraz daralt.</p>' : '');
     } else {
-      box.innerHTML = '<h3>Cihazını listede bulamadın mı?</h3><p>Modelini yaz, kesimi olup olmadığını hemen söyleyelim.</p><a class="bg-sr-wa" href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan sor</a>';
+      box.innerHTML = '<h3>Cihazını listede bulamadın mı?</h3><p>Modelini yaz, üretebiliyorsak hemen söyleyelim.</p><a class="bg-sr-wa" href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan sor</a>';
     }
     if (!old) {
       while (anchor.parentElement && anchor.parentElement !== document.body && getComputedStyle(anchor.parentElement).flexDirection === 'row' && getComputedStyle(anchor.parentElement).display.indexOf('flex') >= 0) anchor = anchor.parentElement;
@@ -70,7 +70,7 @@
 
   /* 3) sayfa basliklari */
   var TITLES = {
-    '/': ['Betaguard | Kamera, Lens, Drone ve Gimbal Kaplama', 'Kamera, lens, drone, gimbal ve aksiyon kameran için cihazına özel kesimli, iz bırakmadan sökülen Betaguard kaplamalar. İzmir\'den Türkiye\'ye kargo.'],
+    '/': ['Betaguard | Kamera, Lens, Drone ve Gimbal Kaplama', 'Kamera, lens, drone, gimbal ve aksiyon kameran için cihazına özel üretilen, iz bırakmadan sökülen Betaguard kaplamalar. İzmir\'den Türkiye\'ye kargo.'],
     '/search': ['Arama | Betaguard', ''],
     '/pages/iletisim': ['İletişim | Betaguard', 'Betaguard ile WhatsApp, Instagram ve e-posta üzerinden iletişime geç.']
   };

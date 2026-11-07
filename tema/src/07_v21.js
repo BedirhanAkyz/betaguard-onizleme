@@ -108,7 +108,7 @@
       var px = document.createElement('div'); px.className = 'bg-px';
       px.innerHTML =
         '<div class="bg-px-c"><h4><i>◆</i>Kutuda ne var?</h4><ul class="bg-px-box">' +
-          '<li>Cihazının modeline özel kesilmiş kaplama parçaları</li>' +
+          '<li>Cihazının modeline özel üretilmiş kaplama parçaları</li>' +
           '<li>Uygulama seti: spatula, ıslak ve kuru temizlik mendili</li>' +
           '<li>Drone siparişlerinde kumanda kaplaması 1.000 ₺ ile eklenir</li></ul></div>' +
         '<div class="bg-px-c"><h4><i>◆</i>4 adımda kendin uygula</h4><div class="bg-px-st">' +
@@ -119,7 +119,7 @@
           '<a class="bg-px-more" href="/blog/uygulama-rehberi">Cihaz türüne göre detaylı uygulama rehberi →</a></div>' +
         '<div class="bg-px-c"><h4><i>◆</i>Sık sorulanlar</h4>' +
           det(['Kaplama cihazıma zarar verir mi?', 'Hayır. Günlük çizik ve sürtünmelere karşı korur. Söktüğünde cihazda iz kalmaz.']) +
-          det(['Kesim cihazıma oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel kesilir. Düğmeler, portlar ve ekran alanları açık kalır.']) +
+          det(['Kaplama cihazıma oturur mu?', 'Her kaplama seçtiğin modelin ölçülerine göre siparişe özel üretilir. Düğmeler, portlar ve ekran alanları açık kalır.']) +
           det(['Ne zaman kargoya verilir?', 'Siparişe özel üretilir ve 1-2 iş gününde kargoya verilir. 2.000 ₺ üzeri kargo ücretsiz.']) +
           det(FAQ[2]) +
           '<a class="bg-px-more" href="/#sss">Tüm sorular →</a> &nbsp; <a class="bg-px-more" href="' + WA + '" target="_blank" rel="noopener">WhatsApp’tan sor</a></div>';
@@ -141,8 +141,8 @@
         why.setAttribute('data-bg-v21', '1');
         var c = cards[2];
         c.querySelector('i').innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg>';
-        c.querySelector('b').textContent = 'Cihazına özel kesim';
-        c.querySelector('span').textContent = 'Her parça modeline göre kesilir. Düğmeler, portlar ve ekran açıkta kalır.';
+        c.querySelector('b').textContent = 'Cihazına özel üretim';
+        c.querySelector('span').textContent = 'Her parça modeline göre üretilir. Düğmeler, portlar ve ekran açıkta kalır.';
         var g = why.querySelector('.bg-why-g');
         if (g && !why.querySelector('.bg-why-note')) { var n = document.createElement('p'); n.className = 'bg-why-note'; n.textContent = 'Metal aksam seçtiğin desenle, plastik aksam dokulu siyah kaplamayla kaplanır.'; g.parentNode.insertBefore(n, g.nextSibling); }
       }
