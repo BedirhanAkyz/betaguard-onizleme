@@ -55,7 +55,7 @@
   function navLink() {
     [].forEach.call(document.querySelectorAll('a[href]'), function (a) {
       if (a.getAttribute('href') !== '/aksiyon-kamera' || a.textContent.trim() !== 'Aksiyon Kamera') return;
-      if (a.closest('footer, .bg26-mm, .bg27, .bg26-bar, [data-bg-insta], main')) return;
+      if (a.closest('footer, .bg-ft, .bg26-mm, .bg27, .bg26-bar, [data-bg-insta], main')) return;
       /* kardes menu ogelerini (Gimbal vb.) iceren en yakin ata = liste; a'yi iceren dogrudan cocugu = oge */
       var p = a.parentElement, guard = 0;
       while (p && guard++ < 6 && !p.querySelector('a[href="/gimbal"]')) p = p.parentElement;
