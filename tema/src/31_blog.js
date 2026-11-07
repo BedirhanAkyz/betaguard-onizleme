@@ -51,8 +51,25 @@
     var s = document.createElement('script'); s.type = 'application/ld+json'; s.id = 'bg-blog-ld'; s.textContent = JSON.stringify(ld);
     document.head.appendChild(s);
   }
+  /* ust menu ve mobil cekmeceye "Rehber" baglantisi (Aksiyon Kamera'nin yanina) */
+  function navLink() {
+    [].forEach.call(document.querySelectorAll('a[href]'), function (a) {
+      if (a.getAttribute('href') !== '/aksiyon-kamera' || a.textContent.trim() !== 'Aksiyon Kamera') return;
+      if (a.closest('footer, .bg26-mm, .bg27, .bg26-bar, [data-bg-insta], main')) return;
+      var item = a, p = a.parentElement, guard = 0;
+      while (p && guard++ < 3 && p.children.length === 1) { item = p; p = p.parentElement; }
+      if (!p || p.querySelector('[data-bg-blog]')) return;
+      var c = item.cloneNode(true), ca = c.tagName === 'A' ? c : c.querySelector('a[href]');
+      if (!ca) return;
+      ca.setAttribute('href', '/blog'); ca.removeAttribute('data-bg-href');
+      var leaf = ca; while (leaf.children.length === 1 && leaf.firstElementChild.tagName !== 'SVG') leaf = leaf.firstElementChild;
+      if (!leaf.children.length) leaf.textContent = 'Rehber'; else ca.textContent = 'Rehber';
+      c.setAttribute('data-bg-blog', '1');
+      item.insertAdjacentElement('afterend', c);
+    });
+  }
   function run() {
-    demoteDrawerH1();
+    demoteDrawerH1(); navLink();
     var p = location.pathname.replace(/\/$/, '');
     if (p === '/blog') blogList();
     else if (p.indexOf('/blog/') === 0) blogPost();
