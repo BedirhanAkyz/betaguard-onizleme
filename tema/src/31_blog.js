@@ -56,11 +56,17 @@
     [].forEach.call(document.querySelectorAll('a[href]'), function (a) {
       if (a.getAttribute('href') !== '/aksiyon-kamera' || a.textContent.trim() !== 'Aksiyon Kamera') return;
       if (a.closest('footer, .bg26-mm, .bg27, .bg26-bar, [data-bg-insta], main')) return;
-      var item = a, p = a.parentElement, guard = 0;
-      while (p && guard++ < 3 && p.children.length === 1) { item = p; p = p.parentElement; }
-      if (!p || p.querySelector('[data-bg-blog]')) return;
+      /* kardes menu ogelerini (Gimbal vb.) iceren en yakin ata = liste; a'yi iceren dogrudan cocugu = oge */
+      var p = a.parentElement, guard = 0;
+      while (p && guard++ < 6 && !p.querySelector('a[href="/gimbal"]')) p = p.parentElement;
+      if (!p || p === document.body || p.querySelector('[data-bg-blog]')) return;
+      var item = a; while (item.parentElement !== p) item = item.parentElement;
       var c = item.cloneNode(true), ca = c.tagName === 'A' ? c : c.querySelector('a[href]');
       if (!ca) return;
+      /* acilir panel vb. ek cocuklari at, sadece baglanti kalsin */
+      [].forEach.call(c.querySelectorAll('a[href]'), function (x) { if (x !== ca) x.remove(); });
+      var q = ca.parentElement; while (q && q !== c) { [].forEach.call([].slice.call(q.children), function (ch) { if (ch !== ca && !ch.contains(ca)) ch.remove(); }); q = q.parentElement; }
+      if (c !== ca) [].forEach.call([].slice.call(c.children), function (ch) { if (ch !== ca && !ch.contains(ca)) ch.remove(); });
       ca.setAttribute('href', '/blog'); ca.removeAttribute('data-bg-href');
       var leaf = ca; while (leaf.children.length === 1 && leaf.firstElementChild.tagName !== 'SVG') leaf = leaf.firstElementChild;
       if (!leaf.children.length) leaf.textContent = 'Rehber'; else ca.textContent = 'Rehber';
