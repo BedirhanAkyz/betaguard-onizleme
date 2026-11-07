@@ -919,7 +919,17 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }, true);
 
   /* ---------- v8: Instagram section (Behold JSON feed) in place of the old "Seriler" slider ---------- */
-  var IG_FEED = 'https://feeds.behold.so/LiwkjsS4R0djbMtyiwLC'; // Behold JSON feed URL, e.g. https://feeds.behold.so/XXXX
+  /* Behold ucretsiz limiti reklam trafigiyle doluyordu: sabit 6 gorsel (img/insta), her biri profile gider */
+  var IG_FEED = '';
+  var IG_B = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@45d11519/img/insta/';
+  var IG_STATIC = { posts: [
+    ['1', 'Insta360, Sony, Canon ve DJI cihazlar Betaguard kaplamalı'],
+    ['2', 'Sony Alpha ve Tamron lens Royal desen kaplama'],
+    ['3', 'DJI Neo yeşil kamuflaj kaplama'],
+    ['4', 'Sony kamera ve 24-70 GM II lens renkli kaplama'],
+    ['5', 'DJI Mini mavi kamuflaj kaplama'],
+    ['6', 'Fujifilm kamera ve 16-80 lens devre desen kaplama']
+  ].map(function (x) { return { mediaUrl: IG_B + x[0] + '.webp', permalink: 'https://instagram.com/betaguard.tr', caption: '', altText: x[1] }; }) };
   var IG_USER = 'betaguard.tr', IG_URL = 'https://instagram.com/betaguard.tr';
   var css8 = [
     '[data-bg-insta]{width:min(1452px,calc(100% - 48px));margin:56px auto 56px;color:#F2F0EB;box-sizing:border-box}',
@@ -963,7 +973,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
         (cap ? '<span class="bg-ig-ov"><span>' + esc(cap.slice(0, 140)) + '</span></span>' : '') + '</a>';
     }).join('') + '</div>';
   }
-  var igData = null, igLoading = false;
+  var igData = IG_STATIC, igLoading = false;
   function igLoad(cb) {
     if (!IG_FEED) return cb(null);
     try { var c0 = JSON.parse(localStorage.getItem('bg_ig') || 'null'); if (c0 && c0.u === IG_FEED && Date.now() - c0.t < 6 * 3600e3) return cb(c0.d); } catch (e) { }
