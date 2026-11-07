@@ -1166,7 +1166,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
   function fixFooter() {
     var ps = document.querySelectorAll('#app p');
-    for (var i = 0; i < ps.length; i++) { var t = ps[i].textContent.trim(); if (/^©/.test(t) || /Siparişe özel basılır/.test(t)) tag(ps[i], 'data-bg-ftxt'); }
+    for (var i = 0; i < ps.length; i++) { var t = ps[i].textContent.trim(); if (/^©/.test(t) || /Siparişe özel (basılır|üretilir)/.test(t)) tag(ps[i], 'data-bg-ftxt'); }
     var lg = document.querySelectorAll('#app img[src*="536abe0a"],#app img[srcset*="536abe0a"]');
     for (i = 0; i < lg.length; i++) { lg[i].removeAttribute('srcset'); lg[i].removeAttribute('sizes'); lg[i].src = LOGO_URL; lg[i].alt = 'Betaguard'; tag(lg[i], 'data-bg-flogo'); }
   }
@@ -1425,8 +1425,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (document.querySelector('.bg-ft')) return;
     var k = leaf('Sözleşmeler'); if (!k) return;
     var top = k; var desc = null;
-    while (top.parentElement) { top = top.parentElement; if (/Siparişe özel basılır/.test(top.textContent) && /Kategoriler/.test(top.textContent)) break; }
-    if (!top || !top.parentElement) return;
+    var app = document.getElementById('app'), found = false;
+    while (top.parentElement && top.parentElement !== app && top !== document.body) { top = top.parentElement; if (/Siparişe özel (basılır|üretilir)/.test(top.textContent) && /Kategoriler/.test(top.textContent)) { found = true; break; } }
+    /* guvenlik: ikas footer bulunamazsa hicbir seyi gizleme (body/html asla isaretlenmez) */
+    if (!found || !top || !top.parentElement || top === document.body || top === document.documentElement) return;
     function href(t, def){ var a = [].slice.call(top.querySelectorAll('a')).find(function(x){ return x.textContent.trim() === t; }); return a ? a.getAttribute('href') : def; }
     var cats = ['Kamera','Lens','Drone','Gimbal','Aksiyon Kamera'];
     var legal = ['Gizlilik ve Çerez Politikası','Mesafeli Satış Sözleşmesi','İade Koşulları'];
