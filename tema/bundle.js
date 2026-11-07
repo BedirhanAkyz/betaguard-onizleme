@@ -970,7 +970,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var badge = p.mediaType === 'VIDEO' ? IG_PLAY : (p.mediaType === 'CAROUSEL_ALBUM' ? IG_STACK : '');
       var cap = (p.prunedCaption || p.caption || '').replace(/\s+/g, ' ').trim();
       return '<a class="bg-ig-t" href="' + esc(p.permalink || IG_URL) + '" target="_blank" rel="noopener" aria-label="Instagram gönderisi' + (cap ? ': ' + esc(cap.slice(0, 80)) : '') + '">' +
-        '<img src="' + esc(src) + '" alt="' + esc(p.altText || cap.slice(0, 100) || 'Betaguard Instagram gönderisi') + '" loading="lazy">' +
+        '<img src="' + esc(src) + '" alt="' + esc(p.altText || cap.slice(0, 100) || 'Betaguard Instagram gönderisi') + '" loading="lazy" width="720" height="720">' +
         (badge ? '<span class="bg-ig-badge">' + badge + '</span>' : '') +
         (cap ? '<span class="bg-ig-ov"><span>' + esc(cap.slice(0, 140)) + '</span></span>' : '') + '</a>';
     }).join('') + '</div>';
@@ -5409,12 +5409,21 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       n = p;
     }
   }
+  /* erisilebilirlik: sayfada "main" landmark yok (Lighthouse). #app > div altindaki en yuksek
+     cocuk (ust bar/menu disindaki asil icerik) role="main" olur; tek bir tane kalir. */
+  function mainLandmark(){
+    if (document.querySelector('main, [role="main"]')) return;
+    var app = document.getElementById('app'), w = app && app.firstElementChild; if (!w) return;
+    var best = null, bh = 300;
+    [].forEach.call(w.children, function (c) { if (c.offsetHeight > bh && !c.querySelector('.bg-ft, footer')) { best = c; bh = c.offsetHeight; } });
+    if (best) best.setAttribute('role', 'main');
+  }
   function run(){
     var p = location.pathname.replace(/\/$/, '');
     var isPage = p.indexOf('/pages/') === 0;
     document.documentElement.classList.toggle('bg-kus-page', isPage);
     if (TITLES[p] && document.title !== TITLES[p]) document.title = TITLES[p];
-    hideIkas();
+    hideIkas(); mainLandmark();
     [].forEach.call(document.querySelectorAll('.bg-pp-one:not(.lng-ok)'), function (x) { var b = x.querySelector('b'); if (!b) return; x.classList.add('lng-ok'); if (b.textContent.trim().length > 8) x.classList.add('lng'); });
   }
   var tm = 0; new MutationObserver(function(){ if (!tm) tm = setTimeout(function(){ tm = 0; run(); }, 150); }).observe(document.documentElement, { childList: true, subtree: true });

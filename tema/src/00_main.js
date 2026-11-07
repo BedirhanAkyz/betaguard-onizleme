@@ -968,7 +968,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var badge = p.mediaType === 'VIDEO' ? IG_PLAY : (p.mediaType === 'CAROUSEL_ALBUM' ? IG_STACK : '');
       var cap = (p.prunedCaption || p.caption || '').replace(/\s+/g, ' ').trim();
       return '<a class="bg-ig-t" href="' + esc(p.permalink || IG_URL) + '" target="_blank" rel="noopener" aria-label="Instagram gönderisi' + (cap ? ': ' + esc(cap.slice(0, 80)) : '') + '">' +
-        '<img src="' + esc(src) + '" alt="' + esc(p.altText || cap.slice(0, 100) || 'Betaguard Instagram gönderisi') + '" loading="lazy">' +
+        '<img src="' + esc(src) + '" alt="' + esc(p.altText || cap.slice(0, 100) || 'Betaguard Instagram gönderisi') + '" loading="lazy" width="720" height="720">' +
         (badge ? '<span class="bg-ig-badge">' + badge + '</span>' : '') +
         (cap ? '<span class="bg-ig-ov"><span>' + esc(cap.slice(0, 140)) + '</span></span>' : '') + '</a>';
     }).join('') + '</div>';
