@@ -8,11 +8,12 @@
   var DESEN = ['Line Black','Line White','Line Navy','Line Blue','Line Cyan','Line Red','Tactical Black','Tactical Grey','Tactical Green','Tactical Blue','Tactical Red','Carbon','Royal Black','Royal Navy','Royal Gold','Mono Black','Mono White','Mono Red','Mono Blue','Mono Green','Mono Yellow','Mono Orange','Mono Pink','Mono Brown','Topografik Black','Topografik White','Topografik Navy','Topografik Blue','Topografik Green','Topografik Red','Nexus White','Nexus Blue','Nexus Cyan','Nexus Red','Hexagonal Silver','Hexagonal Blue','Hexagonal Green','Hexagonal Red','Lego'];
   function slug(s){ return String(s).normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/ı/g,'i').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
   var DSLUG = {}; DESEN.forEach(function(n){ DSLUG[slug(n)] = n; });
+  /* alt kategoriler: ikas'ta gercek sayfasi olanlar duz slug (SEO icin ayri URL), olmayanlar kok#marka (ayni sayfada filtre) */
   var CATS = {
-    K: { root: 'kamera', subs: [['Sony','kamera#sony'],['Canon','kamera#canon'],['Nikon','kamera#nikon'],['Fujifilm','kamera#fujifilm'],['Panasonic','kamera#panasonic']] },
-    L: { root: 'lens', subs: [['Sony','lens#sony'],['Canon','lens#canon'],['Nikon','lens#nikon'],['Fujifilm','lens#fujifilm'],['Sigma','lens#sigma']] },
-    D: { root: 'drone', subs: [['DJI','drone#dji']] },
-    A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','aksiyon-kamera#dji-osmo'],['GoPro','aksiyon-kamera#gopro'],['Insta360','aksiyon-kamera#insta360']] },
+    K: { root: 'kamera', subs: [['Sony','sony-kamera'],['Canon','canon-kamera'],['Nikon','nikon-kamera'],['Fujifilm','fujifilm-kamera'],['Panasonic','panasonic-kamera']] },
+    L: { root: 'lens', subs: [['Sony','sony-lens'],['Canon','canon-lens'],['Nikon','nikon-lens'],['Fujifilm','fujifilm-lens'],['Sigma','sigma-lens']] },
+    D: { root: 'drone', subs: [['DJI','dji-drone']] },
+    A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','dji-osmo'],['GoPro','aksiyon-kamera#gopro'],['Insta360','aksiyon-kamera#insta360']] },
     G: { root: 'gimbal', subs: [['DJI','gimbal#dji'],['Zhiyun','gimbal#zhiyun']] }
   };
   var TURCAT = { 'Kamera': '/kamera', 'Lens': '/lens', 'Drone': '/drone', 'Aksiyon Kamera': '/aksiyon-kamera', 'Gimbal': '/gimbal' };
@@ -390,9 +391,14 @@
   }
 
   /* ---------- kategori sayfalari ---------- */
+  function subByHash(c, h){ for (var i = 0; i < c.subs.length; i++) { var x = c.subs[i][1]; if (x === c.root + '#' + h || x === h + '-' + c.root || x === h) return x; } return ''; }
   function catInfo(){
     var p = location.pathname.replace(/^\/|\/$/g, '');
-    for (var k in CATS) { if (CATS[k].root === p) { var hs = p + (location.hash || '').toLowerCase(); return { k: k, on: CATS[k].subs.some(function(x){ return x[1] === hs; }) ? hs : '' }; } for (var i = 0; i < CATS[k].subs.length; i++) if (CATS[k].subs[i][1] === p) return { k: k, on: p }; }
+    for (var k in CATS) {
+      var c = CATS[k];
+      if (c.root === p) { var h = (location.hash || '').toLowerCase().replace(/^#/, ''); return { k: k, on: h ? subByHash(c, h) : '' }; }
+      for (var i = 0; i < c.subs.length; i++) if (c.subs[i][1] === p) return { k: k, on: p };
+    }
     return null;
   }
   function cardRoot(leaf){
@@ -676,7 +682,7 @@
   /* ---------- dongu ---------- */
   /* diger bloklar icin kucuk API (13_v27 kumanda secimi kullanir) */
   var SLUGOF = {}; DESEN.forEach(function(n){ SLUGOF[n] = slug(n); });
-  window.__BG = { CDN: CDN, DSLUG: DSLUG, SLUGOF: SLUGOF, curDesen: curDesen, cur: cur, img: img, BYSLUG: BYSLUG };
+  window.__BG = { CDN: CDN, DSLUG: DSLUG, SLUGOF: SLUGOF, curDesen: curDesen, cur: cur, img: img, BYSLUG: BYSLUG, CATS: CATS, subByHash: subByHash };
 
   var q = false;
   function run(){ try { rewrite(); var g = cards(); catPage(g); smartGrid(g); devPage(); wireMenu(); popHome(); cartUpsell(); notFound(); } catch (e) {} }

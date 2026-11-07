@@ -2589,11 +2589,12 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var DESEN = ['Line Black','Line White','Line Navy','Line Blue','Line Cyan','Line Red','Tactical Black','Tactical Grey','Tactical Green','Tactical Blue','Tactical Red','Carbon','Royal Black','Royal Navy','Royal Gold','Mono Black','Mono White','Mono Red','Mono Blue','Mono Green','Mono Yellow','Mono Orange','Mono Pink','Mono Brown','Topografik Black','Topografik White','Topografik Navy','Topografik Blue','Topografik Green','Topografik Red','Nexus White','Nexus Blue','Nexus Cyan','Nexus Red','Hexagonal Silver','Hexagonal Blue','Hexagonal Green','Hexagonal Red','Lego'];
   function slug(s){ return String(s).normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/ı/g,'i').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
   var DSLUG = {}; DESEN.forEach(function(n){ DSLUG[slug(n)] = n; });
+  /* alt kategoriler: ikas'ta gercek sayfasi olanlar duz slug (SEO icin ayri URL), olmayanlar kok#marka (ayni sayfada filtre) */
   var CATS = {
-    K: { root: 'kamera', subs: [['Sony','kamera#sony'],['Canon','kamera#canon'],['Nikon','kamera#nikon'],['Fujifilm','kamera#fujifilm'],['Panasonic','kamera#panasonic']] },
-    L: { root: 'lens', subs: [['Sony','lens#sony'],['Canon','lens#canon'],['Nikon','lens#nikon'],['Fujifilm','lens#fujifilm'],['Sigma','lens#sigma']] },
-    D: { root: 'drone', subs: [['DJI','drone#dji']] },
-    A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','aksiyon-kamera#dji-osmo'],['GoPro','aksiyon-kamera#gopro'],['Insta360','aksiyon-kamera#insta360']] },
+    K: { root: 'kamera', subs: [['Sony','sony-kamera'],['Canon','canon-kamera'],['Nikon','nikon-kamera'],['Fujifilm','fujifilm-kamera'],['Panasonic','panasonic-kamera']] },
+    L: { root: 'lens', subs: [['Sony','sony-lens'],['Canon','canon-lens'],['Nikon','nikon-lens'],['Fujifilm','fujifilm-lens'],['Sigma','sigma-lens']] },
+    D: { root: 'drone', subs: [['DJI','dji-drone']] },
+    A: { root: 'aksiyon-kamera', subs: [['DJI Osmo','dji-osmo'],['GoPro','aksiyon-kamera#gopro'],['Insta360','aksiyon-kamera#insta360']] },
     G: { root: 'gimbal', subs: [['DJI','gimbal#dji'],['Zhiyun','gimbal#zhiyun']] }
   };
   var TURCAT = { 'Kamera': '/kamera', 'Lens': '/lens', 'Drone': '/drone', 'Aksiyon Kamera': '/aksiyon-kamera', 'Gimbal': '/gimbal' };
@@ -2971,9 +2972,14 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
 
   /* ---------- kategori sayfalari ---------- */
+  function subByHash(c, h){ for (var i = 0; i < c.subs.length; i++) { var x = c.subs[i][1]; if (x === c.root + '#' + h || x === h + '-' + c.root || x === h) return x; } return ''; }
   function catInfo(){
     var p = location.pathname.replace(/^\/|\/$/g, '');
-    for (var k in CATS) { if (CATS[k].root === p) { var hs = p + (location.hash || '').toLowerCase(); return { k: k, on: CATS[k].subs.some(function(x){ return x[1] === hs; }) ? hs : '' }; } for (var i = 0; i < CATS[k].subs.length; i++) if (CATS[k].subs[i][1] === p) return { k: k, on: p }; }
+    for (var k in CATS) {
+      var c = CATS[k];
+      if (c.root === p) { var h = (location.hash || '').toLowerCase().replace(/^#/, ''); return { k: k, on: h ? subByHash(c, h) : '' }; }
+      for (var i = 0; i < c.subs.length; i++) if (c.subs[i][1] === p) return { k: k, on: p };
+    }
     return null;
   }
   function cardRoot(leaf){
@@ -3257,7 +3263,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   /* ---------- dongu ---------- */
   /* diger bloklar icin kucuk API (13_v27 kumanda secimi kullanir) */
   var SLUGOF = {}; DESEN.forEach(function(n){ SLUGOF[n] = slug(n); });
-  window.__BG = { CDN: CDN, DSLUG: DSLUG, SLUGOF: SLUGOF, curDesen: curDesen, cur: cur, img: img, BYSLUG: BYSLUG };
+  window.__BG = { CDN: CDN, DSLUG: DSLUG, SLUGOF: SLUGOF, curDesen: curDesen, cur: cur, img: img, BYSLUG: BYSLUG, CATS: CATS, subByHash: subByHash };
 
   var q = false;
   function run(){ try { rewrite(); var g = cards(); catPage(g); smartGrid(g); devPage(); wireMenu(); popHome(); cartUpsell(); notFound(); } catch (e) {} }
@@ -5292,55 +5298,60 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 })();
 
 /* ===== 27_marka.js ===== */
-/* v41: eski marka kategori sayfalari (ikas'ta bos kaliyor) -> ana kategori + marka filtresi.
-   /sony-kamera-kaplama -> /kamera#sony ; mobil menude "Tum kameralar" satiri ; ayni sayfada hash degisince marka cipi */
+/* v43: marka kategori sayfalari artik gercek ikas sayfalari (/sony-kamera, /canon-lens ...): Google icin ayri URL.
+   Burada: eski "-kaplama" adresleri yeni slug'a yonlendir; mobil menude marka listesinin basina "Tum kameralar" satiri;
+   kok sayfada hash degisirse (eski /kamera#sony baglantilari) ilgili marka cipine bas. */
 (function () {
   if (window.__bgMarka) return; window.__bgMarka = 1;
-  var B = { kamera: ['sony','canon','nikon','fujifilm','panasonic'], lens: ['sony','canon','nikon','fujifilm','sigma','tamron'] };
-  var MAP = { 'dji-drone': '/drone', 'dji-drone-kaplama': '/drone', 'dji-osmo': '/aksiyon-kamera#dji-osmo', 'dji-osmo-kaplama': '/aksiyon-kamera#dji-osmo' };
-  Object.keys(B).forEach(function (r) { B[r].forEach(function (b) { MAP[b + '-' + r] = MAP[b + '-' + r + '-kaplama'] = '/' + r + '#' + b; }); });
-  var ALL = { '/kamera': 'Tüm kameralar', '/lens': 'Tüm lensler', '/drone': 'Tüm dronelar', '/aksiyon-kamera': 'Tüm aksiyon kameraları', '/gimbal': 'Tüm gimballer' };
-  function legacy(h) { if (!h || h.charAt(0) !== '/') return null; return MAP[h.replace(/^\/|\/$/g, '').split('?')[0].split('#')[0]] || null; }
-  /* 1 - dogrudan acilan eski marka sayfasi */
+  var BG = window.__BG || {}, CATS = BG.CATS || {};
+  var ROOTS = { kamera: 'Tüm kameralar', lens: 'Tüm lensler', drone: 'Tüm dronelar', 'aksiyon-kamera': 'Tüm aksiyon kameraları', gimbal: 'Tüm gimballer' };
+  /* marka slug -> kok (duz slug'lar); hash'li olanlar zaten kok sayfada */
+  var SUB = {};
+  Object.keys(CATS).forEach(function (k) { CATS[k].subs.forEach(function (s) { if (s[1].indexOf('#') < 0) SUB[s[1]] = CATS[k].root; }); });
+  /* eski adresler */
+  var MAP = { 'tamron-lens': '/lens', 'tamron-lens-kaplama': '/lens' };
+  Object.keys(SUB).forEach(function (s) { MAP[s + '-kaplama'] = '/' + s; });
+  function clean(h) { return (h || '').replace(/^\/|\/$/g, '').split('?')[0].split('#')[0]; }
+  function legacy(h) { if (!h || h.charAt(0) !== '/') return null; return MAP[clean(h)] || null; }
   var to = legacy(location.pathname);
   if (to) { try { location.replace(to); } catch (e) {} return; }
-  function rootOf(t) { return t.split('#')[0]; }
+  function rootOfHref(h) { if (!h || h.charAt(0) !== '/') return ''; var c = clean(h); if (SUB[c]) return SUB[c]; var m = h.match(/^\/(kamera|lens|drone|aksiyon-kamera|gimbal)#/); return m ? m[1] : ''; }
   function fix() {
     var done = [];
     [].forEach.call(document.querySelectorAll('a[href]'), function (a) {
       var t = legacy(a.getAttribute('href')); if (t) a.setAttribute('href', t);
     });
-    [].forEach.call(document.querySelectorAll('a[href*="#"]'), function (a) {
-      var h = a.getAttribute('href'), r = rootOf(h);
-      if (!ALL[r] || !/^\/(kamera|lens|aksiyon-kamera)#/.test(h) || a.closest('.bg26-chips,.bg26-mm')) return;
-      /* marka linklerini birlikte iceren en yakin ata = liste; a'yi iceren dogrudan cocugu = satir */
-      var list = a.parentElement, item = a;
-      while (list && list.querySelectorAll('a[href^="' + r + '#"]').length < 2) { item = list; list = list.parentElement; }
-      if (!list || done.indexOf(list) >= 0) return; done.push(list);
-      if (list.querySelector('[data-bg-all]') || [].some.call(list.querySelectorAll('a[href]'), function (x) { return x.getAttribute('href') === r && !x.closest('[data-bg-all]'); })) return;
+    [].forEach.call(document.querySelectorAll('a[href]'), function (a) {
+      var h = a.getAttribute('href'), r = rootOfHref(h);
+      if (!r || a.closest('.bg26-chips,.bg26-mm,.bg27,.bg26-bar,footer')) return;
+      /* ayni kokun en az 2 marka linkini iceren en yakin ata = liste; a'yi iceren dogrudan cocugu = satir */
+      var list = a.parentElement, item = a, guard = 0;
+      while (list && guard++ < 8 && [].filter.call(list.querySelectorAll('a[href]'), function (x) { return rootOfHref(x.getAttribute('href')) === r; }).length < 2) { item = list; list = list.parentElement; }
+      if (!list || list === document.body || done.indexOf(list) >= 0) return; done.push(list);
+      if (list.querySelector('[data-bg-all]') || [].some.call(list.querySelectorAll('a[href]'), function (x) { return clean(x.getAttribute('href')) === r && !x.closest('[data-bg-all]'); })) return;
       while (item.parentElement !== list) item = item.parentElement;
-      var c = item.cloneNode(true), ca = c.tagName === 'A' ? c : c.querySelector('a[href^="' + r + '#"]');
+      var c = item.cloneNode(true), ca = c.tagName === 'A' ? c : [].filter.call(c.querySelectorAll('a[href]'), function (x) { return rootOfHref(x.getAttribute('href')) === r; })[0];
       if (!ca) return;
       [].forEach.call(c.querySelectorAll('a'), function (x) { if (x !== ca) x.remove(); });
-      ca.setAttribute('href', r); c.setAttribute('data-bg-all', '1');
+      ca.setAttribute('href', '/' + r); c.setAttribute('data-bg-all', '1');
       var leaf = ca; while (leaf.children.length === 1) leaf = leaf.children[0];
-      if (!leaf.children.length) leaf.textContent = ALL[r]; else ca.textContent = ALL[r];
+      if (!leaf.children.length) leaf.textContent = ROOTS[r]; else ca.textContent = ROOTS[r];
       list.insertBefore(c, list.firstElementChild);
     });
   }
-  /* 3 - kategori sayfasindayken hash degisirse ilgili marka cipine bas */
+  /* kok kategori sayfasinda hash degisirse ilgili marka cipine bas */
   function chip() {
-    var want = location.pathname + (location.hash || '');
     var bar = document.querySelector('.bg26-chips'); if (!bar) return;
-    var a = [].filter.call(bar.querySelectorAll('a'), function (x) { return x.getAttribute('href') === want.toLowerCase(); })[0] || (!location.hash && bar.querySelector('a'));
+    var root = clean(location.pathname), k = null;
+    for (var x in CATS) if (CATS[x].root === root) k = x;
+    if (!k) return;
+    var h = (location.hash || '').toLowerCase().replace(/^#/, '');
+    var want = h ? (BG.subByHash ? BG.subByHash(CATS[k], h) : '') : root;
+    if (!want) return;
+    var a = [].filter.call(bar.querySelectorAll('a'), function (x) { return x.getAttribute('href') === '/' + want; })[0];
     if (a && !a.classList.contains('on')) a.click();
   }
   window.addEventListener('hashchange', chip);
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[href*="#"]'); if (!a) return;
-    var h = a.getAttribute('href'); if (!/^\/(kamera|lens|drone|aksiyon-kamera|gimbal)#/.test(h) || rootOf(h) !== location.pathname || a.closest('.bg26-chips')) return;
-    setTimeout(chip, 50);
-  });
   var q = 0; function sch() { if (q) return; q = 1; setTimeout(function () { q = 0; try { fix(); } catch (e) {} }, 150); }
   function go() { fix(); new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true }); }
   if (document.readyState !== 'loading') go(); else document.addEventListener('DOMContentLoaded', go);
