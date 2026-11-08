@@ -12,10 +12,11 @@
   function run() {
     var B = window.__BG; if (!B || !B.BYSLUG) return;
     [].forEach.call(document.querySelectorAll('.overlay div.rich-text:not(.bg-ara-ph)'), function (e) { if (e.textContent.trim() === 'Ara...') e.classList.add('bg-ara-ph'); });
-    var anchors = [].filter.call(document.querySelectorAll('.overlay a[href*="?desen="]'), function (a) { return a.querySelector('img') && !a.closest('.bg-ara-grid'); });
+    var inp = [].filter.call(document.querySelectorAll('.overlay input'), function (i) { return i.type !== 'hidden' && i.type !== 'checkbox'; })[0]; if (!inp) return;
+    var ov = inp.closest('.overlay');
+    var anchors = [].filter.call(ov.querySelectorAll('a[href*="?desen="]'), function (a) { return a.querySelector('img') && !a.closest('.bg-ara-grid'); });
     if (!anchors.length) return;
     var first = anchors[0], wrap = first.parentElement, grid0 = wrap && wrap.parentElement; if (!grid0 || !grid0.parentElement) return;
-    var ov = grid0.closest('.overlay'); var inp = ov && ov.querySelector('input'); if (!inp) return;
     var grids = []; anchors.forEach(function (a) { var g = a.parentElement && a.parentElement.parentElement; if (g && grids.indexOf(g) < 0) grids.push(g); });
     var mine = ov.querySelector('.bg-ara-grid');
     if (!mine) {
