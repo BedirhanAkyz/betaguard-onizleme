@@ -5703,12 +5703,13 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var PICK = ['sony-fx3-kaplama', 'canon-eos-r6-mark-iii-kaplama', 'dji-mini-5-pro-kaplama', 'insta360-x5-kaplama',
     'dji-rs-5-kaplama', 'sony-alpha-a7-v-kaplama', 'dji-osmo-pocket-4-kaplama', 'dji-osmo-action-6-kaplama'];
   var st = document.createElement('style'); st.id = 'bg-arama';
-  st.textContent = '.bg-ara-ph{color:#F2F0EB!important;opacity:.85}.bg-ara-hide{display:none!important}';
+  st.textContent = '.bg-ara-ph{color:#F2F0EB!important;opacity:.85}.bg-ara-hide{display:none!important}.bg-ara-g{background:transparent!important}.bg-ara-all{background:#C9A45C!important;cursor:pointer}.bg-ara-all,.bg-ara-all *{color:#0E0E0F!important;font-weight:700}';
   (document.head || document.documentElement).appendChild(st);
   function fmt(n) { return Number(n).toLocaleString('tr-TR') + ' ₺'; }
   function run() {
     var B = window.__BG; if (!B || !B.BYSLUG) return;
     [].forEach.call(document.querySelectorAll('.overlay div.rich-text:not(.bg-ara-ph)'), function (e) { if (e.textContent.trim() === 'Ara...') e.classList.add('bg-ara-ph'); });
+    [].forEach.call(document.querySelectorAll('.overlay div.rich-text:not(.bg-ara-allt)'), function (e) { if (/^Tümünü Gör$/i.test(e.textContent.trim())) { e.classList.add('bg-ara-allt'); if (e.parentElement) e.parentElement.classList.add('bg-ara-all'); } });
     var ins = [].filter.call(document.querySelectorAll('.overlay input'), function (i) { return i.type !== 'hidden' && i.type !== 'checkbox' && i.offsetWidth > 0; });
     ins.forEach(one);
   }
@@ -5734,6 +5735,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       grid0.parentElement.appendChild(mine);
     }
     if (!inp.__bgAra) { inp.__bgAra = 1; inp.addEventListener('input', function () { setTimeout(run, 0); setTimeout(run, 400); }); }
+    grids.forEach(function (g) { g.classList.add('bg-ara-g'); }); mine.classList.add('bg-ara-g');
     var empty = !inp.value.trim();
     grids.forEach(function (g) { g.classList.toggle('bg-ara-hide', empty); });
     mine.classList.toggle('bg-ara-hide', !empty);
