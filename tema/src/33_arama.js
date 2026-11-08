@@ -12,8 +12,11 @@
   function run() {
     var B = window.__BG; if (!B || !B.BYSLUG) return;
     [].forEach.call(document.querySelectorAll('.overlay div.rich-text:not(.bg-ara-ph)'), function (e) { if (e.textContent.trim() === 'Ara...') e.classList.add('bg-ara-ph'); });
-    var inp = [].filter.call(document.querySelectorAll('.overlay input'), function (i) { return i.type !== 'hidden' && i.type !== 'checkbox'; })[0]; if (!inp) return;
-    var ov = inp.closest('.overlay');
+    var ins = [].filter.call(document.querySelectorAll('.overlay input'), function (i) { return i.type !== 'hidden' && i.type !== 'checkbox' && i.offsetWidth > 0; });
+    ins.forEach(one);
+  }
+  function one(inp) {
+    var B = window.__BG; var ov = inp.closest('.overlay');
     var anchors = [].filter.call(ov.querySelectorAll('a[href*="?desen="]'), function (a) { return a.querySelector('img') && !a.closest('.bg-ara-grid'); });
     if (!anchors.length) return;
     var first = anchors[0], wrap = first.parentElement, grid0 = wrap && wrap.parentElement; if (!grid0 || !grid0.parentElement) return;
