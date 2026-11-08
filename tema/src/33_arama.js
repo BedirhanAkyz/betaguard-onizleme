@@ -6,7 +6,7 @@
   var PICK = ['sony-fx3-kaplama', 'canon-eos-r6-mark-iii-kaplama', 'dji-mini-5-pro-kaplama', 'insta360-x5-kaplama',
     'dji-rs-5-kaplama', 'sony-alpha-a7-v-kaplama', 'dji-osmo-pocket-4-kaplama', 'dji-osmo-action-6-kaplama'];
   var st = document.createElement('style'); st.id = 'bg-arama';
-  st.textContent = '.bg-ara-ph{color:#F2F0EB!important;opacity:.85}.bg-ara-hide{display:none!important}';
+  st.textContent = '.bg-ara-ph{color:#F2F0EB!important;opacity:.85}.bg-ara-hide{display:none!important}.bg-ara-g{background:transparent!important}';
   (document.head || document.documentElement).appendChild(st);
   function fmt(n) { return Number(n).toLocaleString('tr-TR') + ' ₺'; }
   function run() {
@@ -37,6 +37,7 @@
       grid0.parentElement.appendChild(mine);
     }
     if (!inp.__bgAra) { inp.__bgAra = 1; inp.addEventListener('input', function () { setTimeout(run, 0); setTimeout(run, 400); }); }
+    grids.forEach(function (g) { g.classList.add('bg-ara-g'); }); mine.classList.add('bg-ara-g');
     var empty = !inp.value.trim();
     grids.forEach(function (g) { g.classList.toggle('bg-ara-hide', empty); });
     mine.classList.toggle('bg-ara-hide', !empty);
