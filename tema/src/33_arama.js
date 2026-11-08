@@ -12,13 +12,14 @@
   function run() {
     var B = window.__BG; if (!B || !B.BYSLUG) return;
     [].forEach.call(document.querySelectorAll('.overlay div.rich-text:not(.bg-ara-ph)'), function (e) { if (e.textContent.trim() === 'Ara...') e.classList.add('bg-ara-ph'); });
-    var first = [].filter.call(document.querySelectorAll('.overlay a[href*="?desen="]'), function (a) { return a.querySelector('img') && !a.closest('.bg-ara-grid'); })[0];
-    if (!first) return;
-    var wrap = first.parentElement, grid = wrap && wrap.parentElement; if (!grid || !grid.parentElement) return;
-    var ov = grid.closest('.overlay'); var inp = ov && ov.querySelector('input'); if (!inp) return;
-    var mine = grid.parentElement.querySelector(':scope > .bg-ara-grid');
+    var anchors = [].filter.call(document.querySelectorAll('.overlay a[href*="?desen="]'), function (a) { return a.querySelector('img') && !a.closest('.bg-ara-grid'); });
+    if (!anchors.length) return;
+    var first = anchors[0], wrap = first.parentElement, grid0 = wrap && wrap.parentElement; if (!grid0 || !grid0.parentElement) return;
+    var ov = grid0.closest('.overlay'); var inp = ov && ov.querySelector('input'); if (!inp) return;
+    var grids = []; anchors.forEach(function (a) { var g = a.parentElement && a.parentElement.parentElement; if (g && grids.indexOf(g) < 0) grids.push(g); });
+    var mine = ov.querySelector('.bg-ara-grid');
     if (!mine) {
-      mine = grid.cloneNode(false); mine.classList.add('bg-ara-grid'); mine.removeAttribute('id');
+      mine = grid0.cloneNode(false); mine.classList.add('bg-ara-grid'); mine.removeAttribute('id');
       PICK.forEach(function (s) {
         var d = B.BYSLUG[s]; if (!d) return;
         var w = wrap.cloneNode(true), a = w.querySelector('a'); if (!a) return;
@@ -29,11 +30,11 @@
         if (tx[1]) tx[1].textContent = fmt(d.p);
         mine.appendChild(w);
       });
-      grid.insertAdjacentElement('afterend', mine);
-      if (!inp.__bgAra) { inp.__bgAra = 1; inp.addEventListener('input', function () { setTimeout(run, 0); }); }
+      grid0.parentElement.appendChild(mine);
     }
+    if (!inp.__bgAra) { inp.__bgAra = 1; inp.addEventListener('input', function () { setTimeout(run, 0); setTimeout(run, 400); }); }
     var empty = !inp.value.trim();
-    grid.classList.toggle('bg-ara-hide', empty);
+    grids.forEach(function (g) { g.classList.toggle('bg-ara-hide', empty); });
     mine.classList.toggle('bg-ara-hide', !empty);
   }
   var tm = 0;
