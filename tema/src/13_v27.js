@@ -23,6 +23,7 @@
   };
   var NONE = 'İstemiyorum';   /* "Istemiyorum · ..." degerlerinin basi */
   var EK = 1000;
+  function ekOf(name){ return /RC Motion/i.test(name || '') ? 750 : EK; }   /* RC Motion setle 750 TL */
 
   var CSS = [
     '.bg27k{margin:14px 0 4px;font-family:Manrope,sans-serif}',
@@ -117,7 +118,8 @@
     uyar(miss.kind);
   }, true);
 
-  function extras(){ var t = 0; nativeSels().forEach(function(x){ var c = curText(x.sel); if (c && c.indexOf(NONE) !== 0) t += EK; }); return t; }
+  function extras(){ var t = 0; nativeSels().forEach(function(x){ var c = curText(x.sel); if (c && c.indexOf(NONE) !== 0) t += ekOf(c); }); return t; }
+  function ekLabel(list, model){ if (model) return '+' + fmt(ekOf(model.n)); var v = list.map(function(r){ return ekOf(r.n); }); var lo = Math.min.apply(null, v), hi = Math.max.apply(null, v); return lo === hi ? '+' + fmt(lo) : '+' + fmt(lo) + '\'den'; }
 
   function render(box, sel, kind, no){
     var K = KIND[kind], LIST = itemsFor(sel);
@@ -131,7 +133,7 @@
       (isNone ? K.none : model ? esc(model.n) : 'Seçim zorunlu') + '</em></div>';
     h += '<div class="bg27k-g">' +
       '<button type="button" class="bg27k-b' + (isNone ? ' on' : '') + '" data-k="none"><b>' + K.none + '</b><small>' + K.noneS + '</small></button>' +
-      '<button type="button" class="bg27k-b' + (withM ? ' on' : '') + '" data-k="rc"><b>' + K.yes + '</b><small>+' + fmt(EK) + '</small></button>' +
+      '<button type="button" class="bg27k-b' + (withM ? ' on' : '') + '" data-k="rc"><b>' + K.yes + '</b><small>' + ekLabel(LIST, model) + '</small></button>' +
       '</div>';
     if (withM) {
       h += '<div class="bg27k-m">' + LIST.map(function(r){

@@ -362,7 +362,7 @@
   }
   function fitLine(dev){
     var t = document.querySelector('[data-bg-ptitle]');
-    var sub = '✓ ' + dev.b + ' ' + dev.m + ' için özel üretim · 39 desen' + (dev.t !== 'D' || /Goggles|^RC|Remote Controller/.test(dev.m) ? '' : /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m) ? ' · kumanda kaplaması dahil' : /Avata/.test(dev.m) ? ' · kumanda / gözlük kaplaması +1.000 ₺' : ' · kumanda kaplaması +1.000 ₺') + ' · 1-2 iş gününde kargoda';
+    var sub = '✓ ' + dev.b + ' ' + dev.m + ' için özel üretim · 39 desen' + (dev.t !== 'D' || /Goggles|^RC|Remote Controller/.test(dev.m) ? '' : /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m) ? ' · kumanda kaplaması dahil' : /Avata/.test(dev.m) ? ' · RC Motion kumanda +750 ₺ · gözlük +1.000 ₺' : ' · kumanda kaplaması +1.000 ₺') + ' · 1-2 iş gününde kargoda';
     if (t && t.getAttribute('data-bg26-sub') !== sub) t.setAttribute('data-bg26-sub', sub);
     var old = document.querySelector('.bg26-fit'); if (old) old.remove();
     var combo = /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m), acc = /Goggles|^RC|Remote Controller/.test(dev.m);
@@ -370,7 +370,7 @@
       if (!li.hasAttribute('data-bg-dl') && !/Drone siparişlerinde/.test(li.textContent)) return;
       li.setAttribute('data-bg-dl', '1');
       li.classList.toggle('bg26-nodrone', dev.t !== 'D' || acc);
-      var tx = combo ? 'Bu modelde kumanda kaplaması fiyata dahildir' : /Avata/.test(dev.m) ? 'Kumanda / gözlük kaplaması 1.000 ₺ ile eklenir (tek başına 1.500 ₺)' : 'Kumanda kaplaması siparişte 1.000 ₺ ile eklenir (tek başına 1.500 ₺)';
+      var tx = combo ? 'Bu modelde kumanda kaplaması fiyata dahildir' : /Avata/.test(dev.m) ? 'RC Motion kumanda kaplaması 750 ₺ (tek başına 1.250 ₺), gözlük kaplaması 1.000 ₺ ile eklenir (tek başına 1.500 ₺)' : 'Kumanda kaplaması siparişte 1.000 ₺ ile eklenir (tek başına 1.500 ₺)';
       if (li.textContent !== tx) li.textContent = tx;
     });
     var rep = document.querySelector('.bg-rep');
