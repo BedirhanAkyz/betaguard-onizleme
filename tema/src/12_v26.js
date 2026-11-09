@@ -362,10 +362,10 @@
   }
   function fitLine(dev){
     var t = document.querySelector('[data-bg-ptitle]');
-    var sub = '✓ ' + dev.b + ' ' + dev.m + ' için özel üretim · 39 desen' + (dev.t !== 'D' || /Goggles|^RC/.test(dev.m) ? '' : /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m) ? ' · kumanda kaplaması dahil' : /Avata/.test(dev.m) ? ' · kumanda / gözlük kaplaması +1.000 ₺' : ' · kumanda kaplaması +1.000 ₺') + ' · 1-2 iş gününde kargoda';
+    var sub = '✓ ' + dev.b + ' ' + dev.m + ' için özel üretim · 39 desen' + (dev.t !== 'D' || /Goggles|^RC|Remote Controller/.test(dev.m) ? '' : /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m) ? ' · kumanda kaplaması dahil' : /Avata/.test(dev.m) ? ' · kumanda / gözlük kaplaması +1.000 ₺' : ' · kumanda kaplaması +1.000 ₺') + ' · 1-2 iş gününde kargoda';
     if (t && t.getAttribute('data-bg26-sub') !== sub) t.setAttribute('data-bg26-sub', sub);
     var old = document.querySelector('.bg26-fit'); if (old) old.remove();
-    var combo = /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m), acc = /Goggles|^RC/.test(dev.m);
+    var combo = /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m), acc = /Goggles|^RC|Remote Controller/.test(dev.m);
     [].forEach.call(document.querySelectorAll('[data-bg-pinfo] li'), function(li){
       if (!li.hasAttribute('data-bg-dl') && !/Drone siparişlerinde/.test(li.textContent)) return;
       li.setAttribute('data-bg-dl', '1');
