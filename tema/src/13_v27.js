@@ -9,6 +9,7 @@
     { f: 'drone-dji-rc-n1-n2-n3',     t: 'DJI RC-N1 / N2 / N3', n: 'RC-N1 / N2 / N3', s: 'Telefonlu kumanda' },
     { f: 'drone-dji-rc',              t: 'DJI RC',              n: 'DJI RC',          s: 'Ekranlı kumanda' },
     { f: 'drone-dji-rc-pro',          t: ['DJI RC 2', 'DJI RC Pro'], n: 'DJI RC 2',   s: 'Ekranlı kumanda' },
+    { f: 'drone-dji-fpv-remote-controller-3', t: 'DJI FPV Remote Controller 3', n: 'FPV RC 3', s: 'FPV kumanda' },
     { f: 'drone-dji-rc-motion-3',     t: 'DJI RC Motion 3',     n: 'RC Motion 3',     s: 'Hareket kumandası' },
     { f: 'drone-dji-rc-motion-2',     t: 'DJI RC Motion 2',     n: 'RC Motion 2',     s: 'Hareket kumandası' },
     { f: 'drone-dji-goggles-3',       t: 'DJI Goggles 3',       n: 'Goggles 3',       s: 'FPV gözlük' },
