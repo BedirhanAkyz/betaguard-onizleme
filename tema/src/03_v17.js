@@ -56,7 +56,9 @@
     }
     var D = devices(); if (!D) return;
     var nq = norm(q); if (nq.length < 2) { if (old) old.remove(); return; }
-    var toks = nq.split(' ');
+    var STOP = { kaplama: 1, kaplamasi: 1, kaplamas: 1, skin: 1, sticker: 1, icin: 1, lens: 1, objektif: 1, kamera: 1, drone: 1, wrap: 1 };
+    var toks = nq.split(' ').filter(function(t){ return !STOP[t]; });
+    if (!toks.length) toks = nq.split(' ');
     var hits = D.filter(function(d){ return toks.every(function(t){ return d.k.indexOf(t) >= 0; }); });
     hits.sort(function(a, b){ return a.k.length - b.k.length; });
     var box = old || document.createElement('div'); box.className = 'bg-sr'; box.setAttribute('data-q', q); box.setAttribute('data-hit', hits.length ? '1' : '0');
