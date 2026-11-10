@@ -42,19 +42,25 @@
     if (!/^\/search/.test(location.pathname)) return;
     var q = new URLSearchParams(location.search).get('s') || '';
     var old = document.querySelector('.bg-sr');
-    if (old && old.getAttribute('data-q') === q) return;
+    /* v48: kutu her zaman "Arama" basliginin satirinin hemen altinda; SPA gecisinde yanlis yere (duyuru seridinin ustune) dusmesin */
+    var app = document.getElementById('app') || document.body;
+    var h = [].slice.call(app.querySelectorAll('.rich-text,h1,h2')).find(function(x){ return x.children.length === 0 && x.textContent.trim() === 'Arama'; });
+    if (!h) return;
+    var row = h.parentElement;
+    while (row.parentElement && row.parentElement !== app && getComputedStyle(row.parentElement).display.indexOf('flex') >= 0 && getComputedStyle(row.parentElement).flexDirection === 'row') row = row.parentElement;
+    var nf = [].slice.call(app.querySelectorAll('*')).find(function(x){ return x.children.length === 0 && /bulunmamaktad|bulunamad/i.test(x.textContent); });
+    if (old && old.getAttribute('data-q') === q) {
+      if (old.previousElementSibling !== row) row.parentNode.insertBefore(old, row.nextSibling);
+      if (nf) nf.style.display = old.getAttribute('data-hit') === '1' ? 'none' : '';
+      return;
+    }
     var D = devices(); if (!D) return;
     var nq = norm(q); if (nq.length < 2) { if (old) old.remove(); return; }
     var toks = nq.split(' ');
     var hits = D.filter(function(d){ return toks.every(function(t){ return d.k.indexOf(t) >= 0; }); });
     hits.sort(function(a, b){ return a.k.length - b.k.length; });
-    var nf = [].slice.call(document.querySelectorAll('.rich-text')).find(function(x){ return /bulunamad/i.test(x.textContent); });
-    var anchor = nf ? nf.parentElement : null;
-    if (!anchor) {
-      var h = [].slice.call(document.querySelectorAll('.rich-text,h1,h2')).find(function(x){ return x.children.length === 0 && x.textContent.trim() === 'Arama'; });
-      if (!h) return; anchor = h.parentElement;
-    }
-    var box = old || document.createElement('div'); box.className = 'bg-sr'; box.setAttribute('data-q', q);
+    var box = old || document.createElement('div'); box.className = 'bg-sr'; box.setAttribute('data-q', q); box.setAttribute('data-hit', hits.length ? '1' : '0');
+    if (nf) nf.style.display = hits.length ? 'none' : '';
     if (hits.length) {
       box.innerHTML = '<h3>Bu cihazlar için kaplamamız var</h3><p>Cihazına tıkla, kaplama sayfasında otomatik seçilsin.</p><div class="bg-sr-g">' +
         hits.slice(0, 24).map(function(d){ return '<a href="/betaguard-kaplama?cihaz=' + encodeURIComponent(d.b + '|' + d.m) + '"><span style="color:#F2EFEA">' + esc(d.m) + ' <b>' + esc(d.b) + '</b></span><span>→</span></a>'; }).join('') + '</div>' +
@@ -62,10 +68,7 @@
     } else {
       box.innerHTML = '<h3>Cihazını listede bulamadın mı?</h3><p>Modelini yaz, üretebiliyorsak hemen söyleyelim.</p><a class="bg-sr-wa" href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan sor</a>';
     }
-    if (!old) {
-      while (anchor.parentElement && anchor.parentElement !== document.body && getComputedStyle(anchor.parentElement).flexDirection === 'row' && getComputedStyle(anchor.parentElement).display.indexOf('flex') >= 0) anchor = anchor.parentElement;
-      if (nf && anchor === nf.parentElement) anchor.parentNode.insertBefore(box, anchor); else anchor.parentNode.insertBefore(box, anchor.nextSibling);
-    }
+    if (box.previousElementSibling !== row) row.parentNode.insertBefore(box, row.nextSibling);
   }
 
   /* 3) sayfa basliklari */
