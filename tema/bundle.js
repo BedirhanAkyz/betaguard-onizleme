@@ -1582,7 +1582,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (!h) return;
     var row = h.parentElement;
     while (row.parentElement && row.parentElement !== app && getComputedStyle(row.parentElement).display.indexOf('flex') >= 0 && getComputedStyle(row.parentElement).flexDirection === 'row') row = row.parentElement;
-    var nf = [].slice.call(app.querySelectorAll('*')).find(function(x){ return x.children.length === 0 && /bulunmamaktad|bulunamad/i.test(x.textContent); });
+    var nf = [].slice.call(app.querySelectorAll('*')).find(function(x){ return x.children.length === 0 && !/^(SCRIPT|STYLE|NOSCRIPT)$/.test(x.tagName) && !x.closest('.bg-sr') && /bulunmamaktad|bulunamad/i.test(x.textContent); });
     if (old && old.getAttribute('data-q') === q) {
       if (old.previousElementSibling !== row) row.parentNode.insertBefore(old, row.nextSibling);
       if (nf) nf.style.display = old.getAttribute('data-hit') === '1' ? 'none' : '';
