@@ -1582,10 +1582,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (!h) return;
     var row = h.parentElement;
     while (row.parentElement && row.parentElement !== app && getComputedStyle(row.parentElement).display.indexOf('flex') >= 0 && getComputedStyle(row.parentElement).flexDirection === 'row') row = row.parentElement;
-    var nf = [].slice.call(app.querySelectorAll('*')).find(function(x){ return x.children.length === 0 && !/^(SCRIPT|STYLE|NOSCRIPT)$/.test(x.tagName) && !x.closest('.bg-sr') && /bulunmamaktad|bulunamad/i.test(x.textContent); });
+    var nfs = [].slice.call(app.querySelectorAll('*')).filter(function(x){ return x.children.length === 0 && !/^(SCRIPT|STYLE|NOSCRIPT)$/.test(x.tagName) && !x.closest('.bg-sr') && /bulunmamaktad|bulunamad/i.test(x.textContent); });
     if (old && old.getAttribute('data-q') === q) {
       if (old.previousElementSibling !== row) row.parentNode.insertBefore(old, row.nextSibling);
-      if (nf) nf.style.display = old.getAttribute('data-hit') === '1' ? 'none' : '';
+      nfs.forEach(function(nf){ nf.style.display = old.getAttribute('data-hit') === '1' ? 'none' : ''; });
       return;
     }
     var D = devices(); if (!D) return;
@@ -1596,7 +1596,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     var hits = D.filter(function(d){ return toks.every(function(t){ return d.k.indexOf(t) >= 0; }); });
     hits.sort(function(a, b){ return a.k.length - b.k.length; });
     var box = old || document.createElement('div'); box.className = 'bg-sr'; box.setAttribute('data-q', q); box.setAttribute('data-hit', hits.length ? '1' : '0');
-    if (nf) nf.style.display = hits.length ? 'none' : '';
+    nfs.forEach(function(nf){ nf.style.display = hits.length ? 'none' : ''; });
     if (hits.length) {
       box.innerHTML = '<h3>Bu cihazlar için kaplamamız var</h3><p>Cihazına tıkla, kaplama sayfasında otomatik seçilsin.</p><div class="bg-sr-g">' +
         hits.slice(0, 24).map(function(d){ return '<a href="/betaguard-kaplama?cihaz=' + encodeURIComponent(d.b + '|' + d.m) + '"><span style="color:#F2EFEA">' + esc(d.m) + ' <b>' + esc(d.b) + '</b></span><span>→</span></a>'; }).join('') + '</div>' +
