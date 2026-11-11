@@ -31,6 +31,8 @@
     '.bg36-f a,.bg36-home a{color:#E2C285;text-decoration:none;font:600 13px/1.6 Manrope,sans-serif;letter-spacing:0}',
     '.bg36-f a:hover,.bg36-home a:hover{text-decoration:underline}',
     '.bg36-pr .bg36-a{color:#8E8A83;font-size:12.5px;margin-top:10px}',
+    '.ikas-editor-v1 a{color:#E2C285;text-decoration:underline;text-decoration-color:rgba(226,194,133,.32);text-underline-offset:3px}',
+    '.ikas-editor-v1 a:hover{text-decoration-color:#E2C285}',
     '.bg36-home{max-width:1192px;margin:14px auto 0;padding:0 24px;box-sizing:border-box;font:500 13px/1.6 Manrope,sans-serif;color:#8E8A83;text-align:center}',
     '@media (max-width:640px){.bg36-pr{padding:20px 16px 0}.bg36-home{padding:0 16px}.bg36-g a{font-size:12px;padding:6px 10px}}'
   ].join('');

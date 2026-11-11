@@ -23,7 +23,7 @@
     });
     [].forEach.call(document.querySelectorAll('a[href]'), function (a) {
       var h = a.getAttribute('href'), r = rootOfHref(h);
-      if (!r || a.closest('.bg26-chips,.bg26-mm,.bg27,.bg26-bar,footer')) return;
+      if (!r || a.closest('.bg26-chips,.bg26-mm,.bg27,.bg26-bar,footer,.ikas-editor-v1,.bg26-catdesc,.bg36-dz,.bg36-pr,.bg36-home')) return;   /* v49: yazi ve aciklama icindeki marka linkleri menu listesi degil */
       /* ayni kokun en az 2 marka linkini iceren en yakin ata = liste; a'yi iceren dogrudan cocugu = satir */
       var list = a.parentElement, item = a, guard = 0;
       while (list && guard++ < 8 && [].filter.call(list.querySelectorAll('a[href]'), function (x) { return rootOfHref(x.getAttribute('href')) === r; }).length < 2) { item = list; list = list.parentElement; }
