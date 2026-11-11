@@ -5858,8 +5858,9 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     var label = bn ? (bn === 'DJI Osmo' ? 'DJI Osmo' : bn + ' ' + TYPE[k]) : TYPE[k];
     var html = '<h2>Tüm ' + esc(label) + ' kaplama modelleri' + (bn ? '' : ' <small>' + list.length + ' model</small>') + '</h2>' +
       '<p>Kaplama (skin) ürettiğimiz ' + esc(label) + ' modellerinin tam listesi. Modelinin adına tıkla; 39 deseni o cihazın kendi görseli üzerinde görürsün.</p>';
-    var op = window.innerWidth > 640 ? ' open' : '';
+    var wide = window.innerWidth > 640, gi = 0;   /* mobilde kapali; cok uzun listede (lens) yalnizca ilk marka acik */
     function grp(title, items, full) {
+      var op = wide && (list.length <= 250 || gi === 0) ? ' open' : ''; gi++;
       return '<details class="bg36-d"' + op + '><summary>' + esc(title) + ' <small>' + items.length + ' model</small></summary><div class="bg36-g">' +
         items.map(function (d) { return '<a href="/' + d.s + '" title="' + esc(d.b + ' ' + d.m) + ' kaplama">' + esc(full ? d.b + ' ' + d.m : d.m) + '</a>'; }).join('') + '</div></details>';
     }
