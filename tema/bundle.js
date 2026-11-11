@@ -5806,10 +5806,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg36-f a,.bg36-home a{color:#E2C285;text-decoration:none;font:600 13px/1.6 Manrope,sans-serif;letter-spacing:0}',
     '.bg36-f a:hover,.bg36-home a:hover{text-decoration:underline}',
     '.bg36-pr .bg36-a{color:#8E8A83;font-size:12.5px;margin-top:10px}',
-    '.ikas-editor-v1 a{color:#E2C285;text-decoration:underline;text-decoration-color:rgba(226,194,133,.32);text-underline-offset:3px}',
-    '.ikas-editor-v1 a:hover{text-decoration-color:#E2C285}',
-    '.bg36-home{max-width:1192px;margin:14px auto 0;padding:0 24px;box-sizing:border-box;font:500 13px/1.6 Manrope,sans-serif;color:#8E8A83;text-align:center}',
-    '@media (max-width:640px){.bg36-pr{padding:20px 16px 0}.bg36-home{padding:0 16px}.bg36-g a{font-size:12px;padding:6px 10px}}'
+    'div.ikas-editor-v1 a{color:#E2C285!important;text-decoration:underline;text-decoration-color:rgba(226,194,133,.32)!important;text-underline-offset:3px}',
+    'div.ikas-editor-v1 a:hover{text-decoration-color:#E2C285!important}',
+    '.bg36-home{margin:18px 0 0;font:500 13px/1.6 Manrope,sans-serif;color:#8E8A83;text-align:center}',
+    '@media (max-width:640px){.bg36-pr{padding:20px 16px 0}.bg36-g a{font-size:12px;padding:6px 10px}}'
   ].join('');
   var st = document.createElement('style'); st.id = 'bg-seo2'; st.textContent = css;
   (document.head || document.documentElement).appendChild(st);
@@ -5946,11 +5946,14 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
   /* ana sayfa: model listelerine metin linkleri */
   function home() {
-    if (location.pathname !== '/') { var o = document.querySelector('.bg36-home'); if (o) o.remove(); return; }
-    var pop = document.querySelector('.bg26-pop'); if (!pop || document.querySelector('.bg36-home')) return;
-    var row = document.createElement('div'); row.className = 'bg36-home';
+    var row = document.querySelector('.bg36-home');
+    if (location.pathname !== '/') { if (row) row.remove(); return; }
+    var pop = document.querySelector('.bg26-pop'); if (!pop) return;
+    if (row && row.parentElement === pop) return;
+    if (row) row.remove();
+    row = document.createElement('div'); row.className = 'bg36-home';
     row.innerHTML = 'Model listeleri: <a href="' + DIZ.K[0] + '">' + DIZ.K[1] + '</a> · <a href="' + DIZ.L[0] + '">' + DIZ.L[1] + '</a> · <a href="' + DZ3[0] + '">' + DZ3[1] + '</a> · <a href="/blog">Kaplama rehberi</a>';
-    pop.insertAdjacentElement('afterend', row);
+    pop.appendChild(row);   /* bolumun icinde: ana sayfa bolum siralamasi (22_sira) disarida birakmasin */
   }
 
   function run() { try { dizin(); } catch (e) {} try { urun(); } catch (e) {} try { baslik(); } catch (e) {} try { home(); } catch (e) {} }
