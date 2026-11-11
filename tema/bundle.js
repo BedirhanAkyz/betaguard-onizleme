@@ -5571,10 +5571,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     });
   }
   function blogList() {
-    setMeta('Kaplama Rehberi ve Blog | Betaguard', 'Kamera, lens, drone ve gimbal kaplaması hakkında rehberler: nasıl uygulanır, cihaza zarar verir mi, hangi desen hangi kullanıma yakışır, drone için nelere dikkat etmeli.');
+    setMeta('Blog: Kamera, Lens ve Drone Kaplama Yazıları | Betaguard', 'Kamera, lens, drone ve gimbal kaplaması hakkında rehberler: nasıl uygulanır, cihaza zarar verir mi, hangi desen hangi kullanıma yakışır, drone için nelere dikkat etmeli.');
     var bt = null;
     [].forEach.call(document.querySelectorAll('div.rich-text'), function (e) { if (!bt && e.textContent.trim() === 'Blog Başlığı') bt = e; });
-    if (bt && !bt.querySelector('h1')) bt.innerHTML = '<h1 class="bg-blog-h1">Kaplama Rehberi</h1>';
+    if (bt && !bt.querySelector('h1')) bt.innerHTML = '<h1 class="bg-blog-h1">Blog</h1>';
   }
   function blogPost() {
     var h1 = document.querySelector('main h1, article h1, h1'); if (!h1 || h1.closest('.overlay')) return;
@@ -5612,7 +5612,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       if (c !== ca) [].forEach.call([].slice.call(c.children), function (ch) { if (ch !== ca && !ch.contains(ca)) ch.remove(); });
       ca.setAttribute('href', '/blog'); ca.removeAttribute('data-bg-href');
       var leaf = ca; while (leaf.children.length === 1 && leaf.firstElementChild.tagName !== 'SVG') leaf = leaf.firstElementChild;
-      if (!leaf.children.length) leaf.textContent = 'Rehber'; else ca.textContent = 'Rehber';
+      if (!leaf.children.length) leaf.textContent = 'Blog'; else ca.textContent = 'Blog';
       c.setAttribute('data-bg-blog', '1');
       item.insertAdjacentElement('afterend', c);
     });
@@ -5953,7 +5953,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (row && row.parentElement === pop) return;
     if (row) row.remove();
     row = document.createElement('div'); row.className = 'bg36-home';
-    row.innerHTML = 'Model listeleri: <a href="' + DIZ.K[0] + '">' + DIZ.K[1] + '</a> · <a href="' + DIZ.L[0] + '">' + DIZ.L[1] + '</a> · <a href="' + DZ3[0] + '">' + DZ3[1] + '</a> · <a href="/blog">Kaplama rehberi</a>';
+    row.innerHTML = 'Model listeleri: <a href="' + DIZ.K[0] + '">' + DIZ.K[1] + '</a> · <a href="' + DIZ.L[0] + '">' + DIZ.L[1] + '</a> · <a href="' + DZ3[0] + '">' + DZ3[1] + '</a> · <a href="/blog">Blog</a>';
     pop.appendChild(row);   /* bolumun icinde: ana sayfa bolum siralamasi (22_sira) disarida birakmasin */
   }
 

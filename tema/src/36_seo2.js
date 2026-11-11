@@ -178,7 +178,7 @@
     if (row && row.parentElement === pop) return;
     if (row) row.remove();
     row = document.createElement('div'); row.className = 'bg36-home';
-    row.innerHTML = 'Model listeleri: <a href="' + DIZ.K[0] + '">' + DIZ.K[1] + '</a> · <a href="' + DIZ.L[0] + '">' + DIZ.L[1] + '</a> · <a href="' + DZ3[0] + '">' + DZ3[1] + '</a> · <a href="/blog">Kaplama rehberi</a>';
+    row.innerHTML = 'Model listeleri: <a href="' + DIZ.K[0] + '">' + DIZ.K[1] + '</a> · <a href="' + DIZ.L[0] + '">' + DIZ.L[1] + '</a> · <a href="' + DZ3[0] + '">' + DZ3[1] + '</a> · <a href="/blog">Blog</a>';
     pop.appendChild(row);   /* bolumun icinde: ana sayfa bolum siralamasi (22_sira) disarida birakmasin */
   }
 
