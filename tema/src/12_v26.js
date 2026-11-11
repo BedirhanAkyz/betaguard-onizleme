@@ -357,7 +357,7 @@
     box.setAttribute('data-sig', sig);
     box.innerHTML = '<div class="bg26-set-h"><div><span class="bg-eyebrow">SETİNİ TAMAMLA</span><h2>' + esc(setTitle(dev)) + '</h2><p>Seçtiğin <b style="color:#E2C285">' + esc(DSLUG[ds]) + '</b> deseniyle açılır; kombin tek seferde gelsin.</p></div><span class="bg26-off">2 kaplamaya 250 ₺ · 3 ve üzerine 500 ₺ indirim</span></div>' +
       '<div class="bg26-row">' + list.map(function(c){
-        return '<a class="bg26-it" href="/' + c.s + '?desen=' + ds + '"><span class="im"><img loading="lazy" ' + tattr(c, ds) + ' alt="' + esc(c.b + ' ' + c.m) + ' ' + esc(DSLUG[ds]) + ' kaplama"></span><span class="tx"><span class="ty">' + TYPE[c.t] + '</span><span class="nm">' + esc(c.b + ' ' + c.m) + '</span><span class="pr">' + fmt(c.p) + '</span><span class="go">Bu desenle gör →</span></span></a>';
+        return '<a class="bg26-it" href="/' + c.s + '" data-bg-v="' + ds + '"><span class="im"><img loading="lazy" ' + tattr(c, ds) + ' alt="' + esc(c.b + ' ' + c.m) + ' ' + esc(DSLUG[ds]) + ' kaplama"></span><span class="tx"><span class="ty">' + TYPE[c.t] + '</span><span class="nm">' + esc(c.b + ' ' + c.m) + '</span><span class="pr">' + fmt(c.p) + '</span><span class="go">Bu desenle gör →</span></span></a>';
       }).join('') + '</div>';
   }
   function fitLine(dev){
@@ -496,7 +496,7 @@
     var sec = document.createElement('section'); sec.className = 'bg26-pop';
     sec.innerHTML = '<div class="bg26-pop-h"><div><h2>En çok kaplanan cihazlar</h2><p>Her cihazın sayfasında 39 deseni o cihazın üzerinde görebilirsin.</p></div>' +
       '<div class="bg26-pop-tabs"><a href="/kamera">Tüm kameralar</a><a href="/lens">Tüm lensler</a><a href="/drone">Dronelar</a><a href="/aksiyon-kamera">Aksiyon</a><a href="/gimbal">Gimbal</a></div></div>' +
-      '<div class="bg26-pop-g">' + list.map(function(d, i){ var cv = COVERS[i % COVERS.length]; return '<a class="bg26-it" href="/' + d.s + '?desen=' + cv + '"><span class="im"><img loading="lazy" ' + tattr(d, cv) + ' alt="' + esc(d.b + ' ' + d.m) + ' kaplama"></span><span class="tx"><span class="ty">' + TYPE[d.t] + '</span><span class="nm">' + esc(d.b + ' ' + d.m) + '</span><span class="pr">' + fmt(d.p) + ' · 39 desen</span></span></a>'; }).join('') + '</div>' +
+      '<div class="bg26-pop-g">' + list.map(function(d, i){ var cv = COVERS[i % COVERS.length]; return '<a class="bg26-it" href="/' + d.s + '" data-bg-v="' + cv + '"><span class="im"><img loading="lazy" ' + tattr(d, cv) + ' alt="' + esc(d.b + ' ' + d.m) + ' kaplama"></span><span class="tx"><span class="ty">' + TYPE[d.t] + '</span><span class="nm">' + esc(d.b + ' ' + d.m) + '</span><span class="pr">' + fmt(d.p) + ' · 39 desen</span></span></a>'; }).join('') + '</div>' +
       '<div class="bg26-pop-more"><a href="#" data-bg26-open="">Tüm modellerde ara (' + ALL.length + ')</a></div>';
     find.parentElement.insertBefore(sec, find.nextSibling);
     sec.querySelector('[data-bg26-open]').addEventListener('click', function(e){ e.preventDefault(); openPicker(null, ''); });
@@ -647,7 +647,7 @@
     }
     function card(d, i){
       var cv = COVERS[(i + ALL.indexOf(d)) % COVERS.length], nt = d.t === 'D' || d.t === 'A', top = !nt && !!topset(st.brand)[d.s], nw = nt ? yr(d) >= 2025 : (!top && NEW.test(d.m) && rank(d) > 0);
-      return '<a class="bg27-c" href="/' + d.s + '?desen=' + cv + '"><span class="im">' + (top ? '<span class="tag">POPÜLER</span>' : nw ? '<span class="tag nw">YENİ MODEL</span>' : '') + '<img loading="lazy" decoding="async" ' + tattr(d, cv) + ' alt="' + esc(d.b + ' ' + d.m) + ' ' + esc(DSLUG[cv] || '') + ' kaplama"></span>' +
+      return '<a class="bg27-c" href="/' + d.s + '" data-bg-v="' + cv + '"><span class="im">' + (top ? '<span class="tag">POPÜLER</span>' : nw ? '<span class="tag nw">YENİ MODEL</span>' : '') + '<img loading="lazy" decoding="async" ' + tattr(d, cv) + ' alt="' + esc(d.b + ' ' + d.m) + ' ' + esc(DSLUG[cv] || '') + ' kaplama"></span>' +
         '<span class="tx"><span class="ty">' + TYPE[d.t] + ' · ' + esc(d.b) + '</span><span class="nm">' + esc(d.m) + '</span><span class="pr">' + fmt(d.p) + '<small>39 desen · önizlemeli</small></span><span class="go">Desen seç →</span></span></a>';
     }
     function draw(){
