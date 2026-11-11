@@ -5791,13 +5791,19 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg36-pr{max-width:1192px;margin:36px auto 10px;padding:24px 24px 0;border-top:1px solid #2F2E33}',
     '.bg36-dz h2,.bg36-pr h2{font:700 17px/1.3 Manrope,sans-serif;color:#E7E4DE;margin:0 0 6px}',
     '.bg36-dz h2 small{font:500 12.5px/1 Manrope,sans-serif;color:#8E8A83;margin-left:6px}',
-    '.bg36-dz h3{font:700 12px/1.2 Manrope,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#C9A45C;margin:18px 0 8px}',
     '.bg36-dz p,.bg36-pr p{font:400 13.5px/1.6 Manrope,sans-serif;margin:0 0 12px;max-width:760px}',
-    '.bg36-g{display:flex;flex-wrap:wrap;gap:6px 6px;margin:0 0 6px}',
+    '.bg36-g{display:flex;flex-wrap:wrap;gap:6px 6px;margin:10px 0 6px}',
+    '.bg36-d{margin:0;border-bottom:1px solid #1E1D21}',
+    '.bg36-d summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:12px 0;font:700 12px/1.2 Manrope,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#C9A45C}',
+    '.bg36-d summary::-webkit-details-marker{display:none}',
+    '.bg36-d summary small{font:500 12px/1 Manrope,sans-serif;letter-spacing:0;text-transform:none;color:#8E8A83}',
+    '.bg36-d summary::after{content:"";margin-left:auto;width:7px;height:7px;border-right:2px solid #8E8A83;border-bottom:2px solid #8E8A83;transform:rotate(45deg);transition:transform .2s}',
+    '.bg36-d[open] summary::after{transform:rotate(-135deg)}',
+    '.bg36-d .bg36-g{margin:0 0 14px}',
     '.bg36-g a{display:inline-block;padding:6px 11px;border:1px solid #2A292E;border-radius:999px;background:#141416;color:#CFCBC4;text-decoration:none;font:500 12.5px/1.25 Manrope,sans-serif}',
     '.bg36-g a:hover{border-color:#C9A45C;color:#F2F0EB}',
     '.bg36-f{margin-top:14px!important;font-size:13px!important}',
-    '.bg36-f a,.bg36-home a{color:#E2C285;text-decoration:none}',
+    '.bg36-f a,.bg36-home a{color:#E2C285;text-decoration:none;font:600 13px/1.6 Manrope,sans-serif;letter-spacing:0}',
     '.bg36-f a:hover,.bg36-home a:hover{text-decoration:underline}',
     '.bg36-pr .bg36-a{color:#8E8A83;font-size:12.5px;margin-top:10px}',
     '.bg36-home{max-width:1192px;margin:14px auto 0;padding:0 24px;box-sizing:border-box;font:500 13px/1.6 Manrope,sans-serif;color:#8E8A83;text-align:center}',
@@ -5848,17 +5854,20 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     var list = all(b).filter(function (d) { return d.t === k && inBrand(d, bn); }).sort(cmp);
     if (!list.length) return;
     var label = bn ? (bn === 'DJI Osmo' ? 'DJI Osmo' : bn + ' ' + TYPE[k]) : TYPE[k];
-    var html = '<h2>Tüm ' + esc(label) + ' kaplama modelleri <small>' + list.length + ' model</small></h2>' +
+    var html = '<h2>Tüm ' + esc(label) + ' kaplama modelleri' + (bn ? '' : ' <small>' + list.length + ' model</small>') + '</h2>' +
       '<p>Kaplama (skin) ürettiğimiz ' + esc(label) + ' modellerinin tam listesi. Modelinin adına tıkla; 39 deseni o cihazın kendi görseli üzerinde görürsün.</p>';
+    var op = window.innerWidth > 640 ? ' open' : '';
+    function grp(title, items, full) {
+      return '<details class="bg36-d"' + op + '><summary>' + esc(title) + ' <small>' + items.length + ' model</small></summary><div class="bg36-g">' +
+        items.map(function (d) { return '<a href="/' + d.s + '" title="' + esc(d.b + ' ' + d.m) + ' kaplama">' + esc(full ? d.b + ' ' + d.m : d.m) + '</a>'; }).join('') + '</div></details>';
+    }
     if (bn) {
-      html += '<div class="bg36-g">' + list.map(function (d) { return '<a href="/' + d.s + '" title="' + esc(d.b + ' ' + d.m) + ' kaplama">' + esc(d.b + ' ' + d.m) + '</a>'; }).join('') + '</div>';
+      html += grp(label + ' modelleri', list, true);
     } else {
       var by = {}, order = [];
       list.forEach(function (d) { if (!by[d.b]) { by[d.b] = []; order.push(d.b); } by[d.b].push(d); });
       order.sort(function (a, c2) { return by[c2].length - by[a].length || a.localeCompare(c2, 'tr'); });
-      order.forEach(function (br) {
-        html += '<h3>' + esc(br) + '</h3><div class="bg36-g">' + by[br].map(function (d) { return '<a href="/' + d.s + '" title="' + esc(d.b + ' ' + d.m) + ' kaplama">' + esc(d.m) + '</a>'; }).join('') + '</div>';
-      });
+      order.forEach(function (br) { html += grp(br, by[br], false); });
     }
     html += '<p class="bg36-f">Model listeleri: <a href="' + DIZ.K[0] + '">' + DIZ.K[1] + '</a> · <a href="' + DIZ.L[0] + '">' + DIZ.L[1] + '</a> · <a href="' + DZ3[0] + '">' + DZ3[1] + '</a> · <a href="/blog/dogru-kaplama-model-secimi">Doğru modeli seçmek</a></p>';
     var box = document.createElement('section'); box.className = 'bg36-dz'; box.setAttribute('data-sig', p); box.setAttribute('aria-label', label + ' kaplama modelleri');
