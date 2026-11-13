@@ -5959,7 +5959,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
   /* ikas'in tam ekran panelleri (arama, sepet, mobil menu) z-index 4 ile geliyor; urun sayfasindaki
      desen izgarasi ve galeri ustune cikiyordu. Sabit (fixed) ve tiklanabilir panelleri en uste al. */
-  var zs = document.createElement('style'); zs.textContent = '.bg-ovtop{z-index:2147482500!important}'; (document.head || document.documentElement).appendChild(zs);
+  var zs = document.createElement('style'); zs.textContent = '.bg-ovtop{z-index:2147482500!important;background-color:rgba(8,8,9,.72)!important}'; (document.head || document.documentElement).appendChild(zs);
   function katman() {
     [].forEach.call(document.querySelectorAll('.overlay:not(.bg-ovtop)'), function (o) {
       var cs = getComputedStyle(o); if (cs.position === 'fixed' && cs.pointerEvents !== 'none') o.classList.add('bg-ovtop');
