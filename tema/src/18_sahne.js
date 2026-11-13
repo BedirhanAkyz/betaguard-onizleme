@@ -33,6 +33,7 @@
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function roman(s) { return s.replace(/\b(vi|v|iv|iii|ii)\b/g, function (r) { return { ii: '2', iii: '3', iv: '4', v: '5', vi: '6' }[r]; }); }
   function find(q) {
+    if (window.__bg26 && window.__bg26.find) { if (!String(q || '').trim()) return []; return window.__bg26.find(q).slice(0, 7); }   /* v50: ortak alaka sirali arama */
     q = roman(String(q || '').toLowerCase().replace(/\bmark\s*/g, '')).trim();
     var toks = q.split(/\s+/).filter(Boolean).map(function (t) { return t.replace(/[^a-z0-9.]/g, ''); }).filter(Boolean);
     if (!toks.length) return [];

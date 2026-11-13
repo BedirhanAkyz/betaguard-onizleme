@@ -2644,12 +2644,28 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     return n + ' ' + r + ' ' + c + ' ' + m;
   }
   function find(q, type){
-    q = roman(String(q || '').toLowerCase().replace(/\bmark\s*/g, '')).trim();
+    q = roman(String(q || '').toLowerCase().replace(/\bmark\s*/g, '').replace(/(\d)(iii|ii|iv|vi|v)\b/g, '$1 $2')).trim();
     var toks = q.split(/\s+/).filter(Boolean).map(function(t){ return t.replace(/[^a-z0-9.]/g, ''); }).filter(Boolean);
-    return ALL.filter(function(d){
+    var hit = ALL.filter(function(d){
       if (type && d.t !== type) return false;
       return toks.every(function(t){ return d.key.indexOf(t) >= 0 || d.key.indexOf(t.replace(/\./g, '')) >= 0; });
     });
+    /* v50: alakaya gore sirala: "eos r" yazan EOS R'yi ilk gorsun (eskiden populerlik sirasinda kayboluyordu) */
+    var rs = hit.map(function(d, i){ return [rel(d, q), i, d]; });
+    rs.sort(function(a, b){ return b[0] - a[0] || a[1] - b[1]; });
+    return rs.map(function(x){ return x[2]; });
+  }
+  function nrm(s){ return roman(String(s).toLowerCase().replace(/\bmark\s*/g, '').replace(/(\d)(iii|ii|iv|vi|v)\b/g, '$1 $2')).replace(/[^a-z0-9.]+/g, ' ').trim(); }
+  function rel(d, q){
+    var m = nrm(d.m), bq = nrm(q), b = d.b.toLowerCase();
+    bq = bq.replace(new RegExp('^' + b.replace(/[^a-z0-9]/g, '') + '\\b\\s*'), '').replace(/\b(kamera|lens|objektif|drone|gimbal|kaplama|skin)\b/g, '').replace(/\s+/g, ' ').trim();
+    if (!bq) return 0;
+    var mc = m.replace(/[^a-z0-9]/g, ''), qc = bq.replace(/[^a-z0-9]/g, '');
+    var mw = m.replace(/^(eos|alpha|lumix( dc| dmc)?|osmo|hero) /, ''), mwc = mw.replace(/[^a-z0-9]/g, '');
+    if (mc === qc || mwc === qc) return 1000 - m.length;
+    if (mc.indexOf(qc) === 0 || mwc.indexOf(qc) === 0) return 600 - m.length;
+    var words = m.split(' '), qt = bq.split(' '), all = qt.every(function(t){ return words.some(function(w){ return w.indexOf(t) === 0; }); });
+    return (all ? 300 : 0) - m.length;
   }
   window.__bgIsDev = function(){ return !!cur(); };
   window.__bgDevices = ALL;
@@ -2906,7 +2922,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   };
   var APSC = /A6\d00|ZV-E10|FX30|R10|R50|R7|R100|Z30|Z50|^X-/;
   var LPOP = [['24-70', 10], ['70-200', 9], ['24-105', 8], ['50mm', 8], ['35mm', 8], ['85mm', 7], ['16-35', 7], ['28-70', 7], ['20mm', 6], ['24mm', 6], ['14', 5], ['100-400', 5], ['200-600', 5], ['18-135', 6], ['11mm', 6], ['18-140', 6], ['23mm', 6], ['33mm', 6], ['56mm', 6]];
-  var CPOP = ['Alpha A7 IV', 'Alpha A7 III / A7R III', 'FX3', 'Alpha A7C II', 'Alpha A6700', 'ZV-E10 II', 'Alpha A7 V', 'FX30', 'EOS R6 Mark II', 'EOS R5', 'EOS R8', 'EOS R6', 'Z6 III', 'Zf', 'Z8', 'Z6 II / Z7 II', 'X-T5', 'X-S10', 'X-H2S', 'GFX100S'];
+  var CPOP = ['Alpha A7 IV', 'Alpha A7 III / A7R III', 'FX3', 'Alpha A7C II', 'Alpha A6700', 'ZV-E10 II', 'Alpha A7 V', 'FX30', 'EOS R6 Mark II', 'EOS R5', 'EOS R8', 'EOS R6', 'EOS R', 'EOS RP', 'EOS R7', 'EOS R10', 'Z6 III', 'Zf', 'Z8', 'Z6 II / Z7 II', 'X-T5', 'X-S10', 'X-H2S', 'GFX100S'];
   function score(dev, c){
     var s = 0;
     if (c.t === 'L') { LPOP.forEach(function(k){ if (new RegExp('(^|[^0-9])' + k[0].replace('-', '\\-')).test(c.m)) s = Math.max(s, k[1]); }); var apsLens = /^E |DX|^Fujinon XF|^XF /.test(c.m); if (APSC.test(dev.m) && apsLens) s += 4; if (!APSC.test(dev.m) && apsLens && dev.b === 'Sony') s -= 3; }
@@ -3076,7 +3092,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
 
   /* ---------- ana sayfa: populer cihazlar ---------- */
-  var POP = ['sony-alpha-a7-iv-kaplama','sony-alpha-a6700-kaplama','sony-zv-e10-ii-kaplama','sony-fx3-kaplama','canon-eos-r6-mark-ii-kaplama','canon-eos-r50-kaplama','nikon-z6-iii-kaplama','nikon-zf-kaplama','fujifilm-x-t5-kaplama','dji-mini-4-pro-kaplama','dji-air-3s-kaplama','dji-osmo-pocket-3'];
+  var POP = ['sony-alpha-a7-iv-kaplama','sony-alpha-a6700-kaplama','sony-zv-e10-ii-kaplama','sony-fx3-kaplama','canon-eos-r6-mark-ii-kaplama','canon-eos-r50-kaplama','nikon-z6-iii-kaplama','nikon-zf-kaplama','fujifilm-x-t5-kaplama','dji-mini-4-pro-kaplama','dji-air-3s-kaplama','dji-osmo-pocket-3-kaplama'];
   function popHome(){
     if (location.pathname !== '/' || document.querySelector('.bg26-pop')) return;
     var find = document.querySelector('.bg-find'); if (!find || !find.parentElement) return;
@@ -3205,7 +3221,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     var base = ALL.filter(function(d){ return d.t === ci.k; });
     if (!base.filter(function(d){ return inBrand(d, bn); }).length) return;
     document.documentElement.classList.add('bg27-on'); grid.classList.add('bg27-ikas');
-    var st = { q: '', sort: 'pop', n: LIMIT, brand: bn };
+    var sq = ''; try { sq = new URLSearchParams(location.search).get('s') || ''; } catch (x) {}   /* v50: ikas arama sayfasi (?s=) da ayni alaka sirasini kullanir */
+    var st = { q: sq, sort: 'pop', n: LIMIT, brand: sq ? '' : bn };
     var TOPS = {};
     function topset(b){ if (!TOPS[b]) { var l = base.filter(function(d){ return inBrand(d, b); }), t = {}; l.slice().sort(popCmp).slice(0, Math.min(12, Math.ceil(l.length / 6))).forEach(function(d){ t[d.s] = 1; }); TOPS[b] = t; } return TOPS[b]; }
     host = document.createElement('section'); host.className = 'bg27'; host.setAttribute('aria-label', TYPE[ci.k] + ' kaplama modelleri');
@@ -3227,9 +3244,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       tb.sort(function(a, b){ return b.offsetWidth - a.offsetWidth; }); if (tb[0]) tb[0].classList.add('bg27-ikas');
     } catch (x) {}
     var g = host.querySelector('.bg27-g'), more = host.querySelector('.bg27-more'), sub = host.querySelector('.bg27-sub'), inp = host.querySelector('.bg27-in'), sel = host.querySelector('.bg27-sort');
+    if (sq && inp) inp.value = sq;
     function list(){
       var l = base.filter(function(d){ return inBrand(d, st.brand); });
-      if (st.q.trim()) l = find(st.q, ci.k).filter(function(d){ return inBrand(d, st.brand); });
+      if (st.q.trim()) { var fr = find(st.q, ci.k).filter(function(d){ return inBrand(d, st.brand); }); return fr.length ? fr : find(st.q); }   /* aramada alaka sirasi; bu turde yoksa tum cihazlar */
       l = l.slice().sort(SORTS[st.sort][1]);
       return l;
     }
@@ -3744,6 +3762,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function roman(s) { return s.replace(/\b(vi|v|iv|iii|ii)\b/g, function (r) { return { ii: '2', iii: '3', iv: '4', v: '5', vi: '6' }[r]; }); }
   function find(q) {
+    if (window.__bg26 && window.__bg26.find) { if (!String(q || '').trim()) return []; return window.__bg26.find(q).slice(0, 7); }   /* v50: ortak alaka sirali arama */
     q = roman(String(q || '').toLowerCase().replace(/\bmark\s*/g, '')).trim();
     var toks = q.split(/\s+/).filter(Boolean).map(function (t) { return t.replace(/[^a-z0-9.]/g, ''); }).filter(Boolean);
     if (!toks.length) return [];
@@ -4823,6 +4842,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var KDEF = [['K', true ? 'kamera-sony-alpha-a7r-v' : 'kamera-sony-alpha-a7-mark-iv'], ['L', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'drone-dji-mini-4-pro']];
   function byDir(f) { var L = devs(); for (var i = 0; i < L.length; i++) if (L[i].f === f) return L[i]; return null; }
   function find(q, types) {
+    if (window.__bg26 && window.__bg26.find) return window.__bg26.find(q).filter(function (d) { return !types || types.indexOf(d.t) >= 0; }).slice(0, 6);   /* v50: ortak alaka sirali arama */
     q = String(q || '').toLowerCase().replace(/\bmark\s*/g, '').trim(); var toks = q.split(/\s+/).filter(Boolean);
     return devs().filter(function (d) { if (types && types.indexOf(d.t) < 0) return false; var k = d.key || (d.b + ' ' + d.m).toLowerCase(); return toks.every(function (t) { return k.indexOf(t) >= 0; }); }).slice(0, 6);
   }
@@ -5724,29 +5744,33 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function one(inp) {
     var B = window.__BG; var ov = inp.closest('.overlay');
     var anchors = [].filter.call(ov.querySelectorAll('a[href*="?desen="]'), function (a) { return a.querySelector('img') && !a.closest('.bg-ara-grid'); });
-    if (!anchors.length) return;
-    var first = anchors[0], wrap = first.parentElement, grid0 = wrap && wrap.parentElement; if (!grid0 || !grid0.parentElement) return;
+    if (anchors.length && !ov.__bgTpl) { ov.__bgTpl = anchors[0].parentElement.cloneNode(true); ov.__bgGrid = anchors[0].parentElement.parentElement; }
+    if (!ov.__bgTpl) return;
+    var grid0 = ov.__bgGrid; if (!grid0 || !grid0.parentElement) { if (!anchors.length) return; grid0 = ov.__bgGrid = anchors[0].parentElement.parentElement; }
     var grids = []; anchors.forEach(function (a) { var g = a.parentElement && a.parentElement.parentElement; if (g && grids.indexOf(g) < 0) grids.push(g); });
     var mine = ov.querySelector('.bg-ara-grid');
-    if (!mine) {
-      mine = grid0.cloneNode(false); mine.classList.add('bg-ara-grid'); mine.removeAttribute('id');
-      PICK.forEach(function (s) {
-        var d = B.BYSLUG[s]; if (!d) return;
-        var w = wrap.cloneNode(true), a = w.querySelector('a'); if (!a) return;
-        a.setAttribute('href', '/' + s);
+    if (!mine) { mine = grid0.cloneNode(false); mine.classList.add('bg-ara-grid'); mine.removeAttribute('id'); grid0.parentElement.appendChild(mine); }
+    /* v50: yazilan aramada ikas'in siralamasi yerine model adina gore alaka sirasi ("canon r" -> EOS R ilk) */
+    var q = inp.value.trim(), list;
+    if (!q) list = PICK.map(function (s) { return B.BYSLUG[s]; }).filter(Boolean);
+    else list = (window.__bg26 && window.__bg26.find) ? window.__bg26.find(q).slice(0, 8) : [];
+    if (mine.__q !== q) {
+      mine.__q = q; mine.innerHTML = '';
+      list.forEach(function (d) {
+        var w = ov.__bgTpl.cloneNode(true), a = w.querySelector('a'); if (!a) return;
+        a.setAttribute('href', '/' + d.s);
         var im = a.querySelector('img'); if (im) { im.removeAttribute('srcset'); im.removeAttribute('sizes'); im.src = B.img(d); im.alt = d.b + ' ' + d.m + ' kaplama'; }
         var tx = a.querySelectorAll('div.rich-text');
         if (tx[0]) tx[0].textContent = d.b + ' ' + d.m + ' Kaplama';
         if (tx[1]) tx[1].textContent = fmt(d.p);
         mine.appendChild(w);
       });
-      grid0.parentElement.appendChild(mine);
     }
-    if (!inp.__bgAra) { inp.__bgAra = 1; inp.addEventListener('input', function () { setTimeout(run, 0); setTimeout(run, 400); }); }
+    if (!inp.__bgAra) { inp.__bgAra = 1; inp.addEventListener('input', function () { setTimeout(run, 0); setTimeout(run, 400); setTimeout(run, 1200); }); }
     grids.forEach(function (g) { g.classList.add('bg-ara-g'); }); mine.classList.add('bg-ara-g');
-    var empty = !inp.value.trim();
-    grids.forEach(function (g) { g.classList.toggle('bg-ara-hide', empty); });
-    mine.classList.toggle('bg-ara-hide', !empty);
+    var ours = list.length > 0;
+    grids.forEach(function (g) { g.classList.toggle('bg-ara-hide', ours); });
+    mine.classList.toggle('bg-ara-hide', !ours);
   }
   var tm = 0;
   new MutationObserver(function () { if (!tm) tm = setTimeout(function () { tm = 0; try { run(); } catch (e) {} }, 150); }).observe(document.documentElement, { childList: true, subtree: true });

@@ -19,29 +19,33 @@
   function one(inp) {
     var B = window.__BG; var ov = inp.closest('.overlay');
     var anchors = [].filter.call(ov.querySelectorAll('a[href*="?desen="]'), function (a) { return a.querySelector('img') && !a.closest('.bg-ara-grid'); });
-    if (!anchors.length) return;
-    var first = anchors[0], wrap = first.parentElement, grid0 = wrap && wrap.parentElement; if (!grid0 || !grid0.parentElement) return;
+    if (anchors.length && !ov.__bgTpl) { ov.__bgTpl = anchors[0].parentElement.cloneNode(true); ov.__bgGrid = anchors[0].parentElement.parentElement; }
+    if (!ov.__bgTpl) return;
+    var grid0 = ov.__bgGrid; if (!grid0 || !grid0.parentElement) { if (!anchors.length) return; grid0 = ov.__bgGrid = anchors[0].parentElement.parentElement; }
     var grids = []; anchors.forEach(function (a) { var g = a.parentElement && a.parentElement.parentElement; if (g && grids.indexOf(g) < 0) grids.push(g); });
     var mine = ov.querySelector('.bg-ara-grid');
-    if (!mine) {
-      mine = grid0.cloneNode(false); mine.classList.add('bg-ara-grid'); mine.removeAttribute('id');
-      PICK.forEach(function (s) {
-        var d = B.BYSLUG[s]; if (!d) return;
-        var w = wrap.cloneNode(true), a = w.querySelector('a'); if (!a) return;
-        a.setAttribute('href', '/' + s);
+    if (!mine) { mine = grid0.cloneNode(false); mine.classList.add('bg-ara-grid'); mine.removeAttribute('id'); grid0.parentElement.appendChild(mine); }
+    /* v50: yazilan aramada ikas'in siralamasi yerine model adina gore alaka sirasi ("canon r" -> EOS R ilk) */
+    var q = inp.value.trim(), list;
+    if (!q) list = PICK.map(function (s) { return B.BYSLUG[s]; }).filter(Boolean);
+    else list = (window.__bg26 && window.__bg26.find) ? window.__bg26.find(q).slice(0, 8) : [];
+    if (mine.__q !== q) {
+      mine.__q = q; mine.innerHTML = '';
+      list.forEach(function (d) {
+        var w = ov.__bgTpl.cloneNode(true), a = w.querySelector('a'); if (!a) return;
+        a.setAttribute('href', '/' + d.s);
         var im = a.querySelector('img'); if (im) { im.removeAttribute('srcset'); im.removeAttribute('sizes'); im.src = B.img(d); im.alt = d.b + ' ' + d.m + ' kaplama'; }
         var tx = a.querySelectorAll('div.rich-text');
         if (tx[0]) tx[0].textContent = d.b + ' ' + d.m + ' Kaplama';
         if (tx[1]) tx[1].textContent = fmt(d.p);
         mine.appendChild(w);
       });
-      grid0.parentElement.appendChild(mine);
     }
-    if (!inp.__bgAra) { inp.__bgAra = 1; inp.addEventListener('input', function () { setTimeout(run, 0); setTimeout(run, 400); }); }
+    if (!inp.__bgAra) { inp.__bgAra = 1; inp.addEventListener('input', function () { setTimeout(run, 0); setTimeout(run, 400); setTimeout(run, 1200); }); }
     grids.forEach(function (g) { g.classList.add('bg-ara-g'); }); mine.classList.add('bg-ara-g');
-    var empty = !inp.value.trim();
-    grids.forEach(function (g) { g.classList.toggle('bg-ara-hide', empty); });
-    mine.classList.toggle('bg-ara-hide', !empty);
+    var ours = list.length > 0;
+    grids.forEach(function (g) { g.classList.toggle('bg-ara-hide', ours); });
+    mine.classList.toggle('bg-ara-hide', !ours);
   }
   var tm = 0;
   new MutationObserver(function () { if (!tm) tm = setTimeout(function () { tm = 0; try { run(); } catch (e) {} }, 150); }).observe(document.documentElement, { childList: true, subtree: true });

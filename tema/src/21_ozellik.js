@@ -385,6 +385,7 @@
   var KDEF = [['K', true ? 'kamera-sony-alpha-a7r-v' : 'kamera-sony-alpha-a7-mark-iv'], ['L', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'drone-dji-mini-4-pro']];
   function byDir(f) { var L = devs(); for (var i = 0; i < L.length; i++) if (L[i].f === f) return L[i]; return null; }
   function find(q, types) {
+    if (window.__bg26 && window.__bg26.find) return window.__bg26.find(q).filter(function (d) { return !types || types.indexOf(d.t) >= 0; }).slice(0, 6);   /* v50: ortak alaka sirali arama */
     q = String(q || '').toLowerCase().replace(/\bmark\s*/g, '').trim(); var toks = q.split(/\s+/).filter(Boolean);
     return devs().filter(function (d) { if (types && types.indexOf(d.t) < 0) return false; var k = d.key || (d.b + ' ' + d.m).toLowerCase(); return toks.every(function (t) { return k.indexOf(t) >= 0; }); }).slice(0, 6);
   }
