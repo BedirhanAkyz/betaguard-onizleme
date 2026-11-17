@@ -1574,6 +1574,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   }
   function search(){
     if (!/^\/search/.test(location.pathname)) return;
+    /* v51: arama sayfasini 12_v26 searchPage() ciziyor (alaka sirali izgara); bu kutu yalniz o yuklenemezse yedek */
+    if (window.__bg26 && window.__bg26.search) { var o = document.querySelector('.bg-sr'); if (o) o.remove(); return; }
     var q = new URLSearchParams(location.search).get('s') || '';
     var old = document.querySelector('.bg-sr');
     /* v48: kutu her zaman "Arama" basliginin satirinin hemen altinda; SPA gecisinde yanlis yere (duyuru seridinin ustune) dusmesin */
@@ -2940,6 +2942,9 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     '.bg27-more button:hover{border-color:#C9A45C;color:#E2C285}',
     '.bg27-empty{padding:40px 20px;text-align:center;color:#A9A59D;font:500 14.5px/1.6 Manrope,sans-serif;border:1px dashed #2F2E33;border-radius:16px}',
     '.bg27-empty a{color:#E2C285}',
+    '.bg27-g>.bg27-empty,.bg27-g>.bg27-sep{grid-column:1/-1}',
+    '.bg27-sep{margin:10px 0 0;font:italic 800 22px/1.2 Archivo,sans-serif;color:#F2F0EB}',
+    '.bg27s .bg27-in{min-width:320px}@media (max-width:640px){.bg27s .bg27-in{min-width:0}}',
     'html.bg27-on .bg26-hide,html.bg27-on .bg27-ikas{display:none!important}',
     'html.bg27-on a[href*="?page="],html.bg27-on a[href*="&page="]{display:none!important}',
     /* gimbal (henuz ilan yok) ve fazla bolumler */
@@ -3431,13 +3436,70 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     }, true);
     draw();
   }
+  /* ---------- v51: arama sayfasi (/search?s=...) ----------
+     ikas'in kendi listesi alakasiz siraliydi ("canon r" -> adaptor ve EF lensler), desen adi yazilinca 740 urunu rastgele
+     diziyordu ve bazi kartlar gorselsiz geliyordu. Yerine ust arama paneliyle ayni motor: alaka sirali cihazlar, karisik desenler. */
+  function searchPage(){
+    if (!/^\/search\/?$/.test(location.pathname)) return;
+    var q = ''; try { q = (new URLSearchParams(location.search).get('s') || '').trim(); } catch (x) {}
+    var app = document.getElementById('app') || document.body;
+    var host = document.querySelector('.bg27s'), col = null, row = null;
+    if (host && host.parentElement && app.contains(host)) col = host.parentElement;   /* baslik satiri gizlendikten sonra yeniden aranmaz */
+    else {
+      if (host) { host.remove(); host = null; }
+      var h = [].slice.call(app.querySelectorAll('.rich-text,h1,h2')).find(function(x){ return x.children.length === 0 && x.textContent.trim() === 'Arama' && x.offsetWidth > 0; });
+      if (!h) return;
+      row = h.parentElement;
+      while (row.parentElement && row.parentElement !== app && getComputedStyle(row.parentElement).display.indexOf('flex') >= 0 && getComputedStyle(row.parentElement).flexDirection === 'row') row = row.parentElement;
+      col = row.parentElement; if (!col || col === document.body || col === app) return;
+    }
+    function hide(){ [].forEach.call(col.children, function(c){ if (c !== host && !c.classList.contains('bg27-ikas')) c.classList.add('bg27-ikas'); }); }
+    if (host && host.__urlq === q) { hide(); return; }   /* adresteki arama degismedi (kutuya yazilan daraltma korunur) */
+    document.documentElement.classList.add('bg27-on');
+    if (!host) {
+      host = document.createElement('section'); host.className = 'bg27 bg27s'; host.setAttribute('aria-label', 'Arama sonuçları');
+      host.innerHTML = '<div class="bg27-h"><div><h1>Arama</h1><small class="bg27-sub"></small></div>' +
+        '<div class="bg27-tools"><input class="bg27-in" type="search" placeholder="Model ya da desen: A7 IV, Mini 4 Pro, Royal Gold…" autocomplete="off" aria-label="Model ya da desen ara"></div></div>' +
+        '<div class="bg27-g"></div><div class="bg27-more"></div>';
+      col.insertBefore(host, row.nextSibling);
+      host.addEventListener('click', function(e){
+        var b = e.target.closest('button,[data-bg27-open]'); if (!b) return; e.preventDefault();
+        if (b.hasAttribute('data-more')) { host.__n += LIMIT; host.__draw(); }
+        else if (b.hasAttribute('data-all')) { host.__n = 9999; host.__draw(); }
+        else if (b.hasAttribute('data-bg27-open')) openPicker(null, '');
+      });
+      host.querySelector('.bg27-in').addEventListener('input', function(){ host.__q = this.value.trim(); host.__n = LIMIT; host.__draw(); });
+      host.__draw = function(){
+        var qq = host.__q, sr = search(qq), l = sr.list, pats = sr.pats && sr.pats.length ? sr.pats : null, none = false, cov = mix(16);
+        if (sr.blank || (pats && !sr.rest)) l = ALL.slice().sort(popCmp);
+        else if (!l.length) { none = true; pats = null; l = POP.map(function(k){ return BYSLUG[k]; }).filter(Boolean); }
+        var show = l.slice(0, host.__n);
+        function one(d, i){
+          var cv = pats ? pats[i % pats.length] : cov[i % cov.length];
+          return '<a class="bg27-c" href="/' + d.s + '" data-bg-v="' + cv + '"><span class="im"><img loading="lazy" decoding="async" ' + tattr(d, cv) + ' alt="' + esc(d.b + ' ' + d.m) + ' ' + esc(DSLUG[cv] || '') + ' kaplama"></span>' +
+            '<span class="tx"><span class="ty">' + TYPE[d.t] + ' · ' + esc(d.b) + '</span><span class="nm">' + esc(d.m) + '</span><span class="pr">' + fmt(d.p) + '<small>' + esc(DSLUG[cv] || '39 desen') + ' · 39 desen</small></span><span class="go">Desen seç →</span></span></a>';
+        }
+        host.querySelector('h1').textContent = qq ? '“' + qq + '”' : 'Tüm modeller';
+        host.querySelector('.bg27-sub').textContent = none ? 'Bu aramayla eşleşen model bulamadık.'
+          : (pats ? (pats.length === 1 ? DSLUG[pats[0]] + ' deseniyle ' : pats.length + ' desenle ') : '') + l.length + ' model · her birinde 39 desen · 1-2 iş gününde kargoda';
+        host.querySelector('.bg27-g').innerHTML =
+          (none ? '<div class="bg27-empty">Yazımı kontrol edip yalnız model adını deneyebilirsin (ör. “a7 iv”, “mini 4 pro”, “24-70”).<br>Modelin listede yoksa <a href="#" data-bg27-open>tüm modellerde ara</a> ya da <a href="' + WA + '" target="_blank" rel="noopener">WhatsApp\'tan yaz</a>, üretebiliyorsak hemen söyleyelim.</div><div class="bg27-sep">En çok kaplanan cihazlar</div>' : '') +
+          show.map(one).join('');
+        host.querySelector('.bg27-more').innerHTML = l.length > show.length ? '<button type="button" data-more>Daha fazla göster <span style="opacity:.7">(' + (l.length - show.length) + ')</span></button><button type="button" data-all>Tümünü göster</button>' : '';
+      };
+    }
+    host.__urlq = q; host.__q = q; host.__n = LIMIT;
+    var inp = host.querySelector('.bg27-in'); if (inp.value.trim() !== q) inp.value = q;
+    host.__draw(); hide();
+  }
+
   /* ---------- dongu ---------- */
   /* diger bloklar icin kucuk API (13_v27 kumanda secimi kullanir) */
   var SLUGOF = {}; DESEN.forEach(function(n){ SLUGOF[n] = slug(n); });
   window.__BG = { CDN: CDN, DSLUG: DSLUG, SLUGOF: SLUGOF, curDesen: curDesen, cur: cur, img: img, timg: timg, BYSLUG: BYSLUG, CATS: CATS, subByHash: subByHash, mix: mix, feat: feat, featured: FEATURED, out: isOut, cover: cover, best: BEST };
 
   var q = false;
-  function run(){ try { rewrite(); var g = cards(); catPage(g); smartGrid(g); devPage(); wireMenu(); popHome(); cartUpsell(); notFound(); } catch (e) {} }
+  function run(){ try { rewrite(); var g = cards(); catPage(g); smartGrid(g); devPage(); wireMenu(); popHome(); cartUpsell(); notFound(); } catch (e) {} try { searchPage(); } catch (e) {} }
   function sch(){ if (q) return; q = true; setTimeout(function(){ q = false; run(); }, 120); }
   function go(){ run(); if (location.hash === '#desenler') { var tries = 0; (function t(){ var sec = document.querySelector('[data-bg-desen]'); if (sec) sec.scrollIntoView({ block: 'start' }); else if (tries++ < 30) setTimeout(t, 200); })(); } new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-bg-ptitle', 'data-bg-pinfo'] }); }
   if (document.readyState !== 'loading') setTimeout(go, 300); else document.addEventListener('DOMContentLoaded', function(){ setTimeout(go, 300); });
@@ -6157,10 +6219,20 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 
   /* ikas'in tam ekran panelleri (arama, sepet, mobil menu) z-index 4 ile geliyor; urun sayfasindaki
      desen izgarasi ve galeri ustune cikiyordu. Sabit (fixed) ve tiklanabilir panelleri en uste al. */
-  var zs = document.createElement('style'); zs.textContent = '.bg-ovtop{z-index:2147482500!important;background-color:rgba(8,8,9,.72)!important}'; (document.head || document.documentElement).appendChild(zs);
+  /* v51: sinif adi bilerek "bg-" ile baslamiyor. 00_main darken() "bg-" sinifli kapsayicilarin icini atlar; "bg-ovtop" adi yuzunden
+     sepet cekmecesinin alt bolumu (ara toplam / toplam) beyaz kaliyor, yazilar okunmuyordu. */
+  var zs = document.createElement('style'); zs.textContent = '.bgovtop{z-index:2147482500!important;background-color:rgba(8,8,9,.72)!important}' +
+    /* mobil menudeki "Giris Yap": ikas acik zemin + beyaz yazi veriyordu (okunmuyordu) -> altin zemin, koyu yazi */
+    '.bgloginbtn{background:#C9A45C!important;border-color:#C9A45C!important}.bgloginbtn,.bgloginbtn *{color:#141210!important;font-weight:700!important}' +
+    /* genel urun sayfasi: baslik alt yazisi iki kez cikiyordu (hem sarmalayici hem icindeki h1 data-bg-ptitle tasiyor) */
+    '[data-bg-ptitle] [data-bg-ptitle]::after{content:none!important;display:none!important}'; (document.head || document.documentElement).appendChild(zs);
   function katman() {
-    [].forEach.call(document.querySelectorAll('.overlay:not(.bg-ovtop)'), function (o) {
-      var cs = getComputedStyle(o); if (cs.position === 'fixed' && cs.pointerEvents !== 'none') o.classList.add('bg-ovtop');
+    [].forEach.call(document.querySelectorAll('.overlay:not(.bgovtop)'), function (o) {
+      var cs = getComputedStyle(o); if (cs.position === 'fixed' && cs.pointerEvents !== 'none') o.classList.add('bgovtop');
+    });
+    [].forEach.call(document.querySelectorAll('.overlay a[href="/account/login"]:not(.bgloginbtn)'), function (a) {
+      var m = /rgba?\((\d+), (\d+), (\d+)/.exec(getComputedStyle(a).backgroundColor);
+      if (m && +m[1] > 200 && +m[2] > 200 && +m[3] > 200) a.classList.add('bgloginbtn');
     });
   }
   function run() { try { katman(); } catch (e) {} try { dizin(); } catch (e) {} try { urun(); } catch (e) {} try { baslik(); } catch (e) {} try { home(); } catch (e) {} }
