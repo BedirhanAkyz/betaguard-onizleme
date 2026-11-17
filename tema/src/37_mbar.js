@@ -69,7 +69,9 @@
       var ckOn = document.documentElement.classList.contains('bg-ck-on');   /* cerez seridi aciksa ustune binme (07_v21) */
       on = g.bottom < 96 && !(b.top < vh - 6 && b.bottom > 64) && !ckOn;
     }
-    if (!on) { if (bar) { bar.classList.remove('on'); bar.setAttribute('aria-hidden', 'true'); } document.documentElement.classList.remove('bg-mbar-on'); return; }
+    var de = document.documentElement;
+    /* not: classList.add/remove ve setAttribute deger degismese de mutasyon kaydi uretir; hepsi kosullu (gozlemcileri bos yere tetiklemesin) */
+    if (!on) { if (bar && bar.classList.contains('on')) { bar.classList.remove('on'); bar.setAttribute('aria-hidden', 'true'); } if (de.classList.contains('bg-mbar-on')) de.classList.remove('bg-mbar-on'); return; }
     ensure();
     var nm = desen(), pr = price(), out = soldOut(p.btn), th = thumb(), key = [d.s, nm, pr, out, th].join('|');
     if (key !== lastKey) {
@@ -84,7 +86,8 @@
       var go = bar.querySelector('.bg-mbar-go');
       if (out) { go.disabled = true; go.textContent = 'Tükendi'; } else { go.disabled = false; if (!/Eklendi/.test(go.textContent)) go.textContent = 'Sepete Ekle'; }
     }
-    bar.classList.add('on'); bar.setAttribute('aria-hidden', 'false'); document.documentElement.classList.add('bg-mbar-on');
+    if (!bar.classList.contains('on')) { bar.classList.add('on'); bar.setAttribute('aria-hidden', 'false'); }
+    if (!de.classList.contains('bg-mbar-on')) de.classList.add('bg-mbar-on');
   }
   var tk = 0;
   function sch() { if (tk) return; tk = 1; (window.requestAnimationFrame || setTimeout)(function () { tk = 0; try { update(); } catch (e) {} }); }

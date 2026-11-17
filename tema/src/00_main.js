@@ -679,7 +679,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (PP.syncImg) { PP.syncImg = false; for (var k0 = 0; k0 < items.length; k0++) if (items[k0].si === PP.series && items[k0].ci === PP.color && !items[k0].ex) { PP.img = k0; break; } }
     if (PP.img >= items.length) PP.img = 0;
     var cur = items[PP.img];
-    var h = '<div class="bg-gal-main">' + (cur.id ? '<img src="' + imgUrl(cur.id, 1080) + '" alt="' + esc(cur.cap) + '">' : '<div class="bg-gal-ph" role="img" aria-label="' + esc(cur.cap) + '">' + SHIELD + '<b>' + esc(cur.name) + '</b><small>' + esc(cur.sub) + '</small></div>');
+    var h = '<div class="bg-gal-main">' + (cur.id ? '<img src="' + imgUrl(cur.id, 1080) + '" alt="' + esc(cur.cap) + '" fetchpriority="high" decoding="async">' : '<div class="bg-gal-ph" role="img" aria-label="' + esc(cur.cap) + '">' + SHIELD + '<b>' + esc(cur.name) + '</b><small>' + esc(cur.sub) + '</small></div>');
     h += '<div class="bg-gal-cap"><span>' + esc(cur.cap) + '</span></div>';
     h += '<div class="bg-gal-bot">' + (PP.series === null || cur.si !== PP.series || cur.ci !== PP.color ? '<button type="button" class="bg-gal-pick" data-pick="' + PP.img + '">Bu deseni seç</button>' : '') +
       (items.length > 1 ? '<div class="bg-gal-ctl"><button type="button" data-n="-1" aria-label="Önceki görsel">' + CHEV_L + '</button><span>' + (PP.img + 1) + ' / ' + items.length + '</span><button type="button" data-n="1" aria-label="Sonraki görsel">' + CHEV_R + '</button></div>' : '') + '</div></div>';
@@ -1291,7 +1291,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     document.head.appendChild(cs);
   }
   function fmt(t){ var s0 = String(t).trim(), n = s0.match(/^([\d.]+(?:,\d\d)?)\s?₺$/); if (n) return n[1] + ' ₺'; var m = s0.match(/^₺\s*([\d,]+)\.(\d\d)$/); if (!m) return null; return m[1].replace(/,/g, '.') + (m[2] !== '00' ? ',' + m[2] : '') + ' ₺'; }
-  function setImg(b, id, sz){ var im = b.querySelector('img'); if (!im || !id) return; var s = u(id, sz); if (im.getAttribute('src') !== s) { im.removeAttribute('srcset'); im.setAttribute('src', s); } b.classList.add('bg-sw'); }
+  function setImg(b, id, sz){ var im = b.querySelector('img'); if (!im || !id) return; var s = u(id, sz); if (im.getAttribute('src') !== s) { im.removeAttribute('srcset'); im.setAttribute('src', s); } if (!b.classList.contains('bg-sw')) b.classList.add('bg-sw'); }   /* v53: kosulsuz add her turda mutasyon uretip tum gozlemcileri yeniden tetikliyordu */
   function cartLeaf(){ return [].slice.call(document.querySelectorAll('.rich-text,button')).find(function(x){ return x.children.length === 0 && /^Sepete Ekle$/i.test(x.textContent.trim()) && !(window.bgInFx && window.bgInFx(x)); }); }
   function devSel(){ var f = [].slice.call(document.querySelectorAll('.pcz-field')).find(function(x){ var l = x.querySelector('.pcz-label'); return l && /Cihaz t/i.test(l.textContent); }); return f ? f.querySelector('select') : null; }
   function home(){
@@ -1344,10 +1344,10 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     });
     var sel = devSel();
     document.documentElement.classList.toggle('bg-hasprice', !!((sel && sel.value) || (window.__bgIsDev && window.__bgIsDev())));
-    [].forEach.call(document.querySelectorAll('.pcz-price'), function(p){ var zt = p.textContent.trim(); if (/₺\s*0[.,]00/.test(zt) || /^\+?\s?0(,00)?\s?₺$/.test(zt)) p.setAttribute('data-bg-zero','1'); else p.removeAttribute('data-bg-zero'); });
-    [].forEach.call(document.querySelectorAll('a[href*="betaguard-kaplama"] .rich-text'), function(x){ if (/^₺|₺$/.test(x.textContent.trim()) && !x.closest('[data-bg-pprice]')) x.setAttribute('data-bg-cprice','1'); });
+    [].forEach.call(document.querySelectorAll('.pcz-price'), function(p){ var zt = p.textContent.trim(); var z0 = /₺\s*0[.,]00/.test(zt) || /^\+?\s?0(,00)?\s?₺$/.test(zt); if (z0 !== p.hasAttribute('data-bg-zero')) { if (z0) p.setAttribute('data-bg-zero','1'); else p.removeAttribute('data-bg-zero'); } });
+    [].forEach.call(document.querySelectorAll('a[href*="betaguard-kaplama"] .rich-text'), function(x){ if (!x.hasAttribute('data-bg-cprice') && /^₺|₺$/.test(x.textContent.trim()) && !x.closest('[data-bg-pprice]')) x.setAttribute('data-bg-cprice','1'); });
     var pr = document.querySelector('[data-bg-pprice]'), val = null;
-    if (pr) { var f = fmt(pr.textContent); if (f) pr.textContent = f; val = /₺/.test(pr.textContent) ? pr.textContent.trim() : null; }
+    if (pr) { var f = fmt(pr.textContent); if (f && f !== pr.textContent) pr.textContent = f; val = /₺/.test(pr.textContent) ? pr.textContent.trim() : null; }
     /* v27: kumanda secildiyse buton fiyati toplami gostersin */
     var ek = +window.__bgKumEk || 0;
     if (val && ek > 0 && val.indexOf(',') < 0) {
@@ -1355,7 +1355,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       if (d0) val = (parseInt(d0, 10) + ek).toLocaleString('tr-TR') + ' ₺';
     }
     var btn = cartLeaf();
-    if (btn) { if (val) { if (btn.getAttribute('data-bg-price') !== val) btn.setAttribute('data-bg-price', val); } else btn.removeAttribute('data-bg-price'); }
+    if (btn) { if (val) { if (btn.getAttribute('data-bg-price') !== val) btn.setAttribute('data-bg-price', val); } else if (btn.hasAttribute('data-bg-price')) btn.removeAttribute('data-bg-price'); }
   }
   function mob(){
     var gal = document.querySelector('.bg-gal'); var tr = gal && gal.querySelector('.bg-trust');

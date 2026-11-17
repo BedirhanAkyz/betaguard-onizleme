@@ -548,7 +548,7 @@
     var combo = /^(Tello|Spark|Inspire 1|Phantom 3 Pro|Phantom 4 \/ 4 Pro)$/.test(dev.m), acc = /Goggles|^RC|Remote Controller/.test(dev.m);
     [].forEach.call(document.querySelectorAll('[data-bg-pinfo] li'), function(li){
       if (!li.hasAttribute('data-bg-dl') && !/Drone siparişlerinde/.test(li.textContent)) return;
-      li.setAttribute('data-bg-dl', '1');
+      if (!li.hasAttribute('data-bg-dl')) li.setAttribute('data-bg-dl', '1');
       li.classList.toggle('bg26-nodrone', dev.t !== 'D' || acc);
       var tx = combo ? 'Bu modelde kumanda kaplaması fiyata dahildir' : /Avata/.test(dev.m) ? 'RC Motion kumanda kaplaması 750 ₺ (tek başına 1.250 ₺), gözlük kaplaması 1.000 ₺ ile eklenir (tek başına 1.500 ₺)' : 'Kumanda kaplaması siparişte 1.000 ₺ ile eklenir (tek başına 1.500 ₺)';
       if (li.textContent !== tx) li.textContent = tx;
@@ -566,7 +566,7 @@
   }
   function devPage(){
     var dev = cur(); if (!dev) return;
-    document.documentElement.classList.add('bg-hasprice', 'bg26-dev');
+    var de0 = document.documentElement; if (!de0.classList.contains('bg-hasprice') || !de0.classList.contains('bg26-dev')) de0.classList.add('bg-hasprice', 'bg26-dev');
     fitLine(dev); shipLine(dev); renderSet(dev);
   }
 

@@ -58,10 +58,10 @@
       });
     }
     if (!inp.__bgAra) { inp.__bgAra = 1; inp.addEventListener('input', function () { setTimeout(run, 0); setTimeout(run, 400); setTimeout(run, 1200); }); }
-    grids.forEach(function (g) { g.classList.add('bg-ara-g'); }); mine.classList.add('bg-ara-g');
+    grids.concat([mine]).forEach(function (g) { if (!g.classList.contains('bg-ara-g')) g.classList.add('bg-ara-g'); });
     var ours = list.length > 0;
-    grids.forEach(function (g) { g.classList.toggle('bg-ara-hide', ours); });
-    mine.classList.toggle('bg-ara-hide', !ours);
+    grids.forEach(function (g) { if (g.classList.contains('bg-ara-hide') !== ours) g.classList.toggle('bg-ara-hide', ours); });
+    if (mine.classList.contains('bg-ara-hide') === ours) mine.classList.toggle('bg-ara-hide', !ours);
   }
   var tm = 0;
   new MutationObserver(function () { if (!tm) tm = setTimeout(function () { tm = 0; try { run(); } catch (e) {} }, 150); }).observe(document.documentElement, { childList: true, subtree: true });
