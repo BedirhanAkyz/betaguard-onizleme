@@ -2664,9 +2664,11 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var SEED = Math.floor(Math.random() * 1000);
   function mix(n, seed){
     seed = seed == null ? SEED : seed;
-    var top = BEST.slice(0, 3), alt = BEST.slice(3), b = [], i;
-    for (i = 0; i < top.length; i++) b.push(top[(i + seed) % top.length]);
-    for (i = 0; i < alt.length; i++) b.push(alt[(i + seed) % alt.length]);
+    /* en cok satanlar sirasi: ilk kart bir Royal (Tactical Black kucuk gorselde duz siyah gorunuyor, ilk kartta sonuk kaliyor),
+       ikinci sirada Tactical Black, sonra digerleri; iki Royal ve kalan Tactical'lar sayfa acilisina gore yer degistirir */
+    var roy = BEST.filter(function(s){ return fam(s) === 'royal'; }), tac = BEST.filter(function(s){ return fam(s) !== 'royal'; }), b = [], i;
+    if (seed % 2) { roy.reverse(); tac = tac.slice(0, 1).concat(tac.slice(1).reverse()); }
+    while (roy.length || tac.length) { if (roy.length) b.push(roy.shift()); if (tac.length) b.push(tac.shift()); }
     var ser = SERI.map(function(a){ return a.filter(function(s){ return !OUT[s]; }); }).filter(function(a){ return a.length; });
     var out = [], bi = 0, oi = 0;
     for (i = 0; i < n; i++) {
@@ -2714,6 +2716,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     if (d.ix) return d.ix;
     var n = fold(d.b + ' ' + d.m + ' ' + (d.t === 'L' ? 'lens objektif' : TYPE[d.t])).replace(/(\d)[.,](\d)/g, '$1$2'), n1 = gsplit(n), r = roman(unmark(n1));
     var list = [words(n), words(n1), words(r), words(r).map(function(w){ return /^\d$/.test(w) ? 'm' + w : w; }), words(r.replace(/\b(oss|usm|stm)\b/g, ' '))], seen = {}, out = [];
+    if (/\bosmo mobile\b/.test(r)) list.push(words(r.replace(/\bosmo mobile\b/, 'om')));   /* yaygin kisaltma: "om 8" */
     list.forEach(function(ws){ var k = ws.join(' '); if (!seen[k]) { seen[k] = 1; out.push(variant(ws)); } });
     return (d.ix = out);
   }
@@ -2760,25 +2763,44 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     function add(l){ l.forEach(function(d){ if (!got[d.s]) { got[d.s] = 1; pick.push(d); } }); }
     if (a) add(a.strict); if (b) add(b.strict);
     if (!pick.length) { if (a) add(a.loose); if (b) add(b.loose); }
-    var rk = typeof rank === 'function' ? rank : function(){ return 0; };
+    if (!pick.length) {   /* "hero12", "gopro12": harf-rakam sinirindan bolup bir kez daha dene */
+      var q2 = String(q).replace(/([A-Za-z])(\d)/g, '$1 $2').replace(/(\d)([A-Za-z])/g, '$1 $2');
+      if (q2 !== q) { var c = match(q2, type, true); if (c) { add(c.strict); if (!pick.length) add(c.loose); } q = pick.length ? q2 : q; }
+    }
+    /* populerlik: kamera / lens / gimbalde satis ve bilinirlik sirasi (rank); drone ve aksiyon kamerada once cikis yili (en yeni model ustte) */
+    var rk = typeof rank !== 'function' ? function(){ return 0; } : function(d){ return (d.t === 'D' || d.t === 'A') && typeof yr === 'function' ? (yr(d) - 2000) * 10 + rank(d) / 10 : rank(d); };
     var rs = pick.map(function(d, i){ return [rel(d, q), rk(d), i, d]; }), top = -1e9;
     rs.forEach(function(x){ if (x[0] > top) top = x[0]; });
     if (top >= 600) rs = rs.filter(function(x){ return x[0] >= 0; });   /* net eslesme varsa zayif eslesmeleri gosterme */
-    rs.sort(function(x, y){ return y[0] - x[0] || y[1] - x[1] || x[2] - y[2]; });
+    /* sira: once alaka kademesi (tam ad > tum kelimeler > ad basi > kelime basi); ayni kademede en iyi eslesmeyle ayni turdeki
+       cihazlar once ("mini" -> once dronelar, sonra RS Mini gimballer; "24-70" -> lensler), sonra populerlik (en cok satanlar),
+       en son ad yakinligi. Boylece "24-70" aramasinda kisa adli lens degil en cok satilan Sony GM II ilk siraya gelir. */
+    function tier(v){ return v > 900 ? 4 : v > 700 ? 3 : v > 500 ? 2 : v > 200 ? 1 : 0; }
+    var bestT = '', bestV = -1e9;
+    rs.forEach(function(x){ if (x[0] > bestV) { bestV = x[0]; bestT = x[3].t; } });
+    if (bestV === 900) bestT = '';   /* yalniz marka yazildi ("sony"): tur onceligi yok, dogrudan populerlik */
+    rs.sort(function(x, y){ return tier(y[0]) - tier(x[0]) || (y[3].t === bestT ? 1 : 0) - (x[3].t === bestT ? 1 : 0) || y[1] - x[1] || y[0] - x[0] || x[2] - y[2]; });
     return rs.map(function(x){ return x[3]; });
   }
   function nrm(s){ return roman(gsplit(unmark(fold(s)).replace(/(\d)[.,](\d)/g, '$1$2'))).replace(/[^a-z0-9]+/g, ' ').trim(); }
   /* alaka: 1000 tam ad; 800 her kelime modelde tam bir kelime; 600 adin basi; 300 her kelime bir kelimenin basi; yoksa eksi */
   function rel(d, q){
-    var m = nrm(d.m), b = nrm(d.b).replace(/ /g, '');
+    var r = rel1(nrm(d.m), d, q);
+    if (/osmo mobile/i.test(d.m)) r = Math.max(r, rel1(nrm(d.m.replace(/osmo mobile/i, 'OM')), d, q) - 1);   /* "om 8" */
+    return r;
+  }
+  function rel1(m, d, q){
+    var b = nrm(d.b).replace(/ /g, '');
     var bq = nrm(q).split(' ').filter(function(w){ return w && !STOPW[w] && !/^(kamera|lens|objektif|drone|gimbal|aksiyon)$/.test(w); }).join(' ');
     bq = bq.replace(new RegExp('^' + b + '\\b\\s*'), '').trim();
     if (!bq) return 900;   /* yalniz marka / tur yazilmis: markanin kendi urunleri, populerlik sirasiyla */
     var mc = m.replace(/ /g, ''), qc = bq.replace(/ /g, '');
-    var mw = m.replace(/^(eos|alpha|lumix( dc| dmc)?|osmo|hero) /, ''), mwc = mw.replace(/ /g, '');
+    /* ad basindaki seri on eki atlanir: kamerada "EOS / Alpha / Osmo", lenste odak uzakligindan onceki her sey ("FE", "RF", "NIKKOR Z", "AT-X") */
+    var mw = d.t === 'L' ? m.replace(/^[a-z ]+(?=\d)/, '') : m.replace(/^(eos|alpha|lumix( dc| dmc)?|osmo|hero) /, ''), mwc = mw.replace(/ /g, '');
     if (mc === qc || mwc === qc) return 1000 - m.length;
     var ws = m.split(' '), qt = bq.split(' ');
-    if (qt.every(function(t){ return t.length > 1 && ws.indexOf(t) >= 0; })) return 800 - m.length;
+    /* tum kelimeler modelde tam kelime ve arama modelin ilk kelimesiyle basliyor ("r5" -> "R5 Mark II"; ama "fx" -> "Tokina ... Pro FX" degil) */
+    if ((qt[0] === ws[0] || qt[0] === mw.split(' ')[0]) && qt.every(function(t){ return t.length > 1 && ws.indexOf(t) >= 0; })) return 800 - m.length;
     if (mc.indexOf(qc) === 0 || mwc.indexOf(qc) === 0) return 600 - m.length;
     var all = qt.every(function(t){ return ws.some(function(w){ return w.indexOf(t) === 0 || w.replace(/^[a-z]+(?=\d)/, '').indexOf(t) === 0; }); });
     return (all ? 300 : -100) - m.length;
@@ -2998,7 +3020,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       var html = '', last = '';
       r.slice(0, 120).forEach(function(d, k){
         var g = TYPE[d.t] + ' · ' + d.b;
-        if (g !== last) { html += '<div class="bg26-grp">' + esc(g) + '</div>'; last = g; }
+        if (!sr && g !== last) { html += '<div class="bg26-grp">' + esc(g) + '</div>'; last = g; }   /* aramada sira alakaya gore: marka basliklari tekrar tekrar cikmasin */
         var cv = dn || (ps ? ps[k % ps.length] : cover(d));
         html += '<a class="bg26-li" href="/' + d.s + '" data-bg-v="' + cv + '"><span class="th"><img loading="lazy" decoding="async" ' + tattr(d, cv) + ' alt="' + esc(d.b + ' ' + d.m) + ' ' + esc(DSLUG[cv] || '') + ' kaplama"></span><span class="n">' + esc(d.b + ' ' + d.m) + '<small>' + TYPE[d.t] + ' kaplama · 39 desen</small></span><span class="p">' + fmt(d.p) + '</span></a>';
       });
@@ -3439,7 +3461,14 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   /* ---------- v51: arama sayfasi (/search?s=...) ----------
      ikas'in kendi listesi alakasiz siraliydi ("canon r" -> adaptor ve EF lensler), desen adi yazilinca 740 urunu rastgele
      diziyordu ve bazi kartlar gorselsiz geliyordu. Yerine ust arama paneliyle ayni motor: alaka sirali cihazlar, karisik desenler. */
+  /* site ici arama sonuc sayfalari Google dizinine girmesin (ince / kopya icerik); baska sayfaya gecince etiket kalkar */
+  function searchRobots(){
+    var on = /^\/search\/?$/.test(location.pathname), m = document.querySelector('meta[name="robots"][data-bg-sr]');
+    if (on && !m) { m = document.createElement('meta'); m.setAttribute('name', 'robots'); m.setAttribute('content', 'noindex,follow'); m.setAttribute('data-bg-sr', '1'); (document.head || document.documentElement).appendChild(m); }
+    else if (!on && m) m.remove();
+  }
   function searchPage(){
+    searchRobots();
     if (!/^\/search\/?$/.test(location.pathname)) return;
     var q = ''; try { q = (new URLSearchParams(location.search).get('s') || '').trim(); } catch (x) {}
     var app = document.getElementById('app') || document.body;
@@ -6241,4 +6270,101 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function go() { run(); new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true }); }
   if (document.readyState !== 'loading') setTimeout(go, 500); else document.addEventListener('DOMContentLoaded', function () { setTimeout(go, 500); });
   var last = location.href; setInterval(function () { if (location.href !== last) { last = location.href; sch(); } }, 500);
+})();
+
+/* ===== 37_mbar.js ===== */
+/* v52: mobil urun sayfasi alt cubugu.
+   Sorun: 39 desenlik izgara telefonda ~1150 px. Desen secerken cihaz gorseli yukarida ekran disinda kaliyor (secilen desen
+   cihazin ustunde gorulmuyor), "Sepete Ekle" ise ~2 ekran asagida. Cozum: gorsel ekrandan cikinca alta sabit bir cubuk gelir:
+   secili desenle cihazin kucuk gorseli + desen adi + fiyat + Sepete Ekle. Cubuktaki dugme sayfadaki gercek dugmeye tiklar;
+   kumanda secimi uyarisi, tukendi kontrolu ve sepete ekleme animasyonu aynen calisir. Yalniz cihaz sayfalarinda ve 767 px altinda. */
+(function () {
+  if (window.__bgMbar) return; window.__bgMbar = 1;
+  var MQ = window.matchMedia ? window.matchMedia('(max-width: 767px)') : null;
+  if (!MQ) return;
+  var css = [
+    '.bg-mbar{position:fixed;left:0;right:0;bottom:0;z-index:940;display:none;align-items:center;gap:10px;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));background:rgba(17,17,19,.97);border-top:1px solid #2A292E;box-shadow:0 -10px 30px rgba(0,0,0,.45);transform:translateY(110%);transition:transform .22s ease;font-family:Manrope,sans-serif;box-sizing:border-box}',
+    '@media (max-width:767px){.bg-mbar{display:flex}}',
+    '.bg-mbar.on{transform:none}',
+    '.bg-mbar-th{flex:none;width:52px;height:52px;padding:0;border:1px solid #2A292E;border-radius:12px;background:#fff;overflow:hidden;cursor:pointer}',
+    '.bg-mbar-th img{width:100%;height:100%;object-fit:contain;display:block}',
+    '.bg-mbar-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}',
+    '.bg-mbar-tx b{font:700 13.5px/1.25 Manrope,sans-serif;color:#E2C285;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+    '.bg-mbar-tx span{font:600 12.5px/1.25 Manrope,sans-serif;color:#A9A59D;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+    '.bg-mbar-go{flex:none;min-height:46px;padding:0 18px;border:0;border-radius:999px;background:#C9A45C;color:#141210;font:800 14.5px/1 Manrope,sans-serif;cursor:pointer;white-space:nowrap}',
+    '.bg-mbar-go:active{transform:scale(.97)}',
+    '.bg-mbar-go[disabled]{background:#2A292E;color:#8E8A83;cursor:default}',
+    '@media (max-width:767px){html.bg-mbar-on .bg-wa{bottom:calc(84px + env(safe-area-inset-bottom,0px))!important}html.bg-mbar-on body{padding-bottom:72px}}',
+    '@media (prefers-reduced-motion:reduce){.bg-mbar{transition:none}}'
+  ].join('');
+  var st = document.createElement('style'); st.id = 'bg-mbar-css'; st.textContent = css; (document.head || document.documentElement).appendChild(st);
+
+  var bar = null, lastKey = '';
+  function dev() { try { return window.__BG && window.__BG.cur ? window.__BG.cur() : null; } catch (e) { return null; } }
+  function parts() {
+    var btn = document.querySelector('[data-bg-pcart]'), gal = document.querySelector('.bg-gal'), pp = document.querySelector('.bg-pp');
+    return btn && gal && pp ? { btn: btn, gal: gal, pp: pp } : null;
+  }
+  function desen() { var on = document.querySelector('.bg-pp-one.on'); return on ? (on.getAttribute('title') || '') : ''; }
+  function price() { var p = document.querySelector('[data-bg-pprice]'); var m = p ? /[\d.]+\s*₺/.exec(p.textContent || '') : null; return m ? m[0] : ''; }
+  function soldOut(btn) { return document.documentElement.classList.contains('bg-tk-sel') || (/tükendi/i.test(btn.textContent || '') && !/sepete ekle/i.test(btn.textContent || '')); }
+  /* kucuk gorsel: galerideki secili varyant gorselinin 180 px hali (ikas CDN); bulunamazsa kendi onizlememiz */
+  function thumb() {
+    var im = document.querySelector('.bg-gal img'), u = im ? (im.currentSrc || im.getAttribute('src') || '') : '';
+    if (/\/image_\d+\.(webp|jpe?g|png)/.test(u)) return u.replace(/\/image_\d+\./, '/image_180.');
+    var B = window.__BG, d = dev(), s = B && B.SLUGOF ? B.SLUGOF[desen()] : '';
+    if (B && d && s && B.timg) return B.timg(d, s);
+    return u;
+  }
+  function ensure() {
+    if (bar && document.body.contains(bar)) return bar;
+    bar = document.createElement('div'); bar.className = 'bg-mbar'; bar.setAttribute('role', 'region'); bar.setAttribute('aria-label', 'Sepete ekle'); bar.setAttribute('aria-hidden', 'true');
+    bar.innerHTML = '<button type="button" class="bg-mbar-th" aria-label="Önizlemeye dön"><img alt="" decoding="async"></button>' +
+      '<div class="bg-mbar-tx"><b></b><span></span></div><button type="button" class="bg-mbar-go">Sepete Ekle</button>';
+    document.body.appendChild(bar);
+    bar.querySelector('.bg-mbar-th').addEventListener('click', function () {
+      var g = document.querySelector('.bg-gal'); if (!g) return;
+      window.scrollTo({ top: Math.max(0, g.getBoundingClientRect().top + window.pageYOffset - 84), behavior: 'smooth' });
+    });
+    bar.querySelector('.bg-mbar-go').addEventListener('click', function () {
+      var p = parts(); if (!p || soldOut(p.btn)) return;
+      var go = this, hit = p.btn.querySelector('.rich-text') || p.btn;
+      hit.click();
+      /* gercek dugmedeki "Sepete eklendi" onayini cubuga da yansit */
+      setTimeout(function () {
+        if (p.btn.querySelector('.bga-ok.on')) { go.textContent = '✓ Eklendi'; setTimeout(function () { go.textContent = 'Sepete Ekle'; lastKey = ''; sch(); }, 1600); }
+      }, 120);
+    });
+    return bar;
+  }
+  function update() {
+    var p = parts(), d = dev(), on = false;
+    if (p && d && MQ.matches) {
+      var g = p.gal.getBoundingClientRect(), b = p.btn.getBoundingClientRect(), vh = window.innerHeight || 0;
+      var ckOn = document.documentElement.classList.contains('bg-ck-on');   /* cerez seridi aciksa ustune binme (07_v21) */
+      on = g.bottom < 96 && !(b.top < vh - 6 && b.bottom > 64) && !ckOn;
+    }
+    if (!on) { if (bar) { bar.classList.remove('on'); bar.setAttribute('aria-hidden', 'true'); } document.documentElement.classList.remove('bg-mbar-on'); return; }
+    ensure();
+    var nm = desen(), pr = price(), out = soldOut(p.btn), th = thumb(), key = [d.s, nm, pr, out, th].join('|');
+    if (key !== lastKey) {
+      lastKey = key;
+      var im = bar.querySelector('img');
+      if (th && im.getAttribute('src') !== th) {
+        im.onerror = function () { this.onerror = null; var B = window.__BG, sl = B && B.SLUGOF ? B.SLUGOF[nm] : ''; if (B && sl && B.img) this.src = B.img(d, sl); };
+        im.setAttribute('src', th);
+      }
+      bar.querySelector('.bg-mbar-tx b').textContent = nm || (d.b + ' ' + d.m);
+      bar.querySelector('.bg-mbar-tx span').textContent = (nm ? d.m + (pr ? ' · ' : '') : '') + pr;
+      var go = bar.querySelector('.bg-mbar-go');
+      if (out) { go.disabled = true; go.textContent = 'Tükendi'; } else { go.disabled = false; if (!/Eklendi/.test(go.textContent)) go.textContent = 'Sepete Ekle'; }
+    }
+    bar.classList.add('on'); bar.setAttribute('aria-hidden', 'false'); document.documentElement.classList.add('bg-mbar-on');
+  }
+  var tk = 0;
+  function sch() { if (tk) return; tk = 1; (window.requestAnimationFrame || setTimeout)(function () { tk = 0; try { update(); } catch (e) {} }); }
+  window.addEventListener('scroll', sch, { passive: true });
+  window.addEventListener('resize', sch, { passive: true });
+  document.addEventListener('click', function () { setTimeout(sch, 60); setTimeout(sch, 500); setTimeout(sch, 1400); }, true);   /* desen secimi: ad hemen, gorsel biraz sonra guncellenir */
+  setInterval(sch, 1500);   /* SPA gecisleri ve gec yuklenen bolumler */
 })();
