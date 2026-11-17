@@ -14,6 +14,9 @@
   ];
   var NAME = {}; P.forEach(function (p) { NAME[p[0]] = p[1]; });
   var FEAT = ['royal-gold', 'carbon', 'topografik-navy', 'tactical-black', 'nexus-cyan', 'hexagonal-red', 'line-cyan', 'mono-white', 'royal-navy', 'tactical-green', 'line-red', 'mono-orange'];
+  /* v51: ortak vitrin listesi 12_v26'dan gelir (satis verisine gore, tukenen desen cikmis halde); yoksa yukaridaki yedek */
+  try { if (window.__BG && window.__BG.featured && window.__BG.featured.length === FEAT.length) FEAT = window.__BG.featured.slice(); } catch (e) {}
+  function bgOut(s) { try { return !!(window.__BG && window.__BG.out && window.__BG.out(s)); } catch (e) { return false; } }
   var LIM = { 'line-red': 1, 'nexus-red': 1 };
   var NOBARE = { 'kamera-sony-alpha-a6300': 1, 'kamera-canon-eos-50d': 1 };
   var G = '#C9A45C';

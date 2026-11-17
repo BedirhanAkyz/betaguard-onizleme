@@ -14,6 +14,9 @@
   ];
   var NAME = {}; P.forEach(function (p) { NAME[p[0]] = p[1]; });
   var FEAT = ['royal-gold', 'carbon', 'topografik-navy', 'tactical-black', 'nexus-cyan', 'hexagonal-red', 'line-cyan', 'mono-white', 'royal-navy', 'tactical-green', 'line-red', 'mono-orange'];
+  /* v51: ortak vitrin listesi 12_v26'dan gelir (satis verisine gore, tukenen desen cikmis halde); yoksa yukaridaki yedek */
+  try { if (window.__BG && window.__BG.featured && window.__BG.featured.length === FEAT.length) FEAT = window.__BG.featured.slice(); } catch (e) {}
+  function bgOut(s) { try { return !!(window.__BG && window.__BG.out && window.__BG.out(s)); } catch (e) { return false; } }
   var LIM = { 'line-red': 1, 'nexus-red': 1 };
   var NOBARE = { 'kamera-sony-alpha-a6300': 1, 'kamera-canon-eos-50d': 1 };
   var G = '#C9A45C';
@@ -213,7 +216,7 @@
     function run() {
       var res = box.querySelector('.bge-res');
       if (!ans.style || !ans.color || !ans.place) { res.innerHTML = ''; return; }
-      var sc = P.map(function (p, i) { var s = p[0]; return [s, (inT('color', ans.color, s) ? 3 : 0) + (inT('style', ans.style, s) ? 2 : 0) + (inT('place', ans.place, s) ? 1 : 0) - (FEAT.indexOf(s) < 0 ? .1 : 0) - i * .001]; }).sort(function (a, b) { return b[1] - a[1]; });
+      var sc = P.filter(function (p) { return !bgOut(p[0]); }).map(function (p, i) { var s = p[0]; return [s, (inT('color', ans.color, s) ? 3 : 0) + (inT('style', ans.style, s) ? 2 : 0) + (inT('place', ans.place, s) ? 1 : 0) - (FEAT.indexOf(s) < 0 ? .1 : 0) - i * .001]; }).sort(function (a, b) { return b[1] - a[1]; });
       var pick = [], fams = {};
       sc.forEach(function (x) { if (pick.length < 3 && !fams[FAM(x[0])]) { pick.push(x[0]); fams[FAM(x[0])] = 1; } });
       sc.forEach(function (x) { if (pick.length < 3 && pick.indexOf(x[0]) < 0) pick.push(x[0]); });
@@ -245,7 +248,7 @@
     why.parentNode.insertBefore(box, why);
     var cv = box.querySelector('canvas'), x = cv.getContext('2d'), N = 900;
     var sc = document.createElement('canvas'); sc.width = sc.height = N; var sx = sc.getContext('2d');
-    var st = { d: stage().d, p: 'carbon', c: null, b: null, m: null, off: false, n: 0 };
+    var st = { d: stage().d, p: bgOut('carbon') ? 'tactical-black' : 'carbon', c: null, b: null, m: null, off: false, n: 0 };
     /* cizilebilir alan: cihaz govdesi eksi lens yuvasi (metal bayonet halkasi + ici: sensor/ayna). Halka = en buyuk, kareye yakin, ici bos acik gri metal bilesen */
     function wmask(c, b) {
       try {

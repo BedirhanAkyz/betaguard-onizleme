@@ -30,10 +30,62 @@
   function img(d, desen){ return base(d.f) + d.f + '/' + (desen || 'line-black') + '.webp'; }
   /* kart kucuk gorseli: kapak desenleri icin 400px onizleme (img/<ds>/t/), yoksa tam boy */
   var THUMB = {}; ['royal-gold','tactical-blue','line-cyan','hexagonal-red','topografik-navy','nexus-cyan','carbon','royal-navy','tactical-green','line-red','hexagonal-blue','nexus-red','topografik-red','tactical-red','royal-black','hexagonal-green','line-black'].forEach(function(k){ THUMB[k] = 1; });
-  function timg(d, desen){ desen = desen || 'line-black'; return THUMB[desen] ? base(d.f) + d.f + '/t/' + desen + '.webp' : img(d, desen); }
+  /* v51: en cok satan iki desenin (Tactical Black, Tactical Grey) onizlemeleri ayri, kucuk agacli bir commit'te ("kapak-onizleme" dali,
+     araclar/kapak_onizleme.py ile uretildi). Kucuk agac jsDelivr'in 50 MB paket sinirinin altinda kaldigi icin hemen ve sorunsuz sunulur. */
+  var THUMB2 = { 'tactical-black': 1, 'tactical-grey': 1 }, TCDN = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@7fbfc2c9/img/';
+  function timg(d, desen){ desen = desen || 'line-black'; return THUMB2[desen] ? TCDN + d.f + '/t/' + desen + '.webp' : THUMB[desen] ? base(d.f) + d.f + '/t/' + desen + '.webp' : img(d, desen); }
   function tattr(d, desen){ return 'src="' + timg(d, desen) + '" width="400" height="400" onerror="this.onerror=null;this.src=\'' + img(d, desen) + '\'"'; }
-  var COVERS = ['royal-gold','tactical-blue','line-cyan','hexagonal-red','topografik-navy','nexus-cyan','carbon','royal-navy','tactical-green','line-red','hexagonal-blue','nexus-red','topografik-red','tactical-red','royal-black','hexagonal-green'];
+  /* v51: tukenen desenler (BG_TUKENDI) kapak / vitrin olarak kullanilmaz; kapaklar satis verisine gore agirlikli.
+     Kasim 2026 siparis + sepet verisi: Tactical Black, Royal Black, Royal Gold, Tactical Grey, Tactical Red one cikiyor. */
+  var OUT = {};
+  (function(){
+    var l = window.BG_TUKENDI, now = Date.now();
+    (Array.isArray(l) ? l : []).forEach(function(x){
+      var nm = x, on = true;
+      if (Array.isArray(x)) { nm = x[0]; var t = Date.parse(String(x[1] || '').replace(/(T\d\d:\d\d)$/, '$1:00+03:00')); on = isNaN(t) || now >= t; }
+      if (on && nm) OUT[slug(nm)] = 1;
+    });
+  })();
+  function isOut(s){ return !!OUT[s]; }
+  var BEST = ['tactical-black','royal-gold','royal-black','tactical-grey','tactical-red'].filter(function(s){ return !OUT[s]; });
+  var COVN = 0;
+  var COVERS = ['royal-gold','tactical-black','line-cyan','royal-black','hexagonal-red','tactical-grey','topografik-navy','nexus-cyan','carbon','royal-navy','tactical-red','line-red','hexagonal-blue','nexus-red','tactical-green','topografik-red']
+    .map(function(s){ return OUT[s] ? (BEST[(COVN++) % (BEST.length || 1)] || 'line-black') : s; });   /* tukenenin yerine en cok satanlar, sirayla */
   function cover(d){ return COVERS[ALL.indexOf(d) % COVERS.length]; }
+  /* vitrin listesi (ana sahne cipleri, set olusturucu, karsilastirma, test onerisi): tukenen desenin yerine en cok satanlardan
+     listede olmayan ve iki komsusuyla ayni seriden olmayan gelir; liste uzunlugu degismez */
+  function fam(s){ return String(s || '').split('-')[0]; }
+  function feat(list){
+    var spare = BEST.concat(['tactical-green','royal-navy','nexus-red','line-black','topografik-red','hexagonal-blue','mono-yellow'], Object.keys(DSLUG)).filter(function(s, i, a){ return a.indexOf(s) === i && list.indexOf(s) < 0 && !OUT[s]; });
+    var out = list.slice();
+    for (var i = 0; i < out.length; i++) {
+      if (!OUT[out[i]] || !spare.length) continue;
+      var k = 0;
+      for (var j = 0; j < spare.length; j++) if (fam(spare[j]) !== fam(out[i - 1]) && fam(spare[j]) !== fam(out[i + 1])) { k = j; break; }
+      out[i] = spare.splice(k, 1)[0];
+    }
+    return out;
+  }
+  /* 12 vitrin deseni: ilk sirada marka rengi (Royal Gold), en cok satanlar agirlikli, kalan serilerden birer desen */
+  var FEATURED = feat(['royal-gold','tactical-black','topografik-navy','royal-black','nexus-cyan','tactical-grey','hexagonal-red','line-cyan','mono-white','carbon','line-red','mono-orange']);
+  /* arama paneli kapaklari: yarisi en cok satanlar, yarisi diger serilerden; her sayfa acilisinda diger seriler doner */
+  /* diger seriler: once 400px onizlemesi olan renkler (panel hizli acilsin); Mono ve Lego'nun onizlemesi yok, tam boy gelir */
+  var SERI = [['line-cyan','line-red','line-black'],['nexus-red','nexus-cyan'],['hexagonal-red','hexagonal-green','hexagonal-blue'],['topografik-navy','topografik-red'],['mono-white','mono-yellow','mono-orange'],['lego'],['carbon']];
+  var SEED = Math.floor(Math.random() * 1000);
+  function mix(n, seed){
+    seed = seed == null ? SEED : seed;
+    var top = BEST.slice(0, 3), alt = BEST.slice(3), b = [], i;
+    for (i = 0; i < top.length; i++) b.push(top[(i + seed) % top.length]);
+    for (i = 0; i < alt.length; i++) b.push(alt[(i + seed) % alt.length]);
+    var ser = SERI.map(function(a){ return a.filter(function(s){ return !OUT[s]; }); }).filter(function(a){ return a.length; });
+    var out = [], bi = 0, oi = 0;
+    for (i = 0; i < n; i++) {
+      if ((i % 2 === 0 || !ser.length) && b.length) out.push(b[bi++ % b.length]);
+      else if (ser.length) { var a = ser[(oi + seed) % ser.length]; out.push(a[(Math.floor(oi / ser.length) + (seed % 3 === 2 ? 1 : 0)) % a.length]); oi++; }
+      else out.push('line-black');
+    }
+    return out;
+  }
   function setCover(c, href){
     var dv = BYSLUG[href.split('?')[0].replace(/^\/|\/$/g, '')]; if (!dv) return href;
     var cv = cover(dv), url = img(dv, cv), nh = '/' + dv.s + '?desen=' + cv;
@@ -47,7 +99,8 @@
   }
   function cur(){ return BYSLUG[location.pathname.replace(/^\/|\/$/g, '')] || null; }
   function curDesen(){ var m = /[?&]desen=([a-z0-9-]+)/.exec(location.search); return m && DSLUG[m[1]] ? m[1] : 'line-black'; }
-  function roman(s){ return s.replace(/\b(vi|v|iv|iii|ii)\b/g, function(r){ return { ii: '2', iii: '3', iv: '4', v: '5', vi: '6' }[r]; }); }
+  /* not: roman() dosyanin basinda (cihaz listesi kurulurken) cagrilir; bu yuzden tablo fonksiyonun icinde, disaridaki bir var'a bagli degil */
+  function roman(s){ var R = { ii: '2', iii: '3', iv: '4', v: '5', vi: '6', vii: '7' }; return s.replace(/\b(vii|vi|iv|v|iii|ii)\b/g, function(r){ return R[r]; }); }
   function searchKey(d){
     var n = (d.b + ' ' + d.m + ' ' + (d.t === 'L' ? 'lens objektif' : TYPE[d.t])).toLowerCase();
     var r = roman(n.replace(/\bmark\s*/g, ''));
@@ -55,29 +108,113 @@
     var m = r.replace(/\s+(\d)\b/g, 'm$1').replace(/[^a-z0-9]/g, '');
     return n + ' ' + r + ' ' + c + ' ' + m;
   }
-  function find(q, type){
-    q = roman(String(q || '').toLowerCase().replace(/\bmark\s*/g, '').replace(/(\d)(iii|ii|iv|vi|v)\b/g, '$1 $2')).trim();
-    var toks = q.split(/\s+/).filter(Boolean).map(function(t){ return t.replace(/[^a-z0-9.]/g, ''); }).filter(Boolean);
-    var hit = ALL.filter(function(d){
-      if (type && d.t !== type) return false;
-      return toks.every(function(t){ return d.key.indexOf(t) >= 0 || d.key.indexOf(t.replace(/\./g, '')) >= 0; });
-    });
-    /* v50: alakaya gore sirala: "eos r" yazan EOS R'yi ilk gorsun (eskiden populerlik sirasinda kayboluyordu) */
-    var rs = hit.map(function(d, i){ return [rel(d, q), i, d]; });
-    rs.sort(function(a, b){ return b[0] - a[0] || a[1] - b[1]; });
-    return rs.map(function(x){ return x[2]; });
+  /* v51 arama: kelime basi eslesmesi ("neo" artik "caNON EOs" icinde eslesmez), bitisik yazimlar ("x100vi", "a7cii", "rx100m7"),
+     dolgu kelimeleri ("a7 iv kaplama", "sony lens skin") ve desen adiyla arama ("royal gold", "a7 iv tactical", "kirmizi"). */
+  var STOPW = {}; 'kaplama kaplamasi kaplamalari kaplamalar skin skins sticker stiker wrap folyo icin fiyat fiyati fiyatlari betaguard model modeli'.split(' ').forEach(function(w){ STOPW[w] = 1; });
+  function fold(s){ return String(s == null ? '' : s).normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/\u0131/g, 'i').toLowerCase(); }
+  function words(s){ return s.split(/[^a-z0-9]+/).filter(Boolean); }
+  function unmark(t){ return t.replace(/\bm(?:ar)?k\.?\s*(?=(?:\d|vii|vi|iv|v|iii|ii)\b)/g, ' ').replace(/\bmark\b/g, ' '); }
+  function gsplit(t){ return t.replace(/(\d)(vii|vi|iv|v|iii|ii)\b/g, '$1 $2').replace(/\b([a-z]+\d+[a-z])(vii|vi|iv|v|iii|ii)\b/g, '$1 $2'); }
+  function variant(ws){
+    var str = '', a = {}, w0 = {};
+    ws.forEach(function(w){ a[str.length] = 1; w0[str.length] = 1; var m = /^[a-z]+(?=\d)/.exec(w); if (m) a[str.length + m[0].length] = 1; str += w; });
+    return { s: str, a: a, w: w0 };
   }
-  function nrm(s){ return roman(String(s).toLowerCase().replace(/\bmark\s*/g, '').replace(/(\d)(iii|ii|iv|vi|v)\b/g, '$1 $2')).replace(/[^a-z0-9.]+/g, ' ').trim(); }
+  function index(d){
+    if (d.ix) return d.ix;
+    var n = fold(d.b + ' ' + d.m + ' ' + (d.t === 'L' ? 'lens objektif' : TYPE[d.t])).replace(/(\d)[.,](\d)/g, '$1$2'), n1 = gsplit(n), r = roman(unmark(n1));
+    var list = [words(n), words(n1), words(r), words(r).map(function(w){ return /^\d$/.test(w) ? 'm' + w : w; }), words(r.replace(/\b(oss|usm|stm)\b/g, ' '))], seen = {}, out = [];
+    list.forEach(function(ws){ var k = ws.join(' '); if (!seen[k]) { seen[k] = 1; out.push(variant(ws)); } });
+    return (d.ix = out);
+  }
+  function isNum(c){ return c >= '0' && c <= '9'; }
+  /* 2: kelime basinda (ya da "a6700" -> "6700" gibi harften sonraki rakamda) baslayan eslesme; birden cok kelimeye yayiliyorsa
+        ("zve10" = zv+e10, "70200" = 70+200mm) kelime sonunda ya da rakam/harf gecisinde bitmeli ("z8", "Z 85mm" ile eslesmesin).
+     1: kelime icinde ama ayirt edici (3+ karakter, rakamli: "6700"); 0: yok */
+  function lvl(d, t){
+    var ix = index(d), best = 0;
+    for (var i = 0; i < ix.length; i++) {
+      var str = ix[i].s, p = str.indexOf(t);
+      while (p >= 0) {
+        if (ix[i].a[p]) {
+          var e = p + t.length, cross = false;
+          for (var k = p + 1; k < e; k++) if (ix[i].w[k]) { cross = true; break; }
+          if (!cross || e >= str.length || ix[i].w[e] || isNum(str.charAt(e - 1)) !== isNum(str.charAt(e))) return 2;
+        }
+        if (t.length >= 3 && /\d/.test(t)) best = 1;
+        p = str.indexOf(t, p + 1);
+      }
+    }
+    return best;
+  }
+  function qtoks(q, split){
+    var t = unmark(fold(q)).replace(/(\d)[.,](\d)/g, '$1$2');
+    if (split) t = roman(gsplit(t));
+    return words(t).filter(function(w){ return !STOPW[w]; });
+  }
+  function match(q, type, split){
+    var toks = qtoks(q, split); if (!toks.length) return null;
+    var strict = [], loose = [];
+    ALL.forEach(function(d){
+      if (type && d.t !== type) return;
+      var mn = 2;
+      for (var i = 0; i < toks.length && mn; i++) mn = Math.min(mn, lvl(d, toks[i]));
+      if (mn === 2) strict.push(d); else if (mn === 1) loose.push(d);
+    });
+    return { strict: strict, loose: loose };
+  }
+  function find(q, type){
+    var a = match(q, type, false), b = match(q, type, true);
+    if (!a && !b) return ALL.filter(function(d){ return !type || d.t === type; });   /* bos ya da yalniz dolgu kelimesi: hepsi */
+    var pick = [], got = {};
+    function add(l){ l.forEach(function(d){ if (!got[d.s]) { got[d.s] = 1; pick.push(d); } }); }
+    if (a) add(a.strict); if (b) add(b.strict);
+    if (!pick.length) { if (a) add(a.loose); if (b) add(b.loose); }
+    var rk = typeof rank === 'function' ? rank : function(){ return 0; };
+    var rs = pick.map(function(d, i){ return [rel(d, q), rk(d), i, d]; }), top = -1e9;
+    rs.forEach(function(x){ if (x[0] > top) top = x[0]; });
+    if (top >= 600) rs = rs.filter(function(x){ return x[0] >= 0; });   /* net eslesme varsa zayif eslesmeleri gosterme */
+    rs.sort(function(x, y){ return y[0] - x[0] || y[1] - x[1] || x[2] - y[2]; });
+    return rs.map(function(x){ return x[3]; });
+  }
+  function nrm(s){ return roman(gsplit(unmark(fold(s)).replace(/(\d)[.,](\d)/g, '$1$2'))).replace(/[^a-z0-9]+/g, ' ').trim(); }
+  /* alaka: 1000 tam ad; 800 her kelime modelde tam bir kelime; 600 adin basi; 300 her kelime bir kelimenin basi; yoksa eksi */
   function rel(d, q){
-    var m = nrm(d.m), bq = nrm(q), b = d.b.toLowerCase();
-    bq = bq.replace(new RegExp('^' + b.replace(/[^a-z0-9]/g, '') + '\\b\\s*'), '').replace(/\b(kamera|lens|objektif|drone|gimbal|kaplama|skin)\b/g, '').replace(/\s+/g, ' ').trim();
-    if (!bq) return 0;
-    var mc = m.replace(/[^a-z0-9]/g, ''), qc = bq.replace(/[^a-z0-9]/g, '');
-    var mw = m.replace(/^(eos|alpha|lumix( dc| dmc)?|osmo|hero) /, ''), mwc = mw.replace(/[^a-z0-9]/g, '');
+    var m = nrm(d.m), b = nrm(d.b).replace(/ /g, '');
+    var bq = nrm(q).split(' ').filter(function(w){ return w && !STOPW[w] && !/^(kamera|lens|objektif|drone|gimbal|aksiyon)$/.test(w); }).join(' ');
+    bq = bq.replace(new RegExp('^' + b + '\\b\\s*'), '').trim();
+    if (!bq) return 900;   /* yalniz marka / tur yazilmis: markanin kendi urunleri, populerlik sirasiyla */
+    var mc = m.replace(/ /g, ''), qc = bq.replace(/ /g, '');
+    var mw = m.replace(/^(eos|alpha|lumix( dc| dmc)?|osmo|hero) /, ''), mwc = mw.replace(/ /g, '');
     if (mc === qc || mwc === qc) return 1000 - m.length;
+    var ws = m.split(' '), qt = bq.split(' ');
+    if (qt.every(function(t){ return t.length > 1 && ws.indexOf(t) >= 0; })) return 800 - m.length;
     if (mc.indexOf(qc) === 0 || mwc.indexOf(qc) === 0) return 600 - m.length;
-    var words = m.split(' '), qt = bq.split(' '), all = qt.every(function(t){ return words.some(function(w){ return w.indexOf(t) === 0; }); });
-    return (all ? 300 : 0) - m.length;
+    var all = qt.every(function(t){ return ws.some(function(w){ return w.indexOf(t) === 0 || w.replace(/^[a-z]+(?=\d)/, '').indexOf(t) === 0; }); });
+    return (all ? 300 : -100) - m.length;
+  }
+  /* desen adiyla arama */
+  var SERW = { royal: 'royal', tactical: 'tactical', taktik: 'tactical', kamuflaj: 'tactical', camo: 'tactical', line: 'line', mono: 'mono', topografik: 'topografik', topographic: 'topografik', nexus: 'nexus', hexagonal: 'hexagonal', altigen: 'hexagonal', lego: 'lego', carbon: 'carbon', karbon: 'carbon' };
+  var COLW = { black: 'black', siyah: 'black', white: 'white', beyaz: 'white', navy: 'navy', lacivert: 'navy', blue: 'blue', mavi: 'blue', cyan: 'cyan', turkuaz: 'cyan', red: 'red', kirmizi: 'red', grey: 'grey', gray: 'grey', gri: 'grey', green: 'green', yesil: 'green', gold: 'gold', altin: 'gold', yellow: 'yellow', sari: 'yellow', orange: 'orange', turuncu: 'orange', pink: 'pink', pembe: 'pink', brown: 'brown', kahverengi: 'brown', silver: 'silver', gumus: 'silver' };
+  function patSort(l){ return l.slice().sort(function(x, y){ return (OUT[x] ? 1 : 0) - (OUT[y] ? 1 : 0) || (BEST.indexOf(x) < 0 ? 9 : BEST.indexOf(x)) - (BEST.indexOf(y) < 0 ? 9 : BEST.indexOf(y)); }); }
+  function patQ(q, colorOnly){
+    var toks = words(fold(q)).filter(function(w){ return !STOPW[w]; }), ser = null, col = null, rest = [];
+    toks.forEach(function(t){ if (!ser && SERW[t]) ser = SERW[t]; else if (!col && COLW[t]) col = COLW[t]; else rest.push(t); });
+    var keys = Object.keys(DSLUG), pats;
+    if (ser) {
+      pats = keys.filter(function(k){ return k === ser || k.indexOf(ser + '-') === 0; });
+      if (col && pats.indexOf(ser + '-' + col) >= 0) pats = [ser + '-' + col];
+    } else if (colorOnly && col) pats = keys.filter(function(k){ return k.split('-')[1] === col; });
+    else return null;
+    return pats.length ? { pats: patSort(pats), rest: rest.join(' ') } : null;
+  }
+  /* -> { list: cihazlar, pats: desen araması ise desenler, blank: anlamli kelime yok } */
+  function search(q, type){
+    if (!qtoks(q, false).length) return { list: [], pats: null, blank: true };
+    var px = patQ(q, false);
+    if (!px) { var l = find(q, type); if (l.length) return { list: l, pats: null }; px = patQ(q, true); }
+    if (!px) return { list: [], pats: null };
+    return { list: px.rest ? find(px.rest, type) : [], pats: px.pats, rest: px.rest };
   }
   window.__bgIsDev = function(){ return !!cur(); };
   window.__bgDevices = ALL;
@@ -262,18 +399,20 @@
     document.body.appendChild(ov);
     var inp = ov.querySelector('.bg26-in'), list = ov.querySelector('.bg26-list');
     function render(){
-      var r = find(inp.value, tp);
+      var sr = inp.value.trim() ? search(inp.value, tp) : null, r = sr ? sr.list : find('', tp), ps = !dn && sr && sr.pats ? sr.pats : null;
+      if (sr && !r.length && (sr.blank || (sr.pats && !sr.rest))) r = find('', tp);
       if (!r.length) { list.innerHTML = '<div class="bg26-empty">Bu aramayla eşleşen önizlemeli ilan yok. Aşağıdaki bağlantıdan 780+ model arasından seçebilir ya da bize yazabilirsin.</div>'; return; }
       var html = '', last = '';
-      r.slice(0, 120).forEach(function(d){
+      r.slice(0, 120).forEach(function(d, k){
         var g = TYPE[d.t] + ' · ' + d.b;
         if (g !== last) { html += '<div class="bg26-grp">' + esc(g) + '</div>'; last = g; }
-        html += '<a class="bg26-li" href="/' + d.s + (dn ? '?desen=' + dn : '') + '"><span class="th"><img loading="lazy" decoding="async" ' + tattr(d, dn) + ' alt="' + esc(d.b + ' ' + d.m) + ' kaplama"></span><span class="n">' + esc(d.b + ' ' + d.m) + '<small>' + TYPE[d.t] + ' kaplama · 39 desen</small></span><span class="p">' + fmt(d.p) + '</span></a>';
+        var cv = dn || (ps ? ps[k % ps.length] : cover(d));
+        html += '<a class="bg26-li" href="/' + d.s + '" data-bg-v="' + cv + '"><span class="th"><img loading="lazy" decoding="async" ' + tattr(d, cv) + ' alt="' + esc(d.b + ' ' + d.m) + ' ' + esc(DSLUG[cv] || '') + ' kaplama"></span><span class="n">' + esc(d.b + ' ' + d.m) + '<small>' + TYPE[d.t] + ' kaplama · 39 desen</small></span><span class="p">' + fmt(d.p) + '</span></a>';
       });
       list.innerHTML = html;
     }
     inp.addEventListener('input', render);
-    inp.addEventListener('keydown', function(e){ if (e.key === 'Enter') { var a = list.querySelector('a.bg26-li'); if (a) location.href = a.getAttribute('href'); } });
+    inp.addEventListener('keydown', function(e){ if (e.key === 'Enter') { var a = list.querySelector('a.bg26-li'); if (a) { var h = a.getAttribute('href'), v = a.getAttribute('data-bg-v'); location.href = h + (v && h.indexOf('?') < 0 ? '?desen=' + v : ''); } } });
     [].forEach.call(ov.querySelectorAll('.bg26-tabs button'), function(b){ b.addEventListener('click', function(){ tp = b.getAttribute('data-t'); [].forEach.call(ov.querySelectorAll('.bg26-tabs button'), function(x){ x.classList.toggle('on', x === b); }); render(); }); });
     ov.addEventListener('click', function(e){ if (e.target === ov || e.target.closest('.bg26-x')) closePicker(); });
     document.addEventListener('keydown', escKey);
@@ -282,7 +421,7 @@
   function escKey(e){ if (e.key === 'Escape') closePicker(); }
   function closePicker(){ if (ov) { ov.remove(); ov = null; document.removeEventListener('keydown', escKey); } }
   window.bgOpenPicker = openPicker;
-  window.__bg26 = { find: function(q,t){ return find(q,t); }, comp: function(s){ return companions(BYSLUG[s]); } };
+  window.__bg26 = { find: function(q,t){ return find(q,t); }, search: function(q,t){ return search(q,t); }, comp: function(s){ return companions(BYSLUG[s]); } };
 
   function parseQ(h){
     if (!/^\/betaguard-kaplama\?/.test(h)) return null;
@@ -659,12 +798,19 @@
     if (sq && inp) inp.value = sq;
     function list(){
       var l = base.filter(function(d){ return inBrand(d, st.brand); });
-      if (st.q.trim()) { var fr = find(st.q, ci.k).filter(function(d){ return inBrand(d, st.brand); }); return fr.length ? fr : find(st.q); }   /* aramada alaka sirasi; bu turde yoksa tum cihazlar */
+      st.pats = null;
+      if (st.q.trim()) {   /* aramada alaka sirasi; bu turde yoksa tum cihazlar; desen adi yazildiysa o desenle */
+        var sr = search(st.q, ci.k); st.pats = sr.pats;
+        if (sr.blank || (sr.pats && !sr.rest)) return l.slice().sort(SORTS[st.sort][1]);
+        var fr = sr.list.filter(function(d){ return inBrand(d, st.brand); });
+        if (fr.length) return fr;
+        var al = search(st.q); st.pats = al.pats; return al.list;
+      }
       l = l.slice().sort(SORTS[st.sort][1]);
       return l;
     }
     function card(d, i){
-      var cv = COVERS[(i + ALL.indexOf(d)) % COVERS.length], nt = d.t === 'D' || d.t === 'A', top = !nt && !!topset(st.brand)[d.s], nw = nt ? yr(d) >= 2025 : (!top && NEW.test(d.m) && rank(d) > 0);
+      var cv = st.pats ? st.pats[i % st.pats.length] : COVERS[(i + ALL.indexOf(d)) % COVERS.length], nt = d.t === 'D' || d.t === 'A', top = !nt && !!topset(st.brand)[d.s], nw = nt ? yr(d) >= 2025 : (!top && NEW.test(d.m) && rank(d) > 0);
       return '<a class="bg27-c" href="/' + d.s + '" data-bg-v="' + cv + '"><span class="im">' + (top ? '<span class="tag">POPÜLER</span>' : nw ? '<span class="tag nw">YENİ MODEL</span>' : '') + '<img loading="lazy" decoding="async" ' + tattr(d, cv) + ' alt="' + esc(d.b + ' ' + d.m) + ' ' + esc(DSLUG[cv] || '') + ' kaplama"></span>' +
         '<span class="tx"><span class="ty">' + TYPE[d.t] + ' · ' + esc(d.b) + '</span><span class="nm">' + esc(d.m) + '</span><span class="pr">' + fmt(d.p) + '<small>39 desen · önizlemeli</small></span><span class="go">Desen seç →</span></span></a>';
     }
@@ -700,7 +846,7 @@
   /* ---------- dongu ---------- */
   /* diger bloklar icin kucuk API (13_v27 kumanda secimi kullanir) */
   var SLUGOF = {}; DESEN.forEach(function(n){ SLUGOF[n] = slug(n); });
-  window.__BG = { CDN: CDN, DSLUG: DSLUG, SLUGOF: SLUGOF, curDesen: curDesen, cur: cur, img: img, BYSLUG: BYSLUG, CATS: CATS, subByHash: subByHash };
+  window.__BG = { CDN: CDN, DSLUG: DSLUG, SLUGOF: SLUGOF, curDesen: curDesen, cur: cur, img: img, timg: timg, BYSLUG: BYSLUG, CATS: CATS, subByHash: subByHash, mix: mix, feat: feat, featured: FEATURED, out: isOut, cover: cover, best: BEST };
 
   var q = false;
   function run(){ try { rewrite(); var g = cards(); catPage(g); smartGrid(g); devPage(); wireMenu(); popHome(); cartUpsell(); notFound(); } catch (e) {} }

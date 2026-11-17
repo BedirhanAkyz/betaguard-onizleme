@@ -17,6 +17,9 @@
   ];
   var BYS = {}; P.forEach(function (p, i) { BYS[p[0]] = i; });
   var FEAT = ['royal-gold', 'carbon', 'topografik-navy', 'tactical-black', 'nexus-cyan', 'hexagonal-red', 'line-cyan', 'mono-white', 'royal-navy', 'tactical-green', 'line-red', 'mono-orange'];
+  /* v51: ortak vitrin listesi 12_v26'dan gelir (satis verisine gore, tukenen desen cikmis halde); yoksa yukaridaki yedek */
+  try { if (window.__BG && window.__BG.featured && window.__BG.featured.length === FEAT.length) FEAT = window.__BG.featured.slice(); } catch (e) {}
+  function bgOut(s) { try { return !!(window.__BG && window.__BG.out && window.__BG.out(s)); } catch (e) { return false; } }
   var LIMITED = { 'line-red': 1, 'nexus-red': 1 };
   var NOBARE = { 'kamera-sony-alpha-a6300': 1, 'kamera-canon-eos-50d': 1 };
   var TABS = [['K', 'Kamera', 'kamera-sony-alpha-a7r-v'], ['L', 'Lens', 'lens-sony-fe-24-70mm-f2-8-gm-ii'], ['D', 'Drone', 'drone-dji-mini-4-pro'], ['G', 'Gimbal', 'gimbal-dji-rs-4'], ['A', 'Aksiyon', 'aksiyon-kamera-dji-osmo-pocket-3']];
@@ -116,13 +119,16 @@
     '@media (prefers-reduced-motion:reduce){.bgs-fl{animation:none}}'
   ].join('');
 
+  var MORE = '+27 desen';
   function chipsHTML() {
     var feat = {}; FEAT.forEach(function (s) { feat[s] = 1; });
-    var order = FEAT.concat(P.map(function (p) { return p[0]; }).filter(function (s) { return !feat[s]; }));
+    /* v51: tukenen desen sahnede gosterilmez ("Bu kombinasyonu incele" sepete eklenemeyen bir desene goturmesin) */
+    var order = FEAT.concat(P.map(function (p) { return p[0]; }).filter(function (s) { return !feat[s] && !bgOut(s); }));
+    MORE = '+' + (order.length - FEAT.length) + ' desen';
     return order.map(function (s) {
       var p = P[BYS[s]];
       return '<button type="button" data-p="' + s + '" class="' + (feat[s] ? '' : 'x') + '" aria-label="' + esc(p[1]) + (LIMITED[s] ? ' (limited)' : '') + ' desenini göster" aria-pressed="false"><img alt="" loading="lazy" decoding="async" width="40" height="40" src="' + CDN + 'site/desen/' + s + '.webp"></button>';
-    }).join('') + '<button type="button" class="bgs-more" aria-expanded="false">+27 desen</button>';
+    }).join('') + '<button type="button" class="bgs-more" aria-expanded="false">' + MORE + '</button>';
   }
 
   function html() {
@@ -148,7 +154,7 @@
   function init(root) {
     var q = function (s) { return root.querySelector(s); };
     var CV = q('.bgs-cv'), CX = CV.getContext('2d'), N = CV.width, DV = q('.bgs-dv'), ST = q('.bgs-st');
-    var st = { dev: null, p: 'royal-gold', busy: false, pend: null, hold: false, cmp: false, cx: 50, vis: true, cur: null };
+    var st = { dev: null, p: bgOut('royal-gold') ? FEAT[0] : 'royal-gold', busy: false, pend: null, hold: false, cmp: false, cx: 50, vis: true, cur: null };
 
     function url(d, s) { return CDN + d.f + '/' + s + '.webp'; }
     var IMC = {};
@@ -238,7 +244,7 @@
     }
     window.addEventListener('resize', placePd);
     function stop() { st.hold = true; }
-    function step(n) { var i = BYS[st.p]; setPat(P[(i + n + P.length) % P.length][0]); }
+    function step(n) { var i = BYS[st.p], k = 0; do { i = (i + n + P.length) % P.length; k++; } while (bgOut(P[i][0]) && k < P.length); setPat(P[i][0]); }
     function stepFeat(n) { var i = FEAT.indexOf(st.p); if (i < 0) return step(n); setPat(FEAT[(i + n + FEAT.length) % FEAT.length]); }
 
     /* isik fareyi izler; egim: 3D yoksa CSS, 3D varsa model doner */
@@ -349,7 +355,7 @@
     /* desen cipleri, oklar, kategoriler */
     q('.bgs-cl').addEventListener('click', function (e) {
       var b = e.target.closest('button'); if (!b) return; stop();
-      if (b.classList.contains('bgs-more')) { var on = !root.classList.contains('all'); root.classList.toggle('all', on); b.textContent = on ? 'Daha az' : '+27 desen'; b.setAttribute('aria-expanded', on ? 'true' : 'false'); return; }
+      if (b.classList.contains('bgs-more')) { var on = !root.classList.contains('all'); root.classList.toggle('all', on); b.textContent = on ? 'Daha az' : MORE; b.setAttribute('aria-expanded', on ? 'true' : 'false'); return; }
       setPat(b.getAttribute('data-p'));
     });
     [].forEach.call(root.querySelectorAll('.bgs-ar'), function (b) { b.addEventListener('click', function () { stop(); step(+b.getAttribute('data-d')); }); });
