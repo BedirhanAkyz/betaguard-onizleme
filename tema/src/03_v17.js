@@ -40,6 +40,8 @@
   }
   function search(){
     if (!/^\/search/.test(location.pathname)) return;
+    /* v51: arama sayfasini 12_v26 searchPage() ciziyor (alaka sirali izgara); bu kutu yalniz o yuklenemezse yedek */
+    if (window.__bg26 && window.__bg26.search) { var o = document.querySelector('.bg-sr'); if (o) o.remove(); return; }
     var q = new URLSearchParams(location.search).get('s') || '';
     var old = document.querySelector('.bg-sr');
     /* v48: kutu her zaman "Arama" basliginin satirinin hemen altinda; SPA gecisinde yanlis yere (duyuru seridinin ustune) dusmesin */

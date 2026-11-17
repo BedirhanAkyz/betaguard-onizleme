@@ -184,10 +184,20 @@
 
   /* ikas'in tam ekran panelleri (arama, sepet, mobil menu) z-index 4 ile geliyor; urun sayfasindaki
      desen izgarasi ve galeri ustune cikiyordu. Sabit (fixed) ve tiklanabilir panelleri en uste al. */
-  var zs = document.createElement('style'); zs.textContent = '.bg-ovtop{z-index:2147482500!important;background-color:rgba(8,8,9,.72)!important}'; (document.head || document.documentElement).appendChild(zs);
+  /* v51: sinif adi bilerek "bg-" ile baslamiyor. 00_main darken() "bg-" sinifli kapsayicilarin icini atlar; "bg-ovtop" adi yuzunden
+     sepet cekmecesinin alt bolumu (ara toplam / toplam) beyaz kaliyor, yazilar okunmuyordu. */
+  var zs = document.createElement('style'); zs.textContent = '.bgovtop{z-index:2147482500!important;background-color:rgba(8,8,9,.72)!important}' +
+    /* mobil menudeki "Giris Yap": ikas acik zemin + beyaz yazi veriyordu (okunmuyordu) -> altin zemin, koyu yazi */
+    '.bgloginbtn{background:#C9A45C!important;border-color:#C9A45C!important}.bgloginbtn,.bgloginbtn *{color:#141210!important;font-weight:700!important}' +
+    /* genel urun sayfasi: baslik alt yazisi iki kez cikiyordu (hem sarmalayici hem icindeki h1 data-bg-ptitle tasiyor) */
+    '[data-bg-ptitle] [data-bg-ptitle]::after{content:none!important;display:none!important}'; (document.head || document.documentElement).appendChild(zs);
   function katman() {
-    [].forEach.call(document.querySelectorAll('.overlay:not(.bg-ovtop)'), function (o) {
-      var cs = getComputedStyle(o); if (cs.position === 'fixed' && cs.pointerEvents !== 'none') o.classList.add('bg-ovtop');
+    [].forEach.call(document.querySelectorAll('.overlay:not(.bgovtop)'), function (o) {
+      var cs = getComputedStyle(o); if (cs.position === 'fixed' && cs.pointerEvents !== 'none') o.classList.add('bgovtop');
+    });
+    [].forEach.call(document.querySelectorAll('.overlay a[href="/account/login"]:not(.bgloginbtn)'), function (a) {
+      var m = /rgba?\((\d+), (\d+), (\d+)/.exec(getComputedStyle(a).backgroundColor);
+      if (m && +m[1] > 200 && +m[2] > 200 && +m[3] > 200) a.classList.add('bgloginbtn');
     });
   }
   function run() { try { katman(); } catch (e) {} try { dizin(); } catch (e) {} try { urun(); } catch (e) {} try { baslik(); } catch (e) {} try { home(); } catch (e) {} }
