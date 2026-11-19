@@ -2,10 +2,14 @@
   if (window.__bgTheme) return; window.__bgTheme = 1;
   (function(){ var p = document.createElement('style'); p.id = 'bg-pre'; p.textContent = 'html{background:#0E0E0F!important}body{opacity:0!important}html.bg-ready body{opacity:1!important;transition:opacity .25s ease}'; (document.head || document.documentElement).appendChild(p); setTimeout(function(){ document.documentElement.classList.add('bg-ready'); }, 1000); })();
   var GOLD = '#C9A45C', WA = 'https://wa.me/905353211911';
-  var f = document.createElement('link');
-  f.rel = 'stylesheet';
-  f.href = 'https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,700;0,800;1,800;1,900&family=Manrope:wght@400;500;600;700&display=swap';
-  (document.head || document.documentElement).appendChild(f);
+  /* v57: yazi tiplerini artik yukleyici (ikas script'i) sayfanin basinda istiyor; paket indirilip calisana kadar beklenirse
+     yavas baglantida yazilar sayfa acildiktan saniyeler sonra degisiyordu (PageSpeed ana sayfa LCP 12 sn). Yukleyici yoksa burada eklenir. */
+  if (!document.getElementById('bg-font')) {
+    var f = document.createElement('link');
+    f.id = 'bg-font'; f.rel = 'stylesheet';
+    f.href = 'https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,700;0,800;1,800;1,900&family=Manrope:wght@400;500;600;700&display=swap';
+    (document.head || document.documentElement).appendChild(f);
+  }
   var css = [
     'html,body{background:#0E0E0F!important;color:#F2F0EB;font-family:Manrope,system-ui,sans-serif}',
     'body,button,input,select,textarea{font-family:Manrope,system-ui,sans-serif!important}',
