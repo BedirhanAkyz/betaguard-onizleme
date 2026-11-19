@@ -229,7 +229,7 @@
   ].join('');
   var st2 = document.createElement('style'); st2.id = 'bg-theme-css2'; st2.textContent = css2;
   (document.head || document.documentElement).appendChild(st2);
-var LOGOCDN = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@__SHA__/img/logo/';
+var LOGOCDN = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@__SITE__/img/logo/';
 var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nikon", "LOGO:nikon.png", 0], ["fujifilm", "LOGO:fujifilm.png", 0], ["dji", "LOGO:dji.png", 0], ["sigma", "LOGO:sigma.png", 0], ["tamron", "LOGO:tamron.svg", 1], ["gopro", "LOGO:gopro.png", 0], ["insta360", "LOGO:insta360.svg", 1], ["samyang", "LOGO:samyang.png", 0], ["viltrox", "LOGO:viltrox.png", 0], ["zhiyun", "LOGO:zhiyun.png", 0]];
   var LOGOC = {"zhiyun": "LOGO:zhiyun-c.png", "fujifilm": "LOGO:fujifilm-c.png", "canon": "LOGO:canon-c.png", "gopro": "LOGO:gopro-c.png", "samyang": "LOGO:samyang-c.png"};
   function marqHTML() {
@@ -366,7 +366,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function norm(q) { return q.toLowerCase().replace(/[^a-z0-9ğüşıöç]+/g, ''); }
 
   function heroImg() {
-    return 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@__SHA__/img/site/hero7-900.webp';
+    return 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@__SITE__/img/site/hero7-900.webp';
     var h = document.querySelector('img[data-bg-hero]:not([data-bg-top] img)');
     if (!h) {
       var imgs = document.querySelectorAll('#app img');
@@ -928,7 +928,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   /* ---------- v8: Instagram section (Behold JSON feed) in place of the old "Seriler" slider ---------- */
   /* Behold ucretsiz limiti reklam trafigiyle doluyordu: sabit 6 gorsel (img/insta), her biri profile gider */
   var IG_FEED = '';
-  var IG_B = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@45d11519/img/insta/';
+  var IG_B = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@__SITE__/img/insta/';
   var IG_STATIC = { posts: [
     ['1', 'Insta360, Sony, Canon ve DJI cihazlar Betaguard kaplamalı'],
     ['2', 'Sony Alpha ve Tamron lens Royal desen kaplama'],

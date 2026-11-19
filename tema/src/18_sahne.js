@@ -127,7 +127,7 @@
     MORE = '+' + (order.length - FEAT.length) + ' desen';
     return order.map(function (s) {
       var p = P[BYS[s]];
-      return '<button type="button" data-p="' + s + '" class="' + (feat[s] ? '' : 'x') + '" aria-label="' + esc(p[1]) + (LIMITED[s] ? ' (limited)' : '') + ' desenini göster" aria-pressed="false"><img alt="" loading="lazy" decoding="async" width="40" height="40" src="' + CDN + 'site/desen/' + s + '.webp"></button>';
+      return '<button type="button" data-p="' + s + '" class="' + (feat[s] ? '' : 'x') + '" aria-label="' + esc(p[1]) + (LIMITED[s] ? ' (limited)' : '') + ' desenini göster" aria-pressed="false"><img alt="" loading="lazy" decoding="async" width="40" height="40" src="' + 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@__SITE__/img/site/desen/' + s + '.webp"></button>';
     }).join('') + '<button type="button" class="bgs-more" aria-expanded="false">' + MORE + '</button>';
   }
 
@@ -156,7 +156,9 @@
     var CV = q('.bgs-cv'), CX = CV.getContext('2d'), N = CV.width, DV = q('.bgs-dv'), ST = q('.bgs-st');
     var st = { dev: null, p: bgOut('royal-gold') ? FEAT[0] : 'royal-gold', busy: false, pend: null, hold: false, cmp: false, cx: 50, vis: true, cur: null };
 
-    function url(d, s) { return CDN + d.f + '/' + s + '.webp'; }
+    /* v57: klasorun kendi tabani (kucuk agacli parca commit'i); yoksa eski taban */
+    function cb(f) { var x = window.__bgXB; return (x && x[f]) || CDN; }
+    function url(d, s) { return cb(d.f) + d.f + '/' + s + '.webp'; }
     var IMC = {};
     function limg(u) {
       if (IMC[u]) return IMC[u];
@@ -165,7 +167,7 @@
       return (IMC[u] = new Promise(function (res) { (function tr(i) { if (i >= L.length) { delete IMC[u]; res(null); return; } var im = new Image(); im.crossOrigin = 'anonymous'; im.decoding = 'async'; im.onload = function () { res(im); }; im.onerror = function () { tr(i + 1); }; im.src = L[i]; })(0); }));
     }
     function prep(d, s) {
-      return Promise.all([limg(url(d, s)), limg(CDN + d.f + '/bare.webp')]).then(function (r) {
+      return Promise.all([limg(url(d, s)), limg(cb(d.f) + d.f + '/bare.webp')]).then(function (r) {
         var c = document.createElement('canvas'); c.width = c.height = N; var x = c.getContext('2d');
         if (r[0]) x.drawImage(r[0], 0, 0, N, N);
         if (r[1]) { x.globalCompositeOperation = 'destination-in'; x.drawImage(r[1], 0, 0, N, N); }
@@ -219,7 +221,7 @@
       if (!d) return;
       var same = st.dev && st.dev.f === d.f; st.dev = d;
       if (same) { info(); return; }
-      var mk = CDN + d.f + '/bare.webp';
+      var mk = cb(d.f) + d.f + '/bare.webp';
       DV.style.opacity = '0';
       st.pend = null;
       prep(d, st.p).then(function (c) {

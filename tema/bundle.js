@@ -231,7 +231,7 @@
   ].join('');
   var st2 = document.createElement('style'); st2.id = 'bg-theme-css2'; st2.textContent = css2;
   (document.head || document.documentElement).appendChild(st2);
-var LOGOCDN = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@22d69262/img/logo/';
+var LOGOCDN = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@7d8320cd6a19e46f6e7b09a11cb83d18a127d9c9/img/logo/';
 var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nikon", "LOGO:nikon.png", 0], ["fujifilm", "LOGO:fujifilm.png", 0], ["dji", "LOGO:dji.png", 0], ["sigma", "LOGO:sigma.png", 0], ["tamron", "LOGO:tamron.svg", 1], ["gopro", "LOGO:gopro.png", 0], ["insta360", "LOGO:insta360.svg", 1], ["samyang", "LOGO:samyang.png", 0], ["viltrox", "LOGO:viltrox.png", 0], ["zhiyun", "LOGO:zhiyun.png", 0]];
   var LOGOC = {"zhiyun": "LOGO:zhiyun-c.png", "fujifilm": "LOGO:fujifilm-c.png", "canon": "LOGO:canon-c.png", "gopro": "LOGO:gopro-c.png", "samyang": "LOGO:samyang-c.png"};
   function marqHTML() {
@@ -368,7 +368,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function norm(q) { return q.toLowerCase().replace(/[^a-z0-9ğüşıöç]+/g, ''); }
 
   function heroImg() {
-    return 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@22d69262/img/site/hero7-900.webp';
+    return 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@7d8320cd6a19e46f6e7b09a11cb83d18a127d9c9/img/site/hero7-900.webp';
     var h = document.querySelector('img[data-bg-hero]:not([data-bg-top] img)');
     if (!h) {
       var imgs = document.querySelectorAll('#app img');
@@ -930,7 +930,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   /* ---------- v8: Instagram section (Behold JSON feed) in place of the old "Seriler" slider ---------- */
   /* Behold ucretsiz limiti reklam trafigiyle doluyordu: sabit 6 gorsel (img/insta), her biri profile gider */
   var IG_FEED = '';
-  var IG_B = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@45d11519/img/insta/';
+  var IG_B = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@7d8320cd6a19e46f6e7b09a11cb83d18a127d9c9/img/insta/';
   var IG_STATIC = { posts: [
     ['1', 'Insta360, Sony, Canon ve DJI cihazlar Betaguard kaplamalı'],
     ['2', 'Sony Alpha ve Tamron lens Royal desen kaplama'],
@@ -2645,6 +2645,11 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function fmt(n){ return Number(n).toLocaleString('tr-TR') + ' ₺'; }
   /* sonradan eklenen cihazlar: gorseller yeni commit'te, GitHub raw'dan */
   var XB = { 'drone-dji-flip': 'https://raw.githubusercontent.com/BedirhanAkyz/betaguard-onizleme/ab4a71d5c7c9b1786f5107a2dcc3abda98e0dd0e/img/' };
+  /* v57: cihaz gorselleri kucuk agacli commit'lerde (araclar/gorsel_parca.py, "gorsel-parca" dali). Buyuk agacli commit'te
+     jsDelivr her 6 istekten birine "Package size exceeded" (403) donuyordu; kucuk agacta donmuyor, 40 haneli SHA ile yanit kalici.
+     GP = parca commit'leri, GI = her cihazin parca harfi (devices.json sirasiyla). Parcasi olmayan klasor eski tabana duser. */
+  var GP = ["302bb6b90aa7788d4d92520416dfe3a5fb14709f", "ddba4743618706bd0b7b21b8dba0d1001dba6144", "23a128d7215668ff4ebc4b67ae0bad5ddc40e22b", "f0b721d3ac50b0b3f7a8a6eed9b6833bcca1fd8b", "6ab382f6314e80361a737171b73d905bab8bfa18", "487701f4fe7e5fa1a32061641587e23a69c8eca4", "f89d93e373fa0f17c16e43431de7706e5bf15477", "19b2a81a014b88a95a17482aa2272ec53841699a", "402edf88f7212fac2da3c24ae487474e3cfae928", "14abbd4b84dce8f41bd8b2b3116e15209ef71983", "6fc548ca7a078525935a362ed61d659c24a16be5", "d245b42b6c008fa8cfc69c9cf4f810f52a794a4b", "66c359aba235d219971b0bdeabd5abf60c1593a2", "55a8e6a9d6e7a46e82f41a19975d5bfc913aaa33", "93b27eba93e7b997c8aee47122dd41cd079dcdf8", "b0ddecad8d19afed27bd824efeac1ebb42d1b2a7", "292a1878ddb33eecd1a876766e476ee377a99d75", "cd573feb821b8da0aa76aecf2b72c05c9726d8a1", "59bec85d3b93d62fa1368769b5309edabdb12f30", "099f2cf63339f8ddc4b85fba9e5fa679fb92147a", "4d95b3aa0b5ad33123eb136833ab43444de34fce", "5429d3162f7cf05cc648973c674b4f6bc7cd2e7d", "bcbdcbd844bb534df6ea7cb6120a0dc4a0e6da4f", "a0be36ec1a4f5aa051393b44bcc7327edb31649a", "359457cd04da1f4dbd55c2dd26c7dfd994ed398d", "9eafbba51f2c0ef7f425bf756263285791dba7ed", "eadb80ef936a5e55e05d32e1afb15a2de47ca015", "d14a6c2f94617641e99d2f813f1bddb47b3cc503", "cde0037ad268010f91856d07c69ec7568eafaea6", "c8074e7668abc108aae0c5f1062e31a1fee6efa2", "bd17a8997765bccfae4153aec164d93e3bb2c005", "3618bc1375cb041df2c5e0887e295991b6d65cc1", "097c520fbafb1557d202df1c976ba502e4cf348d", "eb07c8de60fd892bfb62e3d30d5d1da92207b2fb", "09fdd9bab662549099e915c92f862d9493f26b8e", "272a40775780501cfb0fb02b85189287f8e04a04", "9959172c613e6adfc6bea9dc699e6a5ca2b88824", "9e597007ffe875dafb4e9a04d02731523f6542b0", "da560405d124e3b61d2d73f9b7f187fd3f257074", "47b39529fec61e2e77b69bff7e573a18c24a23c9", "7ab64b53064a0c8f64aee19ba08b50a20219bc41", "4bb4788e83a74de23f1414e0350ef003742fb23f"], GI = '455666677777777777788lllllllllmm1222200mmmmmm8888999999999annnnabbbcssssssstssssttttttttttccccccccddddddddezzeeeeeeefffffffffggggzzzAAAAAAAAABBBBBBBBBBBCBCCCCCCCCgggggggheeeeefffffgggg4447455555566666665656555544474446746aaaaabbbbbbbbbbccccca888999998deeddddeffgaaa88888899ae3gg912222112000010000opzzzzhhhhhiiiijjjjjkkkkkkllllmmmmmnnnnnnnooooooooooopppppqqqqqqqqqrrrrrssssttuuuuuuuuuuvzzAAAABBBCCCDDDDDDDDDEEEEFF212222233133333333333333vvvvvvvvvvwwwwwwwwwwwwwwwwwxxxxxxxxxxxxxxxxxxyxyyyyyyyyyyyyyyyyyyyzzvwwxzhhhhhhiiiiiijjjjjjjjkkkkkkllllllmmnnoooppppqqqqqqrrrrsttttuuuuuuvvvvvvzzzABBCCCDDDDDDEEEEEEEEEEEEFFFFFFhhhhhiiiijjkkkkkkmnnnnopppqqrtuwACCDEFFnprDDF8a8e220947ab884311121133330iijpprsuAAEEFmopqrrrrFFg8dca333330000000001212032330121', GA = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', GPOK = {};
+  D.forEach(function(d, i){ var k = GI ? GA.indexOf(GI.charAt(i)) : -1; if (k >= 0 && GP[k]) { XB[d[5]] = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@' + GP[k] + '/img/'; GPOK[d[5]] = 1; } });
   window.__bgXB = XB;
   function base(f){ return XB[f] || CDN; }
   function img(d, desen){ return base(d.f) + d.f + '/' + (desen || 'line-black') + '.webp'; }
@@ -2653,7 +2658,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   /* v51: en cok satan iki desenin (Tactical Black, Tactical Grey) onizlemeleri ayri, kucuk agacli bir commit'te ("kapak-onizleme" dali,
      araclar/kapak_onizleme.py ile uretildi). Kucuk agac jsDelivr'in 50 MB paket sinirinin altinda kaldigi icin hemen ve sorunsuz sunulur. */
   var THUMB2 = { 'tactical-black': 1, 'tactical-grey': 1 }, TCDN = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@7fbfc2c9/img/';
-  function timg(d, desen){ desen = desen || 'line-black'; return THUMB2[desen] ? TCDN + d.f + '/t/' + desen + '.webp' : THUMB[desen] ? base(d.f) + d.f + '/t/' + desen + '.webp' : img(d, desen); }
+  /* v57: parca commit'lerinde Tactical Black / Grey onizlemeleri de ayni klasorde (t/) */
+  function timg(d, desen){ desen = desen || 'line-black'; return THUMB2[desen] ? (GPOK[d.f] ? XB[d.f] : TCDN) + d.f + '/t/' + desen + '.webp' : THUMB[desen] ? base(d.f) + d.f + '/t/' + desen + '.webp' : img(d, desen); }
   function tattr(d, desen){ return 'src="' + timg(d, desen) + '" width="400" height="400" onerror="this.onerror=null;this.src=\'' + img(d, desen) + '\'"'; }
   /* v51: tukenen desenler (BG_TUKENDI) kapak / vitrin olarak kullanilmaz; kapaklar satis verisine gore agirlikli.
      Kasim 2026 siparis + sepet verisi: Tactical Black, Royal Black, Royal Gold, Tactical Grey, Tactical Red one cikiyor. */
@@ -3809,7 +3815,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
 /* v28: ana sayfa giris gorseli -> otomatik gecisli slider (kendi cekimlerimiz) */
 (function () {
   if (window.__bgSlider) return; window.__bgSlider = 1;
-  var B = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@ccda2a65/img/site/', B2 = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@22d69262/img/site/';
+  var B = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@ccda2a65/img/site/', B2 = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@7d8320cd6a19e46f6e7b09a11cb83d18a127d9c9/img/site/';
   var S = [
     ['hero7.webp', 'Yeşil kamuflaj mini drone kaplaması']
   ];
@@ -4138,7 +4144,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     MORE = '+' + (order.length - FEAT.length) + ' desen';
     return order.map(function (s) {
       var p = P[BYS[s]];
-      return '<button type="button" data-p="' + s + '" class="' + (feat[s] ? '' : 'x') + '" aria-label="' + esc(p[1]) + (LIMITED[s] ? ' (limited)' : '') + ' desenini göster" aria-pressed="false"><img alt="" loading="lazy" decoding="async" width="40" height="40" src="' + CDN + 'site/desen/' + s + '.webp"></button>';
+      return '<button type="button" data-p="' + s + '" class="' + (feat[s] ? '' : 'x') + '" aria-label="' + esc(p[1]) + (LIMITED[s] ? ' (limited)' : '') + ' desenini göster" aria-pressed="false"><img alt="" loading="lazy" decoding="async" width="40" height="40" src="' + 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@7d8320cd6a19e46f6e7b09a11cb83d18a127d9c9/img/site/desen/' + s + '.webp"></button>';
     }).join('') + '<button type="button" class="bgs-more" aria-expanded="false">' + MORE + '</button>';
   }
 
@@ -4167,7 +4173,9 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     var CV = q('.bgs-cv'), CX = CV.getContext('2d'), N = CV.width, DV = q('.bgs-dv'), ST = q('.bgs-st');
     var st = { dev: null, p: bgOut('royal-gold') ? FEAT[0] : 'royal-gold', busy: false, pend: null, hold: false, cmp: false, cx: 50, vis: true, cur: null };
 
-    function url(d, s) { return CDN + d.f + '/' + s + '.webp'; }
+    /* v57: klasorun kendi tabani (kucuk agacli parca commit'i); yoksa eski taban */
+    function cb(f) { var x = window.__bgXB; return (x && x[f]) || CDN; }
+    function url(d, s) { return cb(d.f) + d.f + '/' + s + '.webp'; }
     var IMC = {};
     function limg(u) {
       if (IMC[u]) return IMC[u];
@@ -4176,7 +4184,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       return (IMC[u] = new Promise(function (res) { (function tr(i) { if (i >= L.length) { delete IMC[u]; res(null); return; } var im = new Image(); im.crossOrigin = 'anonymous'; im.decoding = 'async'; im.onload = function () { res(im); }; im.onerror = function () { tr(i + 1); }; im.src = L[i]; })(0); }));
     }
     function prep(d, s) {
-      return Promise.all([limg(url(d, s)), limg(CDN + d.f + '/bare.webp')]).then(function (r) {
+      return Promise.all([limg(url(d, s)), limg(cb(d.f) + d.f + '/bare.webp')]).then(function (r) {
         var c = document.createElement('canvas'); c.width = c.height = N; var x = c.getContext('2d');
         if (r[0]) x.drawImage(r[0], 0, 0, N, N);
         if (r[1]) { x.globalCompositeOperation = 'destination-in'; x.drawImage(r[1], 0, 0, N, N); }
@@ -4230,7 +4238,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       if (!d) return;
       var same = st.dev && st.dev.f === d.f; st.dev = d;
       if (same) { info(); return; }
-      var mk = CDN + d.f + '/bare.webp';
+      var mk = cb(d.f) + d.f + '/bare.webp';
       DV.style.opacity = '0';
       st.pend = null;
       prep(d, st.p).then(function (c) {
@@ -4443,6 +4451,8 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   function ease(k) { return k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
   function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
 
+  /* v57: klasorun kendi tabani (kucuk agacli parca commit'i); yoksa eski taban */
+  function cb(f) { var x = window.__bgXB; return (x && x[f]) || IMG; }
   var IMC = {};
   function limg(u) {
     if (IMC[u]) return IMC[u];
@@ -4451,7 +4461,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     return (IMC[u] = new Promise(function (res) { (function tr(i) { if (i >= L.length) { delete IMC[u]; res(null); return; } var im = new Image(); im.crossOrigin = 'anonymous'; im.decoding = 'async'; im.onload = function () { res(im); }; im.onerror = function () { tr(i + 1); }; im.src = L[i]; })(0); }));
   }
   function comp(d, slug, N) {
-    return Promise.all([limg(IMG + d.f + '/' + slug + '.webp'), limg(IMG + d.f + '/bare.webp')]).then(function (r) {
+    return Promise.all([limg(cb(d.f) + d.f + '/' + slug + '.webp'), limg(cb(d.f) + d.f + '/bare.webp')]).then(function (r) {
       var c = document.createElement('canvas'); c.width = c.height = N; var x = c.getContext('2d');
       if (r[0]) x.drawImage(r[0], 0, 0, N, N);
       if (r[1]) { x.globalCompositeOperation = 'destination-in'; x.drawImage(r[1], 0, 0, N, N); }
@@ -4459,7 +4469,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
     });
   }
   function bare(d, N) {
-    return limg(IMG + d.f + '/bare.webp').then(function (im) { var c = document.createElement('canvas'); c.width = c.height = N; if (im) c.getContext('2d').drawImage(im, 0, 0, N, N); return c; });
+    return limg(cb(d.f) + d.f + '/bare.webp').then(function (im) { var c = document.createElement('canvas'); c.width = c.height = N; if (im) c.getContext('2d').drawImage(im, 0, 0, N, N); return c; });
   }
   function glint(x, cx, N, W, col) {
     x.save(); x.globalCompositeOperation = 'source-atop';
@@ -4602,7 +4612,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   ].join('');
 
   function badge() { return ''; }
-  function chips(list, cls) { return '<div class="bge-chips ' + (cls || '') + '">' + list.map(function (s) { return '<button type="button" data-p="' + s + '" aria-label="' + esc(NAME[s]) + '" aria-pressed="false"><img alt="" loading="lazy" src="' + IMG + 'site/desen/' + s + '.webp"></button>'; }).join('') + '</div>'; }
+  function chips(list, cls) { return '<div class="bge-chips ' + (cls || '') + '">' + list.map(function (s) { return '<button type="button" data-p="' + s + '" aria-label="' + esc(NAME[s]) + '" aria-pressed="false"><img alt="" loading="lazy" src="' + 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@7d8320cd6a19e46f6e7b09a11cb83d18a127d9c9/img/site/desen/' + s + '.webp"></button>'; }).join('') + '</div>'; }
   function markChips(root, s) { [].forEach.call(root.querySelectorAll('.bge-chips button'), function (b) { var on = b.getAttribute('data-p') === s; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); }); }
 
   /* ===== 5: desen bulucu test ===== */
@@ -4981,7 +4991,7 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   ].join('');
 
   function badge() { return ''; }
-  function chips(list, cls) { return '<div class="bgx-chips ' + (cls || '') + '">' + list.map(function (s) { return '<button type="button" data-p="' + s + '" aria-label="' + esc(NAME[s]) + '" aria-pressed="false"><img alt="" loading="lazy" src="' + IMG + 'site/desen/' + s + '.webp"></button>'; }).join('') + '</div>'; }
+  function chips(list, cls) { return '<div class="bgx-chips ' + (cls || '') + '">' + list.map(function (s) { return '<button type="button" data-p="' + s + '" aria-label="' + esc(NAME[s]) + '" aria-pressed="false"><img alt="" loading="lazy" src="' + 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@7d8320cd6a19e46f6e7b09a11cb83d18a127d9c9/img/site/desen/' + s + '.webp"></button>'; }).join('') + '</div>'; }
   function markChips(root, s) { [].forEach.call(root.querySelectorAll('.bgx-chips button'), function (b) { var on = b.getAttribute('data-p') === s; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); }); }
 
   /* ================= ONIZLEME v3: urun sahnesi, set kurucu, paylas, karsilastir, kesim haritasi ================= */

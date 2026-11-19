@@ -30,6 +30,8 @@
   function ease(k) { return k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
   function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
 
+  /* v57: klasorun kendi tabani (kucuk agacli parca commit'i); yoksa eski taban */
+  function cb(f) { var x = window.__bgXB; return (x && x[f]) || IMG; }
   var IMC = {};
   function limg(u) {
     if (IMC[u]) return IMC[u];
@@ -38,7 +40,7 @@
     return (IMC[u] = new Promise(function (res) { (function tr(i) { if (i >= L.length) { delete IMC[u]; res(null); return; } var im = new Image(); im.crossOrigin = 'anonymous'; im.decoding = 'async'; im.onload = function () { res(im); }; im.onerror = function () { tr(i + 1); }; im.src = L[i]; })(0); }));
   }
   function comp(d, slug, N) {
-    return Promise.all([limg(IMG + d.f + '/' + slug + '.webp'), limg(IMG + d.f + '/bare.webp')]).then(function (r) {
+    return Promise.all([limg(cb(d.f) + d.f + '/' + slug + '.webp'), limg(cb(d.f) + d.f + '/bare.webp')]).then(function (r) {
       var c = document.createElement('canvas'); c.width = c.height = N; var x = c.getContext('2d');
       if (r[0]) x.drawImage(r[0], 0, 0, N, N);
       if (r[1]) { x.globalCompositeOperation = 'destination-in'; x.drawImage(r[1], 0, 0, N, N); }
@@ -46,7 +48,7 @@
     });
   }
   function bare(d, N) {
-    return limg(IMG + d.f + '/bare.webp').then(function (im) { var c = document.createElement('canvas'); c.width = c.height = N; if (im) c.getContext('2d').drawImage(im, 0, 0, N, N); return c; });
+    return limg(cb(d.f) + d.f + '/bare.webp').then(function (im) { var c = document.createElement('canvas'); c.width = c.height = N; if (im) c.getContext('2d').drawImage(im, 0, 0, N, N); return c; });
   }
   function glint(x, cx, N, W, col) {
     x.save(); x.globalCompositeOperation = 'source-atop';
@@ -189,7 +191,7 @@
   ].join('');
 
   function badge() { return ''; }
-  function chips(list, cls) { return '<div class="bge-chips ' + (cls || '') + '">' + list.map(function (s) { return '<button type="button" data-p="' + s + '" aria-label="' + esc(NAME[s]) + '" aria-pressed="false"><img alt="" loading="lazy" src="' + IMG + 'site/desen/' + s + '.webp"></button>'; }).join('') + '</div>'; }
+  function chips(list, cls) { return '<div class="bge-chips ' + (cls || '') + '">' + list.map(function (s) { return '<button type="button" data-p="' + s + '" aria-label="' + esc(NAME[s]) + '" aria-pressed="false"><img alt="" loading="lazy" src="' + 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@__SITE__/img/site/desen/' + s + '.webp"></button>'; }).join('') + '</div>'; }
   function markChips(root, s) { [].forEach.call(root.querySelectorAll('.bge-chips button'), function (b) { var on = b.getAttribute('data-p') === s; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); }); }
 
   /* ===== 5: desen bulucu test ===== */

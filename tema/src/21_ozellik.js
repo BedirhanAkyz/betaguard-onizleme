@@ -229,7 +229,7 @@
   ].join('');
 
   function badge() { return ''; }
-  function chips(list, cls) { return '<div class="bgx-chips ' + (cls || '') + '">' + list.map(function (s) { return '<button type="button" data-p="' + s + '" aria-label="' + esc(NAME[s]) + '" aria-pressed="false"><img alt="" loading="lazy" src="' + IMG + 'site/desen/' + s + '.webp"></button>'; }).join('') + '</div>'; }
+  function chips(list, cls) { return '<div class="bgx-chips ' + (cls || '') + '">' + list.map(function (s) { return '<button type="button" data-p="' + s + '" aria-label="' + esc(NAME[s]) + '" aria-pressed="false"><img alt="" loading="lazy" src="' + 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@__SITE__/img/site/desen/' + s + '.webp"></button>'; }).join('') + '</div>'; }
   function markChips(root, s) { [].forEach.call(root.querySelectorAll('.bgx-chips button'), function (b) { var on = b.getAttribute('data-p') === s; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); }); }
 
   /* ================= ONIZLEME v3: urun sahnesi, set kurucu, paylas, karsilastir, kesim haritasi ================= */

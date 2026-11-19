@@ -1,7 +1,7 @@
 /* v28: ana sayfa giris gorseli -> otomatik gecisli slider (kendi cekimlerimiz) */
 (function () {
   if (window.__bgSlider) return; window.__bgSlider = 1;
-  var B = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@ccda2a65/img/site/', B2 = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@__SHA__/img/site/';
+  var B = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@ccda2a65/img/site/', B2 = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@__SITE__/img/site/';
   var S = [
     ['hero7.webp', 'Yeşil kamuflaj mini drone kaplaması']
   ];

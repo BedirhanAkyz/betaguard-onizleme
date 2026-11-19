@@ -25,6 +25,11 @@
   function fmt(n){ return Number(n).toLocaleString('tr-TR') + ' ₺'; }
   /* sonradan eklenen cihazlar: gorseller yeni commit'te, GitHub raw'dan */
   var XB = { 'drone-dji-flip': 'https://raw.githubusercontent.com/BedirhanAkyz/betaguard-onizleme/ab4a71d5c7c9b1786f5107a2dcc3abda98e0dd0e/img/' };
+  /* v57: cihaz gorselleri kucuk agacli commit'lerde (araclar/gorsel_parca.py, "gorsel-parca" dali). Buyuk agacli commit'te
+     jsDelivr her 6 istekten birine "Package size exceeded" (403) donuyordu; kucuk agacta donmuyor, 40 haneli SHA ile yanit kalici.
+     GP = parca commit'leri, GI = her cihazin parca harfi (devices.json sirasiyla). Parcasi olmayan klasor eski tabana duser. */
+  var GP = __GP_SHAS__, GI = '__GP_IDX__', GA = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', GPOK = {};
+  D.forEach(function(d, i){ var k = GI ? GA.indexOf(GI.charAt(i)) : -1; if (k >= 0 && GP[k]) { XB[d[5]] = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@' + GP[k] + '/img/'; GPOK[d[5]] = 1; } });
   window.__bgXB = XB;
   function base(f){ return XB[f] || CDN; }
   function img(d, desen){ return base(d.f) + d.f + '/' + (desen || 'line-black') + '.webp'; }
@@ -33,7 +38,8 @@
   /* v51: en cok satan iki desenin (Tactical Black, Tactical Grey) onizlemeleri ayri, kucuk agacli bir commit'te ("kapak-onizleme" dali,
      araclar/kapak_onizleme.py ile uretildi). Kucuk agac jsDelivr'in 50 MB paket sinirinin altinda kaldigi icin hemen ve sorunsuz sunulur. */
   var THUMB2 = { 'tactical-black': 1, 'tactical-grey': 1 }, TCDN = 'https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@7fbfc2c9/img/';
-  function timg(d, desen){ desen = desen || 'line-black'; return THUMB2[desen] ? TCDN + d.f + '/t/' + desen + '.webp' : THUMB[desen] ? base(d.f) + d.f + '/t/' + desen + '.webp' : img(d, desen); }
+  /* v57: parca commit'lerinde Tactical Black / Grey onizlemeleri de ayni klasorde (t/) */
+  function timg(d, desen){ desen = desen || 'line-black'; return THUMB2[desen] ? (GPOK[d.f] ? XB[d.f] : TCDN) + d.f + '/t/' + desen + '.webp' : THUMB[desen] ? base(d.f) + d.f + '/t/' + desen + '.webp' : img(d, desen); }
   function tattr(d, desen){ return 'src="' + timg(d, desen) + '" width="400" height="400" onerror="this.onerror=null;this.src=\'' + img(d, desen) + '\'"'; }
   /* v51: tukenen desenler (BG_TUKENDI) kapak / vitrin olarak kullanilmaz; kapaklar satis verisine gore agirlikli.
      Kasim 2026 siparis + sepet verisi: Tactical Black, Royal Black, Royal Gold, Tactical Grey, Tactical Red one cikiyor. */

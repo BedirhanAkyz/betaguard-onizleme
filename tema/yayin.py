@@ -51,16 +51,17 @@ def main():
         a += ['-p', parent]
     y1 = git(*a)
     s = open(os.path.join(H, SNIP), encoding='utf8').read()
-    n = len(re.findall(r'onizleme@[0-9a-f]{8}/tema/bundle\.js', s))
+    n = len(re.findall(r'onizleme@[0-9a-f]{8,40}/tema/bundle\.js', s))
     if n != 3:
         sys.exit('snippet icinde 3 bundle adresi bekleniyordu, bulunan: %d' % n)
-    s = re.sub(r'onizleme@[0-9a-f]{8}/tema/bundle\.js', 'onizleme@' + y1[:8] + '/tema/bundle.js', s)
+    # 40 haneli SHA: jsDelivr bunu "commit" sayar (kalici, immutable); 8 haneliyi "dal" sayip 12 saatte bir yeniden cekiyordu
+    s = re.sub(r'onizleme@[0-9a-f]{8,40}/tema/bundle\.js', 'onizleme@' + y1 + '/tema/bundle.js', s)
     open(os.path.join(H, SNIP), 'w', encoding='utf8').write(s)
     snip = git('hash-object', '-w', SNIP)
     y2 = git('commit-tree', tree({'tema/bundle.js': bundle, SNIP: snip}), '-p', y1, '-m', 'yayin: snippet -> ' + y1[:8] + TRAILER)
     git('push', '-q', 'origin', y2 + ':refs/heads/yayin')
-    print('BUNDLE  ' + y1[:8] + '  https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@' + y1[:8] + '/tema/bundle.js')
-    print('SNIPPET ' + y2[:8] + '  https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@' + y2[:8] + '/' + SNIP)
+    print('BUNDLE  ' + y1[:8] + '  https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@' + y1 + '/tema/bundle.js')
+    print('SNIPPET ' + y2[:8] + '  https://cdn.jsdelivr.net/gh/BedirhanAkyz/betaguard-onizleme@' + y2 + '/' + SNIP)
 
 
 if __name__ == '__main__':
