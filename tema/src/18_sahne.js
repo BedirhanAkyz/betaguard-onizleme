@@ -160,7 +160,9 @@
     var IMC = {};
     function limg(u) {
       if (IMC[u]) return IMC[u];
-      return (IMC[u] = new Promise(function (res) { var im = new Image(); im.crossOrigin = 'anonymous'; im.decoding = 'async'; im.onload = function () { res(im); }; im.onerror = function () { delete IMC[u]; res(null); }; im.src = u; }));
+      /* v56: jsDelivr 403 verirse GitHub raw / diger ag denenir (eskiden desen degismiyor ya da cihaz beyaz kareyle geliyordu) */
+      var L = window.__bgAlts ? window.__bgAlts(u) : [u];
+      return (IMC[u] = new Promise(function (res) { (function tr(i) { if (i >= L.length) { delete IMC[u]; res(null); return; } var im = new Image(); im.crossOrigin = 'anonymous'; im.decoding = 'async'; im.onload = function () { res(im); }; im.onerror = function () { tr(i + 1); }; im.src = L[i]; })(0); }));
     }
     function prep(d, s) {
       return Promise.all([limg(url(d, s)), limg(CDN + d.f + '/bare.webp')]).then(function (r) {

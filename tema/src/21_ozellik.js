@@ -31,11 +31,11 @@
   function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
 
   var IMC = {};
-  /* jsDelivr bazen "package size" 403 donuyor: once cdn, olmazsa fastly, sonra GitHub raw */
+  /* jsDelivr bazen "package size" 403 donuyor: once cdn, olmazsa GitHub raw (her zaman var), en son fastly (v56: sira degisti) */
   function alts(u) {
     var m = /^https:\/\/cdn\.jsdelivr\.net\/gh\/BedirhanAkyz\/betaguard-onizleme@([0-9a-f]+)\/(.*)$/.exec(u);
     if (!m) return [u];
-    return [u, u.replace('//cdn.jsdelivr', '//fastly.jsdelivr'), 'https://raw.githubusercontent.com/BedirhanAkyz/betaguard-onizleme/' + m[1] + '/' + m[2]];
+    return [u, 'https://raw.githubusercontent.com/BedirhanAkyz/betaguard-onizleme/' + m[1] + '/' + m[2], u.replace('//cdn.jsdelivr', '//fastly.jsdelivr')];
   }
   function limg(u) {
     if (IMC[u]) return IMC[u];
@@ -574,6 +574,9 @@
     L.forEach(function (f) { try { f[1](); } catch (e) { if (window.console) console.warn('bgx', f[0], e); } });
     if (home && location.hash && /^#bgx-\d$/.test(location.hash) && !build.j) { var el = document.querySelector(location.hash); if (el) { build.j = 1; setTimeout(function () { el.scrollIntoView({ block: 'start' }); }, 600); } }
   }
-  var q = false; function sch() { if (q) return; q = true; setTimeout(function () { q = false; build(); }, 400); }
+  /* v55: urun sayfasinda sahne (S1) galeri kurulur kurulmaz gelsin (sayfa sahneyle birlikte acilir); ana sayfada eski gecikme */
+  var q = false; function sch() { if (q) return; q = true; setTimeout(function () { q = false; build(); }, location.pathname === '/' || location.pathname === '' ? 400 : 120); }
+  /* v55: cihaz sayfasinda sahne gorselleri (desenli cihaz + maske) paket calisir calismaz istenir; galerinin kurulmasini beklemez */
+  try { (function () { var d0 = bySlug(location.pathname.replace(/^\/|\/$/g, '')); if (!d0) return; var q0 = /[?&]desen=([a-z0-9-]+)/.exec(location.search), s0 = q0 && NAME[q0[1]] ? q0[1] : 'line-black'; limg(ib(d0.f) + d0.f + '/' + s0 + '.webp'); limg(bareUrl(d0.f)); })(); } catch (e) {}
   sch(); new MutationObserver(sch).observe(document.documentElement, { childList: true, subtree: true });
 })();

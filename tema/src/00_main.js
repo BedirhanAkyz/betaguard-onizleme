@@ -1250,9 +1250,32 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
   var started = false;
   /* acilis ekrani: sayfa hazir olur olmaz kalkar (ana sayfa: ust blok, urun sayfasi: urun duzeni; digerleri hemen) */
   function isProd() { var s = document.querySelectorAll('script[type="application/ld+json"]'); for (var i = 0; i < s.length; i++) if (/"@type"\s*:\s*"Product"/.test(s[i].textContent)) return true; return false; }
-  function mark() { var de = document.documentElement; if (de.classList.contains('bg-ready')) return; var ok = isHome() ? !!document.querySelector('[data-bg-top]') : (!isProd() || !!document.querySelector('.bg-pp')); if (ok) de.classList.add('bg-ready'); }
-  function start() { if (started) return; started = true; run(); mark(); }
-  setTimeout(function () { document.documentElement.classList.add('bg-ready'); }, 1000);
+  /* v55: urun sayfasi, duzen oturmadan acilmaz. Eskiden .bg-pp olusur olusmaz (ya da 1 sn dolunca) aciliyordu; ondan sonraki
+     ~250 ms icinde ust serit 20 px buyuyor, baslik kuculuyor, desen kutusu 157 px asagi iniyor, galeri 20 px kayiyor, sahne geliyordu.
+     Hizli bilgisayarda arada kare cizilmedigi icin gorunmuyor, telefonda sayfa zipliyordu (PageSpeed CLS 0,13).
+     Simdi: desen kutusu + galeri var, cihaz sayfasinda cihaz sinifi ve sahne (.bgp) gelmis, galeri / desen kutusu / baslik /
+     sepet dugmesi 120 ms'dir yerinden oynamamis. Tavan 1,2 sn (desen kutusu hic gelmeyen urunler dahil). */
+  var psSig = '', psT = 0, ps0 = 0, psL = 0;
+  function psRc(e, full) { if (!e) return '-'; var b = e.getBoundingClientRect(), sy = window.pageYOffset || 0; return Math.round(b.left) + ',' + Math.round(b.top + sy) + (full ? ',' + Math.round(b.width) + 'x' + Math.round(b.height) : ''); }
+  function prodSettled() {
+    var d = document, now = Date.now(); if (!ps0) ps0 = now;
+    if (now - ps0 > 1200) return true;
+    var pp = d.querySelector('.bg-pp'); if (!pp) return false;
+    if (now - psL < 40) return false; psL = now;                     /* olcum en sik 40 ms'de bir (her olcum yerlesim hesabi tetikler) */
+    try { if (ppState) syncPP(); } catch (e) {}                      /* yuzen galeri / desen kutusu guncel yerinde olsun */
+    var g = d.querySelector('.bg-gal'), dev = false; try { dev = !!(window.__bgIsDev && window.__bgIsDev()); } catch (e) {}
+    if (dev && (!d.documentElement.classList.contains('bg26-dev') || (g && g.querySelector('.bg-gal-main') && !g.querySelector('.bgp')))) { psSig = ''; return false; }
+    var sig = psRc(g, 1) + '|' + psRc(pp, 1) + '|' + psRc(d.querySelector('[data-bg-ptitle]'), 1) + '|' + psRc(d.querySelector('[data-bg-pcart]')) + '|' + psRc(d.querySelector('[data-bg-pgrid]'));
+    if (sig !== psSig) { psSig = sig; psT = now; return false; }
+    return now - psT >= 120;
+  }
+  function mark() { var de = document.documentElement; if (de.classList.contains('bg-ready')) return; var ok = isHome() ? !!document.querySelector('[data-bg-top]') : (!isProd() || prodSettled()); if (ok) de.classList.add('bg-ready'); }
+  function start() { if (started) return; started = true; try { run(); } finally { mark(); } }
+  var mkT = setInterval(function () { if (document.documentElement.classList.contains('bg-ready')) { clearInterval(mkT); return; } if (started) mark(); }, 50);
+  setTimeout(function () { document.documentElement.classList.add('bg-ready'); }, isProd() ? 3000 : 1000);   /* yedek: urun sayfasinda duzenin oturmasi icin daha uzun */
+  /* yazi tipi / gorseller sonradan gelince yuzen galeri ve desen kutusu 400 ms'lik turu beklemeden yerine otursun */
+  try { if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (ppState) syncPP(); }); } catch (e) {}
+  window.addEventListener('load', function () { try { if (ppState) syncPP(); } catch (e) {} });
   if (document.readyState !== 'loading') setTimeout(start, 150); else document.addEventListener('DOMContentLoaded', function () { setTimeout(start, 150); });
   window.addEventListener('load', function () { setTimeout(start, 200); });
   setTimeout(start, 6000);

@@ -3,6 +3,8 @@
   if (window.__bgSeo) return; window.__bgSeo = 1;
   function txt(e) { return (e && (e.innerText || e.textContent) || '').replace(/\s+/g, ' ').trim(); }
   function unwrapH1(h) { var p = h.parentNode; while (h.firstChild) p.insertBefore(h.firstChild, h); p.removeChild(h); }
+  /* sayfanin asil basligi en buyuk yazi degilse (SSS: ustte 32 px "Kargo" bolumu var) dogru metni sec */
+  var PREF = { '/pages/sss': /^sık sorulan sorular$/i }, MADE = {};
   function h1() {
     /* urun sayfasi: urun adi H1 olmali; gizli ya da baska H1'leri kaldir */
     var pt = document.querySelector('[data-bg-ptitle]');
@@ -14,16 +16,26 @@
     /* gorunmeyen H1 sayilmaz */
     [].forEach.call(document.querySelectorAll('h1[data-bg-h1]'), function (x) { if (!x.offsetHeight) unwrapH1(x); });
     if (document.querySelector('h1')) return;
-    var best = null, bs = 0, all = document.querySelectorAll('#app div,#app p,#app span,main div,main p,main span');
+    /* v56: aday yalniz GORUNEN metin olabilir. Onceden kapali mobil menu cekmecesindeki (.overlay) 34 px'lik gizli baslik
+       seciliyordu; 31_blog cekmecedeki H1'i div'e cevirdigi icin ikisi birbirini bozuyor, H1'siz sayfalarda (SSS, KVKK, kargo,
+       iade, giris...) yarim saniyede bir ic ice yeni bir div ekleniyordu (sonsuz dongu). */
+    var pth = location.pathname.replace(/\/$/, ''), pf = PREF[pth];
+    /* emniyet: ayni sayfada 8 sn icinde 4 kez H1 uretildiyse baska bir sey onu bozuyordur; dur */
+    var now = Date.now(), mk = (MADE[pth] || []).filter(function (x) { return now - x < 8000; }); MADE[pth] = mk;
+    if (mk.length >= 4) return;
+    var best = null, bs = 0, vw = window.innerWidth || document.documentElement.clientWidth || 0;
+    var all = document.querySelectorAll('#app div,#app p,#app span,main div,main p,main span');
     for (var i = 0; i < all.length; i++) {
       var e = all[i];
-      if (e.childElementCount > 2 || e.closest('header,footer,nav,a,button,[data-bg-rev],[data-bg-faq]')) continue;
-      var t = txt(e); if (t.length < 3 || t.length > 120) continue;
-      var r = e.getBoundingClientRect(); if (!r.width || !r.height || r.top + scrollY > 1400) continue;
+      if (e.childElementCount > 2 || e.closest('header,footer,nav,a,button,[data-bg-rev],[data-bg-faq],.overlay,[class*="overlay"],[data-bg-was-h1]')) continue;
+      var t = (e.innerText || '').replace(/\s+/g, ' ').trim(); if (t.length < 3 || t.length > 120) continue;
+      var r = e.getBoundingClientRect(); if (!r.width || !r.height || r.top + scrollY > 1400 || r.right <= 0 || (vw && r.left >= vw)) continue;
       var fs = parseFloat(getComputedStyle(e).fontSize) || 0;
+      if (pf && fs >= 18 && pf.test(t)) { best = e; bs = 99; break; }
       if (fs > bs) { bs = fs; best = e; }
     }
     if (!best || bs < 24) return;
+    mk.push(now);
     var h = document.createElement('h1'); h.setAttribute('data-bg-h1', '1');
     h.style.cssText = 'font:inherit;margin:0;padding:0;color:inherit;letter-spacing:inherit;text-transform:inherit;line-height:inherit';
     while (best.firstChild) h.appendChild(best.firstChild);

@@ -30,7 +30,20 @@
     '/pages/iade-kosullari': 'İade Koşulları | Betaguard',
     '/pages/kvkk': 'Gizlilik ve KVKK | Betaguard',
     '/pages/mesafeli-satis-sozlesmesi': 'Mesafeli Satış Sözleşmesi | Betaguard',
-    '/pages/kunye': 'Künye | Betaguard'
+    '/pages/kunye': 'Künye | Betaguard',
+    /* v56: basligi genel kalan sayfalar */
+    '/pages/sss': 'Sık Sorulan Sorular | Betaguard',
+    '/pages/order-tracking': 'Sipariş Takibi | Betaguard',
+    '/pages/ticari-elektronik-ileti-onayi': 'Ticari Elektronik İleti Onayı | Betaguard',
+    '/account/login': 'Giriş Yap | Betaguard',
+    '/account/register': 'Üye Ol | Betaguard',
+    '/account/forgot-password': 'Şifremi Unuttum | Betaguard',
+    '/cart': 'Sepetim | Betaguard'
+  };
+  var DESCS = {
+    '/pages/sss': 'Betaguard kaplama hakkında sık sorulan sorular: cihaza zarar verir mi, nasıl uygulanır, kargo ve iade süreci nasıl işler.',
+    '/pages/kargo-ve-teslimat': 'Betaguard siparişlerinde kargo ve teslimat: gönderim süresi, kargo ücreti ve teslimat koşulları.',
+    '/pages/iade-kosullari': 'Betaguard iade ve değişim koşulları: kişiye özel üretilen kaplamalarda iade ve hatalı ürün süreci.'
   };
 
   /* kategori sayfasinda bizim izgara varken ikas siralama secicisi ve sayfalama gereksiz */
@@ -63,6 +76,7 @@
     var isPage = p.indexOf('/pages/') === 0;
     document.documentElement.classList.toggle('bg-kus-page', isPage);
     if (TITLES[p] && document.title !== TITLES[p]) document.title = TITLES[p];
+    if (DESCS[p]) { var md = document.querySelector('meta[name="description"]'); if (!md) { md = document.createElement('meta'); md.setAttribute('name', 'description'); document.head.appendChild(md); } if (md.getAttribute('content') !== DESCS[p]) md.setAttribute('content', DESCS[p]); }
     hideIkas(); mainLandmark();
     [].forEach.call(document.querySelectorAll('.bg-pp-one:not(.lng-ok)'), function (x) { var b = x.querySelector('b'); if (!b) return; x.classList.add('lng-ok'); if (b.textContent.trim().length > 8) x.classList.add('lng'); });
   }
