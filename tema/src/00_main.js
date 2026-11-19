@@ -408,21 +408,28 @@ var LOGOS = [["sony", "LOGO:sony.png", 0], ["canon", "LOGO:canon.png", 0], ["nik
       sg.style.display = 'block';
       sg._list = list;
     }
+    var picked = false;
     function pick(m) {
       q.value = m[0] + ' ' + m[1]; sg.style.display = 'none';
       res.innerHTML = '<span class="ok">✓ ' + m[0] + ' ' + m[1] + ' için kaplamamız var.</span> Desenleri görmek için butona bas.';
-      var go = root.querySelector('.bg-go'); if (go) go.href = KAPLAMA_URL + '?cihaz=' + encodeURIComponent(m[0] + '|' + m[1]);
+      /* v55: cihaz ilani varsa dogrudan o sayfaya (m[3] = slug); yoksa eski genel urun + ?cihaz= */
+      var go = root.querySelector('.bg-go'); if (go) go.href = m[3] ? '/' + m[3] : KAPLAMA_URL + '?cihaz=' + encodeURIComponent(m[0] + '|' + m[1]);
+      picked = true;
     }
     var goB = root.querySelector('.bg-go');
     if (goB) goB.addEventListener('click', function (e) {
-      if (goB.href.indexOf('cihaz=') < 0 && q.value.trim() && sg._list && sg._list.length) { e.preventDefault(); pick(sg._list[0]); location.href = goB.href; }
+      if (!picked && q.value.trim() && sg._list && sg._list.length) { e.preventDefault(); pick(sg._list[0]); location.href = goB.href; }
     });
     q.addEventListener('input', function () {
       if (goB) goB.href = KAPLAMA_URL;
+      picked = false;
       var v = norm(q.value); res.textContent = '';
       if (v.length < 2) { show([]); return; }
       var out = [], all = models();
-      out = smartFind(all, q.value, function (m) { return m[0] + ' ' + m[1]; }, 8);
+      /* v55: once sitedeki cihaz ilanlari (ortak arama, devices.json). Eskiden yalnizca MODELS listesine bakiyordu;
+         sonradan ilani acilan cihazlar (Fujifilm X-M5 vb. ~180 model) "listede gorunmuyor" diyordu. Ilan bulunmazsa eski listeye dus. */
+      try { if (window.__bg26 && window.__bg26.find) out = window.__bg26.find(q.value).slice(0, 8).map(function (d) { return [d.b, d.m, '', d.s]; }); } catch (e) { out = []; }
+      if (!out.length) out = smartFind(all, q.value, function (m) { return m[0] + ' ' + m[1]; }, 8);
       show(out);
       if (!out.length) res.innerHTML = 'Bu model listede görünmüyor. <a class="wl" href="' + WA + '" target="_blank" rel="noopener" style="color:#E2C285">WhatsApp\'tan yaz</a>, üretebiliyorsak hemen söyleyelim.';
     });
